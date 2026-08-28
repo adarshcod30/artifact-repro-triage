@@ -1203,7 +1203,6 @@
   "tests": []
  },
  "readme_referenced_paths": [
-  "fault_discovery_plot.png",
   "my_simulate.py",
   "result_script.py"
  ],

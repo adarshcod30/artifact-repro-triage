@@ -157,10 +157,7 @@
   ],
   "tests": []
  },
- "readme_referenced_paths": [
-  "4.14.2",
-  "x86_64.auto"
- ],
+ "readme_referenced_paths": [],
  "_label": {
   "badge": "Reusable",
   "rank": 2

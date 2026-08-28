@@ -241,9 +241,7 @@
   ],
   "tests": []
  },
- "readme_referenced_paths": [
-  "github.com/NWU-NISL-Fuzzing/upbeat.git"
- ],
+ "readme_referenced_paths": [],
  "_label": {
   "badge": "Functional",
   "rank": 1

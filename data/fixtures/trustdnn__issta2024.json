@@ -1628,7 +1628,6 @@
   "experiments/replication/effectiveness.csv",
   "replicate.sh",
   "replication.sh",
-  "trustd",
   "workdir/effectiveness.csv",
   "workdir/efficiency.csv"
  ],

@@ -38,7 +38,37 @@ SIGNALS = {
 
 _CODE_BLOCK = re.compile(r"```[a-zA-Z]*\n(.*?)```", re.S)
 _INLINE = re.compile(r"`([^`\n]{2,80})`")
-_PATHLIKE = re.compile(r"^[\w./\-]+\.[A-Za-z0-9]{1,6}$")
+# A dot does not make a path. The first version of this matched any token
+# containing a dot, which swept up version numbers ("3.10.12"), Java class names
+# ("com.foo.BarTest.testBaz"), module paths ("vllm.entrypoints.openai.api") and
+# bare domains ("github.com") - 55 of 58 "broken claims" on one artifact were
+# extraction noise. A claim now needs a real source/config extension.
+CODE_EXT = {
+    "py", "sh", "bash", "zsh", "r", "rb", "pl", "lua", "jl",
+    "c", "h", "cc", "cpp", "hpp", "cxx", "java", "jar", "go", "rs", "kt", "scala",
+    "js", "jsx", "ts", "tsx", "mjs", "php", "cs", "swift", "m",
+    "json", "yaml", "yml", "toml", "ini", "cfg", "conf", "properties", "env",
+    "txt", "md", "rst", "csv", "tsv", "sql", "xml", "html", "css",
+    "ipynb", "lock", "mk", "cmake", "gradle", "dockerfile", "tf", "proto",
+}
+_PATHLIKE = re.compile(r"^[\w./\-]+\.([A-Za-z0-9]{1,10})$")
+
+
+def _is_path(tok: str) -> bool:
+    m = _PATHLIKE.match(tok)
+    if not m:
+        return False
+    ext = m.group(1).lower()
+    if ext not in CODE_EXT:
+        return False
+    # "1.0.py" style false positives, and dotted identifiers with no separator.
+    stem = tok[: -(len(ext) + 1)]
+    if not stem or stem.replace(".", "").replace("-", "").isdigit():
+        return False
+    # Java/Python dotted identifiers: several dots, no slash, no real dir.
+    if "/" not in tok and tok.count(".") >= 2:
+        return False
+    return True
 
 
 def default_branch_sha(slug: str) -> tuple[str, str]:
@@ -68,12 +98,12 @@ def referenced_paths(text: str) -> list[str]:
     """Paths the README claims exist - raw material for claim verification."""
     found: set[str] = set()
     for block in _CODE_BLOCK.findall(text):
-        for tok in re.findall(r"[\w./\-]+\.[A-Za-z0-9]{1,6}", block):
-            if _PATHLIKE.match(tok):
+        for tok in re.findall(r"[\w./\-]+\.[A-Za-z0-9]{1,10}", block):
+            if _is_path(tok):
                 found.add(tok.lstrip("./"))
     for tok in _INLINE.findall(text):
         tok = tok.strip().lstrip("./")
-        if _PATHLIKE.match(tok):
+        if _is_path(tok):
             found.add(tok)
     return sorted(found)[:60]
 

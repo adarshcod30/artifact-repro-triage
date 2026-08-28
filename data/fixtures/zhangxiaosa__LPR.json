@@ -4065,8 +4065,6 @@
   "tests": []
  },
  "readme_referenced_paths": [
-  "0.5",
-  "gpt-3.5",
   "script/summarize_perses_or_vulcan.py",
   "scripts/analyze_and_draw.sh",
   "scripts/keep_running.sh",
@@ -4075,14 +4073,11 @@
   "scripts/run_perses.py",
   "scripts/run_vulcan.py",
   "scripts/summarize_lpr.py",
-  "size_changes_barchart.pdf",
-  "size_changes_piechart.pdf",
   "small.c",
   "summarize_creduce.py",
   "summarize_perses_or_vulcan.py",
   "tmp/LPR/tools/token_counter_deploy.jar",
-  "token_counter_deploy.jar",
-  "vllm.entrypoints.openai.api"
+  "token_counter_deploy.jar"
  ],
  "_label": {
   "badge": "Reusable",

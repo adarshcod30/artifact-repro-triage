@@ -4069,12 +4069,10 @@
   ]
  },
  "readme_referenced_paths": [
-  "Paper.pdf",
   "obs.json",
   "readme.md",
   "requirements.txt",
   "run_cmnd.sh",
-  "study_1/results/results_summary.xlsx",
   "study_2/concat_and_first_ob_experiments/README.md",
   "study_2/individual_ob_experiments/README.md"
  ],

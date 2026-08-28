@@ -4044,11 +4044,8 @@
   ]
  },
  "readme_referenced_paths": [
-  "configuration.py.patch",
-  "coordinate_system.py.patch",
   "fuzzer.py",
   "mutator.py",
-  "output/ZAM-mutation-1.gif",
   "path/to/site-packages/commonroad_reach/data_structure/configuration.py",
   "path/to/site-packages/commonroad_reach/utility/coordinate_system.py",
   "requirements.txt",

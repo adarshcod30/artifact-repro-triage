@@ -33,6 +33,15 @@ Schema follows the challenge brief.
 | Iteration 11 | First tree-API run timed out at 2 minutes. | Every call slept 2.2s - a throttle sized for `/search/*` (30 req/min) applied to the whole REST API (5000/hr). | Throttle now depends on endpoint. Build time went from >120s to seconds. |
 | **Leakage measured** | Ran the scrubber across all 15 fact sheets to quantify the risk rather than assume it. | **4 of 15 READMEs (27%) disclosed their own ACM badge tier.** | Confirms the scrubber is load-bearing, not defensive decoration. Without it, 27% of the corpus would hand the model its own answer. |
 
+## Claim verification (the core mechanism)
+
+| Stage | What I tried and why | Evidence | Decision / Learning |
+|---|---|---|---|
+| Iteration 12 | Extract every file path a README references, then check each against the real file tree. A README is a set of promises; broken promises are hard evidence, established with zero model calls. | First run reported implausible ratios - 55 of 58 claims "broken" on one artifact. | Investigated instead of reporting it. |
+| Iteration 13 | Inspected the extracted claims directly. | The extractor matched any token containing a dot: version numbers (`3.10.12`, `0.01`), Java class names (`com.baidu...EchoServiceTest.testDy`), module paths (`vllm.entrypoints.openai.api`), bare domains (`github.com`). | Required a real source/config extension plus structural checks. Claims fell 58 -> 21 and 29 -> 7 on the worst offenders. **A dot does not make a path.** |
+| Iteration 14 | Measured whether broken-claim ratio alone separates the badge tiers. | It does not, even after the fix: Available 0.260, Functional 0.081, Reusable 0.243 - non-monotonic, and two outliers dominate at n=15. | **Reported rather than buried.** Also surfaced a ground-truth subtlety: `Available` involves *no quality evaluation at all* - it means "archived", so Available vs Functional is partly "what did the authors apply for". Only Functional -> Reusable is a true expert quality ordering. |
+| Iteration 15 | Kept the verifier as an *input to the judge* rather than as a standalone predictor. | Verifier still finds real, checkable defects: `zhangxiaosa/LPR` references 12 files that do not exist; `THU-WingTecher/DeepConstr` references 18. | Kept. Whether verified facts beat a raw README *for the model* is the experiment the baseline/solution comparison exists to answer - it is not settled by the raw signal's own correlation. |
+
 ## Experiments removed
 
 - **Shallow cloning** (Iteration 9). Filled the disk to 100% on a 15-artifact corpus. Taught me that repo *size at HEAD* and *clone size* differ by more than an order of magnitude, and that the fact I needed (path existence) never justified transferring bytes at all.
