@@ -1,0 +1,168 @@
+{
+ "artifact_id": "nhuhuan/sba",
+ "venue": "issta-2024",
+ "paper_title": "Scalable, Sound and Accurate Jump Table Analysis",
+ "commit": "a1022af46fcf",
+ "default_branch": "main",
+ "n_files": 88,
+ "repo_bytes": 1096795,
+ "file_tree": [
+  "CMakeLists.txt",
+  "LICENSE",
+  "README.md",
+  "include/analysis/arch/x86_64.h",
+  "include/analysis/cfg/intra/block.h",
+  "include/analysis/cfg/intra/function.h",
+  "include/analysis/cfg/intra/insn.h",
+  "include/analysis/cfg/intra/program.h",
+  "include/analysis/cfg/intra/scc.h",
+  "include/analysis/core/domain.h",
+  "include/analysis/core/eval.h",
+  "include/analysis/core/framework.h",
+  "include/analysis/core/state.h",
+  "include/analysis/ir/expr.h",
+  "include/analysis/ir/parser.h",
+  "include/analysis/ir/rtl.h",
+  "include/analysis/ir/type.h",
+  "include/analysis/util/common.h",
+  "include/analysis/util/config.h",
+  "include/analysis/util/macro.h",
+  "modules/arch/arch.cppm",
+  "modules/arch/x86_64.cppm",
+  "modules/binary/binary.cppm",
+  "modules/binary/elf.cppm",
+  "modules/binary/error.cppm",
+  "modules/binary/object.cppm",
+  "modules/binary/types.cppm",
+  "modules/ir/constant.cppm",
+  "modules/ir/context.cppm",
+  "modules/ir/ir.cppm",
+  "modules/ir/semantics.cppm",
+  "modules/ir/syntax.cppm",
+  "modules/ir/view.cppm",
+  "modules/lift/cache.cppm",
+  "modules/lift/decoder.cppm",
+  "modules/lift/emit.cppm",
+  "modules/lift/fallback.cppm",
+  "modules/lift/lift.cppm",
+  "modules/lift/parser.cppm",
+  "modules/lift/target.cppm",
+  "modules/util/container.cppm",
+  "modules/util/util.cppm",
+  "modules/util/wyhash.cppm",
+  "src/analysis/CMakeLists.txt",
+  "src/analysis/arch/x86_64.cpp",
+  "src/analysis/cfg/intra/block.cpp",
+  "src/analysis/cfg/intra/function.cpp",
+  "src/analysis/cfg/intra/insn.cpp",
+  "src/analysis/cfg/intra/program.cpp",
+  "src/analysis/cfg/intra/scc.cpp",
+  "src/analysis/core/domain.cpp",
+  "src/analysis/core/framework.cpp",
+  "src/analysis/core/state.cpp",
+  "src/analysis/ir/expr.cpp",
+  "src/analysis/ir/parser.cpp",
+  "src/analysis/ir/rtl.cpp",
+  "src/analysis/ir/type.cpp",
+  "src/analysis/lift/CMakeLists.txt",
+  "src/analysis/lift/lisc/CMakeLists.txt",
+  "src/analysis/lift/lisc/GPL_license.txt",
+  "src/analysis/lift/lisc/Makefile",
+  "src/analysis/lift/lisc/learn.ml",
+  "src/analysis/lift/lisc/learn.mli",
+  "src/analysis/lift/lisc/lexAsm.mll",
+  "src/analysis/lift/lisc/lexRtl.mll",
+  "src/analysis/lift/lisc/main.ml",
+  "src/analysis/lift/lisc/parseARM.mly",
+  "src/analysis/lift/lisc/parseATT.mly",
+  "src/analysis/lift/lisc/parseAVR.mly",
+  "src/analysis/lift/lisc/parseITC.mly",
+  "src/analysis/lift/lisc/parseRtl.mly",
+  "src/analysis/lift/lisc/sa.ml",
+  "src/analysis/lift/lisc/x86_64.tar.xz",
+  "src/analysis/util/common.cpp",
+  "src/arch/CMakeLists.txt",
+  "src/binary/CMakeLists.txt",
+  "src/binary/elf.cpp",
+  "src/binary/object.cpp",
+  "src/binary/types.cpp",
+  "src/ir/CMakeLists.txt",
+  "src/lift/CMakeLists.txt",
+  "src/lift/decoder.cpp",
+  "src/lift/x86_64/extract.cpp",
+  "src/lift/x86_64/lift.cpp",
+  "src/util/CMakeLists.txt",
+  "tools/CMakeLists.txt",
+  "tools/jump_table/CMakeLists.txt",
+  "tools/jump_table/jump_table.cpp"
+ ],
+ "largest_files": [
+  {
+   "path": "src/analysis/lift/lisc/x86_64.tar.xz",
+   "size": 472208
+  },
+  {
+   "path": "src/analysis/lift/lisc/learn.ml",
+   "size": 78841
+  },
+  {
+   "path": "src/analysis/core/domain.cpp",
+   "size": 51257
+  },
+  {
+   "path": "LICENSE",
+   "size": 35149
+  },
+  {
+   "path": "src/analysis/lift/lisc/GPL_license.txt",
+   "size": 35147
+  },
+  {
+   "path": "src/analysis/lift/lisc/sa.ml",
+   "size": 30640
+  },
+  {
+   "path": "include/analysis/core/eval.h",
+   "size": 30250
+  },
+  {
+   "path": "src/analysis/lift/lisc/main.ml",
+   "size": 26197
+  },
+  {
+   "path": "src/analysis/ir/expr.cpp",
+   "size": 21456
+  },
+  {
+   "path": "src/analysis/cfg/intra/program.cpp",
+   "size": 17091
+  }
+ ],
+ "readme": "# SBA: Scalable Binary Analysis Framework\n\n\n## Announcements\nThe SBA framework is currently undergoing a significant overhaul:\n* **Architecture & Robustness**\n  - **Disassembler:** Develop a robust, architecture-agnostic disassembler leveraging *LLVM MC* for high-fidelity binary analysis. Support static analysis directly on raw bytes, bypassing the inherent flaws of traditional disassembly techniques.\n  - **Binary Loading:** Integrate *LLVMObject* for reliable, cross-platform support of ELF, PE, and Mach-O executable formats.\n  - **Lifting:** Implement a high-performance C++ lifter to replace the legacy OCaml pipeline.\n* **Framework Capabilities**\n  - **ControlFlowGraphAPI**: Support diverse graph types and construction strategies.\n  - **AnalysisAPI**: Allow seamless integration of forward and backward dataflow analysis.\n    - **Pre-Disassembly Analysis** [[1]](): Analyze raw bytes, breaking the circular dependency between binary analysis and traditional disassembly, and bypassing inherent flaws to provide high-fidelity results. The approach scales linearly, computing results for every byte offset of an $n$-byte binary in $O(n)$ time.\n    - **Abstract Interpretation** [[2]]() [[3]]() [[4]]() [[5]](): A foundational technique in program analysis that forms the basis of modern static binary analysis. By evaluating programs over abstract domains, this engine allows the framework to model all possible execution paths without running the code.\n* **Applications**\n  - **Jump Table Analysis**\n    - Improve bounds analysis\n  - **Function Property Check**\n    - Callee-Saved Registers Preservation\n    - Invalid Pointer Dereference\n  - **Non-Returning Call Analysis**\n    - *Without relying on catalogs of non-returning functions*.\n\n\n## Getting Started\n### Dependencies\nSBA requires a C++23 compiler (GCC/Clang), CMake, and OCaml.\nWe recommend using **Opam** to manage the OCaml environment, as it ensures compatibility across different Linux distributions.\n\n#### 1. Install\n```bash\n# Fedora/RHEL\nsudo dnf install clang make cmake ninja-build opam patch\n\n# Ubuntu/Debian\nsudo apt-get install clang make cmake ninja-build opam\n```\n\n#### 2. Configure OCaml Environment\nInitialize Opam and create a switch for OCaml 4.14 (required for the legacy lifter):\n```bash\nopam init\nopam switch create sba 4.14.2\neval $(opam env)\nopam install camlp4 ocamlfind\n```\n\n### Build SBA\n```bash\nmkdir build && cd build\ncmake .. -G Ninja -DCMAKE_CXX_COMPILER=clang++\nninja -j $(nproc)\n```\n\n## Applications\n### Jump Table Analysis\nTo analyze a binary object `~/obj`, use the following command:\n```\n./tools/jump_table x86_64.auto ~/obj\n```\nBy default, SBA creates temporary files and outputs result in `/tmp/sba/`. These paths can be specified using `-d` and `-o` as follows:\n```\n./tools/jump_table -d /tmp/sba/ -o /tmp/sba/result x86_64.auto ~/obj\n```\n\n\n## Publications\n1. Analyzing Bytes: Pre-Disassembly Static Binary Analysis (**PLDI 2026**)\n2. [Scalable, Sound, and Accurate Jump Table Analysis](https://doi.org/10.1145/3650212.3680301) (**ISSTA 2024**)\n3. [Accurate Disassembly of Complex Binaries Without Use of Compiler Metadata](https://doi.org/10.1145/3623278.3624766) (**ASPLOS 2023**)\n4. [SAFER: Efficient and Error-Tolerant Binary Instrumentation](https://www.usenix.org/system/files/usenixsecurity23-priyadarshan.pdf) (**USENIX 2023**)\n5. [Practical fine-grained binary code randomization](https://doi.org/10.1145/3427228.3427292) (**ACSAC 2020**)\n",
+ "readme_present": true,
+ "readme_scrub": {
+  "leaked": false,
+  "hits": {}
+ },
+ "signals": {
+  "dependency_manifest": [],
+  "container": [],
+  "build_script": [
+   "CMakeLists.txt",
+   "src/analysis/lift/lisc/Makefile"
+  ],
+  "ci_config": [],
+  "licence": [
+   "LICENSE"
+  ],
+  "tests": []
+ },
+ "readme_referenced_paths": [
+  "4.14.2",
+  "x86_64.auto"
+ ],
+ "_label": {
+  "badge": "Reusable",
+  "rank": 2
+ }
+}

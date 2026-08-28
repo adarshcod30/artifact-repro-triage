@@ -61,7 +61,10 @@ def _get(url: str, cache_key: str) -> dict:
             with urllib.request.urlopen(req, timeout=30, context=_SSL) as r:
                 data = json.loads(r.read().decode())
             path.write_text(json.dumps(data))
-            time.sleep(2.2)  # GitHub search is capped at 30 req/min
+            # /search/* is capped at 30 req/min; the rest of the REST API allows
+            # 5000/hr authenticated. Throttling both at search speed made a
+            # 60-call corpus build take over two minutes for no reason.
+            time.sleep(2.2 if "/search/" in url else 0.15)
             return data
         except urllib.error.HTTPError as exc:
             if exc.code not in (403, 429) or attempt == 4:

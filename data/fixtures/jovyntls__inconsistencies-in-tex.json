@@ -1,0 +1,128 @@
+{
+ "artifact_id": "jovyntls/inconsistencies-in-tex",
+ "venue": "issta-2024",
+ "paper_title": "Inconsistencies in TeX-produced Documents",
+ "commit": "2002b7acfae3",
+ "default_branch": "master",
+ "n_files": 49,
+ "repo_bytes": 125030,
+ "file_tree": [
+  ".gitignore",
+  "LICENSE",
+  "README.md",
+  "analysis/README.md",
+  "analysis/__init__.py",
+  "analysis/compare_text_similarity.py",
+  "analysis/count_compiled_pdfs.py",
+  "analysis/count_pdf_pages.py",
+  "analysis/helpers.py",
+  "analysis/text_transformer.py",
+  "config.py",
+  "constants/arxiv_subjects.py",
+  "constants/engine_primitives.py",
+  "count_latexmk_runs.py",
+  "img_comparison/__init__.py",
+  "img_comparison/compare_imgs.py",
+  "img_comparison/compare_text.py",
+  "img_comparison/convert_pdf_to_img.py",
+  "img_comparison/highlight_diffs.py",
+  "main.py",
+  "pipeline/compile_tex_files.py",
+  "pipeline/diff_pdfs.py",
+  "pipeline/diff_pdfs_orange_blue.py",
+  "pipeline/extract_compressed_sources.py",
+  "pipeline/get_tex_files.py",
+  "requirements.txt",
+  "run_analysis.py",
+  "run_compile_only.py",
+  "run_diff_highlight.py",
+  "run_img_comparison.py",
+  "run_text_based_comparison.py",
+  "scripts/loop_compare.sh",
+  "scripts/loop_opendiffs.sh",
+  "scripts/loop_opendiffs_textanalysis.sh",
+  "scripts/loop_textanalysis.sh",
+  "scripts/run.sh",
+  "text_based_comparison/compare_font.py",
+  "text_based_comparison/compare_img.py",
+  "text_based_comparison/compare_text.py",
+  "text_based_comparison/extract.py",
+  "utils/logger.py",
+  "utils/tex_engine_utils.py",
+  "version_cmp/docker_bin/delete_aux_files.sh",
+  "version_cmp/docker_command.txt",
+  "version_cmp/latest.Dockerfile",
+  "version_cmp/tl2020.Dockerfile",
+  "version_cmp/tl2021.Dockerfile",
+  "version_cmp/tl2022.Dockerfile",
+  "version_cmp/tl2023.Dockerfile"
+ ],
+ "largest_files": [
+  {
+   "path": "analysis/compare_text_similarity.py",
+   "size": 18201
+  },
+  {
+   "path": "count_latexmk_runs.py",
+   "size": 9390
+  },
+  {
+   "path": "pipeline/compile_tex_files.py",
+   "size": 7463
+  },
+  {
+   "path": "constants/arxiv_subjects.py",
+   "size": 6422
+  },
+  {
+   "path": "run_text_based_comparison.py",
+   "size": 5920
+  },
+  {
+   "path": "run_compile_only.py",
+   "size": 5297
+  },
+  {
+   "path": "analysis/text_transformer.py",
+   "size": 4911
+  },
+  {
+   "path": "img_comparison/compare_imgs.py",
+   "size": 4817
+  },
+  {
+   "path": "run_img_comparison.py",
+   "size": 4290
+  },
+  {
+   "path": "text_based_comparison/compare_text.py",
+   "size": 4165
+  }
+ ],
+ "readme": "# Differential testing TeX software\n\n_Automated differential testing pipeline for TeX engines and TeX Live distributions_\n\n## Getting Started\n\n### Requirements\n\n* Python 3.9\n* [diff-pdf](https://github.com/vslavik/diff-pdf)\n* A Python environment with the required packages (`pip install -r requirements.txt`)\n\n### Set up\n\n1. Edit the parameters in `config.py`, minimally the `PROJECT_ROOT`\n1. By default, comparison is performed between TeX engines. To compare between versions instead, set `CMP_TYPE = 'VERSION'` in `config.py`.\n\nDockerfiles with different TeX Live distributions can be found in `version_cmp/`.\n\n## Running scripts\n\nAll scripts should run from the project root.\n\n### Pipeline\n\nThis is the main automated pipeline (end to end) for identifying inconsistencies.\n\nTo run:\n\n```\npython main.py\n```\n\n* The run may take a few minutes due to downloading tex files, slow compilations, compilation hangs (timeout 60s), etc.\n* Logs and results will be saved in a `logs/` directory under the project root\n* Skip steps in the pipeline (e.g. skip downloading if the files already exist) by commenting out the corresponding function call in `main.py`. The required `bin/` folders for each step are specified in `main.py`\n\n### Analysis\n\nProvided as a CLI tool to compare one or all compiled PDFs from the pipeline. \nThe PDFs are read from the {COMPILED_FOLDER} and {YEAR_AND_MONTH} variables in `config.py`\n\n* Compare text and image similarity between PDFs \n    * `python3 run_analysis.py -compare` for all compiled PDFs\n    * `python3 run_analysis.py -compare 00002` for the arXiv ID {YEAR_AND_MONTH}.00002\n        * `python3 run_analysis.py -compare 00002 -save` will also save the extracted text and images (all processed) to a .txt file\n* Count the number of pages in _all_ PDFs\n    * `python3 run_analysis.py -count-pages`\n    * `python3 run_analysis.py -count-pages -save` to save the results to a CSV file\n* Count the number of compiled PDFs in for each engine\n    * `python3 run_analysis.py -count-compiled`\n    * `python3 run_analysis.py -count-compiled -save` to save the results to a CSV file\n* Help text: `--help`\n\n### Comparison Pipeline\n\nThis directory implements similarity comparison on PDF files through the following steps:\n\n1. Convert the PDF to an image\n1. Run the image comparison algorithm(s) on equivalent images.\n\nThe PDFs are read from {SOURCE_PDF_FOLDER} and converted to images in {CONVERTED_IMG_FOLDER}.\n\n* Run the comparison pipeline:\n    * `python3 run_img_comparison.py -id 00002` for the arXiv ID {YEAR_AND_MONTH}.00002\n    * `python3 run_img_comparison.py`\n\n### Text-based comparison\n\nThis directory implements comparison based on extracting data from the PDF using PyMuPDF.\nThis includes text, fonts, and images.\n\n* Run text-based comparison\n    * `python3 run_text_based_comparison.py` for all PDFs in the compiled bin folder, or the IDs specified in {DOWNLOAD_BY_ARXIV_IDS}\n    * `python3 run_text_based_comparison.py -id 01234` for the specified arXiv ID {YEAR_AND_MONTH}.01234\n* Additional flags\n    * `-debug` will add debug information\n    * `-save` will save the extracted information to a .txt file\n\n### Others\n\n* Highlight the differences between two PDFs\n    * `python3 run_diff_highlight.py -id 01308 -pg 1 3 5` for the arXiv ID {YEAR_AND_MONTH}.01308 on pages 1,3,5\n* Count and compare number of runs of `latexmk`\n    * `python3 count_latexmk_runs.py`\n* Run compilation only\n    * `python3 run_compile_only.py -ver 2023` to run compilation for TL2023 (to be run inside a docker containing with TL2023)\n    * `python3 run_compile_only.py -ver 2020 -flags` to run compilation with additional compile flags (for TL2020)\n\n\n---\n\nTo ignore config changes:\n```\ngit update-index --skip-worktree config.py\n```\n(to undo, run `git update-index --no-skip-worktree config.py`)\n\n",
+ "readme_present": true,
+ "readme_scrub": {
+  "leaked": false,
+  "hits": {}
+ },
+ "signals": {
+  "dependency_manifest": [
+   "requirements.txt"
+  ],
+  "container": [],
+  "build_script": [],
+  "ci_config": [],
+  "licence": [
+   "LICENSE"
+  ],
+  "tests": []
+ },
+ "readme_referenced_paths": [
+  "config.py",
+  "main.py"
+ ],
+ "_label": {
+  "badge": "Available",
+  "rank": 0
+ }
+}

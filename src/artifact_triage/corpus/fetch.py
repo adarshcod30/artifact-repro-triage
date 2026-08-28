@@ -1,0 +1,145 @@
+"""Build a scrubbed, structured fact sheet per artifact - over the API, no clones.
+
+WHY NOT CLONE
+-------------
+The first version shallow-cloned each repo. One artifact (`zhangxiaosa/LPR`)
+was 15 GB on its own and drove the disk to 100% full mid-run. Research repos
+routinely commit datasets, models and VM images.
+
+The GitHub tree API returns the complete recursive file listing - paths and
+sizes - without transferring a single blob. Two calls per artifact, zero disk,
+and pinned to an explicit commit SHA so the fact sheet is reproducible.
+
+The fact sheet is the ONLY input the baseline and solution ever see, and both
+read the identical file. Fairness is structural, not promised.
+"""
+from __future__ import annotations
+
+import base64
+import json
+import re
+from pathlib import Path
+
+from artifact_triage.corpus.github import API, _get
+from artifact_triage.corpus.scrub import scrub
+
+FIXTURES = Path("data/fixtures")
+
+SIGNALS = {
+    "dependency_manifest": ["requirements.txt", "environment.yml", "environment.yaml",
+                            "pyproject.toml", "setup.py", "Pipfile", "poetry.lock",
+                            "package.json", "Cargo.toml", "pom.xml", "build.gradle"],
+    "container": ["dockerfile", "docker-compose.yml", "docker-compose.yaml", "vagrantfile"],
+    "build_script": ["makefile", "cmakelists.txt", "build.sh", "install.sh", "setup.sh"],
+    "ci_config": [".github/workflows", ".gitlab-ci.yml", ".travis.yml"],
+    "licence": ["license", "license.md", "licence", "copying", "license.txt"],
+    "tests": ["test", "tests", "test.py", "tests.py"],
+}
+
+_CODE_BLOCK = re.compile(r"```[a-zA-Z]*\n(.*?)```", re.S)
+_INLINE = re.compile(r"`([^`\n]{2,80})`")
+_PATHLIKE = re.compile(r"^[\w./\-]+\.[A-Za-z0-9]{1,6}$")
+
+
+def default_branch_sha(slug: str) -> tuple[str, str]:
+    meta = _get(f"{API}/repos/{slug}", "repo-" + slug.replace("/", "__"))
+    branch = meta.get("default_branch", "main")
+    ref = _get(f"{API}/repos/{slug}/commits/{branch}",
+               "head-" + slug.replace("/", "__"))
+    return branch, ref.get("sha", "")[:12]
+
+
+def tree(slug: str, sha: str) -> list[dict]:
+    data = _get(f"{API}/repos/{slug}/git/trees/{sha}?recursive=1",
+                "tree-" + slug.replace("/", "__"))
+    return [{"path": e["path"], "size": e.get("size", 0)}
+            for e in data.get("tree", []) if e.get("type") == "blob"]
+
+
+def readme(slug: str) -> str:
+    try:
+        data = _get(f"{API}/repos/{slug}/readme", "readme-" + slug.replace("/", "__"))
+        return base64.b64decode(data.get("content", "")).decode("utf-8", errors="replace")
+    except Exception:
+        return ""
+
+
+def referenced_paths(text: str) -> list[str]:
+    """Paths the README claims exist - raw material for claim verification."""
+    found: set[str] = set()
+    for block in _CODE_BLOCK.findall(text):
+        for tok in re.findall(r"[\w./\-]+\.[A-Za-z0-9]{1,6}", block):
+            if _PATHLIKE.match(tok):
+                found.add(tok.lstrip("./"))
+    for tok in _INLINE.findall(text):
+        tok = tok.strip().lstrip("./")
+        if _PATHLIKE.match(tok):
+            found.add(tok)
+    return sorted(found)[:60]
+
+
+def signals_present(paths: list[str]) -> dict[str, list[str]]:
+    lower = [(p.lower(), p) for p in paths]
+    out: dict[str, list[str]] = {}
+    for kind, names in SIGNALS.items():
+        hits = []
+        for n in names:
+            for pl, p in lower:
+                base = pl.rsplit("/", 1)[-1]
+                if base == n or pl == n or pl.startswith(n + "/"):
+                    hits.append(p)
+                    break
+        out[kind] = sorted(set(hits))[:6]
+    return out
+
+
+def build(record: dict) -> dict | None:
+    slug = record["repo"]["slug"]
+    try:
+        branch, sha = default_branch_sha(slug)
+        entries = tree(slug, sha)
+    except Exception as exc:
+        print(f"    ! {slug}: {type(exc).__name__} {str(exc)[:60]}")
+        return None
+    paths = [e["path"] for e in entries]
+    raw = readme(slug)
+    rep = scrub(raw)
+    total_bytes = sum(e["size"] for e in entries)
+    return {
+        "artifact_id": slug,
+        "venue": record["venue"],
+        "paper_title": record["title"],
+        "commit": sha,
+        "default_branch": branch,
+        "n_files": len(paths),
+        "repo_bytes": total_bytes,
+        "file_tree": paths[:4000],
+        "largest_files": sorted(entries, key=lambda e: -e["size"])[:10],
+        "readme": rep.text[:20000],
+        "readme_present": bool(raw),
+        "readme_scrub": {"leaked": rep.leaked, "hits": rep.hits},
+        "signals": signals_present(paths),
+        "readme_referenced_paths": referenced_paths(rep.text),
+        "_label": {"badge": record["badge"], "rank": record["badge_rank"]},
+    }
+
+
+if __name__ == "__main__":
+    FIXTURES.mkdir(parents=True, exist_ok=True)
+    recs = [json.loads(l) for l in open("data/artifacts.jsonl")]
+    corpus = [r for r in recs if r.get("repo")]
+    leaked = ok = 0
+    for i, r in enumerate(corpus, 1):
+        fx = build(r)
+        if fx is None:
+            continue
+        ok += 1
+        leaked += fx["readme_scrub"]["leaked"]
+        (FIXTURES / f"{fx['artifact_id'].replace('/', '__')}.json").write_text(
+            json.dumps(fx, indent=1))
+        print(f"[{i:2}/{len(corpus)}] {fx['n_files']:5d} files "
+              f"{fx['repo_bytes']/1e6:8.1f}MB  claims={len(fx['readme_referenced_paths']):3d}  "
+              f"{'LEAK' if fx['readme_scrub']['leaked'] else ' ok '}  {fx['artifact_id']}")
+    print(f"\nfixtures      : {ok}/{len(corpus)}")
+    print(f"badge leakage : {leaked} READMEs disclosed their own tier (scrubbed)")
+    print("disk used     : 0 bytes of clones - tree API only")

@@ -24,8 +24,18 @@ Schema follows the challenge brief.
 | Iteration 7 | Artifacts often announce their own badge in the README. Built a scrubber so the model judges the work instead of reading the answer. | Self-test caught three bugs in my first version: redactions nested inside each other; `.../badge/artifact-reusable-green` kept the tier word after the word "badge" alone was redacted; and "results **were** reproduced" evaded a pattern expecting adjacent words. | Reordered patterns so broad structures (images, URLs, whole sentences) fire before the bare-word rule, and made the redaction token keyword-free so it cannot re-match. |
 | Iteration 8 | Added a post-condition asserting no tier word survives scrubbing, rather than trusting the patterns. | All six adversarial samples now scrub clean; the assertion fails loudly if any `reusable`/`functional` survives. | Kept. A scrubber that is merely *believed* to work is worth nothing - the audit has to be executable. |
 
+## Fact-sheet extraction
+
+| Stage | What I tried and why | Evidence | Decision / Learning |
+|---|---|---|---|
+| Iteration 9 | Shallow-clone each repo to read its file tree and README. | `zhangxiaosa/LPR` alone was **15 GB**; the run drove the disk from 18 GB free to **1.9 GB (100% full)** before I killed it. Research repos routinely commit datasets, models and VM images. | **Removed.** `--depth 1` still transfers every blob at HEAD. |
+| Iteration 10 | Replaced cloning with the GitHub tree API: recursive file listing plus the README endpoint. | 15/15 fact sheets built in seconds, **0 bytes of disk**, pinned to explicit commit SHAs. The same repo reports 430 MB of HEAD blobs versus 15 GB cloned - the rest was history and LFS. | Kept. Faster, safer, and deterministic. The thing I actually needed (does path X exist?) never required file contents. |
+| Iteration 11 | First tree-API run timed out at 2 minutes. | Every call slept 2.2s - a throttle sized for `/search/*` (30 req/min) applied to the whole REST API (5000/hr). | Throttle now depends on endpoint. Build time went from >120s to seconds. |
+| **Leakage measured** | Ran the scrubber across all 15 fact sheets to quantify the risk rather than assume it. | **4 of 15 READMEs (27%) disclosed their own ACM badge tier.** | Confirms the scrubber is load-bearing, not defensive decoration. Without it, 27% of the corpus would hand the model its own answer. |
+
 ## Experiments removed
 
+- **Shallow cloning** (Iteration 9). Filled the disk to 100% on a 15-artifact corpus. Taught me that repo *size at HEAD* and *clone size* differ by more than an order of magnitude, and that the fact I needed (path existence) never justified transferring bytes at all.
 - **GitHub search for missing repos** (Iterations 4-5). Recovered 20 artifacts, but a measured false-positive rate that two rounds of hardening could not eliminate. Cutting it traded corpus size for label integrity. The lesson is on-theme: fuzzy matching produced *confident, plausible, wrong* answers - precisely the failure mode this project exists to detect.
 - **Downloading Zenodo deposits** (Iteration 1). Correct in principle - the deposit is the badged unit - but 326 GB makes it unusable, and it would have pushed our own reproduction time from seconds to hours. Analysing the GitHub mirror trades a little fidelity for a pipeline judges can actually re-run.
 
