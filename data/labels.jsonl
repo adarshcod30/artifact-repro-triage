@@ -1,0 +1,43 @@
+{"venue": "issta-2024", "title": "A Large-Scale Evaluation for Log Parsing Techniques: How Far Are We?", "badge": "Reusable", "badge_rank": 2}
+{"venue": "issta-2024", "title": "An Empirical Examination of Fuzzer Mutator Performance", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "An Empirical Study of Static Analysis Tools for Secure Code Review", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "An Empirical Study on Kubernetes Operator Bugs", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "AsFuzzer: Differential Testing of Assemblers with Error-Driven Grammar Inference", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Automated Data Binding Vulnerability Detection for Java Web Frameworks via Nested Property Graph", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Better Not Together: Staged Solving for Context-Free Language Reachability", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "Beyond Pairwise Testing: Advancing 3-wise Combinatorial Interaction Testing for Highly Configurable Systems", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "BRAFAR: Bidirectional Refactoring, Alignment, Fault Localization, and Repair for Programming Assignments", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "Can Graph Database Systems Correctly Handle Writing Operations? A Metamorphic Testing Approach with Graph-State Persistence Oracle", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "CoderUJB: An Executable and Unified Java Benchmark for Practical Programming Scenarios", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Dance of the ADS: Orchestrating Failures through Historically-Informed Scenario Fuzzing", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Define-Use Guided Path Exploration for Better Forced Execution", "badge": "Reusable", "badge_rank": 2}
+{"venue": "issta-2024", "title": "Evaluating the Trustworthiness of Deep Neural Networks in Deployment - A Comparative Study (Replicability Study)", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Finding Cuts in Static Analysis Graphs to Debloat Software", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "FortifyPatch: Towards Tamper-Resistant Live Patching in Linux-Based Hypervisor", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "FunRedisp: Reordering Function Dispatch in Smart Contract to Reduce Invocation Gas Fees", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Inconsistencies in TeX-produced Documents", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Interoperability in Deep Learning: A User Survey and Failure Analysis of ONNX Model Converters", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "Large Language Models can Connect the Dots: Exploring Model Optimization Bugs with Domain Knowledge-aware Prompts", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "LPR: Large Language Models-Aided Program Reduction", "badge": "Reusable", "badge_rank": 2}
+{"venue": "issta-2024", "title": "NeuFair: Neural Network Fairness Repair with Dropout", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Neurosymbolic Repair of Test Flakiness", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "One Size Does Not Fit All: Multi-Granularity Patch Generation for Better Automated Program Repair", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "One-to-One or One-to-Many? Suggesting Extract Class Refactoring Opportunities with Intra-class Dependency Hypergraph Neural Network", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Policy Testing with MDPFuzz (Replicability Study)", "badge": "Reusable", "badge_rank": 2}
+{"venue": "issta-2024", "title": "Prospector: Boosting Directed Grey-box Fuzzing for Large-scale Target Sets with Iterative Prioritization", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Revisiting Test-Case Prioritization on Long-Running Test Suites", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "Scalable, Sound and Accurate Jump Table Analysis", "badge": "Reusable", "badge_rank": 2}
+{"venue": "issta-2024", "title": "Sleuth: A Switchable Dual-Mode Fuzzer to Investigate Bug Impacts Following a Single PoC", "badge": "Reusable", "badge_rank": 2}
+{"venue": "issta-2024", "title": "Synthesizing Boxes Preconditions for Deep Neural Networks", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "Testing Gremlin-Based Graph Database Systems via Query Disassembling", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Total Recall? How Good are Static Call Graphs Really?", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Towards More Complete Constraints for Deep Learning Library Testing via Complementary Set Guided Refinement", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Toward the Automated Localization of Buggy Mobile App UIs from Bug Descriptions", "badge": "Reusable", "badge_rank": 2}
+{"venue": "issta-2024", "title": "Understanding Misconfigurations in ROS: An Empirical Study and Current Approaches", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Unimocg: Modular Call-Graph Algorithms for Consistent Handling of Language FeaturesReusableBest Artifact Award", "badge": "Reusable", "badge_rank": 2}
+{"venue": "issta-2024", "title": "UniTSyn: A Large-Scale Dataset Capable of Enhancing the Prowess of Large Language Models for Program Testing", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "Upbeat: Test Input Checks of Q# Quantum Libraries", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "VioHawk: Detecting Traffic Violations of Autonomous Driving Systems through Criticality-guided Simulation Testing", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "VRDSynth: Synthesizing Programs for Multilingual Visually Rich Document Information Extraction", "badge": "Functional", "badge_rank": 1}
+{"venue": "issta-2024", "title": "Wapplique: Testing WebAssembly Runtime via Execution Context-aware Bytecode Mutation", "badge": "Available", "badge_rank": 0}
+{"venue": "issta-2024", "title": "WASMaker: Differential Testing of WebAssembly Runtimes via Semantic-aware Binary Generation", "badge": "Reusable", "badge_rank": 2}
