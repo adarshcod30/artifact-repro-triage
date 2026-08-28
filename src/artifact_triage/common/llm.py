@@ -68,6 +68,14 @@ def load_dotenv(path: str = ".env") -> None:
 
 load_dotenv()
 
+# A half-filled AWS credential is worse than none: boto3 sees an access key id
+# with no secret and fails outright instead of falling back to the working
+# ~/.aws profile. Drop the partial pair rather than let it break the run.
+if os.environ.get("AWS_ACCESS_KEY_ID") and not os.environ.get("AWS_SECRET_ACCESS_KEY"):
+    os.environ.pop("AWS_ACCESS_KEY_ID", None)
+    print("[llm] AWS_ACCESS_KEY_ID is set but AWS_SECRET_ACCESS_KEY is empty - "
+          "ignoring both and falling back to the ~/.aws profile.")
+
 PROVIDER = os.environ.get("ARTIFACT_TRIAGE_PROVIDER", "gemini").strip().lower()
 if PROVIDER not in PROVIDERS:
     raise SystemExit(f"ARTIFACT_TRIAGE_PROVIDER must be one of {list(PROVIDERS)}")
