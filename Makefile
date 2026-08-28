@@ -23,5 +23,9 @@ eval:     ## Score baseline + solution against expert badge labels
 repro:    ## The one command judges run: corpus -> baseline -> solution -> eval
 	$(MAKE) corpus && $(MAKE) baseline && $(MAKE) solution && $(MAKE) eval
 
+trajectories: ## Export agent trajectories (product agents + build agent)
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_trajectories
+	.venv/bin/python scripts/export_build_trajectory.py
+
 clean:
 	rm -rf data/clones results/*.json
