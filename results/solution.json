@@ -1,0 +1,1402 @@
+{
+ "report": {
+  "system": "solution",
+  "n": 15,
+  "n_scored": 15,
+  "n_escalated": 0,
+  "n_failed": 0,
+  "mae": 1.0,
+  "exact_accuracy": 0.2,
+  "adjacent_accuracy": 0.8,
+  "overclaim_rate": 0.267,
+  "escalation_rate": 0.0,
+  "human_minutes": 120.0,
+  "human_minutes_saved": 555.0,
+  "input_tokens": 35818,
+  "output_tokens": 2250,
+  "usd": 0.0359,
+  "per_item": [
+   {
+    "artifact_id": "DueForce/DueForce",
+    "truth": "Reusable",
+    "predicted": "Available",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -2,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "HexHive/FishFuzz",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "THU-WingTecher/DeepConstr",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "asub0/fonnx",
+    "truth": "Functional",
+    "predicted": "Available",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "dserfe/FlakyDoctor",
+    "truth": "Functional",
+    "predicted": "Available",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "emocat/VioHawk",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "jovyntls/inconsistencies-in-tex",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "logpai/loghub-2.0",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "lrtsuser/LRTS",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "nhuhuan/sba",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+    "truth": "Reusable",
+    "predicted": "Available",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": -2,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "trustdnn/issta2024",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "zhangxiaosa/LPR",
+    "truth": "Reusable",
+    "predicted": "Available",
+    "confidence": 0.9,
+    "escalated": false,
+    "rank_error": -2,
+    "outcome": "underclaim"
+   }
+  ]
+ },
+ "raw": [
+  {
+   "artifact_id": "DueForce/DueForce",
+   "tier": "Available",
+   "confidence": 0.8,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "A dependency manifest is present, indicating some level of setup for reproducibility.",
+    "A CI configuration and build/install script are present, suggesting the potential for the artifact to be built and run.",
+    "Test files are present, which could indicate some level of validation.",
+    "The README is extremely minimal and does not provide clear instructions or claims that can be verified against the repository contents.",
+    "There is no container definition present, which is crucial for ensuring the artifact can be run in a consistent environment."
+   ],
+   "verified": {
+    "artifact_id": "DueForce/DueForce",
+    "claims_total": 0,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "broken_ratio": 0.0,
+    "has_dependency_manifest": true,
+    "has_container": false,
+    "has_ci": true,
+    "has_licence": true,
+    "has_tests": true,
+    "has_build_script": true,
+    "readme_bytes": 409,
+    "n_files": 8002,
+    "claims": []
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "HexHive/FishFuzz",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "The repository contains a README with detailed instructions on how to build and run the artifact.",
+    "There is a dependency manifest, container definition, and CI configuration present, indicating some level of setup for reproducibility.",
+    "A build/install script is provided, which is essential for exercising the artifact.",
+    "The license is present, allowing for legal use and potential reuse.",
+    "However, test files are missing, which lowers the confidence in the artifact's completeness and verifiability."
+   ],
+   "verified": {
+    "artifact_id": "HexHive/FishFuzz",
+    "claims_total": 9,
+    "claims_broken": 1,
+    "broken_paths": [
+     "TMP_DIR/funcid.csv"
+    ],
+    "broken_ratio": 0.111,
+    "has_dependency_manifest": true,
+    "has_container": true,
+    "has_ci": true,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": true,
+    "readme_bytes": 9457,
+    "n_files": 1162,
+    "claims": [
+     {
+      "path": "PREFUZZ/scripts/gen_initial_distance.py",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "TMP_DIR/funcid.csv",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "afl-fishfuzz.cc",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "afl-fuzz-debug.c",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "afl-fuzz-queue.c",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "afl-fuzz.c",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "paper/artifact/README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "paper/artifact/two-stage/build/cflow.sh",
+      "exists": true,
+      "matched_as": "exact"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public repository, satisfying the 'Available' tier.",
+    "A Docker image and Dockerfile are provided, allowing for easy setup and execution.",
+    "The README provides clear installation and usage instructions.",
+    "A troubleshooting document is available to help users resolve common issues.",
+    "The lack of a dependency manifest, build/install script, and test files slightly reduces confidence in the 'Reusable' tier.",
+    "The small size of the README and absence of CI configuration suggest room for improvement in documentation and automation."
+   ],
+   "verified": {
+    "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+    "claims_total": 4,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "broken_ratio": 0.0,
+    "has_dependency_manifest": false,
+    "has_container": true,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": false,
+    "readme_bytes": 1332,
+    "n_files": 173,
+    "claims": [
+     {
+      "path": "AE.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "INSTALL.md",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "docs/CommonIssues.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "docs/INSTALL.md",
+      "exists": true,
+      "matched_as": "exact"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public repository and includes a detailed README with step-by-step instructions.",
+    "A Docker image is provided, simplifying the setup process and ensuring consistency across different environments.",
+    "The README provides clear instructions on how to run the experiments, both inside and outside the Docker container.",
+    "A demonstration is included to show the functionality of the artifact, though it is small-scale due to the computational requirements.",
+    "The artifact includes a dependency manifest and a license, contributing to its usability and legal clarity.",
+    "The absence of CI configuration, build/install scripts, and test files slightly reduces confidence in the tier, but the provided Docker image and detailed instructions mitigate this."
+   ],
+   "verified": {
+    "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+    "claims_total": 2,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "broken_ratio": 0.0,
+    "has_dependency_manifest": true,
+    "has_container": true,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": false,
+    "readme_bytes": 8638,
+    "n_files": 1129,
+    "claims": [
+     {
+      "path": "my_simulate.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "result_script.py",
+      "exists": true,
+      "matched_as": "suffix"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "THU-WingTecher/DeepConstr",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The repository contains a comprehensive README with detailed instructions on how to use the artifact.",
+    "There is a dependency manifest present, indicating that the necessary dependencies are specified.",
+    "Test files are present, suggesting that there are mechanisms to verify the functionality of the project.",
+    "A license is present, which is a good practice for open-source projects.",
+    "The README provides clear instructions on how to set up and run the artifact, including how to extract constraints and start fuzzing.",
+    "However, some paths claimed in the README could not be found in the repository, which slightly lowers the confidence in the 'Reusable' tier."
+   ],
+   "verified": {
+    "artifact_id": "THU-WingTecher/DeepConstr",
+    "claims_total": 27,
+    "claims_broken": 5,
+    "broken_paths": [
+     "DeepConstr/results/tf_exp.csv",
+     "DeepConstr/results/torch_exp.csv",
+     "DeepConstr/results/unnormal_val_deepconstr_torch.json",
+     "env",
+     "pt_gen.csv"
+    ],
+    "broken_ratio": 0.185,
+    "has_dependency_manifest": true,
+    "has_container": false,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": true,
+    "has_build_script": false,
+    "readme_bytes": 16631,
+    "n_files": 41822,
+    "claims": [
+     {
+      "path": "DeepConstr/data/tf_dc_acetest.json",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "DeepConstr/data/tf_dc_neuri.json",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "DeepConstr/data/torch_dc_neuri.json",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "DeepConstr/nnsmith/config/main.yaml",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "DeepConstr/results/tf_exp.csv",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "DeepConstr/results/torch_exp.csv",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "DeepConstr/results/unnormal_val_deepconstr_torch.json",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "collect_cov.sh",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "collect_env.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "deepconstr/train/run.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "docs/bug_list.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "env",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "error.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "experiments/apis_overview.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "experiments/eval_constr.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "experiments/evaluate_apis.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "experiments/summarize_merged_cov.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "fuzz.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "fuzz.sh",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "logger.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "nnsmith/cli/fuzz.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "nnsmith/materialize/torch/program.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "pt_gen.csv",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "requirements.txt",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "tests/proxy.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "utils.py",
+      "exists": true,
+      "matched_as": "suffix"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "asub0/fonnx",
+   "tier": "Available",
+   "confidence": 0.8,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "The repository contains a license, indicating some level of formal sharing.",
+    "The presence of a dependency manifest suggests some level of setup intention.",
+    "The README is very minimal and does not provide clear instructions or evidence of functionality.",
+    "No container definition, CI configuration, build/install script, or test files are present, indicating a lack of setup for functional evaluation.",
+    "The README references external datasets and further READMEs within subfolders, but these details are not verified within the provided facts."
+   ],
+   "verified": {
+    "artifact_id": "asub0/fonnx",
+    "claims_total": 0,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "broken_ratio": 0.0,
+    "has_dependency_manifest": true,
+    "has_container": false,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": false,
+    "readme_bytes": 1073,
+    "n_files": 200,
+    "claims": []
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "dserfe/FlakyDoctor",
+   "tier": "Available",
+   "confidence": 0.8,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "The README provides setup and usage instructions, but references non-existent files.",
+    "Lack of dependency manifest, container definition, CI configuration, and license.",
+    "No test files are present to validate the functionality.",
+    "The documentation is inconsistent with the actual repository contents."
+   ],
+   "verified": {
+    "artifact_id": "dserfe/FlakyDoctor",
+    "claims_total": 12,
+    "claims_broken": 3,
+    "broken_paths": [
+     "ID_summary.csv",
+     "OD_summary.csv",
+     "install_summary.csv"
+    ],
+    "broken_ratio": 0.25,
+    "has_dependency_manifest": false,
+    "has_container": false,
+    "has_ci": false,
+    "has_licence": false,
+    "has_tests": false,
+    "has_build_script": true,
+    "readme_bytes": 8821,
+    "n_files": 878,
+    "claims": [
+     {
+      "path": "ID_summary.csv",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "OD_summary.csv",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "datasets/ID_projects.csv",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "datasets/OD_projects.csv",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "datasets/README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "datasets/demo.csv",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "datasets/demo_projects.csv",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "install_summary.csv",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "src/install.sh",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "src/run_FlakyDoctor.sh",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "src/setup.sh",
+      "exists": true,
+      "matched_as": "exact"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "emocat/VioHawk",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository, fulfilling the 'Available' tier.",
+    "The repository contains a README, dependency manifest, container definition, CI configuration, build/install script, and test files, indicating a structured and documented approach.",
+    "The README provides clear instructions on how to install and run the tool, suggesting it is exercisable.",
+    "There is evidence of verification and validation through the presence of test files and a CI configuration.",
+    "The README references a file that does not exist in the repository, which slightly undermines the consistency and completeness of the documentation.",
+    "The documentation and structure, while comprehensive, do not significantly exceed minimal functionality to warrant a 'Reusable' tier."
+   ],
+   "verified": {
+    "artifact_id": "emocat/VioHawk",
+    "claims_total": 6,
+    "claims_broken": 1,
+    "broken_paths": [
+     "path/to/site-packages/commonroad_reach/utility/coordinate_system.py"
+    ],
+    "broken_ratio": 0.167,
+    "has_dependency_manifest": true,
+    "has_container": true,
+    "has_ci": true,
+    "has_licence": true,
+    "has_tests": true,
+    "has_build_script": true,
+    "readme_bytes": 3000,
+    "n_files": 3960,
+    "claims": [
+     {
+      "path": "fuzzer.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "mutator.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "path/to/site-packages/commonroad_reach/data_structure/configuration.py",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "path/to/site-packages/commonroad_reach/utility/coordinate_system.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "requirements.txt",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "run_vse.py",
+      "exists": true,
+      "matched_as": "exact"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "jovyntls/inconsistencies-in-tex",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public repository, satisfying the 'Available' tier.",
+    "The README provides clear instructions on how to set up and run the scripts, suggesting the artifact is documented and exercisable.",
+    "The presence of a dependency manifest indicates some level of completeness and consistency.",
+    "The README details various scripts and their functions, implying the artifact includes evidence of its intended operations.",
+    "Lack of a container definition, CI configuration, build/install script, and test files suggests limited evidence of verification and validation, preventing a 'Reusable' tier assignment.",
+    "The comprehensive README and the presence of scripts aligned with the paper's goals support a 'Functional' tier, though with some uncertainty due to missing CI/CD and testing components."
+   ],
+   "verified": {
+    "artifact_id": "jovyntls/inconsistencies-in-tex",
+    "claims_total": 9,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "broken_ratio": 0.0,
+    "has_dependency_manifest": true,
+    "has_container": false,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": false,
+    "readme_bytes": 3813,
+    "n_files": 49,
+    "claims": [
+     {
+      "path": "config.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "count_latexmk_runs.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "main.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "requirements.txt",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "run_analysis.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "run_compile_only.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "run_diff_highlight.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "run_img_comparison.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "run_text_based_comparison.py",
+      "exists": true,
+      "matched_as": "exact"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "logpai/loghub-2.0",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository, fulfilling the 'Available' tier.",
+    "The README provides detailed instructions for installation and usage, indicating documentation.",
+    "The presence of a dependency manifest and build/install script suggests the artifact is exercisable.",
+    "The README claims the artifact includes datasets and scripts for running benchmarks, suggesting completeness.",
+    "The absence of test files and CI configuration slightly reduces confidence in the 'Functional' tier.",
+    "The inconsistency between the README and the actual file tree (missing README.MD) introduces some uncertainty."
+   ],
+   "verified": {
+    "artifact_id": "logpai/loghub-2.0",
+    "claims_total": 9,
+    "claims_broken": 1,
+    "broken_paths": [
+     "README.MD"
+    ],
+    "broken_ratio": 0.111,
+    "has_dependency_manifest": true,
+    "has_container": false,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": true,
+    "readme_bytes": 6545,
+    "n_files": 469,
+    "claims": [
+     {
+      "path": "README.MD",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "RQs_experiments/README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "benchmark/LogPPT/README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "benchmark/UniParser/README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "demo.sh",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "post_process.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "requirements.txt",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "run_statistic_2k.sh",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "run_statistic_full.sh",
+      "exists": true,
+      "matched_as": "suffix"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "lrtsuser/LRTS",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "The README provides detailed instructions for setup and usage.",
+    "A Docker container is provided for easy setup.",
+    "The artifact includes scripts for data collection and evaluation.",
+    "The README references some files that do not exist, indicating a lack of consistency.",
+    "There are no CI configuration or build/install scripts present, which may affect reproducibility."
+   ],
+   "verified": {
+    "artifact_id": "lrtsuser/LRTS",
+    "claims_total": 24,
+    "claims_broken": 2,
+    "broken_paths": [
+     "historical.csv",
+     "repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh"
+    ],
+    "broken_ratio": 0.083,
+    "has_dependency_manifest": true,
+    "has_container": true,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": false,
+    "readme_bytes": 10216,
+    "n_files": 1982,
+    "claims": [
+     {
+      "path": "artifact/README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "artifact/const.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "artifact/eval_main.py",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "artifact/evaluation/eval_main.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "artifact/token_pool.py",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "build_dataset.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "collect_builds.sh",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "const.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "eval_main.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "extract_filtered_test_result.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "extract_ir_body.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "extract_ir_score.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "extract_ml_data.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "extract_rl_data.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "extract_test_features.sh",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "historical.csv",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "metadata/dataset.csv",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "metadata/dataset_init.csv",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "plot_eval_outcome.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "requirements.txt",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "table_eval_outcome.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "token_pool.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "viz_dataset.py",
+      "exists": true,
+      "matched_as": "suffix"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "nhuhuan/sba",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The repository is publicly available, fulfilling the 'Available' criteria.",
+    "The README provides clear instructions for building the artifact, indicating it is exercisable.",
+    "A build/install script is present, enhancing the likelihood of successful compilation and installation.",
+    "The absence of a dependency manifest, container definition, CI configuration, and test files slightly reduces confidence in the artifact's completeness and ease of reuse.",
+    "The presence of a license suggests consideration for reuse, though the lack of extensive documentation and structure limits the artifact to the 'Functional' tier rather than 'Reusable'."
+   ],
+   "verified": {
+    "artifact_id": "nhuhuan/sba",
+    "claims_total": 0,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "broken_ratio": 0.0,
+    "has_dependency_manifest": false,
+    "has_container": false,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": true,
+    "readme_bytes": 3454,
+    "n_files": 88,
+    "claims": []
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+   "tier": "Available",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "The README file is present and provides detailed instructions.",
+    "Dependency manifest is present, indicating some level of setup guidance.",
+    "Test files are present, suggesting some form of validation.",
+    "Several paths claimed by the README could not be found in the repository, indicating inconsistency.",
+    "Lack of a container definition, CI configuration, and build/install script lowers the likelihood of higher tiers."
+   ],
+   "verified": {
+    "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+    "claims_total": 15,
+    "claims_broken": 5,
+    "broken_paths": [
+     "readme.md",
+     "requirement.txt",
+     "screen_and_component_localization.py",
+     "src/main/java/ComponentLocalization.java",
+     "src/main/java/ScreenLocalization.java"
+    ],
+    "broken_ratio": 0.333,
+    "has_dependency_manifest": true,
+    "has_container": false,
+    "has_ci": false,
+    "has_licence": false,
+    "has_tests": true,
+    "has_build_script": false,
+    "readme_bytes": 11174,
+    "n_files": 37972,
+    "claims": [
+     {
+      "path": "README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "component_localization.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "evaluation_metrics.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "obs.json",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "readme.md",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "requirement.txt",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "requirements.txt",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "run_cmnd.sh",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "screen_and_component_localization.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "screen_localization.py",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "src/main/java/ComponentLocalization.java",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "src/main/java/ScreenLocalization.java",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "study_2/concat_and_first_ob_experiments/README.md",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "study_2/individual_ob_experiments/README.md",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "utils.py",
+      "exists": true,
+      "matched_as": "suffix"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "trustdnn/issta2024",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository and includes a Docker container definition, which facilitates reproducibility.",
+    "The README provides detailed instructions on how to set up and run the experiments, indicating that the artifact is documented and exercisable.",
+    "The presence of a license suggests that the artifact is intended for use by others, though the lack of a dependency manifest, CI configuration, and test files slightly diminishes the confidence in its reusability.",
+    "The README references scripts (comparison.sh and replication.sh) that could not be found in the repository, which introduces some uncertainty about the completeness and consistency of the artifact.",
+    "The documentation appears to be sufficient for a reviewer to follow and exercise the artifact, though the missing scripts reduce confidence in its full functionality.",
+    "The artifact does not significantly exceed minimal functionality in its documentation and structure, which prevents it from reaching the Reusable tier."
+   ],
+   "verified": {
+    "artifact_id": "trustdnn/issta2024",
+    "claims_total": 11,
+    "claims_broken": 2,
+    "broken_paths": [
+     "comparison.sh",
+     "replication.sh"
+    ],
+    "broken_ratio": 0.182,
+    "has_dependency_manifest": false,
+    "has_container": true,
+    "has_ci": false,
+    "has_licence": true,
+    "has_tests": false,
+    "has_build_script": false,
+    "readme_bytes": 6147,
+    "n_files": 1548,
+    "claims": [
+     {
+      "path": "compare.sh",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "comparison.sh",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "effectiveness.csv",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "efficiency.csv",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "experiments/comparison/effectiveness.csv",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "experiments/comparison/efficiency.csv",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "experiments/replication/effectiveness.csv",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "replicate.sh",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "replication.sh",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "workdir/effectiveness.csv",
+      "exists": true,
+      "matched_as": "basename"
+     },
+     {
+      "path": "workdir/efficiency.csv",
+      "exists": true,
+      "matched_as": "basename"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "artifact_id": "zhangxiaosa/LPR",
+   "tier": "Available",
+   "confidence": 0.9,
+   "escalated": false,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "Many files and scripts referenced in the README do not exist in the repository.",
+    "There is no dependency manifest, container definition, CI configuration, build/install script, test files, or license present.",
+    "The lack of essential files and scripts makes it impossible to evaluate the functionality or reusability of the artifact.",
+    "The README provides detailed instructions, but the actual files and scripts are missing, making the artifact incomplete.",
+    "The absence of critical components prevents a higher tier assignment."
+   ],
+   "verified": {
+    "artifact_id": "zhangxiaosa/LPR",
+    "claims_total": 17,
+    "claims_broken": 15,
+    "broken_paths": [
+     "perses_deploy.jar",
+     "script/summarize_perses_or_vulcan.py",
+     "scripts/analyze_and_draw.sh",
+     "scripts/keep_running.sh",
+     "scripts/run_creduce.py",
+     "scripts/run_lpr.py",
+     "scripts/run_perses.py",
+     "scripts/run_vulcan.py",
+     "scripts/summarize_lpr.py",
+     "summarize_creduce.py",
+     "summarize_perses_or_vulcan.py",
+     "summarize_xxx.py",
+     "tmp/LPR/tools/token_counter_deploy.jar",
+     "token_counter_deploy.jar",
+     "vulcan_deploy.jar"
+    ],
+    "broken_ratio": 0.882,
+    "has_dependency_manifest": false,
+    "has_container": false,
+    "has_ci": false,
+    "has_licence": false,
+    "has_tests": false,
+    "has_build_script": false,
+    "readme_bytes": 12082,
+    "n_files": 31020,
+    "claims": [
+     {
+      "path": "README.md",
+      "exists": true,
+      "matched_as": "exact"
+     },
+     {
+      "path": "perses_deploy.jar",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "script/summarize_perses_or_vulcan.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "scripts/analyze_and_draw.sh",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "scripts/keep_running.sh",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "scripts/run_creduce.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "scripts/run_lpr.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "scripts/run_perses.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "scripts/run_vulcan.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "scripts/summarize_lpr.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "small.c",
+      "exists": true,
+      "matched_as": "suffix"
+     },
+     {
+      "path": "summarize_creduce.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "summarize_perses_or_vulcan.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "summarize_xxx.py",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "tmp/LPR/tools/token_counter_deploy.jar",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "token_counter_deploy.jar",
+      "exists": false,
+      "matched_as": null
+     },
+     {
+      "path": "vulcan_deploy.jar",
+      "exists": false,
+      "matched_as": null
+     }
+    ]
+   },
+   "error": null
+  }
+ ]
+}

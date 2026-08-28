@@ -5,6 +5,9 @@ help:
 setup:    ## Create venv and install pinned deps
 	uv sync
 
+preflight: ## Verify credentials and model access before spending tokens
+	.venv/bin/python scripts/preflight.py
+
 corpus:   ## Build the labeled artifact corpus (scrubbed) from cached fixtures
 	uv run python -m artifact_triage.corpus.build
 

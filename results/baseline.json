@@ -1,0 +1,365 @@
+{
+ "report": {
+  "system": "baseline",
+  "n": 15,
+  "n_scored": 15,
+  "n_escalated": 0,
+  "n_failed": 0,
+  "mae": 0.733,
+  "exact_accuracy": 0.333,
+  "adjacent_accuracy": 0.933,
+  "overclaim_rate": 0.267,
+  "escalation_rate": 0.0,
+  "human_minutes": 120.0,
+  "human_minutes_saved": 555.0,
+  "input_tokens": 33103,
+  "output_tokens": 2120,
+  "usd": 0.0333,
+  "per_item": [
+   {
+    "artifact_id": "DueForce/DueForce",
+    "truth": "Reusable",
+    "predicted": "Available",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -2,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "HexHive/FishFuzz",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "THU-WingTecher/DeepConstr",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "asub0/fonnx",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "dserfe/FlakyDoctor",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "emocat/VioHawk",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "jovyntls/inconsistencies-in-tex",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "logpai/loghub-2.0",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "lrtsuser/LRTS",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "nhuhuan/sba",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "trustdnn/issta2024",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "zhangxiaosa/LPR",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   }
+  ]
+ },
+ "raw": [
+  {
+   "artifact_id": "DueForce/DueForce",
+   "tier": "Available",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is placed in a public archival repository (Zenodo).",
+    "The README provides a link to the paper and a pre-compiled Docker image.",
+    "No detailed documentation or verification/validation evidence is provided in the README.",
+    "The artifact does not explicitly demonstrate functionality or reusability beyond basic availability.",
+    "The README is minimal and lacks comprehensive instructions or evidence of thorough testing.",
+    "No clear indication of how others can reuse or repurpose the artifact is provided."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "HexHive/FishFuzz",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is publicly available and well-documented.",
+    "It includes detailed instructions on how to build and run the tool.",
+    "The README provides examples for both automated and manual compilation.",
+    "It offers a dockerfile for building the tool, enhancing reproducibility.",
+    "The artifact includes raw data for reproducing the paper's results.",
+    "Some parts of the process are marked as work in progress, but the core functionality appears complete and exercisable."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is placed in a public GitHub repository, satisfying the 'Available' tier.",
+    "Comprehensive installation instructions are provided, including a Docker image for easy setup.",
+    "The README file includes clear steps for local setup and usage, indicating documentation is present.",
+    "A separate usage document (AE.md) is referenced, suggesting detailed guidance on how to use the tool.",
+    "A troubleshooting document is provided, which aids in resolving common issues.",
+    "The presence of a paper link suggests that the artifact is research-based and has been validated in a published study."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "The README provides detailed instructions on how to set up and run the experiments.",
+    "There is a demonstration provided that shows how to run a small-scale experiment.",
+    "The artifact includes documentation for each case study and use case.",
+    "The artifact is designed to be exercisable, with provided Docker images and virtual environments.",
+    "The README mentions the inclusion of step-by-step instructions and a demonstration, indicating efforts towards verification and validation."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "THU-WingTecher/DeepConstr",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is documented with a detailed README that explains the source code structure, setup instructions, and how to run the main scripts.",
+    "The artifact includes scripts for fuzzing, constraint extraction, and experiment reproduction, indicating it is exercisable.",
+    "There is evidence of verification and validation through the experiment reproduction section, which allows users to check the number of trained APIs and compare coverage.",
+    "The README provides command examples for various operations, suggesting the artifact is consistent and complete.",
+    "The documentation includes setup instructions and quick start guides, which help users follow the documentation and exercise the artifact."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "asub0/fonnx",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "reasons": [
+    "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
+    "The README provides clear instructions on how to access and use the different components of the artifact.",
+    "The artifact includes separate folders for different themes, each with its own README, indicating a structured approach.",
+    "The use of an external dataset (HFTorrent) suggests that the artifact is designed to be exercisable with real-world data.",
+    "The presence of an appendix in the paper that matches the ISSTA submission indicates efforts towards completeness and consistency.",
+    "However, there is no explicit mention of verification and validation processes, which slightly reduces confidence in the 'Functional' tier."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "dserfe/FlakyDoctor",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is documented with a detailed README that explains how to set up and run the tool.",
+    "The README provides clear instructions on how to reproduce sample results and the results from scratch.",
+    "The artifact includes datasets, patches, results, and source code, indicating completeness.",
+    "The setup and running instructions suggest the artifact is exercisable.",
+    "The presence of logs and summary CSV files indicates evidence of verification and validation.",
+    "The non-determinism of LLMs is acknowledged, which is a reasonable limitation given the technology used."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "emocat/VioHawk",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "reasons": [
+    "The artifact is placed in a public archival repository (Zenodo).",
+    "The README provides clear documentation on how to set up and use the tool.",
+    "The project structure is well-organized with distinct directories for different functionalities.",
+    "The README includes commands for running the main functionalities of the tool.",
+    "The artifact includes a Docker environment and datasets for evaluation, though it lacks GPU support for simulation-based testing.",
+    "Some parts of the setup require manual patching, which might complicate the process for some users."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "jovyntls/inconsistencies-in-tex",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is placed in a public repository, satisfying the 'Available' tier.",
+    "The README provides clear instructions on how to set up and run the scripts, indicating documentation.",
+    "The presence of a requirements.txt file and detailed steps to configure and run the pipeline suggest the artifact is exercisable.",
+    "The README describes various scripts and their functions, implying the artifact is complete for its intended purpose.",
+    "The artifact includes mechanisms for comparison and analysis, which can be seen as forms of verification and validation.",
+    "While the documentation is thorough, it does not explicitly exceed minimal functionality in a way that would strongly suggest the 'Reusable' tier without further evidence of quality and ease of adaptation for other purposes."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "logpai/loghub-2.0",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is placed in a public archival repository (Zenodo).",
+    "The README provides clear documentation on how to download and organize the datasets.",
+    "Scripts are provided for running and evaluating log parsers, indicating the artifact is exercisable.",
+    "The repository includes requirements and installation instructions, enhancing reproducibility.",
+    "Evidence of verification and validation is present through the provided evaluation scripts and results.",
+    "The documentation is comprehensive enough for a reviewer to follow and exercise the artifact."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "lrtsuser/LRTS",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is placed in a public archival repository.",
+    "The README provides detailed instructions for environment setup, data collection, and running the TCP techniques.",
+    "The artifact includes scripts and code implementations for various TCP techniques.",
+    "The documentation appears to be comprehensive and includes steps to reproduce the results from the paper.",
+    "The artifact requires some setup (e.g., GitHub API token) but provides clear instructions on how to obtain and use it."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "nhuhuan/sba",
+   "tier": "Functional",
+   "confidence": 0.7,
+   "reasons": [
+    "The artifact is placed in a public repository, satisfying the 'Available' tier.",
+    "The README provides clear documentation on how to install dependencies and build the artifact.",
+    "The README includes specific commands to run the jump table analysis application, indicating it is exercisable.",
+    "The framework is described as undergoing an overhaul, which may imply ongoing development and potential instability.",
+    "There is no explicit mention of verification and validation evidence in the README.",
+    "The documentation appears sufficient for a 'Functional' tier but may not exceed minimal functionality for 'Reusable'."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is placed in a public repository, satisfying the 'Available' tier.",
+    "The README provides detailed instructions on setting up the environment and reproducing the results, indicating documentation.",
+    "The presence of scripts like `run_cmnd.sh` suggests the artifact is exercisable.",
+    "Results are provided and can be overwritten by rerunning the experiments, showing evidence of verification.",
+    "The structure and documentation appear consistent and complete for reproducing the study results."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "trustdnn/issta2024",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is placed in a public archival repository (Docker Hub).",
+    "The README provides clear documentation on how to install and run the artifact.",
+    "The Docker image includes all necessary code, datasets, models, configurations, and scripts.",
+    "The README provides examples of how to run the experiments and obtain results.",
+    "The artifact includes evidence of verification and validation through the provided results and scripts.",
+    "The documentation is sufficient for a reviewer to follow and exercise the artifact."
+   ],
+   "error": null
+  },
+  {
+   "artifact_id": "zhangxiaosa/LPR",
+   "tier": "Functional",
+   "confidence": 0.8,
+   "reasons": [
+    "The artifact is documented with clear instructions on how to set up and run the experiments.",
+    "The artifact includes scripts and tools necessary to reproduce the results.",
+    "Precomputed results are provided to facilitate evaluation, acknowledging the time-consuming and LLM-dependent nature of the experiments.",
+    "The README provides detailed information on how to run different reducers and analyze the results.",
+    "The artifact includes benchmark suites and previous results to support the claims made in the paper.",
+    "The setup requires specific environment (Linux with Docker) and access to LLMs, which may limit reproducibility but is clearly documented."
+   ],
+   "error": null
+  }
+ ]
+}

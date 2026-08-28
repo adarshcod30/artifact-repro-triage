@@ -39,6 +39,12 @@ PROVIDERS = {
     # per-model in the Bedrock console - `list-foundation-models` shows the
     # catalogue, not what is enabled, so probe with a real Converse call.
     "bedrock": ("us.anthropic.claude-sonnet-4-5-20250929-v1:0", 3.00, 15.00),
+    # Cheap non-Claude options on the same Bedrock endpoint. Same Converse API,
+    # so switching is a model-id change only. (All Bedrock models share the
+    # account's billing state - these do not bypass a payment block.)
+    # Bedrock pricing is per-model; ARTIFACT_TRIAGE_MODEL overrides the default
+    # and PRICE_OVERRIDES supplies that model's rate for the cost metric.
+
     "anthropic": ("claude-opus-5", 5.00, 25.00),
     "gemini": ("gemini-2.5-flash", 0.30, 2.50),
     "grok": ("grok-4-fast-non-reasoning", 0.20, 0.50),
@@ -67,6 +73,19 @@ if PROVIDER not in PROVIDERS:
     raise SystemExit(f"ARTIFACT_TRIAGE_PROVIDER must be one of {list(PROVIDERS)}")
 _default_model, USD_IN, USD_OUT = PROVIDERS[PROVIDER]
 MODEL = os.environ.get("ARTIFACT_TRIAGE_MODEL", "").strip() or _default_model
+
+# USD per 1M tokens (input, output) for models we may select on Bedrock. Needed
+# so "cost per task" in the report reflects the model actually used.
+PRICE_OVERRIDES = {
+    "us.amazon.nova-2-lite-v1:0": (0.06, 0.24),
+    "us.amazon.nova-pro-v1:0": (0.80, 3.20),
+    "us.amazon.nova-premier-v1:0": (2.50, 12.50),
+    "us.meta.llama3-3-70b-instruct-v1:0": (0.72, 0.72),
+    "us.mistral.mistral-large-2402-v1:0": (4.00, 12.00),
+    "us.anthropic.claude-sonnet-4-5-20250929-v1:0": (3.00, 15.00),
+}
+if MODEL in PRICE_OVERRIDES:
+    USD_IN, USD_OUT = PRICE_OVERRIDES[MODEL]
 
 
 @dataclass
