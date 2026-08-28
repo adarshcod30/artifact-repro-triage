@@ -66,20 +66,56 @@ nothing, and every finding is citable by path. The model then reasons over
 Low-confidence answers are **escalated to a human reviewer** rather than recorded
 as guesses — the product working as intended, not a failure.
 
-### Measured: the negative control
+### Measured result
 
-Agreement with expert badges answers *"does it match the experts?"*. It does not
-isolate *why*. So each artifact also gets a falsified twin whose README references
-files that provably do not exist — ground truth is exact by construction.
+Agreement with expert badges turned out to be uninformative, and we can prove it
+rather than assert it — see *Honest negative result* below. The primary
+experiment instead uses ground truth we author ourselves: each artifact is paired
+with a **falsified twin** whose README references five files that provably do not
+exist.
 
-| | Result |
+Same model, same rubric, same input pair. Only the evidence differs.
+
+| Metric | Baseline | Solution |
+|---|---|---|
+| Noticed the falsified README | **0%** | **97%** |
+| Range over 3 trials | 0% – 0% | 90% – 100% |
+| Per-trial | `[0.0, 0.0, 0.0]` | `[1.0, 0.9, 1.0]` |
+| Deterministic verifier | — | **75/75 claims (100%), 0 false positives** |
+
+The baseline is *perfectly stable at zero*: across 45 opportunities it never once
+downgraded a repository whose documentation had been corrupted. That is not a
+tuning gap. It reads only prose, so it has no mechanism capable of detecting a
+fabricated path — the blindness is structural.
+
+Rates are floor-adjusted: an artifact already rated `Available` (the lowest tier)
+on clean input cannot be downgraded further, so it is outside the metric's reach.
+Both raw and adjusted figures are reported and the excluded artifacts are named
+in `results/falsified_run.json`.
+
+Model: `us.amazon.nova-pro-v1:0` on AWS Bedrock. Total cost of the reported
+experiment: **$0.42**.
+
+### Honest negative result
+
+The evaluation this project *started* with — predicting ACM badge tier — does not
+work, and the write-up keeps it visible rather than quietly dropping it.
+
+| System | MAE (badge tiers, lower better) |
 |---|---|
-| Injected false claims | **75** |
-| Detected by the verifier | **75 (100%)** |
-| False positives | **0** |
+| Constant predictor, always `"Functional"` | **0.667** |
+| Baseline | 0.733 |
+| Solution | 1.000 |
 
-The baseline reads only prose and has no mechanism capable of detecting a
-fabricated path. Its blindness here is structural, not incidental.
+**A zero-skill constant beats both systems.** The baseline only appeared better
+because it collapsed onto the middle class (14 of 15 predictions), which MAE
+rewards on a 3-class ordinal problem.
+
+The cause is a ground-truth mismatch: the committee badged the curated **Zenodo
+deposit**, while we analyse the living **GitHub mirror**, where README drift is
+normal. The verifier is behaving correctly and being penalised for it — `LPR`
+genuinely has 15 of 17 README paths missing, the solution correctly downgrades
+it, and its badge says `Reusable`.
 
 ## 4. Can another person reproduce the result?
 
@@ -156,8 +192,50 @@ and what was decided, including the experiments that were removed.
 
 ## Main failure mode
 
-*(Completed after the final evaluation run.)*
+**The verifier only checks claims that are shaped like file paths.**
+
+It answers one question extremely well — *does this named file exist?* — with
+100% detection and zero false positives. It cannot touch the claims that matter
+most: *"this reproduces Table 3"*, *"results match the paper within 2%"*,
+*"tested on Ubuntu 22.04"*. Those are semantic, and verifying them requires
+actually running the artifact.
+
+So a README could pass every check here and still be useless: every path resolves,
+every script exists, and the pipeline produces numbers unrelated to the paper.
+The system narrows a reviewer's search; it does not replace the reviewer. That is
+why low-confidence cases escalate to a human rather than resolving to a guess.
+
+Two narrower limits, both measured rather than assumed:
+
+- **We analyse the GitHub mirror, not the archived deposit that was evaluated.**
+  This is what invalidated the badge comparison, and it is stated in the results
+  rather than buried.
+- **n = 15.** ISSTA 2024 was the only venue found publishing machine-readable
+  badge outcomes; other conferences document the criteria but not the results.
 
 ## Hot take
 
-*(Completed after the final evaluation run.)*
+**Give an agent a control group before you give it a metric.**
+
+Every genuine defect in this project was found by a control, and every one of them
+was invisible to the headline number:
+
+- The **negative control** — injecting claims I knew to be false — found two real
+  bugs in my own verifier. Detection went 84% → 96% → 100% as each surfaced. The
+  badge comparison could never have found them: it has no notion of a *known*
+  wrong answer.
+- The **constant predictor** — a control so trivial it needs no model, no input,
+  and four lines of code — invalidated the entire primary metric by beating both
+  systems.
+- A **surprising measurement** turned out to be my own truncation bug. Four of
+  fifteen file trees were capped at 4,000 paths, manufacturing phantom broken
+  claims in exactly the artifacts driving the result.
+
+Without those controls this project would have shipped a confident, plausible,
+well-formatted number that meant nothing. Which is precisely the failure mode it
+was built to detect — *convincing rather than correct* — reproduced one level up,
+in the evaluation of the tool rather than in the tool itself.
+
+The practical rule: **an agent's evaluation deserves the same adversarial scrutiny
+as the agent.** If you cannot state what result would prove your metric worthless,
+you do not yet know what your metric measures.

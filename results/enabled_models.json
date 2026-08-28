@@ -1,0 +1,37 @@
+[
+ {
+  "model": "us.amazon.nova-2-lite-v1:0",
+  "in": 0.06,
+  "out": 0.24
+ },
+ {
+  "model": "us.amazon.nova-pro-v1:0",
+  "in": 0.8,
+  "out": 3.2
+ },
+ {
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "in": 0.72,
+  "out": 0.72
+ },
+ {
+  "model": "us.meta.llama4-maverick-17b-instruct-v1:0",
+  "in": 0.24,
+  "out": 0.97
+ },
+ {
+  "model": "us.meta.llama4-scout-17b-instruct-v1:0",
+  "in": 0.17,
+  "out": 0.66
+ },
+ {
+  "model": "mistral.mistral-large-2402-v1:0",
+  "in": 4.0,
+  "out": 12.0
+ },
+ {
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "in": 2.0,
+  "out": 6.0
+ }
+]

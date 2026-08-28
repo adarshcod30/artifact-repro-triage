@@ -64,9 +64,11 @@ def main() -> int:
     print(f"  OK   tier={answer.tier}  confidence={answer.confidence}  "
           f"tokens={answer.input_tokens}/{answer.output_tokens}")
 
-    # 15 artifacts x 2 systems, measured at roughly 6k in / 900 out per call.
-    est = (15 * 2 * (6000 * llm.USD_IN + 900 * llm.USD_OUT)) / 1e6
-    print(f"\nestimated cost, one full comparison (30 calls): ${est:.3f}")
+    # Measured from real runs: ~2300 input / ~145 output tokens per call.
+    per_call = (2300 * llm.USD_IN + 145 * llm.USD_OUT) / 1e6
+    print(f"\nmeasured cost per call            : ${per_call:.5f}")
+    print(f"baseline + solution (30 calls)    : ${per_call * 30:.3f}")
+    print(f"full cycle incl. 3 trials (210)   : ${per_call * 210:.3f}")
     print("READY - run `make repro`")
     return 0
 

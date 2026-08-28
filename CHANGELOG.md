@@ -63,6 +63,31 @@ baseline reads only prose and has no mechanism capable of detecting a fabricated
 near-blindness is structural, not incidental. This isolates the improvement independently
 of how well either system predicts an expert badge.
 
+## Evaluation - where the project changed shape
+
+| Stage | What I tried and why | Evidence | Decision / Learning |
+|---|---|---|---|
+| Iteration 21 | Ran baseline and solution over all 15 artifacts, scored against ACM badge tiers. | Baseline MAE **0.733**; solution MAE **1.000**. The advanced solution was *worse*. | Investigated rather than tuned. Tuning a system against a metric you have not validated is how you get a good number and a wrong conclusion. |
+| Iteration 22 | Added a zero-skill control: constant predictors that ignore all input. | `always "Functional"` scores MAE **0.667** - **better than both systems**. The baseline had predicted `Functional` for 14 of 15 artifacts. | **The badge comparison is uninformative.** The baseline only looked better because it mode-collapsed onto the middle class, which MAE rewards on a 3-class ordinal problem. Neither system has demonstrable skill at this task. |
+| Iteration 23 | Diagnosed *why* the label does not fit. | The committee badged the curated **Zenodo deposit**; we analyse the living **GitHub mirror**, where README drift is normal and expected. The verifier is correct and is being punished for it - `LPR` genuinely has 15 of 17 README paths missing, the solution correctly downgrades it, and the badge says `Reusable`. | The mechanism is right; the label measures something the evidence cannot see. This was flagged as a risk in Iteration 3 and is now measured rather than suspected. |
+| Iteration 24 | **Replaced the primary experiment** with one whose ground truth we author ourselves: falsified READMEs referencing provably absent files. | Removes the confound entirely - we know exactly which claims are false. Same model, same rubric, same input pair; only the evidence differs. | Kept as the primary result. Badge agreement is still reported, with the constant-predictor control beside it, so the negative finding stays visible instead of being quietly dropped. |
+| Iteration 25 | First falsified run reported solution 10/15, apparently missing 5. | Every "miss" was already rated `Available` on the clean input - the lowest tier, so it **cannot be downgraded further**. A floor effect, not a failure. | Report raw *and* floor-adjusted rates, with the excluded artifacts named in the output, so the exclusion is auditable rather than a convenient filter. |
+| Iteration 26 | Re-ran the identical experiment and got a different number (100% then 90%). | The model is not deterministic even at `temperature: 0`. | **A single run is not a reportable result.** Added repeat trials; the headline figure is a mean with its range. The deterministic components are byte-identical every run, and the contrast between the two is itself part of the finding. |
+
+## Final result
+
+Model `us.amazon.nova-pro-v1:0` (AWS Bedrock), 3 trials, $0.42 total.
+
+| Metric | Baseline | Solution |
+|---|---|---|
+| Detected falsified README (mean) | **0%** | **97%** |
+| Range across trials | 0% - 0% | 90% - 100% |
+| Deterministic verifier | - | 75/75 claims, 0 false positives |
+
+Reported alongside the negative finding it replaced: a constant predictor
+(`always "Functional"`, MAE 0.667) beats both the baseline (0.733) and the
+solution (1.000) on badge agreement. Both results are in the README.
+
 ## Experiments removed
 
 - **Shallow cloning** (Iteration 9). Filled the disk to 100% on a 15-artifact corpus. Taught me that repo *size at HEAD* and *clone size* differ by more than an order of magnitude, and that the fact I needed (path existence) never justified transferring bytes at all.
