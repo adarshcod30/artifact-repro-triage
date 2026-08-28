@@ -45,6 +45,24 @@ Schema follows the challenge brief.
 | Iteration 16 | Noticed `zhangxiaosa/LPR` reported 12 broken paths despite having 31,020 files. Checked whether the fact sheet was complete. | **4 of 15 fixtures had a truncated file tree** - I stored `paths[:4000]`, so any path beyond the 4000th was reported "not found". The four truncated artifacts were exactly the outliers driving the Iteration 14 result. | Removed the cap. `THU-WingTecher/DeepConstr` fell from 18 broken claims to 4. **My headline negative result had been contaminated by my own bug** - the lesson is that a surprising measurement should be debugged before it is believed. |
 | Iteration 17 | Re-measured separation on complete trees. | Available 0.093, Functional 0.081, Reusable 0.215 - still non-monotonic, but now driven by a single genuine outlier (LPR references 12 files that do not exist even against its full tree). | Reframed the verifier honestly: it is a **sparse, high-precision defect detector**, not a tier classifier. It fires rarely; when it fires the defect is real and citable by path. |
 
+## Negative control (isolating the mechanism)
+
+Scoring against ACM badges answers *"does the system agree with experts?"* It does not
+isolate *why*. The negative control does: each artifact gets a falsified twin whose
+README references files that provably do not exist. Ground truth is exact by
+construction, and the injections are seeded, so the control is reproducible.
+
+| Stage | What I tried and why | Evidence | Decision / Learning |
+|---|---|---|---|
+| Iteration 18 | Inject 5 known-false path claims per artifact (75 total) and measure detection. | **84% detected**, 0 false positives. Detection must be 100% - these paths provably do not exist - so the gap was a bug in my checker, not an opinion. | The control earned its keep immediately: it found a defect the badge comparison never could. |
+| Iteration 19 | Traced the misses. | Every one came from a fallback rule accepting `scripts/run_x.py` whenever the directory `scripts/` existed. | Narrowed it: a parent directory existing does not satisfy a *file* claim. Detection 84% -> **96%**. "The folder is there" is not "the file is there" - which is the entire point of claim verification. |
+| Iteration 20 | Traced the last 3 misses. | All three sat inside a ` ```bash ` block while the two in inline backticks were caught. My code-block regex paired fences positionally, so one unmatched or four-backtick fence upstream misaligned every delimiter after it. | Dropped block-pairing entirely and scanned the whole README - `_is_path` is already strict enough to make that safe. Detection **100% (75/75), 0 false positives**. |
+
+**Result.** The verifier detects 75/75 fabricated claims with zero false positives. The
+baseline reads only prose and has no mechanism capable of detecting a fabricated path -
+near-blindness is structural, not incidental. This isolates the improvement independently
+of how well either system predicts an expert badge.
+
 ## Experiments removed
 
 - **Shallow cloning** (Iteration 9). Filled the disk to 100% on a 15-artifact corpus. Taught me that repo *size at HEAD* and *clone size* differ by more than an order of magnitude, and that the fact I needed (path existence) never justified transferring bytes at all.

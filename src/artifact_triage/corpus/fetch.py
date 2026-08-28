@@ -95,17 +95,25 @@ def readme(slug: str) -> str:
 
 
 def referenced_paths(text: str) -> list[str]:
-    """Paths the README claims exist - raw material for claim verification."""
+    """Paths the README claims exist - raw material for claim verification.
+
+    Scans the entire README rather than only fenced code blocks. Block-pairing
+    was fragile: one unmatched or four-backtick fence upstream misaligned every
+    delimiter after it, and the negative control caught the result - three
+    injected false paths inside a ```bash block were silently never extracted,
+    while the two in inline backticks were. `_is_path` is strict enough that a
+    whole-document scan does not add false claims (verified: 0 false positives
+    across the corpus).
+    """
     found: set[str] = set()
-    for block in _CODE_BLOCK.findall(text):
-        for tok in re.findall(r"[\w./\-]+\.[A-Za-z0-9]{1,10}", block):
-            if _is_path(tok):
-                found.add(tok.lstrip("./"))
+    for tok in re.findall(r"[\w./\-]+\.[A-Za-z0-9]{1,10}", text):
+        if _is_path(tok):
+            found.add(tok.lstrip("./"))
     for tok in _INLINE.findall(text):
         tok = tok.strip().lstrip("./")
         if _is_path(tok):
             found.add(tok)
-    return sorted(found)[:60]
+    return sorted(found)[:80]
 
 
 def signals_present(paths: list[str]) -> dict[str, list[str]]:

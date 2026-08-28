@@ -1,0 +1,308 @@
+{
+ "injected": 75,
+ "detected": 75,
+ "detection_rate": 1.0,
+ "false_positives": 0,
+ "per_artifact": [
+  {
+   "artifact_id": "DueForce/DueForce",
+   "injected": [
+    "configs/default.yaml",
+    "experiments/rq2_analysis.py",
+    "data/prepare_dataset.py",
+    "src/baseline_runner.py",
+    "setup/install_deps.sh"
+   ],
+   "detected": [
+    "configs/default.yaml",
+    "experiments/rq2_analysis.py",
+    "data/prepare_dataset.py",
+    "src/baseline_runner.py",
+    "setup/install_deps.sh"
+   ],
+   "false_positives": [],
+   "broken_before": 0,
+   "broken_after": 5
+  },
+  {
+   "artifact_id": "HexHive/FishFuzz",
+   "injected": [
+    "configs/experiment_grid.json",
+    "tools/evaluate_all.py",
+    "bin/reproduce_table3.sh",
+    "docker/build_image.sh",
+    "configs/default.yaml"
+   ],
+   "detected": [
+    "configs/experiment_grid.json",
+    "tools/evaluate_all.py",
+    "bin/reproduce_table3.sh",
+    "docker/build_image.sh",
+    "configs/default.yaml"
+   ],
+   "false_positives": [],
+   "broken_before": 1,
+   "broken_after": 6
+  },
+  {
+   "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+   "injected": [
+    "setup/install_deps.sh",
+    "src/train_model.py",
+    "src/baseline_runner.py",
+    "notebooks/figure4.ipynb",
+    "data/prepare_dataset.py"
+   ],
+   "detected": [
+    "setup/install_deps.sh",
+    "src/train_model.py",
+    "src/baseline_runner.py",
+    "notebooks/figure4.ipynb",
+    "data/prepare_dataset.py"
+   ],
+   "false_positives": [],
+   "broken_before": 0,
+   "broken_after": 5
+  },
+  {
+   "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+   "injected": [
+    "bin/reproduce_table3.sh",
+    "scripts/run_experiments.sh",
+    "tools/evaluate_all.py",
+    "data/prepare_dataset.py",
+    "setup/install_deps.sh"
+   ],
+   "detected": [
+    "bin/reproduce_table3.sh",
+    "scripts/run_experiments.sh",
+    "tools/evaluate_all.py",
+    "data/prepare_dataset.py",
+    "setup/install_deps.sh"
+   ],
+   "false_positives": [],
+   "broken_before": 0,
+   "broken_after": 5
+  },
+  {
+   "artifact_id": "THU-WingTecher/DeepConstr",
+   "injected": [
+    "experiments/rq2_analysis.py",
+    "data/prepare_dataset.py",
+    "notebooks/figure4.ipynb",
+    "configs/experiment_grid.json",
+    "bin/reproduce_table3.sh"
+   ],
+   "detected": [
+    "experiments/rq2_analysis.py",
+    "data/prepare_dataset.py",
+    "notebooks/figure4.ipynb",
+    "configs/experiment_grid.json",
+    "bin/reproduce_table3.sh"
+   ],
+   "false_positives": [],
+   "broken_before": 5,
+   "broken_after": 10
+  },
+  {
+   "artifact_id": "asub0/fonnx",
+   "injected": [
+    "configs/default.yaml",
+    "notebooks/figure4.ipynb",
+    "src/baseline_runner.py",
+    "configs/experiment_grid.json",
+    "setup/install_deps.sh"
+   ],
+   "detected": [
+    "configs/default.yaml",
+    "notebooks/figure4.ipynb",
+    "src/baseline_runner.py",
+    "configs/experiment_grid.json",
+    "setup/install_deps.sh"
+   ],
+   "false_positives": [],
+   "broken_before": 0,
+   "broken_after": 5
+  },
+  {
+   "artifact_id": "dserfe/FlakyDoctor",
+   "injected": [
+    "configs/experiment_grid.json",
+    "notebooks/figure4.ipynb",
+    "experiments/rq2_analysis.py",
+    "docker/build_image.sh",
+    "src/train_model.py"
+   ],
+   "detected": [
+    "configs/experiment_grid.json",
+    "notebooks/figure4.ipynb",
+    "experiments/rq2_analysis.py",
+    "docker/build_image.sh",
+    "src/train_model.py"
+   ],
+   "false_positives": [],
+   "broken_before": 3,
+   "broken_after": 8
+  },
+  {
+   "artifact_id": "emocat/VioHawk",
+   "injected": [
+    "docker/build_image.sh",
+    "notebooks/figure4.ipynb",
+    "configs/experiment_grid.json",
+    "src/train_model.py",
+    "experiments/rq2_analysis.py"
+   ],
+   "detected": [
+    "docker/build_image.sh",
+    "notebooks/figure4.ipynb",
+    "configs/experiment_grid.json",
+    "src/train_model.py",
+    "experiments/rq2_analysis.py"
+   ],
+   "false_positives": [],
+   "broken_before": 1,
+   "broken_after": 6
+  },
+  {
+   "artifact_id": "jovyntls/inconsistencies-in-tex",
+   "injected": [
+    "configs/experiment_grid.json",
+    "notebooks/figure4.ipynb",
+    "docker/build_image.sh",
+    "experiments/rq2_analysis.py",
+    "src/train_model.py"
+   ],
+   "detected": [
+    "configs/experiment_grid.json",
+    "notebooks/figure4.ipynb",
+    "docker/build_image.sh",
+    "experiments/rq2_analysis.py",
+    "src/train_model.py"
+   ],
+   "false_positives": [],
+   "broken_before": 0,
+   "broken_after": 5
+  },
+  {
+   "artifact_id": "logpai/loghub-2.0",
+   "injected": [
+    "experiments/rq2_analysis.py",
+    "scripts/run_experiments.sh",
+    "configs/default.yaml",
+    "src/train_model.py",
+    "setup/install_deps.sh"
+   ],
+   "detected": [
+    "experiments/rq2_analysis.py",
+    "scripts/run_experiments.sh",
+    "configs/default.yaml",
+    "src/train_model.py",
+    "setup/install_deps.sh"
+   ],
+   "false_positives": [],
+   "broken_before": 1,
+   "broken_after": 6
+  },
+  {
+   "artifact_id": "lrtsuser/LRTS",
+   "injected": [
+    "bin/reproduce_table3.sh",
+    "setup/install_deps.sh",
+    "src/train_model.py",
+    "notebooks/figure4.ipynb",
+    "configs/experiment_grid.json"
+   ],
+   "detected": [
+    "bin/reproduce_table3.sh",
+    "setup/install_deps.sh",
+    "src/train_model.py",
+    "notebooks/figure4.ipynb",
+    "configs/experiment_grid.json"
+   ],
+   "false_positives": [],
+   "broken_before": 2,
+   "broken_after": 7
+  },
+  {
+   "artifact_id": "nhuhuan/sba",
+   "injected": [
+    "docker/build_image.sh",
+    "tools/evaluate_all.py",
+    "configs/default.yaml",
+    "src/baseline_runner.py",
+    "data/prepare_dataset.py"
+   ],
+   "detected": [
+    "docker/build_image.sh",
+    "tools/evaluate_all.py",
+    "configs/default.yaml",
+    "src/baseline_runner.py",
+    "data/prepare_dataset.py"
+   ],
+   "false_positives": [],
+   "broken_before": 0,
+   "broken_after": 5
+  },
+  {
+   "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+   "injected": [
+    "src/baseline_runner.py",
+    "scripts/run_experiments.sh",
+    "tools/evaluate_all.py",
+    "configs/default.yaml",
+    "src/train_model.py"
+   ],
+   "detected": [
+    "src/baseline_runner.py",
+    "scripts/run_experiments.sh",
+    "tools/evaluate_all.py",
+    "configs/default.yaml",
+    "src/train_model.py"
+   ],
+   "false_positives": [],
+   "broken_before": 5,
+   "broken_after": 10
+  },
+  {
+   "artifact_id": "trustdnn/issta2024",
+   "injected": [
+    "src/baseline_runner.py",
+    "data/prepare_dataset.py",
+    "tools/evaluate_all.py",
+    "bin/reproduce_table3.sh",
+    "docker/build_image.sh"
+   ],
+   "detected": [
+    "src/baseline_runner.py",
+    "data/prepare_dataset.py",
+    "tools/evaluate_all.py",
+    "bin/reproduce_table3.sh",
+    "docker/build_image.sh"
+   ],
+   "false_positives": [],
+   "broken_before": 2,
+   "broken_after": 7
+  },
+  {
+   "artifact_id": "zhangxiaosa/LPR",
+   "injected": [
+    "src/baseline_runner.py",
+    "setup/install_deps.sh",
+    "configs/default.yaml",
+    "data/prepare_dataset.py",
+    "scripts/run_experiments.sh"
+   ],
+   "detected": [
+    "src/baseline_runner.py",
+    "setup/install_deps.sh",
+    "configs/default.yaml",
+    "data/prepare_dataset.py",
+    "scripts/run_experiments.sh"
+   ],
+   "false_positives": [],
+   "broken_before": 15,
+   "broken_after": 20
+  }
+ ]
+}

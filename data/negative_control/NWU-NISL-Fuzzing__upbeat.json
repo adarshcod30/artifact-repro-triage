@@ -1,5 +1,5 @@
 {
- "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+ "artifact_id": "NWU-NISL-Fuzzing/upbeat#falsified",
  "venue": "issta-2024",
  "paper_title": "Upbeat: Test Input Checks of Q# Quantum Libraries",
  "commit": "391f731c4304",
@@ -223,7 +223,7 @@
    "size": 1967104
   }
  ],
- "readme": "# Upbeat\n\nUpbeat is a fuzzing tool to generate random test cases for bugs related to input checking in Q# libraries. It leverages open-source Q# code samples to synthesize test programs. It frames the test case generation as a constraint satisfaction problem for classical computing and a quantum state model for quantum computing to produce carefully generated subroutine inputs to test if the input-checking mechanism is appropriately implemented.\nOur paper can be accessed [here](docs/issta24main-p424-p-45a796a548-80293-final.pdf).\n\n## Install\n\n### Use Docker\n\nWe offer a [Docker image](https://hub.docker.com/repository/docker/weucodee/upbeat/general) that runs \"out of the box\".  Alternatively, users can also build and run their own image using the provided [Dockerfile](Dockerfile). \n\n### Setup Locally\n\n1. Ensure you have downloaded the following pip tools.\n```\npip install gdown numpy z3-solver jupyter matplotlib scipy tabulate\n```\n2. Follow the installation instructions in [INSTALL.md](docs/INSTALL.md).\n3. Clone the repository.\n```\ngit clone https://github.com/NWU-NISL-Fuzzing/upbeat.git\n```\n\n## Usage\n\nSee [this document](AE.md).\n\n## Troubleshooting\n\nHere are some issues we've encountered when installing and running Upbeat on different devices. We hope [this page](docs/CommonIssues.md) can help you resolve them.\n",
+ "readme": "# Upbeat\n\nUpbeat is a fuzzing tool to generate random test cases for bugs related to input checking in Q# libraries. It leverages open-source Q# code samples to synthesize test programs. It frames the test case generation as a constraint satisfaction problem for classical computing and a quantum state model for quantum computing to produce carefully generated subroutine inputs to test if the input-checking mechanism is appropriately implemented.\nOur paper can be accessed [here](docs/issta24main-p424-p-45a796a548-80293-final.pdf).\n\n## Install\n\n### Use Docker\n\nWe offer a [Docker image](https://hub.docker.com/repository/docker/weucodee/upbeat/general) that runs \"out of the box\".  Alternatively, users can also build and run their own image using the provided [Dockerfile](Dockerfile). \n\n### Setup Locally\n\n1. Ensure you have downloaded the following pip tools.\n```\npip install gdown numpy z3-solver jupyter matplotlib scipy tabulate\n```\n2. Follow the installation instructions in [INSTALL.md](docs/INSTALL.md).\n3. Clone the repository.\n```\ngit clone https://github.com/NWU-NISL-Fuzzing/upbeat.git\n```\n\n## Usage\n\nSee [this document](AE.md).\n\n## Troubleshooting\n\nHere are some issues we've encountered when installing and running Upbeat on different devices. We hope [this page](docs/CommonIssues.md) can help you resolve them.\n\n\n## Reproducing the results\n\nInstall the environment and run the full pipeline:\n\n```bash\nbash setup/install_deps.sh\npython src/train_model.py --config src/baseline_runner.py\n```\n\nIndividual stages can be run separately. See `notebooks/figure4.ipynb` for the analysis step\nand `data/prepare_dataset.py` for the figure generation.\n",
  "readme_present": true,
  "readme_scrub": {
   "leaked": false,
@@ -244,8 +244,13 @@
  "readme_referenced_paths": [
   "AE.md",
   "INSTALL.md",
+  "data/prepare_dataset.py",
   "docs/CommonIssues.md",
-  "docs/INSTALL.md"
+  "docs/INSTALL.md",
+  "notebooks/figure4.ipynb",
+  "setup/install_deps.sh",
+  "src/baseline_runner.py",
+  "src/train_model.py"
  ],
  "_label": {
   "badge": "Functional",

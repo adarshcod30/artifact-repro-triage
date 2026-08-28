@@ -119,7 +119,14 @@
  },
  "readme_referenced_paths": [
   "config.py",
-  "main.py"
+  "count_latexmk_runs.py",
+  "main.py",
+  "requirements.txt",
+  "run_analysis.py",
+  "run_compile_only.py",
+  "run_diff_highlight.py",
+  "run_img_comparison.py",
+  "run_text_based_comparison.py"
  ],
  "_label": {
   "badge": "Available",

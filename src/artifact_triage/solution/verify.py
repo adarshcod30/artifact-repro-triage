@@ -101,8 +101,14 @@ def check_claim(path: str, exact: set[str], basenames: set[str],
         return Claim(path, True, "suffix")
     if base in basenames:
         return Claim(path, True, "basename")
-    if p in dirs or posixpath.dirname(p) in dirs:
+    # A claimed *directory* is satisfied by that directory existing.
+    if "." not in p.rsplit("/", 1)[-1] and p in dirs:
         return Claim(path, True, "directory")
+    # NOTE: the parent directory existing does NOT satisfy a file claim.
+    # An earlier version accepted `scripts/run_x.py` whenever `scripts/`
+    # existed; the negative control caught it - detection was 84%, not 100%,
+    # and every miss was this rule. "The folder is there" is not "the file is
+    # there", and that distinction is the entire point of claim verification.
     return Claim(path, False, None)
 
 
