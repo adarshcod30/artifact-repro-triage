@@ -1,0 +1,17 @@
+[project]
+name = "artifact-repro-triage"
+version = "0.1.0"
+description = "Agentic triage of research-artifact reproducibility, scored against expert ACM artifact-evaluation badges"
+requires-python = ">=3.11"
+dependencies = [
+    "certifi>=2024.2.2",   # python.org macOS builds ship no CA bundle
+    "boto3>=1.34.0",       # Bedrock Converse API
+    "botocore[crt]>=1.34.0",  # required by the aws-login credential provider
+]
+
+[project.optional-dependencies]
+# Only needed if running against these providers instead of Bedrock.
+direct = ["anthropic>=0.40.0", "google-genai>=1.0.0", "openai>=1.40.0"]
+
+[tool.uv]
+package = false

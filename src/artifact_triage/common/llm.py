@@ -34,6 +34,11 @@ SCHEMA = {
 
 # provider -> (default model, USD per 1M input, USD per 1M output)
 PROVIDERS = {
+    # Bedrock is the primary path: one account, one model, start to finish, so
+    # dev runs and reported runs are the same runs. Model access is granted
+    # per-model in the Bedrock console - `list-foundation-models` shows the
+    # catalogue, not what is enabled, so probe with a real Converse call.
+    "bedrock": ("us.anthropic.claude-sonnet-4-5-20250929-v1:0", 3.00, 15.00),
     "anthropic": ("claude-opus-5", 5.00, 25.00),
     "gemini": ("gemini-2.5-flash", 0.30, 2.50),
     "grok": ("grok-4-fast-non-reasoning", 0.20, 0.50),
@@ -102,6 +107,34 @@ def _parse(text: str, tin: int, tout: int) -> Answer:
                   [str(r) for r in (data.get("reasons") or [])][:6], tin, tout)
 
 
+class _Bedrock:
+    def __init__(self) -> None:
+        import boto3
+        from botocore.config import Config
+        region = os.environ.get("AWS_REGION") or os.environ.get(
+            "AWS_DEFAULT_REGION") or "us-east-1"
+        self.cl = boto3.client(
+            "bedrock-runtime", region_name=region,
+            # Adaptive retry is the documented remedy for Bedrock throttling.
+            config=Config(retries={"max_attempts": 6, "mode": "adaptive"},
+                          read_timeout=120))
+
+    def ask(self, system: str, user: str) -> Answer:
+        r = self.cl.converse(
+            modelId=MODEL,
+            system=[{"text": system + "\n\nRespond with a single JSON object "
+                                      "and no other text, matching: "
+                     + json.dumps(SCHEMA)}],
+            messages=[{"role": "user", "content": [{"text": user}]}],
+            # maxTokens is ALWAYS explicit: leaving it unset reserves the model
+            # maximum against the account quota and causes spurious throttling.
+            inferenceConfig={"maxTokens": MAX_TOKENS, "temperature": 0},
+        )
+        text = "".join(b.get("text", "") for b in r["output"]["message"]["content"])
+        u = r.get("usage", {})
+        return _parse(text, u.get("inputTokens", 0), u.get("outputTokens", 0))
+
+
 class _Anthropic:
     def __init__(self) -> None:
         import anthropic
@@ -166,7 +199,8 @@ class _Grok:
                       getattr(u, "completion_tokens", 0) or 0)
 
 
-_BACKENDS = {"anthropic": _Anthropic, "gemini": _Gemini, "grok": _Grok}
+_BACKENDS = {"bedrock": _Bedrock, "anthropic": _Anthropic,
+             "gemini": _Gemini, "grok": _Grok}
 
 
 def client():
