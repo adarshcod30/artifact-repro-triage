@@ -143,7 +143,11 @@ def build(record: dict) -> dict | None:
         "default_branch": branch,
         "n_files": len(paths),
         "repo_bytes": total_bytes,
-        "file_tree": paths[:4000],
+        # NOT truncated: path-existence checks are only sound over the complete
+        # tree. Capping at 4000 silently turned 4 of 15 artifacts' real paths
+        # into false "broken claims" - and those artifacts were exactly the
+        # outliers driving the headline result.
+        "file_tree": paths,
         "largest_files": sorted(entries, key=lambda e: -e["size"])[:10],
         "readme": rep.text[:20000],
         "readme_present": bool(raw),
