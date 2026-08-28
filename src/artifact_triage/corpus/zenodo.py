@@ -43,7 +43,9 @@ def github_repos(record: dict) -> list[str]:
     blob = json.dumps(record.get("metadata", {}))
     seen, out = set(), []
     for owner, repo in _GH.findall(blob):
-        repo = repo.rstrip(".git")
+        # rstrip() strips CHARACTERS, not a suffix: "upbeat".rstrip(".git")
+        # returns "upbea". removesuffix is the correct operation.
+        repo = repo.removesuffix(".git")
         slug = f"{owner}/{repo}"
         if slug.lower() not in seen:
             seen.add(slug.lower())
