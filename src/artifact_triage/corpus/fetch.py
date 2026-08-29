@@ -50,6 +50,9 @@ CODE_EXT = {
     "json", "yaml", "yml", "toml", "ini", "cfg", "conf", "properties", "env",
     "txt", "md", "rst", "csv", "tsv", "sql", "xml", "html", "css",
     "ipynb", "lock", "mk", "cmake", "gradle", "dockerfile", "tf", "proto",
+    # Build-system extensions. `Makefile.am` was missed until a regression test
+    # caught it - autotools artifacts would have had their build files skipped.
+    "am", "ac", "in", "m4", "nix", "bzl", "bazel", "cabal", "sbt",
 }
 _PATHLIKE = re.compile(r"^[\w./\-]+\.([A-Za-z0-9]{1,10})$")
 

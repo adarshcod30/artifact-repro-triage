@@ -5,6 +5,9 @@ help:
 setup:    ## Create venv and install pinned deps
 	uv sync
 
+test:      ## Regression tests pinning every bug the changelog claims to have fixed
+	.venv/bin/python tests/test_regressions.py
+
 preflight: ## Verify credentials and model access before spending tokens
 	.venv/bin/python scripts/preflight.py
 

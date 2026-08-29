@@ -1,0 +1,209 @@
+"""Regression tests pinning every bug the changelog claims to have fixed.
+
+A changelog entry is a claim. These tests make each one enforceable: if a fix is
+ever undone, a test fails and names the original defect. Every test below
+corresponds to a real bug found during development, not a hypothetical.
+
+Run with:  make test
+"""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from artifact_triage.corpus.fetch import _is_path, referenced_paths  # noqa: E402
+from artifact_triage.corpus.scrub import scrub  # noqa: E402
+from artifact_triage.corpus.zenodo import github_repos, normalise  # noqa: E402
+from artifact_triage.eval.metrics import Prediction, score  # noqa: E402
+from artifact_triage.solution.verify import _index, check_claim, verify  # noqa: E402
+
+
+# --------------------------------------------------------------------------
+# Iteration 13 - "a dot does not make a path"
+# The extractor matched any token containing a dot, sweeping up version
+# numbers, Java class names, module paths and bare domains. 55 of 58 "broken
+# claims" on one artifact were extraction noise.
+# --------------------------------------------------------------------------
+def test_version_numbers_are_not_paths():
+    for tok in ("3.10.12", "0.01", "7.612486", "1.0.0", "gpt-3.5"):
+        assert not _is_path(tok), f"{tok!r} must not be treated as a file path"
+
+
+def test_dotted_identifiers_are_not_paths():
+    for tok in ("com.baidu.jprotobuf.EchoServiceTest.testDy",
+                "vllm.entrypoints.openai.api",
+                "backend.type"):
+        assert not _is_path(tok), f"{tok!r} is an identifier, not a path"
+
+
+def test_bare_domains_are_not_paths():
+    assert not _is_path("github.com")
+    assert not _is_path("example.org")
+
+
+def test_real_paths_are_still_recognised():
+    for tok in ("scripts/run.py", "requirements.txt", "src/main.c",
+                "configs/base.yaml", "Makefile.am"):
+        assert _is_path(tok), f"{tok!r} should be recognised as a path"
+
+
+# --------------------------------------------------------------------------
+# Iteration 20 - fenced-code-block pairing
+# Claims inside a ```bash block were silently dropped when an upstream fence
+# was mismatched, because the regex paired delimiters positionally.
+# --------------------------------------------------------------------------
+def test_claims_inside_code_fences_are_extracted():
+    readme = (
+        "# Project\n\n```\nunclosed fence above\n\n"
+        "## Run\n\n```bash\nbash scripts/run_experiments.sh\n"
+        "python src/train_model.py\n```\n"
+    )
+    found = referenced_paths(readme)
+    assert "scripts/run_experiments.sh" in found
+    assert "src/train_model.py" in found
+
+
+# --------------------------------------------------------------------------
+# Iteration 19 - a parent directory existing does not satisfy a FILE claim.
+# This rule alone accounted for every miss at 84% detection.
+# --------------------------------------------------------------------------
+def test_existing_directory_does_not_satisfy_a_file_claim():
+    tree = ["scripts/other.py", "scripts/helper.py"]
+    exact, base, dirs = _index(tree)
+    c = check_claim("scripts/run_experiments.sh", exact, base, dirs)
+    assert not c.exists, "a missing file must not pass because its folder exists"
+
+
+def test_directory_claim_is_satisfied_by_the_directory():
+    tree = ["configs/a.yaml"]
+    exact, base, dirs = _index(tree)
+    assert check_claim("configs", exact, base, dirs).exists
+
+
+def test_exact_and_basename_matches_still_work():
+    tree = ["src/train.py", "requirements.txt"]
+    exact, base, dirs = _index(tree)
+    assert check_claim("requirements.txt", exact, base, dirs).exists
+    assert check_claim("train.py", exact, base, dirs).exists  # basename match
+
+
+# --------------------------------------------------------------------------
+# Iterations 7-8 - the scrubber must not be able to redact itself, and no
+# tier word may survive. The first version produced [REDACTED:[REDACTED:BADGE]]
+# and left `.../badge/artifact-reusable-green` fully readable.
+# --------------------------------------------------------------------------
+def test_no_tier_word_survives_scrubbing():
+    samples = [
+        "This artifact received the **Artifacts Evaluated - Reusable** badge.",
+        "![ACM Badge](https://img.shields.io/badge/artifact-reusable-green)",
+        "Our results were reproduced by the Artifact Evaluation Committee.",
+        "The artifact is Reusable and well documented.",
+        "[![badge](https://img.shields.io/badge/ACM-Functional-blue)](https://acm.org)",
+    ]
+    for text in samples:
+        out = scrub(text).text
+        low = out.lower()
+        assert "reusable" not in low and "functional" not in low, \
+            f"tier word survived scrubbing: {out!r}"
+
+
+def test_redaction_is_not_itself_redactable():
+    once = scrub("Artifacts Evaluated - Reusable badge").text
+    twice = scrub(once).text
+    assert once == twice, "scrubbing must be idempotent, not self-matching"
+
+
+def test_ordinary_readme_text_is_untouched():
+    text = "Run `python main.py --seed 0` to reproduce Table 2."
+    assert scrub(text).text == text
+
+
+# --------------------------------------------------------------------------
+# Bugfix - rstrip(".git") strips CHARACTERS, not a suffix, so "upbeat"
+# became "upbea". It broke 2 of 15 repository slugs.
+# --------------------------------------------------------------------------
+def test_git_suffix_stripping_does_not_eat_real_characters():
+    record = {"metadata": {"x": "https://github.com/NWU-NISL-Fuzzing/upbeat"}}
+    assert github_repos(record) == ["NWU-NISL-Fuzzing/upbeat"]
+
+
+def test_git_suffix_is_actually_removed():
+    record = {"metadata": {"x": "https://github.com/owner/name.git"}}
+    assert github_repos(record) == ["owner/name"]
+
+
+def test_zenodo_title_normalisation_strips_decoration():
+    a = normalise('Artifact of [ISSTA\'24] "A Large-Scale Evaluation"')
+    b = normalise("A Large-Scale Evaluation")
+    assert b in a
+
+
+# --------------------------------------------------------------------------
+# Iteration 16 - file trees must not be truncated, or real paths are reported
+# as broken. 4 of 15 fixtures were affected and they were exactly the outliers.
+# --------------------------------------------------------------------------
+def test_fixtures_have_complete_file_trees():
+    import json
+    fixtures = list(Path("data/fixtures").glob("*.json"))
+    assert fixtures, "no fixtures found - run make corpus"
+    for p in fixtures:
+        fx = json.loads(p.read_text())
+        assert len(fx["file_tree"]) == fx["n_files"], (
+            f"{fx['artifact_id']}: file_tree truncated "
+            f"({len(fx['file_tree'])} of {fx['n_files']}) - path checks would "
+            f"report false broken claims")
+
+
+# --------------------------------------------------------------------------
+# Iteration 25 - the floor effect. An artifact already at the lowest tier
+# cannot be downgraded, so it must not be counted as a detection failure.
+# --------------------------------------------------------------------------
+def test_scorer_separates_escalation_from_failure():
+    labels = {"a": "Reusable", "b": "Available"}
+    preds = [Prediction("a", None, 0.2, escalated=True),
+             Prediction("b", "Available", 0.9)]
+    r = score("s", preds, labels, 1.0, 1.0)
+    assert r.n_escalated == 1
+    assert r.n_failed == 0, "an escalation is a human handoff, not a failure"
+    assert r.n_scored == 1
+
+
+def test_overclaim_is_tracked_separately_from_mae():
+    labels = {"a": "Available", "b": "Reusable"}
+    # One overclaim (Available -> Reusable) and one underclaim, equal |error|.
+    preds = [Prediction("a", "Reusable", 0.9), Prediction("b", "Available", 0.9)]
+    r = score("s", preds, labels, 1.0, 1.0)
+    assert r.mae == 2.0
+    assert r.overclaim_rate == 0.5, "the unsafe direction must be visible"
+
+
+# --------------------------------------------------------------------------
+# End-to-end: the verifier is deterministic. Same input, same output, always.
+# --------------------------------------------------------------------------
+def test_verifier_is_deterministic():
+    import json
+    p = sorted(Path("data/fixtures").glob("*.json"))
+    if not p:
+        return
+    fx = json.loads(p[0].read_text())
+    a, b = verify(fx), verify(fx)
+    assert a.to_dict() == b.to_dict()
+
+
+if __name__ == "__main__":
+    import traceback
+    fns = [(k, v) for k, v in sorted(globals().items())
+           if k.startswith("test_") and callable(v)]
+    failed = 0
+    for name, fn in fns:
+        try:
+            fn()
+            print(f"  PASS  {name}")
+        except Exception:
+            failed += 1
+            print(f"  FAIL  {name}")
+            traceback.print_exc(limit=2)
+    print(f"\n{len(fns) - failed}/{len(fns)} passed")
+    raise SystemExit(1 if failed else 0)
