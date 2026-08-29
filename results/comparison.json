@@ -5,8 +5,8 @@
   "n_scored": 15,
   "n_escalated": 0,
   "n_failed": 0,
-  "mae": 0.8,
-  "exact_accuracy": 0.267,
+  "mae": 0.733,
+  "exact_accuracy": 0.333,
   "adjacent_accuracy": 0.933,
   "overclaim_rate": 0.267,
   "escalation_rate": 0.0,
@@ -38,7 +38,7 @@
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
     "truth": "Functional",
     "predicted": "Functional",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": 0,
     "outcome": "correct"
@@ -64,11 +64,11 @@
    {
     "artifact_id": "asub0/fonnx",
     "truth": "Functional",
-    "predicted": "Available",
-    "confidence": 0.8,
+    "predicted": "Functional",
+    "confidence": 0.7,
     "escalated": false,
-    "rank_error": -1,
-    "outcome": "underclaim"
+    "rank_error": 0,
+    "outcome": "correct"
    },
    {
     "artifact_id": "dserfe/FlakyDoctor",
@@ -159,10 +159,10 @@
   "n_scored": 10,
   "n_escalated": 5,
   "n_failed": 0,
-  "mae": 0.7,
-  "exact_accuracy": 0.3,
+  "mae": 0.8,
+  "exact_accuracy": 0.2,
   "adjacent_accuracy": 1.0,
-  "overclaim_rate": 0.3,
+  "overclaim_rate": 0.4,
   "escalation_rate": 0.333,
   "human_minutes": 305.0,
   "human_minutes_saved": 370.0,
@@ -174,7 +174,7 @@
     "artifact_id": "DueForce/DueForce",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -182,7 +182,7 @@
     "artifact_id": "HexHive/FishFuzz",
     "truth": "Available",
     "predicted": "Functional",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": 1,
     "outcome": "overclaim"
@@ -191,7 +191,7 @@
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
     "truth": "Functional",
     "predicted": "Available",
-    "confidence": 0.8,
+    "confidence": 0.9,
     "escalated": false,
     "rank_error": -1,
     "outcome": "underclaim"
@@ -208,17 +208,17 @@
    {
     "artifact_id": "THU-WingTecher/DeepConstr",
     "truth": "Available",
-    "predicted": "Available",
+    "predicted": "Functional",
     "confidence": 0.7,
     "escalated": false,
-    "rank_error": 0,
-    "outcome": "correct"
+    "rank_error": 1,
+    "outcome": "overclaim"
    },
    {
     "artifact_id": "asub0/fonnx",
     "truth": "Functional",
     "predicted": "Available",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -226,7 +226,7 @@
     "artifact_id": "dserfe/FlakyDoctor",
     "truth": "Functional",
     "predicted": "Available",
-    "confidence": 0.85,
+    "confidence": 0.8,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -296,13 +296,13 @@
     "artifact_id": "zhangxiaosa/LPR",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.8,
+    "confidence": 0.85,
     "escalated": true,
     "outcome": "escalated"
    }
   ]
  },
- "runs_recorded": 2,
+ "runs_recorded": 3,
  "baseline_mae_range": [
   0.733,
   0.8

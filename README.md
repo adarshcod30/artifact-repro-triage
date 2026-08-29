@@ -25,7 +25,7 @@ verified on a machine that is not mine.
 |---|---|
 | **Detecting a falsified README** | baseline **0%** → solution **100%** (3 trials, no variance) |
 | **Causally isolated** | placebo evidence collapses solution detection to **0%** |
-| **Floor-free metric** | baseline cites the fabrication **0/60**; solution **59/60** |
+| **Floor-free metric** | baseline cites the fabrication **1/60**; solution **58/60** |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
 | **Prevalence in the wild** | **56.3%** of 742 research artifacts carry a broken README claim |
 | | **1,264 of 6,840** documented file references (18.5%) resolve to nothing |
@@ -293,12 +293,16 @@ experiment: **$0.42**.
 > slightly. That is exactly when re-running stops being optional. It came out
 > higher each time. It did not have to.
 >
-> The floor-free metric moved the other way in the same run, 60/60 → **59/60**,
-> which is the honest shape of a non-deterministic model: not everything
-> improves at once.
+> The floor-free metric moved the other way, 60/60 → **58/60**, and the
+> baseline stopped being a clean zero: **1 of 60** baseline responses did
+> mention the fabricated path. That single hit matters more than the two the
+> solution lost. It means the correct claim is *"the baseline almost never
+> notices"*, not *"the baseline never notices"* — an absolute statement that
+> three runs happened to support and a fourth did not. Non-determinism does not
+> only move numbers; it can turn a categorical claim into a statistical one.
 >
 > A number that survives only because nobody re-ran it is not a result.
-> Cumulative project spend: **$4.43** of $5.
+> Cumulative project spend: **$4.92** of $5.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -403,8 +407,8 @@ work, and the write-up keeps it visible rather than quietly dropping it.
 | System | MAE (badge tiers, lower better) | Deterministic? |
 |---|---|---|
 | Constant predictor, always `"Functional"` | **0.667** | yes — no model, no input |
-| Baseline | 0.800 | no |
-| Solution | 0.700 | no |
+| Baseline | 0.733 | no |
+| Solution | 0.800 | no |
 
 **A zero-skill constant beats both systems.** It wins by collapsing onto the
 middle class, which MAE rewards on a 3-class ordinal problem — and the baseline
