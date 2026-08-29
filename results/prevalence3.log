@@ -40,3 +40,52 @@ discovered artifacts: 769
     ! johnmyleswhite/BanditsBook.: HTTPError
   [560/769] profiled 531
     ! rutgers-apl/cgo23-: HTTPError
+    ! feTruth/FeatureEnvyTruth: HTTPError
+  [600/769] profiled 569
+  [620/769] profiled 589
+  [640/769] profiled 609
+  [660/769] profiled 629
+  [680/769] profiled 649
+    ! unknown123489/Scale-MIA.: HTTPError
+  [700/769] profiled 668
+    ! maojcn/project_duckies: HTTPError
+  [720/769] profiled 686
+    ! DescartesResearch/fs-for-renewable-energy-prediction: HTTPError
+  [740/769] profiled 705
+    ! tommymcm/memoir-ade-cgo26-artifact: HTTPError
+    ! Lochindaal/KANT-ReplicationPackage: HTTPError
+  [760/769] profiled 723
+
+====================================================================
+PREVALENCE OF BROKEN README CLAIMS IN RESEARCH ARTIFACTS
+====================================================================
+  artifacts profiled                 : 732
+  with checkable path claims         : 629
+  WITH >=1 BROKEN CLAIM              : 401 (63.8%)
+  total claims checked               : 6687
+  total broken                       : 1459 (21.8%)
+  median broken-claim ratio          : 0.143
+
+  Infrastructure present:
+    dependency manifest       409/732  (56%)
+    container definition      209/732  (29%)
+    CI configuration          258/732  (35%)
+    tests                     208/732  (28%)
+    licence                   618/732  (84%)
+
+  READMEs disclosing an ACM tier      : 36/732 (5%)
+  (any badge-like text redacted      : 354/732 - mostly ordinary CI/coverage badges, not tier disclosure)
+
+  DECAY HYPOTHESIS (do older artifacts have more broken claims?)
+    age bucket            n   median   broken ratio  % with a break
+    under 3 months      328       2d          0.256            66%
+    3-12 months          84     199d          0.232            61%
+    1-2 years            44     624d          0.310            68%
+    over 2 years        173    1423d          0.251            59%
+    -> broken-claim ratio is FLAT with age (delta -0.005 across buckets)
+       NO age effect. The defect is present from
+       publication rather than acquired over time - so it
+       is not explained by dependency drift, and a reviewer
+       could have caught it on day one.
+====================================================================
+-> results/prevalence.json

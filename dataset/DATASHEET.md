@@ -2,7 +2,7 @@
 
 ## What this is
 
-Per-artifact measurements for 376 public research-software repositories: how many
+Per-artifact measurements for 732 public research-software repositories: how many
 file paths each README references, how many of those resolve against the
 repository's actual file tree, and what reproducibility infrastructure is present.
 
@@ -12,7 +12,7 @@ Produced by [artifact-repro-triage](https://github.com/adarshcod30/artifact-repr
 
 1. Harvested software deposits from the public Zenodo API using venue names and
    the phrases "replication package" / "reproduction package" / "artifact
-   evaluation". 398 distinct GitHub repositories were found; 376 profiled
+   evaluation". 398 distinct GitHub repositories were found; 732 profiled
    successfully.
 2. For each, the complete recursive file tree and the README were read through
    the GitHub API, pinned to an explicit commit. **No repository was cloned and
@@ -41,7 +41,7 @@ byte-identical output.
 
 - **Sampling is not random.** Zenodo's search is keyword-based and its default
   sort favours recent deposits. The corpus skews heavily toward artifacts pushed
-  within the last three months (317 of 376). Do not treat it as
+  within the last three months (355 of 732). Do not treat it as
   representative of all research software.
 - **Only GitHub-mirrored artifacts appear.** Deposits without a GitHub link are
   absent, and those may differ systematically.
