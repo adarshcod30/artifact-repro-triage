@@ -33,7 +33,7 @@ an artifact badged **Reusable**.
 
 ---
 
-## 0:35 – 1:10 — The baseline
+## 0:40 – 1:10 — The baseline
 
 > "The baseline is what a reviewer does today: one prompt, the README, the ACM
 > rubric, asked for a tier.
@@ -92,8 +92,8 @@ through Steps 0 → 4.
 
 ```
                         baseline    solution
-detection (mean)             0%         97%
-range over 3 trials       0%-0%    90%-100%
+detection (mean)             0%        100%
+range over 3 trials       0%-0%   100%-100%
 verifier              75/75 claims, 0 false positives
 ```
 
@@ -109,9 +109,12 @@ verifier              75/75 claims, 0 false positives
 >
 > The change that contributed most wasn't a prompt or a model. It was moving
 > verification *out* of the model and into deterministic code. That single move
-> took detection from zero to ninety-seven percent, and it's the reason the
-> verifier's own result is identical on every run while the model's varies
-> between ninety and one hundred."
+> took detection from zero to a hundred percent — and it's why the verifier's
+> own result is byte-identical on every run.
+>
+> The second-biggest change was realising the model was only being shown *one*
+> of the five checks I'd built. Feeding it all five took detection from
+> ninety-seven percent with variance to a flat hundred."
 
 **On screen:** `CHANGELOG.md`, scrolling.
 
@@ -134,7 +137,7 @@ verifier              75/75 claims, 0 false positives
 
 ---
 
-## 4:15 – 4:40 — Hot take
+## 4:20 – 4:50 — Hot take
 
 > "Give an agent a control group before you give it a metric.
 >

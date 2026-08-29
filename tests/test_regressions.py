@@ -498,6 +498,26 @@ def test_ledger_reports_threshold_crossings():
 
 
 # --------------------------------------------------------------------------
+# The video has a hard 5-minute cap. A script that overruns or overlaps is a
+# documented plan that does not work - checkable, so it is checked.
+# --------------------------------------------------------------------------
+def test_video_script_timings_are_consistent():
+    import re
+    p = Path(__file__).resolve().parents[1] / "docs/VIDEO_SCRIPT.md"
+    if not p.exists():
+        return
+    segs = re.findall(r"^## (\d):(\d\d) – (\d):(\d\d)", p.read_text(), re.M)
+    assert segs, "no timed segments found"
+    prev_end = 0
+    for a, b, c, d in segs:
+        start, end = int(a) * 60 + int(b), int(c) * 60 + int(d)
+        assert start >= prev_end, f"segment {a}:{b} overlaps the previous one"
+        assert end > start, f"segment {a}:{b}-{c}:{d} ends before it starts"
+        prev_end = end
+    assert prev_end <= 300, f"script runs to {prev_end}s, over the 5:00 cap"
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():
