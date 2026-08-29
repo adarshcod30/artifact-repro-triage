@@ -21,7 +21,7 @@ artifact-triage owner/repo     # ~5 seconds, no API key, no cost
 | **Prevalence in the wild** | **65.3%** of 376 research artifacts carry a broken README claim |
 | | **829 of 4,261** documented file references (19.5%) resolve to nothing |
 | **Is it decay?** | **No.** Flat with age — artifacts *ship* broken |
-| **Model spend, entire project** | **$1.12** of a $5 ceiling — five of six checks need no model at all |
+| **Model spend, entire project** | **$2.39** of a $5 ceiling (AWS actual) — five of six checks need no model at all |
 
 Two results are reported that do **not** flatter the project, because omitting
 them would make everything else less trustworthy:
@@ -159,7 +159,7 @@ Both raw and adjusted figures are reported and the excluded artifacts are named
 in `results/falsified_run.json`.
 
 Model: `us.amazon.nova-pro-v1:0` on AWS Bedrock. Total cost of the reported
-experiment: **$0.42**. Cumulative project spend: **$1.12** of $5.
+experiment: **$0.42**. Cumulative project spend: **$2.39** of $5, verified against AWS billing.
 
 ### A harder control: near-misses, not inventions
 

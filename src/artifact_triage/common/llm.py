@@ -230,8 +230,57 @@ _BACKENDS = {"bedrock": _Bedrock, "anthropic": _Anthropic,
              "gemini": _Gemini, "grok": _Grok}
 
 
+# A budget is only a budget if something enforces it. Set to 0 to disable.
+BUDGET_GUARD = float(os.environ.get("ARTIFACT_TRIAGE_BUDGET_USD", "5.0"))
+
+
+def budget_check(need_usd: float = 0.0) -> None:
+    """Refuse to start a run that would exceed the ceiling.
+
+    The tracker under-reported by 2.2x once already. A guard that only warns is
+    worth nothing at 3am, so this raises.
+    """
+    if BUDGET_GUARD <= 0:
+        return
+    try:
+        from artifact_triage.common.ledger import total
+        spent = total()
+    except Exception:
+        return
+    if spent + need_usd >= BUDGET_GUARD:
+        raise SystemExit(
+            f"BUDGET STOP: ${spent:.2f} already spent of ${BUDGET_GUARD:.2f}"
+            f"{f' and this run needs ~${need_usd:.2f}' if need_usd else ''}.\n"
+            f"Everything deterministic still runs for free: make test, verify, "
+            f"control, subtle, ablation, pinning, portability, prevalence, "
+            f"dataset, dashboard.")
+
+
 def client():
+    budget_check()
     return _BACKENDS[PROVIDER]()
+
+
+def _meter(answer: "Answer", attempt: int, failed: bool = False) -> None:
+    """Record EVERY call at the moment it is made.
+
+    The first ledger counted only calls whose results were kept. Retries,
+    probes and smoke tests all consumed billed tokens and were invisible, so the
+    tracker reported $1.12 against a true $2.39 - wrong by 2.2x, and wrong in
+    the direction that reaches a hard budget without warning.
+
+    A retry is a call you were charged for. So is a probe. Metering the success
+    path only means the meter misses everything you discarded, which during
+    development is most of what you spend.
+    """
+    try:
+        from artifact_triage.common.ledger import record
+        usd = (answer.input_tokens * USD_IN
+               + answer.output_tokens * USD_OUT) / 1e6
+        record("call" if not failed else "call-failed", usd, 1, MODEL,
+               f"attempt {attempt + 1}")
+    except Exception:
+        pass  # metering must never break a run
 
 
 def ask(cl, system: str, user: str, retries: int = 5) -> Answer:
@@ -240,9 +289,15 @@ def ask(cl, system: str, user: str, retries: int = 5) -> Answer:
     last = "unknown error"
     for attempt in range(retries):
         try:
-            return cl.ask(system, user)
+            a = cl.ask(system, user)
+            _meter(a, attempt)
+            return a
         except Exception as exc:  # provider SDKs raise different types
             last = f"{type(exc).__name__}: {str(exc)[:180]}"
+            # A failed attempt may still have been billed. Tokens are unknown,
+            # so record the call with a conservative typical cost rather than
+            # zero - an unknown charge is not a free one.
+            _meter(Answer(None, 0.0, [], 2300, 100), attempt, failed=True)
             transient = any(s in str(exc).lower() for s in
                             ("429", "rate", "quota", "overload", "503", "500",
                              "timeout", "unavailable", "exhausted"))

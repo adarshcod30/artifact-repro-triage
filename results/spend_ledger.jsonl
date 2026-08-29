@@ -5,3 +5,4 @@
 {"at": "2026-08-29T07:02:21Z", "kind": "falsified", "usd": 0.4229, "calls": 180, "model": "us.amazon.nova-pro-v1:0", "note": "3 trials, full evidence - REPORTED RESULT"}
 {"at": "2026-08-29T07:02:21Z", "kind": "baseline", "usd": 0.0329, "calls": 15, "model": "us.amazon.nova-pro-v1:0", "note": "rerun for provenance"}
 {"at": "2026-08-29T07:02:21Z", "kind": "solution", "usd": 0.0362, "calls": 15, "model": "us.amazon.nova-pro-v1:0", "note": "rerun with full evidence"}
+{"at": "2026-08-29T07:10:56Z", "kind": "reconciliation", "usd": 1.2681, "calls": 0, "model": "us.amazon.nova-pro-v1:0", "note": "AWS Cost Explorer actual for 2026-08-27..28 was $2.39; ledger had missed retries, model-access probes, preflight and CLI --model runs"}
