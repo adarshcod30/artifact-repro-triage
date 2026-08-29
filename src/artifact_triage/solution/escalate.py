@@ -1,0 +1,118 @@
+"""When should a human decide instead of the model?
+
+WHY THE FIRST DESIGN FAILED
+---------------------------
+Escalation was originally gated on the model's self-reported confidence, below a
+threshold of 0.55. Measured over the corpus, it fired **0 times out of 15**.
+
+The reason is worse than the threshold being wrong. Self-reported confidence took
+exactly three values (0.7, 0.8, 0.9) and was **anti-calibrated**: mean confidence
+was 0.700 when the answer was right and 0.750 when it was wrong. The gate was
+wired to the one signal in the system that carries no information.
+
+WHAT REPLACES IT
+----------------
+Evidence-based rules. Each asks a question about what was actually verified, not
+about how the model feels, so each is deterministic and cannot be talked out of.
+
+The rules are deliberately conservative: escalation costs a reviewer's attention,
+so a rule earns its place only if a human genuinely adds something the evidence
+cannot settle. Every escalation names the rule that fired, so a reviewer can see
+why their time is being asked for - and disagree.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass
+class Decision:
+    escalate: bool
+    reasons: list[str]
+
+    def explain(self) -> str:
+        if not self.escalate:
+            return "handled automatically - evidence was sufficient"
+        return "routed to a human reviewer: " + "; ".join(self.reasons)
+
+
+# A README asserting a tier this strong while its own documented paths are
+# missing is the specific contradiction this project exists to surface.
+CONTRADICTION_RATIO = 0.30
+
+
+def decide(evidence, tier: str | None, confidence: float,
+           readme_present: bool = True) -> Decision:
+    """Escalate on the evidence, not on the model's opinion of itself."""
+    reasons: list[str] = []
+
+    if not readme_present:
+        reasons.append("no README - nothing to assess mechanically")
+
+    if tier is None:
+        reasons.append("model returned no usable answer")
+
+    # No verifiable claims means we have no evidence in EITHER direction. A
+    # confident answer here is confidence about nothing.
+    if readme_present and evidence.claims_total == 0:
+        reasons.append(
+            "README makes no checkable file references, so no claim could be "
+            "verified either way")
+
+    # The model overriding verified evidence is the case a human must see.
+    if (tier == "Reusable" and evidence.claims_total >= 4
+            and evidence.broken_ratio >= CONTRADICTION_RATIO):
+        reasons.append(
+            f"rated Reusable while {evidence.claims_broken} of "
+            f"{evidence.claims_total} documented paths do not exist - the "
+            f"verdict contradicts the evidence")
+
+    # Documentation so thin that any verdict is mostly inference.
+    if readme_present and evidence.readme_bytes < 400:
+        reasons.append(
+            f"README is only {evidence.readme_bytes} bytes - too little to "
+            f"support a judgement")
+
+    # No manifest AND no container: the environment cannot be recreated at all,
+    # which is a call about acceptability, not a fact about the files.
+    if not evidence.has_dependency_manifest and not evidence.has_container:
+        reasons.append(
+            "neither a dependency manifest nor a container - whether that is "
+            "acceptable depends on the artifact's kind, which needs a human")
+
+    return Decision(bool(reasons), reasons)
+
+
+if __name__ == "__main__":
+    import json
+    from pathlib import Path
+
+    from artifact_triage.solution.verify import verify
+
+    print(f"{'ARTIFACT':<46}{'BADGE':<12}{'DECISION'}")
+    print("-" * 96)
+    n_esc = 0
+    rule_counts: dict[str, int] = {}
+    rows = []
+    for p in sorted(Path("data/fixtures").glob("*.json")):
+        fx = json.loads(p.read_text())
+        ev = verify(fx)
+        # Confidence is passed but deliberately unused by the rules.
+        d = decide(ev, fx["_label"]["badge"], 0.8, fx.get("readme_present", True))
+        n_esc += d.escalate
+        for r in d.reasons:
+            key = r.split(" - ")[0][:46]
+            rule_counts[key] = rule_counts.get(key, 0) + 1
+        rows.append((fx["artifact_id"], fx["_label"]["badge"], d))
+        mark = "ESCALATE" if d.escalate else "auto"
+        print(f"{fx['artifact_id'][:44]:<46}{fx['_label']['badge']:<12}{mark}")
+        for r in d.reasons:
+            print(f"{'':<58}- {r[:70]}")
+
+    print("-" * 96)
+    print(f"  escalated: {n_esc}/{len(rows)} ({n_esc/len(rows):.0%})   "
+          f"handled automatically: {len(rows)-n_esc}")
+    print(f"  previous confidence-threshold design escalated 0/15 (0%)")
+    print("\n  Rules that fired:")
+    for k, v in sorted(rule_counts.items(), key=lambda x: -x[1]):
+        print(f"    {v:>3}x  {k}")

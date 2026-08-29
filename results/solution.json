@@ -158,7 +158,7 @@
    "artifact_id": "DueForce/DueForce",
    "tier": "Available",
    "confidence": 0.8,
-   "escalated": false,
+   "escalated": true,
    "reasons": [
     "The artifact is placed in a public archival repository.",
     "A dependency manifest is present, indicating some level of setup for reproducibility.",
@@ -183,7 +183,10 @@
     "n_files": 8002,
     "claims": []
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": [
+    "README makes no checkable file references, so no claim could be verified either way"
+   ]
   },
   {
    "artifact_id": "HexHive/FishFuzz",
@@ -262,7 +265,8 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "NWU-NISL-Fuzzing/upbeat",
@@ -314,7 +318,8 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
@@ -356,7 +361,8 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "THU-WingTecher/DeepConstr",
@@ -529,13 +535,14 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "asub0/fonnx",
    "tier": "Available",
    "confidence": 0.8,
-   "escalated": false,
+   "escalated": true,
    "reasons": [
     "The artifact is placed in a public archival repository.",
     "The repository contains a license, indicating some level of formal sharing.",
@@ -560,13 +567,16 @@
     "n_files": 200,
     "claims": []
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": [
+    "README makes no checkable file references, so no claim could be verified either way"
+   ]
   },
   {
    "artifact_id": "dserfe/FlakyDoctor",
    "tier": "Available",
    "confidence": 0.8,
-   "escalated": false,
+   "escalated": true,
    "reasons": [
     "The artifact is placed in a public archival repository.",
     "The README provides setup and usage instructions, but references non-existent files.",
@@ -655,7 +665,10 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": [
+    "neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human"
+   ]
   },
   {
    "artifact_id": "emocat/VioHawk",
@@ -719,7 +732,8 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "jovyntls/inconsistencies-in-tex",
@@ -796,7 +810,8 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "logpai/loghub-2.0",
@@ -875,7 +890,8 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "lrtsuser/LRTS",
@@ -1030,13 +1046,14 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "nhuhuan/sba",
    "tier": "Functional",
    "confidence": 0.7,
-   "escalated": false,
+   "escalated": true,
    "reasons": [
     "The repository is publicly available, fulfilling the 'Available' criteria.",
     "The README provides clear instructions for building the artifact, indicating it is exercisable.",
@@ -1060,7 +1077,11 @@
     "n_files": 88,
     "claims": []
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": [
+    "README makes no checkable file references, so no claim could be verified either way",
+    "neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human"
+   ]
   },
   {
    "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
@@ -1173,7 +1194,8 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "trustdnn/issta2024",
@@ -1263,13 +1285,14 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": []
   },
   {
    "artifact_id": "zhangxiaosa/LPR",
    "tier": "Available",
    "confidence": 0.9,
-   "escalated": false,
+   "escalated": true,
    "reasons": [
     "The artifact is placed in a public archival repository.",
     "Many files and scripts referenced in the README do not exist in the repository.",
@@ -1396,7 +1419,10 @@
      }
     ]
    },
-   "error": null
+   "error": null,
+   "escalation_reasons": [
+    "neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human"
+   ]
   }
  ]
 }

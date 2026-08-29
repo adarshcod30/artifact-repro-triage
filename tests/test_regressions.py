@@ -341,6 +341,48 @@ def test_ignore_file_parsing_skips_comments_and_blanks():
 
 
 # --------------------------------------------------------------------------
+# Escalation - the confidence gate fired 0/15 and was anti-calibrated
+# (0.700 mean confidence when right, 0.750 when wrong). Evidence decides.
+# --------------------------------------------------------------------------
+def test_reusable_verdict_contradicting_evidence_escalates():
+    from artifact_triage.solution.escalate import decide
+    fx = _fx(["a.py"], [f"missing{i}.py" for i in range(10)])
+    d = decide(verify(fx), "Reusable", 0.95)
+    assert d.escalate
+    assert any("contradicts the evidence" in r for r in d.reasons)
+
+
+def test_no_checkable_claims_escalates():
+    from artifact_triage.solution.escalate import decide
+    fx = _fx(["a.py"], [])
+    fx["readme"] = "x" * 900   # long enough not to trip the thin-README rule
+    d = decide(verify(fx), "Functional", 0.99)
+    assert d.escalate
+    assert any("no checkable file references" in r for r in d.reasons)
+
+
+def test_high_confidence_alone_never_prevents_escalation():
+    from artifact_triage.solution.escalate import decide
+    fx = _fx(["a.py"], [])
+    assert decide(verify(fx), "Functional", 1.0).escalate, \
+        "self-reported confidence must not override the evidence"
+
+
+def test_report_never_contradicts_its_own_evidence():
+    """The report listed 5 missing paths then said 'All referenced paths were
+    found' - a claim contradicted by its own table, which is the exact defect
+    this project detects."""
+    from artifact_triage.cli import render
+    fx = {"artifact_id": "o/r", "commit": "abc", "n_files": 10,
+          "file_tree": ["a.py"], "readme": "x",
+          "readme_referenced_paths": ["gone.py"], "signals": {}}
+    ev = verify(fx)
+    assert ev.claims_broken == 1
+    out = render(fx, ev, None, None)
+    assert "All referenced paths were found" not in out
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

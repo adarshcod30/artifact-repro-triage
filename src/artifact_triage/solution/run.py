@@ -21,6 +21,7 @@ from pathlib import Path
 from artifact_triage.common.llm import USD_IN, USD_OUT, Answer, ask, client
 from artifact_triage.common.rubric import RUBRIC
 from artifact_triage.eval.metrics import Prediction, score
+from artifact_triage.solution.escalate import decide
 from artifact_triage.solution.verify import verify
 
 OUT = Path("results/solution.json")
@@ -49,15 +50,21 @@ def main() -> None:
         fx = json.loads(p.read_text())
         ev = verify(fx)
         a: Answer = ask(cl, RUBRIC, prompt_for(fx))
-        escalate = a.tier is None or a.confidence < ESCALATE_BELOW
+        # Escalation is decided on the EVIDENCE, not on self-reported
+        # confidence. The confidence gate fired 0/15 times and was
+        # anti-calibrated (0.700 mean when right, 0.750 when wrong).
+        d = decide(ev, a.tier, a.confidence, fx.get("readme_present", True))
+        escalate = d.escalate
         labels[fx["artifact_id"]] = fx["_label"]["badge"]
         preds.append(Prediction(
             artifact_id=fx["artifact_id"], predicted=a.tier,
             confidence=a.confidence, escalated=escalate,
-            evidence=a.reasons + [f"broken README path: {b}" for b in ev.broken_paths[:5]],
+            evidence=a.reasons + d.reasons
+                     + [f"broken README path: {b}" for b in ev.broken_paths[:5]],
             input_tokens=a.input_tokens, output_tokens=a.output_tokens))
         raw.append({"artifact_id": fx["artifact_id"], "tier": a.tier,
                     "confidence": a.confidence, "escalated": escalate,
+                    "escalation_reasons": d.reasons,
                     "reasons": a.reasons, "verified": ev.to_dict(), "error": a.error})
         mark = "ESC" if escalate else "   "
         print(f"[{i:2}/{len(fixtures)}] {mark} {str(a.tier):<11} conf={a.confidence:.2f}  "

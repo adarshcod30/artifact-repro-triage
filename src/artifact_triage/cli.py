@@ -120,15 +120,17 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
             L.append(f"\n…and {len(ev.broken_paths) - 20} more.")
         L.append("\n> Each row is a documented instruction a user would follow "
                  "and find missing.")
-    if getattr(ev, "ignored", 0):
-        L.append(f"\n*{ev.ignored} author-declared exception pattern(s) applied "
-                 f"from `.artifact-triage-ignore`.*")
     elif ev.claims_total:
         L.append("All referenced paths were found.")
     else:
         L.append("The README references no checkable file paths — itself a "
                  "documentation gap, since there are no concrete instructions "
                  "to verify.")
+    # Disclosed regardless of outcome: a suppression the reader cannot see is
+    # worse than the false positive it hides.
+    if getattr(ev, "ignored", 0):
+        L.append(f"\n*{ev.ignored} author-declared exception pattern(s) applied "
+                 f"from `.artifact-triage-ignore`.*")
     L.append("")
 
     # ---- links -------------------------------------------------------------
@@ -198,9 +200,9 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
         L.append(f"- **Suggested tier**: `{model.get('tier')}`")
         L.append(f"- **Confidence**: {model.get('confidence')}")
         if model.get("escalated"):
-            L.append("- **Recommendation: route to a human reviewer.** "
-                     "Confidence is below threshold; the evidence is too thin "
-                     "for an automated call.")
+            L.append("- **Recommendation: route to a human reviewer.**")
+            for r in model.get("escalation_reasons", []):
+                L.append(f"  - {r}")
         if model.get("reasons"):
             L.append("\nReasoning:\n")
             L += [f"- {r}" for r in model["reasons"]]
@@ -266,9 +268,11 @@ def main(argv: list[str] | None = None) -> int:
         from artifact_triage.solution.run import ESCALATE_BELOW, prompt_for
         print("asking the model …", file=sys.stderr)
         a = ask(client(), RUBRIC, prompt_for(fx))
+        from artifact_triage.solution.escalate import decide
+        d = decide(ev, a.tier, a.confidence, fx.get("readme_present", True))
         model = {"tier": a.tier, "confidence": a.confidence,
-                 "reasons": a.reasons,
-                 "escalated": a.tier is None or a.confidence < ESCALATE_BELOW}
+                 "reasons": a.reasons, "escalated": d.escalate,
+                 "escalation_reasons": d.reasons}
 
     report = render(fx, ev, links, model, pins, port, docker)
     if args.out:
