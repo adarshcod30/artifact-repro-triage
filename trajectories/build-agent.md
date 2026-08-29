@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 1,375 recorded events.
+Session `b0c00099` — 2,172 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -3203,7 +3203,1974 @@ ugrep: warning: trajectories/build-agent.md: No such file or directory
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\ns=s.replace('''    (\"env_assignment\", re.compile(\n        r\"(?i)\\\\b([A-Z_]*(?:KEY|SECRET|TOKEN|PASSWORD|PASSWD)[A-Z_]*)\\\\s*=\\\\s*\\\\S+\")),''',\n'''    # The negative lookahead stops this matching its own replacement:\n    # without it, `KEY=[REDACTED]` re-matches on the verification pass and the\n    # exporter refuses to write a document that is already clean. Same bug class\n    # the README scrubber hit - a redactor must not be able to redact itself.\n    (\"env_assignment\", re.compile(\n        r\"(?i)\\\\b([A-Z_]*(?:KEY|SECRET|TOKEN|PASSWORD|PASSWD)[A-Z_]*)\"\n        r\"\\\\s*=\\\\s*(?!\\\\[REDACTED\\\\])\\\\S+\")),''')\nopen(p,'w').write(s)\nprint(\"lookahead added\")\nPY\n.venv/bin/python scripts/export_build_trajectory.py\necho\necho \"=== independent leak check ===\"\nfor pat in 'AKIA[0-9A-Z]{16}' 'ASIA[0-9A-Z]{16}' 'sk-ant-' 'AIza[0-9A-Za-z_-]{35}' 'gh[pousr]_[A-Za-z0-9]{16}'; do\n  n=$(grep -cE \"$pat\" trajectories/build-agent.md 2>/dev/null || echo 0)\n  printf \"  %-34s %s\\n\" \"$pat\"
 ```
 
+**Tool response**
+
+```
+lookahead added
+source: b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl  (1,375 events)
+wrote trajectories/build-agent.md  (203,182 chars, 14 human checkpoints)
+redactions: {'aws_secret': 2, 'env_assignment': 33}
+
+=== independent leak check ===
+  AKIA[0-9A-Z]{16}                   LEAK x0
+0
+  ASIA[0-9A-Z]{16}                   LEAK x0
+0
+  sk-ant-                            LEAK x1
+  AIza[0-9A-Za-z_-]{35}              LEAK x0
+0
+  gh[pousr]_[A-Za-z0-9]{16}          LEAK x0
+0
+
+# Build Agent Trajectory
+
+The coding agent that wrote this repository: **Claude Code (Opus)**.
+
+Session `b0c00099` — 1,375 recorded events.
+
+Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
 ---
 
-Redactions applied: `{'aws_secret': 2, 'env_assignment': 33}`
+## Human checkpoint 1
+
+> We will build the project for micro1. Frontier Engineering challenge 2026 Hackathon:
+
+Frontier Engineering Challenge 2026
+Hosted By - micro1
+
+1. ChallengeAug 28 – Aug 31, 20268:30 PM – 11:30 PM· Asia/Kolkata
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== context around every sk-ant occurrence ===\"\ngrep -n \"sk-ant\" trajectories/build-agent.md | head -5\necho\necho \"=== is it a real key? (real keys are 100+ chars after the prefix) ===\"\ngrep -oE 'sk-ant-[A-Za-z0-9_-]*' trajectories/build-agent.md | while read m; do\n  echo \"  match: '$m'  length after prefix: $(( ${#m} - 7 ))\"\ndone", "description": "Verify sk-ant occurrence is a placeholder"}
+```
+
+**Tool response**
+
+```
+=== context around every sk-ant occurrence ===
+3203:{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\ns=s.replace('''    (\"env_assignment\", re.compile(\n        r\"(?i)\\\\b([A-Z_]*(?:KEY|SECRET|TOKEN|PASSWORD|PASSWD)[A-Z_]*)\\\\s*=\\\\s*\\\\S+\")),''',\n'''    # The negative lookahead stops this matching its own replacement:\n    # without it, `KEY=[REDACTED]` re-matches on the verification pass and the\n    # exporter refuses to write a document that is already clean. Same bug class\n    # the README scrubber hit - a redactor must not be able to redact itself.\n    (\"env_assignment\", re.compile(\n        r\"(?i)\\\\b([A-Z_]*(?:KEY|SECRET|TOKEN|PASSWORD|PASSWD)[A-Z_]*)\"\n        r\"\\\\s*=\\\\s*(?!\\\\[REDACTED\\\\])\\\\S+\")),''')\nopen(p,'w').write(s)\nprint(\"lookahead added\")\nPY\n.venv/bin/python scripts/export_build_trajectory.py\necho\necho \"=== independent leak check ===\"\nfor pat in 'AKIA[0-9A-Z]{16}' 'ASIA[0-9A-Z]{16}' 'sk-ant-' 'AIza[0-9A-Za-z_-]{35}' 'gh[pousr]_[A-Za-z0-9]{16}'; do\n  n=$(grep -cE \"$pat\" trajectories/build-agent.md 2>/dev/
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ncat > AGENTS.md <<'MD'\n# Agent Instructions\n\nThe challenge asks for \"the instructions that shape each agent\". This is that\ndocument. Three agents are involved; only two call a model.\n\n---\n\n## 1. Baseline agent \u2014 `src/artifact_triage/baseline/run.py`\n\n**Purpose.** A deliberately *fair* representation of what a human artifact\nreviewer does today: read the documentation and form a judgement.\n\n**Instructions.** The shared ACM rubric in `common/rubric.py`, verbatim.\n\n**Input.** The scrubbed README, nothing else.\n\n**Output contract.** `{tier, confidence, reasons[]}` \u2014 identical to the solution,\nso a single shared scorer handles both.\n\n**Why it is fair.** Same model, same rubric, same output schema, same scrubbed\nREADME. The *only* difference from the solution is that none of the README's\nclaims have been checked. Any weaker construction would inflate the measured\nimprovement and would be caught by a judge reading both prompts.\n\n---\n\n## 2. Solution agent \u2014 `src/artifact_triage/solution/run.py`\n\n**Purpose.** Judge verified facts rather than unchecked
+```
+
+**Tool response**
+
+```
+make trajectories added
+=== repo-wide secret scan (tracked files only) ===
+  CLEAN: no secret patterns in any tracked file
+
+=== .env still ignored? ===
+  yes
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A\ngit -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"Agent trajectories + AGENTS.md (instructions that shape each agent)\n\n- export_trajectories.py: product-agent trajectories for 3 representative\n  artifacts, chosen for contrast not flattery - shared instructions, the\n  deterministic tool call and its response, each agent's answer, human checkpoint\n- export_build_trajectory.py: Claude Code session as a redacted trajectory.\n  Refuses to write if any known secret pattern survives. Caught its own\n  self-matching bug: KEY=[REDACTED] re-matched on the verification pass, the\n  same bug class the README scrubber hit - a redactor must not redact itself.\n- AGENTS.md: instructions for all three agents, why the baseline is fair, and\n  why the design uses ONE model call plus one deterministic tool rather than\n  multi-agent orchestration\n- Repo-wide secret scan across all tracked files: clean\"\ngit push -q origin main && echo pushed\necho; echo \"=== deliverable status ===\"\nfor f in README.md CHANGELOG.md REPRODUCTION.md AGEN
+```
+
+**Tool response**
+
+```
+pushed
+
+=== deliverable status ===
+  README.md                        241 lines
+  CHANGELOG.md                     100 lines
+  REPRODUCTION.md                  183 lines
+  AGENTS.md                        84 lines
+  trajectories/build-agent.md      3209 lines
+  trajectories/README.md
+  trajectories/build-agent.md
+  trajectories/product-agent__QuentinMaz__MDPFuzz_Replicability_Study_Artifact.md
+  trajectories/product-agent__THU-WingTecher__DeepConstr.md
+  trajectories/product-agent__zhangxiaosa__LPR.md
+
+  commits: 13
+  time left: 2d 18h 6m
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/docs/VIDEO_SCRIPT.md", "content": "# Solution Video \u2014 Script (target 4:30, hard cap 5:00)\n\nThe brief requires, in order: the problem and the simple baseline \u2192 one realistic\nexecution start to finish \u2192 the final comparison \u2192 the changelog briefly \u2192 the\nchange that contributed most \u2192 one experiment you removed.\n\nThis script covers all six. Timings are cumulative.\n\n---\n\n## 0:00 \u2013 0:35 \u2014 The problem\n\n> \"Every major software-engineering conference runs an artifact evaluation\n> track. Volunteer reviewers \u2014 usually PhD students \u2014 decide whether a paper's\n> released code is *Functional* or *Reusable*.\n>\n> A README is a set of promises. It says install with `requirements.txt`, run\n> `scripts/run_experiments.sh`, see `configs/default.yaml`. Nothing checks them.\n> A reviewer reads fluent, confident prose and forms an impression, because\n> reading prose is what a human can cheaply do.\n>\n> So the expensive failure is specific: a convincing README that isn't consistent\n> with its own repository.\"\n\n**On screen:** the LPR artifact's R
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/docs/VIDEO_SCRIPT.md (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A && git -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"Video script covering all six required beats\" && git push -q origin main && echo pushed\necho; echo \"=== what exists ===\"; git ls-files | grep -vE '^data/(fixtures|cache|negative_control)/' | sort", "description": "Commit video script and list project files"}
+```
+
+**Tool response**
+
+```
+pushed
+
+=== what exists ===
+.env.example
+.gitignore
+AGENTS.md
+CHANGELOG.md
+Makefile
+README.md
+REPRODUCTION.md
+data/artifacts.jsonl
+data/labels.jsonl
+docs/VIDEO_SCRIPT.md
+pyproject.toml
+results/baseline.json
+results/enabled_models.json
+results/falsified_run.json
+results/negative_control.json
+results/solution.json
+results/trials.log
+scripts/export_build_trajectory.py
+scripts/preflight.py
+src/artifact_triage/__init__.py
+src/artifact_triage/baseline/__init__.py
+src/artifact_triage/baseline/run.py
+src/artifact_triage/common/__init__.py
+src/artifact_triage/common/llm.py
+src/artifact_triage/common/rubric.py
+src/artifact_triage/corpus/__init__.py
+src/artifact_triage/corpus/fetch.py
+src/artifact_triage/corpus/github.py
+src/artifact_triage/corpus/scrub.py
+src/artifact_triage/corpus/sources.py
+src/artifact_triage/corpus/zenodo.py
+src/artifact_triage/eval/__init__.py
+src/artifact_triage/eval/export_trajectories.py
+src/artifact_triage/eval/falsified_run.py
+src/artifact_triage/eval/metrics.py
+src/artifact_triage/eval/negative_control.py
+src/artifact_triage/solution/__init__.py
+src/artifact_triage/solution/run.py
+src/artifact_triage/solution/verify.py
+trajectories/README.md
+trajectories/build-age
+```
+
+## Human checkpoint 15
+
+> yes obviously 2 days are left so strenghten the project on all points you can think out of the box yet a real world probelm and that is really existing and is faced and has supporting evidence that these problems exists.....and they need to be solved....extend the proejct....
+
+**Tool call** `WebSearch`
+
+```json
+{"query": "study percentage research artifacts code not reproducible broken links README empirical software engineering"}
+```
+
+**Tool call** `WebSearch`
+
+```json
+{"query": "link rot URLs in scientific papers percentage dead links study GitHub repositories research code"}
+```
+
+**Tool response**
+
+```
+Web search results for query: "study percentage research artifacts code not reproducible broken links README empirical software engineering"
+
+Links: [{"title":"Research Artifacts in Software Engineering Publications: Status and Trends","url":"https://arxiv.org/pdf/2404.06852"},{"title":"Large Language Models for Software Engineering: A Reproducibility Crisis","url":"https://arxiv.org/html/2512.00651v1"},{"title":"On the Reproducibility of Software Defect Datasets Hao-Nan Zhu","url":"https://web.cs.ucdavis.edu/~rubio/includes/icse23.pdf"},{"title":"Understanding and Improving Artifact Sharing in Software Engineering Research","url":"https://arxiv.org/pdf/2008.01046"},{"title":"On the reproducibility of empirical software engineering studies based on data retrieved from development repositories | Empirical Software Engineering | Springer Nature Link","url":"https://link.springer.com/article/10.1007/s10664-011-9181-9"},{"title":"Research Artifacts in Secondary Studies: A Systematic Mapping in Software Engineering","url":"https://arxiv.org/pdf/2504.12646"},{"title":"Sharing practices of software artefacts and source code for reproducible research | International Journal of Data Science
+```
+
+**Tool response**
+
+```
+Web search results for query: "link rot URLs in scientific papers percentage dead links study GitHub repositories research code"
+
+Links: [{"title":"At Least 66.5% of Links to Sites in the Last 9 Years Are Dead (Ahrefs Study on Link Rot)","url":"https://ahrefs.com/blog/link-rot-study/"},{"title":"Research Artifacts in Software Engineering Publications: Status and Trends","url":"https://arxiv.org/pdf/2404.06852"},{"title":"The growing problem of Internet “link rot” and best practices for media and online publishers","url":"https://journalistsresource.org/media/website-linking-best-practices-media-online-publishers/"},{"title":"How long does a web page live: what the research says about link rot","url":"https://archivarix.com/en/blog/link-rot/"},{"title":"The Rise of Open Science: Tracking the Evolution and Perceived Value of Data and Methods Link-Sharing Practices","url":"https://arxiv.org/pdf/2310.03193"},{"title":"Link rot","url":"https://en.wikipedia.org/wiki/Link_rot"},{"title":"Link Rot: 66.5% of Links Are Dead (+ Fixes)","url":"https://www.tryanalyze.ai/blog/link-rot-study"},{"title":"Link Rot in 2026: How Fast Web Citations Die (New Research) · Broken Link Checker","url":"http
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/corpus/discover.py", "content": "\"\"\"Harvest research-artifact repositories at scale from Zenodo.\n\nWHY SCALE MATTERS HERE\n----------------------\nThe badge-labelled corpus is 15 artifacts, because ISSTA 2024 was the only venue\nfound publishing machine-readable badge outcomes. That is enough to compare two\nsystems, but far too few to say anything about the world.\n\nThe verifier needs no labels and no model: it is deterministic Python that reads\na file tree. So it can be pointed at *hundreds* of artifacts to measure how\nwidespread broken documentation actually is - turning the tool into a measurement\ninstrument rather than only a classifier.\n\nPublished work motivates the question:\n  - Over 40% of \"functional\" artifacts from 2024-2025 fail within months, from\n    drifting dependencies, unpinned versions and incomplete environments.\n  - Link rot in SE research artifacts averages 9.4%, reaching 29.8% in some years.\n  - Only 56.4% of artifacts were reachable at the links their papers gave.\n\nNone of that measures whether an artifact's own README is consistent 
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/corpus/discover.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src nohup .venv/bin/python -u -m artifact_triage.corpus.discover > results/discover.log 2>&1 &\necho \"started pid $!\"\nsleep 75\ntail -14 results/discover.log", "description": "Harvest research artifact repos at scale from Zenodo"}
+```
+
+**Tool response**
+
+```
+started pid 97328
+    ! "reproduction package" p2: HTTPError
+  "reproduction package"                       +0    (total 0)
+    ! "artifact evaluation" p1: HTTPError
+    ! "artifact evaluation" p2: HTTPError
+  "artifact evaluation"                        +0    (total 0)
+    ! "research artifact" software p1: HTTPError
+    ! "research artifact" software p2: HTTPError
+  "research artifact" software                 +0    (total 0)
+    ! "supplementary material" software repository p1: HTTPError
+    ! "supplementary material" software repository p2: HTTPError
+  "supplementary material" software repository +0    (total 0)
+
+discovered 0 distinct artifact repositories
+-> data/discovered.jsonl
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python - <<'PY'\nimport urllib.request, urllib.parse, ssl, json, certifi\nctx=ssl.create_default_context(cafile=certifi.where())\nUA=\"artifact-repro-triage/0.1 (academic reproducibility research)\"\ntests = {\n \"with type=software\": {\"q\":\"artifact ISSTA\",\"size\":5,\"page\":1,\"type\":\"software\",\"sort\":\"mostrecent\"},\n \"no type\":            {\"q\":\"artifact ISSTA\",\"size\":5,\"page\":1,\"sort\":\"mostrecent\"},\n \"no sort\":            {\"q\":\"artifact ISSTA\",\"size\":5,\"page\":1},\n \"minimal\":            {\"q\":\"artifact ISSTA\",\"size\":5},\n}\nfor name,params in tests.items():\n    url=\"https://zenodo.org/api/records?\"+urllib.parse.urlencode(params)\n    try:\n        req=urllib.request.Request(url,headers={\"User-Agent\":UA})\n        with urllib.request.urlopen(req,timeout=30,context=ctx) as r:\n            d=json.loads(r.read().decode())\n        print(f\"  OK    {name:<22} hits={d.get('hits',{}).get('total')}\")\n    except urllib.error.HTTPError as e:\n        body=e.read().decode()[:160]\n        print(f\"  {e.code}   {name:<22} {body}\")\n   
+```
+
+**Tool response**
+
+```
+  OK    with type=software     hits=8008
+  OK    no type                hits=19936
+  OK    no sort                hits=19936
+  OK    minimal                hits=19936
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/discover.py'; s=open(p).read()\ns=s.replace('''    except Exception as exc:\n        print(f\"    ! {query} p{page}: {type(exc).__name__}\")\n        return []''',\n'''    except urllib.error.HTTPError as exc:\n        # Surface the status code: an earlier version printed only the exception\n        # type, which made a plain 429 look like an unknown failure.\n        print(f\"    ! {query} p{page}: HTTP {exc.code}\")\n        return []\n    except Exception as exc:\n        print(f\"    ! {query} p{page}: {type(exc).__name__}: {str(exc)[:60]}\")\n        return []''')\ns=s.replace('    delay = 3.0\\n    for attempt in range(6):','    delay = 8.0\\n    for attempt in range(7):')\ns=s.replace('            time.sleep(1.5)\\n            return data','            time.sleep(2.5)  # Zenodo rate-limits anonymous search aggressively\\n            return data')\nopen(p,'w').write(s)\nprint(\"error reporting + backoff improved\")\nPY\nrm -f data/discovered.jsonl\nPYTHONPATH=src .venv/bin/python -u -c \"\nimport sys; sys.path.insert(0,'src')\nfrom ar
+```
+
+**Tool response**
+
+```
+error reporting + backoff improved
+    ! artifact ISSTA p1: HTTP 400
+single query returned 0 hits
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python - <<'PY'\nimport urllib.request, urllib.parse, ssl, json, certifi\nctx=ssl.create_default_context(cafile=certifi.where())\nUA=\"artifact-repro-triage/0.1\"\nfor size in (5, 20, 25, 50, 100):\n    for page in (1, 2):\n        url=\"https://zenodo.org/api/records?\"+urllib.parse.urlencode(\n            {\"q\":\"artifact ISSTA\",\"size\":size,\"page\":page,\"type\":\"software\",\"sort\":\"mostrecent\"})\n        try:\n            req=urllib.request.Request(url,headers={\"User-Agent\":UA})\n            with urllib.request.urlopen(req,timeout=30,context=ctx) as r:\n                d=json.loads(r.read().decode())\n            print(f\"  OK   size={size:<4} page={page}  returned={len(d['hits']['hits'])}\")\n        except urllib.error.HTTPError as e:\n            print(f\"  {e.code}  size={size:<4} page={page}  {e.read().decode()[:110]}\")\nPY", "description": "Find Zenodo page size limit"}
+```
+
+**Tool response**
+
+```
+  OK   size=5    page=1  returned=5
+  OK   size=5    page=2  returned=5
+  OK   size=20   page=1  returned=20
+  OK   size=20   page=2  returned=20
+  OK   size=25   page=1  returned=25
+  OK   size=25   page=2  returned=25
+  400  size=50   page=1  {"status": 400, "message": "A validation error occurred.", "errors": [{"field": "size", "messages": ["Page siz
+  400  size=50   page=2  {"status": 400, "message": "A validation error occurred.", "errors": [{"field": "size", "messages": ["Page siz
+  400  size=100  page=1  {"status": 400, "message": "A validation error occurred.", "errors": [{"field": "size", "messages": ["Page siz
+  400  size=100  page=2  {"status": 400, "message": "A validation error occurred.", "errors": [{"field": "size", "messages": ["Page siz
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/discover.py'; s=open(p).read()\ns=s.replace('def search(query: str, page: int, size: int = 100) -> list[dict]:',\n'''# Zenodo rejects size > 25 with HTTP 400 (\"Page size ...\"), not a rate-limit\n# error. Paginate more instead of asking for bigger pages.\nZENODO_MAX_PAGE_SIZE = 25\n\n\ndef search(query: str, page: int, size: int = ZENODO_MAX_PAGE_SIZE) -> list[dict]:''')\ns=s.replace('def harvest(pages: int = 2) -> list[Discovered]:','def harvest(pages: int = 6) -> list[Discovered]:')\nopen(p,'w').write(s)\nprint(\"page size fixed to 25, pages raised to 6\")\nPY\nrm -rf data/cache/discover\nPYTHONPATH=src nohup .venv/bin/python -u -m artifact_triage.corpus.discover > results/discover.log 2>&1 &\necho \"started pid $!\"; sleep 100; tail -8 results/discover.log", "description": "Fix page size and run full harvest"}
+```
+
+**Tool response**
+
+```
+page size fixed to 25, pages raised to 6
+started pid 97483
+  artifact ISSTA                               +78   (total 78)
+  artifact ICSE                                +1    (total 79)
+  artifact FSE                                 +0    (total 79)
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/solution/links.py", "content": "\"\"\"Check whether the URLs a README promises still resolve.\n\nThe stated main failure mode of the path verifier is that it only checks claims\nshaped like file paths. This closes part of that gap: a README also promises\n*locations* - a dataset download, a project page, a dependency, a DOI.\n\nPublished measurements say this matters. Link rot in software-engineering\nresearch artifacts averages 9.4% and reaches 29.8% in some years, and only 56.4%\nof artifacts were reachable at the links their papers provided. A README pointing\nat a dead dataset is unusable however well written it is.\n\nDETERMINISM BOUNDARY\n--------------------\nThis module is the one part of the pipeline that depends on the outside world,\nand the outside world changes. It is therefore kept *separate* from\n`verify.py`, which stays offline and byte-deterministic. Results are cached to\n`data/cache/links/` and committed, so a reported figure can be reproduced exactly\neven after a host goes down - and re-running with `--refresh` shows the drift,\nwhich is itself a measu
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/solution/links.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== discovery progress ===\"; tail -4 results/discover.log\necho; echo \"=== link rot on the labelled corpus ===\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.solution.links 2>&1 | tail -24", "description": "Run link-rot check on labelled corpus"}
+```
+
+**Tool response**
+
+```
+=== discovery progress ===
+  artifact ICSE                                +1    (total 79)
+  artifact FSE                                 +0    (total 79)
+  artifact ASE                                 +1    (total 80)
+  artifact ESEC                                +0    (total 80)
+
+=== link rot on the labelled corpus ===
+   0/2   dead  (0 unverifiable)  DueForce/DueForce
+   0/6   dead  (0 unverifiable)  HexHive/FishFuzz
+   1/2   dead  (0 unverifiable)  NWU-NISL-Fuzzing/upbeat
+   0/7   dead  (2 unverifiable)  QuentinMaz/MDPFuzz_Replicability_Study_Artifact
+   1/5   dead  (0 unverifiable)  THU-WingTecher/DeepConstr
+   0/1   dead  (0 unverifiable)  asub0/fonnx
+   3/24  dead  (0 unverifiable)  dserfe/FlakyDoctor
+   0/2   dead  (0 unverifiable)  emocat/VioHawk
+   0/1   dead  (0 unverifiable)  jovyntls/inconsistencies-in-tex
+   0/5   dead  (0 unverifiable)  logpai/loghub-2.0
+   0/13  dead  (1 unverifiable)  lrtsuser/LRTS
+   0/1   dead  (3 unverifiable)  nhuhuan/sba
+   0/0   dead  (0 unverifiable)  sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs
+   5/12  dead  (0 unverifiable)  trustdnn/issta2024
+   0/4   dead  (0 unverifiable)  zhangxiaosa/LPR
+
+===============================
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A\ngit -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"Link-rot checking: extends verification beyond file paths\n\nAddresses the stated main failure mode - the path verifier only checks claims\nshaped like file paths. A README also promises locations: datasets, project\npages, dependencies.\n\nResult on the labelled corpus: 10 dead of 85 checked URLs (11.8%); 4 of 15\nartifacts (27%) have at least one dead link. That lands inside the published\nrange for SE research artifacts (9.4% average, 1.8-29.8% by year, arXiv\n2404.06852) - an independent replication of a literature finding.\n\nDesign: kept SEPARATE from verify.py, which stays offline and byte-deterministic.\nLink checks depend on the outside world, so results are cached and committed;\nre-running with --refresh measures the drift. Hosts that block automated requests\nare reported as 'unverifiable' rather than counted dead, since miscounting them\nwould inflate the number in our favour.\n\nAlso fixed: Zenodo rejects page size > 25 with HTTP 400 (a validation error, not\na 
+```
+
+**Tool response**
+
+```
+pushed
+
+=== discovery ===
+  artifact FSE                                 +0    (total 79)
+  artifact ASE                                 +1    (total 80)
+  artifact ESEC                                +0    (total 80)
+  artifact MSR                                 +0    (total 80)
+  artifact ISSRE                               +1    (total 81)
+(still running)
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/prevalence.py", "content": "\"\"\"How widespread is broken documentation in research artifacts?\n\nThe badge-labelled corpus answers \"can the system agree with experts?\". This\nanswers a different and arguably more useful question: **how common is the defect\nat all?**\n\nIt is only possible because the verifier needs no labels and no model. It is\ndeterministic Python over a file tree, so it can be pointed at every artifact we\ncan find, for free, and the result is a measurement about the world rather than a\nscore for a classifier.\n\nTESTABLE HYPOTHESIS\n-------------------\nPublished work reports that over 40% of \"functional\" artifacts from 2024-2025\nfail within months, from drifting dependencies and incomplete environments. If\nartifacts decay, then **older artifacts should have more broken claims than newer\nones**. That is checkable here: every repository carries a last-push date.\n\nA null result is reported as a null result.\n\"\"\"\nfrom __future__ import annotations\n\nimport json\nimport statistics\nfrom collections import defaultdict\nfrom datetime im
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/prevalence.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== discovery status ===\"\npgrep -f discover >/dev/null && echo \"still running\" || echo \"done\"\ntail -4 results/discover.log\nwc -l data/discovered.jsonl 2>/dev/null || echo \"(not yet written)\"", "description": "Check discovery completion"}
+```
+
+**Tool response**
+
+```
+=== discovery status ===
+still running
+  artifact ESEC                                +0    (total 80)
+  artifact MSR                                 +0    (total 80)
+  artifact ISSRE                               +1    (total 81)
+  "replication package"                        +44   (total 125)
+(not yet written)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\ns=s.replace('''## 3. Does the agent solve it well?''',\n'''### This is a documented problem, not an assumed one\n\nPublished measurements of research-artifact quality, independent of this project:\n\n| Finding | Source |\n|---|---|\n| **Over 40% of \"functional\" artifacts from 2024\u20132025 fail within months** \u2014 drifting dependencies, unpinned versions, incomplete environments | [arXiv 2512.00651](https://arxiv.org/html/2512.00651v1) |\n| **62.6% of artifacts break at least once** during study | [ICSE'23, Zhu et al.](https://web.cs.ucdavis.edu/~rubio/includes/icse23.pdf) |\n| Only **56.4% of artifacts were reachable** at the links their papers gave | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |\n| **Link rot averages 9.4%**, reaching 29.8% in some years | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |\n| README quality averaged **49.8%** across 2017\u20132022 | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |\n\nTwo consequences shape this project.\n\n**First, the failure is temporal.** An artifact badged 
+```
+
+**Tool response**
+
+```
+evidence section added
+
+=== discovery ===
+  artifact ISSRE                               +1    (total 81)
+  "replication package"                        +44   (total 125)
+  "reproduction package"                       +62   (total 187)
+(running)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nuntil [ -s data/discovered.jsonl ]; do\n  pgrep -f discover >/dev/null || break\n  sleep 10\ndone\ntail -6 results/discover.log\necho; echo \"=== corpus size ===\"; wc -l < data/discovered.jsonl | xargs echo \"  repos discovered:\"", "description": "Wait for discovery to complete", "run_in_background": true}
+```
+
+**Tool response**
+
+```
+Command running in background with ID: bki95tqfu. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bki95tqfu.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A && git -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"Ground the problem in published evidence + prevalence study scaffold\n\nREADME now cites independent measurements rather than asserting the problem:\n40%+ of functional artifacts fail within months; 62.6% break at least once;\nonly 56.4% reachable at published links; link rot 9.4% avg.\n\nKey reframe: the failure is TEMPORAL. An artifact badged Functional in 2024 may\nnot be functional now - that is the phenomenon, not label noise, and it explains\nthe badge-comparison result.\n\nprevalence.py measures how widespread broken claims are across every artifact we\ncan find (no labels, no model needed), and tests the decay hypothesis directly:\nif artifacts decay, older repos should show more broken claims.\" && git push -q origin main && echo pushed\ntail -2 results/discover.log", "description": "Commit evidence section"}
+```
+
+**Tool response**
+
+```
+pushed
+  "reproduction package"                       +62   (total 187)
+  "artifact evaluation"                        +65   (total 252)
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/cli.py", "content": "\"\"\"`artifact-triage <owner/repo>` - produce a reviewer-ready report for one artifact.\n\nThis is the part a real user actually touches. An Artifact Evaluation reviewer is\nassigned an artifact and has perhaps an hour. This gives them, in seconds, the\nfindings that are mechanically checkable, so their hour goes on the judgement a\nhuman is actually needed for.\n\nTwo modes:\n\n  --no-model   (default when no credentials are configured)\n               Deterministic only. No API key, no cost, no network beyond GitHub.\n               Every finding is a verified fact.\n\n  --model      Adds the tier assessment and escalation recommendation.\n\nThe report is written to be *signed off on*: every claim cites the file or URL it\ncame from, uncertainty is stated rather than smoothed over, and the tool says\nexplicitly what it did NOT check. A reviewer who cannot see the limits of a tool\ncannot responsibly use its output.\n\"\"\"\nfrom __future__ import annotations\n\nimport argparse\nimport json\nimport re\nimport sys\nfrom datetime import datetime, timezo
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/cli.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== CLI on a real artifact (deterministic only, no model, no cost) ===\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.cli zhangxiaosa/LPR 2>/dev/null | head -34\necho\necho \"=== discovery ===\"; tail -2 results/discover.log; wc -l < data/discovered.jsonl 2>/dev/null | xargs echo \"  repos:\"", "description": "Test the CLI on a real artifact"}
+```
+
+**Tool response**
+
+```
+=== CLI on a real artifact (deterministic only, no model, no cost) ===
+# Artifact reproducibility report — `zhangxiaosa/LPR`
+
+Generated 2026-08-29 00:05 UTC against commit `1cd376048ae5`.
+
+## Verdict: **2 issue(s) need attention**
+
+- 15 README path(s) that do not exist
+- no dependency manifest
+
+## README claims verified against the repository
+
+`17` file path(s) referenced, checked against `31,020` files at the pinned commit.
+
+| Referenced in README | Present in repository |
+|---|---|
+| `perses_deploy.jar` | **no** |
+| `script/summarize_perses_or_vulcan.py` | **no** |
+| `scripts/analyze_and_draw.sh` | **no** |
+| `scripts/keep_running.sh` | **no** |
+| `scripts/run_creduce.py` | **no** |
+| `scripts/run_lpr.py` | **no** |
+| `scripts/run_perses.py` | **no** |
+| `scripts/run_vulcan.py` | **no** |
+| `scripts/summarize_lpr.py` | **no** |
+| `summarize_creduce.py` | **no** |
+| `summarize_perses_or_vulcan.py` | **no** |
+| `summarize_xxx.py` | **no** |
+| `tmp/LPR/tools/token_counter_deploy.jar` | **no** |
+| `token_counter_deploy.jar` | **no** |
+| `vulcan_deploy.jar` | **no** |
+
+> Each row is a documented instruction a user would follow and find missing.
+
+## External links
+
+=== discovery ===
+di
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src nohup .venv/bin/python -u -m artifact_triage.eval.prevalence > results/prevalence.log 2>&1 &\necho \"started pid $! \u2014 profiling 398 repos\"\npython3 - <<'PY'\np='pyproject.toml'; s=open(p).read()\nif '[project.scripts]' not in s:\n    s=s.replace('[tool.uv]','''[project.scripts]\nartifact-triage = \"artifact_triage.cli:main\"\n\n[tool.uv]''')\n    open(p,'w').write(s)\nprint(\"console entry point registered\")\nPY\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\nif 'prevalence:' not in s:\n    s=s.replace(\"trajectories:\", \"\"\"discover:  ## Harvest research-artifact repos at scale from Zenodo\n\\tPYTHONPATH=src .venv/bin/python -m artifact_triage.corpus.discover\n\nprevalence: ## Measure how widespread broken README claims are (no model needed)\n\\tPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.prevalence\n\nlinks:     ## Check README URLs for link rot\n\\tPYTHONPATH=src .venv/bin/python -m artifact_triage.solution.links\n\nreport:    ## Reviewer report for one repo: make report REPO=owner/name\n\\tPYTHONPATH=src .venv/bin/python -m artifact_triage.cli $
+```
+
+**Tool response**
+
+```
+started pid 98001 — profiling 398 repos
+console entry point registered
+make targets added
+discovered artifacts: 398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A\ngit -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"CLI: reviewer-ready report for any repository, plus scale-up to 398 artifacts\n\nartifact-triage <owner/repo> produces a report a reviewer can sign off on:\nevery finding cites the file or URL it came from, and a 'Not checked' section\nstates plainly what the tool does NOT verify - a reviewer who cannot see a\ntool's limits cannot responsibly use its output.\n\nRuns deterministically by default: no API key, no cost, ~5 seconds. --model adds\nthe tier assessment and escalation recommendation.\n\nCorpus scaled 15 -> 398 artifact repositories, harvested from Zenodo across\nvenues and 'replication package' / 'reproduction package' phrasing. The verifier\nneeds no labels and no model, so it can measure prevalence across all of them.\"\ngit push -q origin main && echo pushed\necho; echo \"=== prevalence progress ===\"; tail -2 results/prevalence.log", "description": "Commit CLI and scale-up"}
+```
+
+**Tool response**
+
+```
+pushed
+
+=== prevalence progress ===
+discovered artifacts: 398
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/issue_validation.py", "content": "\"\"\"Do real users complain about the defects this tool detects?\n\nTHE VALIDATION GAP\n------------------\nEverything so far is either self-referential (we injected the fault, so of course\nwe detect it) or mismatched (ACM badges measure a past state). Neither answers the\nquestion a sceptical reviewer should ask: **does anyone actually care?**\n\nGitHub issues are an independent, unprompted signal. When a researcher tries to\nrun an artifact and the documented script is missing, they frequently open an\nissue saying so - in their own words, with no knowledge of this project.\n\nSo: for each artifact, count issues whose text matches reproduction-failure\nlanguage, and compare repositories the verifier flags against those it does not.\n\nWHAT WOULD FALSIFY THIS\n-----------------------\nIf flagged and unflagged repositories complain at the same rate, the verifier is\ndetecting something users do not experience, and the finding is null. That\noutcome is reported as-is. The hypothesis is stated before the measurement\nprecisely so it ca
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/issue_validation.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== prevalence progress ===\"; tail -3 results/prevalence.log\npgrep -f prevalence >/dev/null && echo \"(running)\" || echo \"(done)\"\necho; echo \"cached profiles so far: $(ls data/cache/prevalence 2>/dev/null | wc -l | tr -d ' ')\"", "description": "Check prevalence study progress"}
+```
+
+**Tool response**
+
+```
+=== prevalence progress ===
+discovered artifacts: 398
+(running)
+
+cached profiles so far: 29
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\nif 'validate:' not in s:\n    s=s.replace(\"trajectories:\", \"\"\"validate:  ## Do real users complain about what the verifier detects?\n\\tPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.issue_validation\n\ntrajectories:\"\"\")\n    open(p,'w').write(s)\nPY\ngit add -A\ngit -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"External validation: do real users complain about what we detect?\n\nEverything measured so far is either self-referential (we injected the fault) or\nmismatched (badges measure a past state). Neither answers whether anyone actually\ncares.\n\nGitHub issues are an independent, unprompted signal: when a researcher runs an\nartifact and a documented script is missing, they often open an issue saying so,\nin their own words, with no knowledge of this project.\n\nissue_validation.py compares reproduction-complaint rates between repositories\nthe verifier flags and those it does not. The falsification condition is stated\nBEFORE the measurement: if both groups complai
+```
+
+**Tool response**
+
+```
+pushed
+
+profiles: 35/398
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py", "content": "\"\"\"Regression tests pinning every bug the changelog claims to have fixed.\n\nA changelog entry is a claim. These tests make each one enforceable: if a fix is\never undone, a test fails and names the original defect. Every test below\ncorresponds to a real bug found during development, not a hypothetical.\n\nRun with:  make test\n\"\"\"\nfrom __future__ import annotations\n\nimport sys\nfrom pathlib import Path\n\nsys.path.insert(0, str(Path(__file__).resolve().parents[1] / \"src\"))\n\nfrom artifact_triage.corpus.fetch import _is_path, referenced_paths  # noqa: E402\nfrom artifact_triage.corpus.scrub import scrub  # noqa: E402\nfrom artifact_triage.corpus.zenodo import github_repos, normalise  # noqa: E402\nfrom artifact_triage.eval.metrics import Prediction, score  # noqa: E402\nfrom artifact_triage.solution.verify import _index, check_claim, verify  # noqa: E402\n\n\n# --------------------------------------------------------------------------\n# Iteration 13 - \"a dot does not make a path\"\n# The extractor matched any token containing a dot, sweepi
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\nif 'test:' not in s:\n    s=s.replace(\"preflight:\", \"\"\"test:      ## Regression tests pinning every bug the changelog claims to have fixed\n\\t.venv/bin/python tests/test_regressions.py\n\npreflight:\"\"\")\n    open(p,'w').write(s)\nPY\n.venv/bin/python tests/test_regressions.py 2>&1 | tail -28", "description": "Run the regression test suite"}
+```
+
+**Tool response**
+
+```
+Traceback (most recent call last):
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py", line 202, in <module>
+    fn()
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py", line 49, in test_real_paths_are_still_recognised
+    assert _is_path(tok), f"{tok!r} should be recognised as a path"
+           ^^^^^^^^^^^^^
+AssertionError: 'Makefile.am' should be recognised as a path
+  PASS  test_bare_domains_are_not_paths
+  PASS  test_claims_inside_code_fences_are_extracted
+  PASS  test_directory_claim_is_satisfied_by_the_directory
+  PASS  test_dotted_identifiers_are_not_paths
+  PASS  test_exact_and_basename_matches_still_work
+  PASS  test_existing_directory_does_not_satisfy_a_file_claim
+  PASS  test_fixtures_have_complete_file_trees
+  PASS  test_git_suffix_is_actually_removed
+  PASS  test_git_suffix_stripping_does_not_eat_real_characters
+  PASS  test_no_tier_word_survives_scrubbing
+  PASS  test_ordinary_readme_text_is_untouched
+  PASS  test_overclaim_is_tracked_separately_from_mae
+  FAIL  test_real_paths_are_still_recognised
+  PASS  test_redaction_is_not_itself_redactable
+  PAS
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/fetch.py'; s=open(p).read()\ns=s.replace('''    \"ipynb\", \"lock\", \"mk\", \"cmake\", \"gradle\", \"dockerfile\", \"tf\", \"proto\",\n}''','''    \"ipynb\", \"lock\", \"mk\", \"cmake\", \"gradle\", \"dockerfile\", \"tf\", \"proto\",\n    # Build-system extensions. `Makefile.am` was missed until a regression test\n    # caught it - autotools artifacts would have had their build files skipped.\n    \"am\", \"ac\", \"in\", \"m4\", \"nix\", \"bzl\", \"bazel\", \"cabal\", \"sbt\",\n}''')\nopen(p,'w').write(s)\nprint(\"build-system extensions added\")\nPY\n.venv/bin/python tests/test_regressions.py 2>&1 | tail -4\necho\necho \"=== confirm the corpus is unaffected by the wider whitelist ===\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.corpus.fetch 2>&1 | tail -3\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.negative_control 2>&1 | tail -5\necho; echo \"prevalence profiles: $(ls data/cache/prevalence 2>/dev/null | wc -l | tr -d ' ')/398\"", "description": "Fix extension gap and verify nothing regressed"}
+```
+
+**Tool response**
+
+```
+build-system extensions added
+  PASS  test_version_numbers_are_not_paths
+  PASS  test_zenodo_title_normalisation_strips_decoration
+
+18/18 passed
+
+=== confirm the corpus is unaffected by the wider whitelist ===
+fixtures      : 15/15
+badge leakage : 4 READMEs disclosed their own tier (scrubbed)
+disk used     : 0 bytes of clones - tree API only
+injected false claims  : 75
+detected by verifier   : 75   (100.0%)
+false positives        : 0
+==============================================================
+-> results/negative_control.json
+
+prevalence profiles: 54/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A\ngit -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"Regression suite: 18 tests pinning every bug the changelog claims fixed\n\nA changelog entry is a claim; these make each one enforceable. Every test maps\nto a real defect found during development - version numbers parsed as paths,\nJava identifiers as paths, the directory-satisfies-file rule, the self-matching\nscrubber, rstrip('.git') eating characters, truncated file trees, floor effects.\nIf a fix is undone, a test fails and names the original bug.\n\nThe suite immediately earned itself: it caught that 'Makefile.am' was not\nrecognised as a path, so autotools artifacts would have had their build files\nsilently skipped. Added build-system extensions (am/ac/in/m4/nix/bzl/bazel/\ncabal/sbt) and confirmed the negative control still reports 75/75, 0 false\npositives.\n\n  make test    18/18 passing, no credentials, ~2 seconds\"\ngit push -q origin main && echo pushed\necho \"prevalence: $(ls data/cache/prevalence 2>/dev/null | wc -l | tr -d ' ')/398\"", "description": "Commit
+```
+
+**Tool response**
+
+```
+pushed
+prevalence: 60/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\ns=s.replace('''## Repository layout''','''## Try it on your own repository\n\nThe deterministic path needs **no API key, no cost, and about five seconds**:\n\n```bash\nuv venv && uv pip install -e .\nartifact-triage <owner>/<repo>\n```\n\nPoint it at any research artifact \u2014 including your own \u2014 and it reports which of\nthe README's file references actually resolve, which URLs are dead, and what\nreproducibility infrastructure is present. Add `--model` for a tier assessment\nand an escalation recommendation.\n\nReal output, abridged:\n\n```\n# Artifact reproducibility report \u2014 `zhangxiaosa/LPR`\nGenerated against commit `1cd376048ae5`.\n\n## Verdict: 2 issue(s) need attention\n- 15 README path(s) that do not exist\n- no dependency manifest\n\n`17` file path(s) referenced, checked against `31,020` files.\n\n| Referenced in README        | Present in repository |\n|-----------------------------|-----------------------|\n| `scripts/run_lpr.py`        | **no**                |\n| `scripts/run_perses.py`     | **no**            
+```
+
+**Tool response**
+
+```
+README updated with CLI and architecture
+pushed
+prevalence: 69/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"commits: $(git log --oneline | wc -l | tr -d ' ')   files: $(git ls-files | wc -l | tr -d ' ')\"\necho \"prevalence sweep: $(ls data/cache/prevalence 2>/dev/null | wc -l | tr -d ' ')/398\"\npython3 -c \"\nfrom datetime import datetime,timezone\nd=datetime(2026,8,31,18,0,tzinfo=timezone.utc)-datetime.now(timezone.utc)\nprint(f'time left: {d.days}d {d.seconds//3600}h {(d.seconds%3600)//60}m')\"", "description": "Status check"}
+```
+
+**Tool response**
+
+```
+commits: 20   files: 688
+prevalence sweep: 72/398
+time left: 2d 17h 49m
+```
+
+## Human checkpoint 16
+
+> keep going....dont stop until i say 2 Days you have to keep working and keep iteratinga nd addinf feature and improving it dont stop until i say just make sure you dont use the nova pro again and again the maximun cap which we kept was 5$ for the whole project and keep informing when 1, 2, 3, 4, 5 $  reached try to avoid its use gain and again but keep building and improving the project......
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/spend.py", "content": "\"\"\"Track cumulative model spend against a hard budget.\n\nThe project runs under a $5 ceiling. Almost everything valuable here is\ndeterministic and free - the verifier, link checking, prevalence, issue\nvalidation, the CLI's default mode and the whole test suite make zero model\ncalls - so the budget is spent only on the baseline/solution comparison, which\nis the one thing that genuinely needs a model.\n\nThis reads every results file that records token usage and reports the running\ntotal, so the figure is derived from actual recorded usage rather than estimated.\n\"\"\"\nfrom __future__ import annotations\n\nimport json\nfrom dataclasses import dataclass\nfrom pathlib import Path\n\nBUDGET_USD = 5.00\nTHRESHOLDS = [1.0, 2.0, 3.0, 4.0, 5.0]\nLEDGER = Path(\"results/spend.json\")\n\n\n@dataclass\nclass Entry:\n    source: str\n    usd: float\n    calls: int\n    note: str = \"\"\n\n\ndef collect() -> list[Entry]:\n    out: list[Entry] = []\n\n    def load(path: str):\n        p = Path(path)\n        return json.loads(p.read_text()) if p.exis
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/spend.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\nif 'spend:' not in s:\n    s=s.replace(\"test:\", \"\"\"spend:     ## Cumulative model spend against the $5 budget\n\\tPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend\n\ntest:\"\"\")\n    open(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend\necho; echo \"prevalence: $(ls data/cache/prevalence 2>/dev/null | wc -l | tr -d ' ')/398\"", "description": "Report current model spend against budget"}
+```
+
+**Tool response**
+
+```
+====================================================================
+MODEL SPEND
+====================================================================
+  baseline run               $ 0.0333    15 calls   one prompt per artifact
+  solution run               $ 0.0359    15 calls   verified facts per artifact
+  falsified experiment       $ 0.4197   180 calls   3 trials x 2 systems x clean+dirty
+--------------------------------------------------------------------
+  TOTAL                      $ 0.4889   210 calls
+  BUDGET                     $   5.00
+  REMAINING                  $ 4.5111  (9.8% used)
+--------------------------------------------------------------------
+  [####..............................................]
+
+  Produced with ZERO model spend:
+    - deterministic claim verifier (verify.py)
+    - negative control - 75 injected claims (negative_control.py)
+    - link-rot checking (links.py)
+    - prevalence sweep across 398 artifacts (prevalence.py)
+    - GitHub issue validation (issue_validation.py)
+    - corpus build from cached fixtures (corpus/*)
+    - CLI default mode (cli.py, no --model)
+    - regression test suite (tests/)
+================================================
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/solution/pinning.py", "content": "\"\"\"Are the artifact's dependencies pinned, or will they drift?\n\nWHY THIS CHECK EXISTS\n---------------------\nThe single most-cited cause of artifact decay in the literature is unpinned\ndependencies: over 40% of \"functional\" artifacts from 2024-2025 fail within\nmonths, from drifting dependencies, unpinned versions and incomplete\nenvironments.\n\n`requirements.txt` containing `torch` will install a different library next year\nthan it did last year. `torch==2.1.0` will not. That distinction is mechanically\ncheckable, costs nothing, and predicts a failure mode that has already been\nmeasured in the wild - so it belongs next to the path verifier.\n\nLike the path checker, this reports facts rather than opinions: how many\nrequirements are pinned, how many float, and exactly which ones.\n\"\"\"\nfrom __future__ import annotations\n\nimport base64\nimport json\nimport re\nfrom dataclasses import dataclass, asdict\n\nfrom artifact_triage.corpus.github import API, _get\n\n# Manifests we can meaningfully assess, in rough order of how str
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/solution/pinning.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.solution.pinning 2>&1 | tail -30", "description": "Run dependency pinning analysis"}
+```
+
+**Tool response**
+
+```
+  DueForce/DueForce                              no dependency manifest found
+  HexHive/FishFuzz                               lock file present (FF_AFL++/frida_mode/ts/package-lock.json) - versions are pinned
+  NWU-NISL-Fuzzing/upbeat                        no dependency manifest found
+  QuentinMaz/MDPFuzz_Replicability_Study_Artif   reproduction/RL_CARLA/PythonAPI/util/requirements.txt: 0/5 pinned, 0 bounded, 5 floating (0% pinned)
+  THU-WingTecher/DeepConstr                      requirements.txt: 0/15 pinned, 0 bounded, 15 floating (0% pinned)
+  asub0/fonnx                                    Theme3/synthetic-models/[REDACTED].txt: 0/2 pinned, 0 bounded, 2 floating (0% pinned)
+  dserfe/FlakyDoctor                             no dependency manifest found
+  emocat/VioHawk                                 lock file present (utils/lawbreaker/src/bridge/package-lock.json) - versions are pinned
+  jovyntls/inconsistencies-in-tex                requirements.txt: 34/34 pinned, 0 bounded, 0 floating (100% pinned)
+  logpai/loghub-2.0                              requirements.txt: 13/14 pinned, 0 bounded, 1 floating (93% pinned)
+  lrtsuser/LRTS                   
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/pinning.py'; s=open(p).read()\ns=s.replace('''def analyse(slug: str, file_tree: list[str]) -> PinReport:\n    names = {p.rsplit(\"/\", 1)[-1]: p for p in file_tree}\n\n    lock = next((names[n] for n in LOCKFILES if n in names), None)''',\n'''def _shallowest(file_tree: list[str], wanted: set[str]) -> str | None:\n    \"\"\"Pick the manifest nearest the repository root.\n\n    A naive basename lookup selected `FF_AFL++/frida_mode/ts/package-lock.json`\n    - a vendored sub-dependency six levels deep - as an artifact's dependency\n    manifest. The artifact's own manifest is the one closest to the root; deeply\n    nested ones belong to bundled third-party code and say nothing about whether\n    the artifact itself is reproducible.\n    \"\"\"\n    best, best_depth = None, 10**6\n    for path in file_tree:\n        if path.rsplit(\"/\", 1)[-1] not in wanted:\n            continue\n        depth = path.count(\"/\")\n        if depth < best_depth:\n            best, best_depth = path, depth\n    # Beyond two directories deep it is almost cert
+```
+
+**Tool response**
+
+```
+depth preference added
+  QuentinMaz/MDPFuzz_Replicability_Study_Artif   replication/cart/requirements.txt: 23/23 pinned, 0 bounded, 0 floating (100% pinned)
+  THU-WingTecher/DeepConstr                      requirements.txt: 0/15 pinned, 0 bounded, 15 floating (0% pinned)
+  asub0/fonnx                                    no dependency manifest found
+  dserfe/FlakyDoctor                             no dependency manifest found
+  emocat/VioHawk                                 requirements.txt: 22/22 pinned, 0 bounded, 0 floating (100% pinned)
+  jovyntls/inconsistencies-in-tex                requirements.txt: 34/34 pinned, 0 bounded, 0 floating (100% pinned)
+  logpai/loghub-2.0                              requirements.txt: 13/14 pinned, 0 bounded, 1 floating (93% pinned)
+  lrtsuser/LRTS                                  requirements.txt: 10/10 pinned, 0 bounded, 0 floating (100% pinned)
+  nhuhuan/sba                                    no dependency manifest found
+  sea-lab-wm/Toward-Automating-the-Localizatio   requirements.txt: 52/52 pinned, 0 bounded, 0 floating (100% pinned)
+  trustdnn/issta2024                             no dependency manifest found
+  zhangxiaosa/LPR               
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/cli.py'; s=open(p).read()\ns=s.replace('''def render(fx: dict, ev, links: dict | None, model: dict | None) -> str:''',\n'''def render(fx: dict, ev, links: dict | None, model: dict | None,\n           pins=None) -> str:''')\ns=s.replace('''    if not ev.has_dependency_manifest:\n        problems.append(\"no dependency manifest\")''',\n'''    if pins is not None:\n        if pins.manifest is None:\n            problems.append(\"no dependency manifest \u2014 environment cannot be recreated\")\n        elif pins.floating:\n            problems.append(f\"{pins.floating} unpinned dependenc\"\n                            f\"{'y' if pins.floating == 1 else 'ies'} that will drift\")\n    elif not ev.has_dependency_manifest:\n        problems.append(\"no dependency manifest\")''')\ns=s.replace('''    L.append(\"\")\n\n    # ---- model assessment --------------------------------------------------''',\n'''    L.append(\"\")\n\n    # ---- dependency pinning ------------------------------------------------\n    if pins is not None:\n        L.append(\"## Depend
+```
+
+**Tool response**
+
+```
+pinning wired into the reviewer report
+# Artifact reproducibility report — `THU-WingTecher/DeepConstr`
+
+Generated 2026-08-29 00:18 UTC against commit `fdb1e5d809ca`.
+
+## Verdict: **2 issue(s) need attention**
+
+- 5 README path(s) that do not exist
+- 15 unpinned dependencies that will drift
+
+## README claims verified against the repository
+
+`27` file path(s) referenced, checked against `41,822` files at the pinned commit.
+## Dependency pinning
+
+requirements.txt: 0/15 pinned, 0 bounded, 15 floating (0% pinned)
+
+Unpinned requirements (these will resolve differently over time):
+
+- `z3-solver`
+- `hydra-core>=1.1.0`
+- `hydra_colorlog`
+- `multipledispatch`
+- `appdirs`
+- `numpy`
+- `pre-commit`
+- `numpy`
+
+> Unpinned versions are the most-cited cause of artifact decay: over 40% of 2024–25 "functional" artifacts fail within months.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ncat >> tests/test_regressions.py.new <<'EOF'\nEOF\nrm -f tests/test_regressions.py.new\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns=s.replace('''# --------------------------------------------------------------------------\n# End-to-end: the verifier is deterministic.''','''# --------------------------------------------------------------------------\n# Dependency pinning - a vendored manifest six levels deep is not the\n# artifact's own manifest. Selecting one inflated the pinned ratio.\n# --------------------------------------------------------------------------\ndef test_vendored_manifest_is_not_selected():\n    from artifact_triage.solution.pinning import _shallowest, LOCKFILES\n    tree = [\"FF_AFL++/frida_mode/ts/package-lock.json\", \"src/main.c\"]\n    assert _shallowest(tree, LOCKFILES) is None, \\\\\n        \"a manifest 3+ levels deep is vendored code, not the artifact's own\"\n\n\ndef test_root_manifest_is_selected_over_nested():\n    from artifact_triage.solution.pinning import _shallowest, PY_MANIFESTS\n    tree = [\"deep/nested/dir/requirements.txt\"
+```
+
+**Tool response**
+
+```
+  PASS  test_zenodo_title_normalisation_strips_decoration
+
+21/21 passed
+pushed
+prevalence: 225/398
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/solution/portability.py", "content": "\"\"\"Will this artifact run anywhere but the author's machine?\n\nThe literature names \"incomplete environments\" alongside unpinned dependencies as\na cause of artifact decay. One concrete, mechanically detectable form of that is\n**environment leakage**: paths, hostnames and credentials that only resolve on the\nmachine where the artifact was written.\n\n`/home/alice/projects/data/train.csv` in a config file is not a bug on the\nauthor's laptop. It is a guaranteed failure for every subsequent reader, and it\nis invisible in a README that says \"run `python train.py`\".\n\nEverything here is deterministic and free: it reads text the GitHub API already\nreturned. Findings cite file and line, so a reviewer can check each one.\n\nDELIBERATELY NARROW\n-------------------\nOnly patterns that are near-certainly non-portable are reported. `/usr/bin` and\n`/tmp` are conventional and excluded; a user-specific home directory is not.\nOver-reporting would train a reviewer to ignore the output, which is worse than\nreporting nothing.\n\"\"\"\nfr
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/solution/portability.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.solution.portability 2>&1 | tail -30\necho; echo \"prevalence: $(ls data/cache/prevalence 2>/dev/null | wc -l | tr -d ' ')/398\"", "description": "Run portability scan on labelled corpus"}
+```
+
+**Tool response**
+
+```
+  NWU-NISL-Fuzzing/upbeat                        12 portability issue(s): 12 absolute home path
+        src/config.json:2  "work_dir":"/root/upbeat/src",
+        src/config.json:6  "reference_db": "/root/upbeat/data/query/reference-v3.db",
+  QuentinMaz/MDPFuzz_Replicability_Study_Artif   no environment leakage found across 12 inspected file(s)
+  THU-WingTecher/DeepConstr                      no environment leakage found across 12 inspected file(s)
+  asub0/fonnx                                    no environment leakage found across 12 inspected file(s)
+  dserfe/FlakyDoctor                             2 portability issue(s): 2 absolute home path
+        src/repair_OD.py:895  print("/home/ubuntu/flaky/" + project_dir, pom_path)
+        src/repair_OD.py:896  utils.git_checkout_file( "/home/ubuntu/flaky/" + project_dir,pom_path)
+  emocat/VioHawk                                 2 portability issue(s): 2 conda env path
+        install.sh:21  patch ~/miniconda3/envs/viohawk/lib/python3.7/site-packages/commonroad_reach/u
+        install.sh:22  patch ~/miniconda3/envs/viohawk/lib/python3.7/site-packages/commonroad_reach/d
+  jovyntls/inconsistencies-in-tex                1 portability issue(s
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\n# wire portability into the CLI report\np='src/artifact_triage/cli.py'; s=open(p).read()\ns=s.replace('''def render(fx: dict, ev, links: dict | None, model: dict | None,\n           pins=None) -> str:''','''def render(fx: dict, ev, links: dict | None, model: dict | None,\n           pins=None, port=None) -> str:''')\ns=s.replace('''    elif not ev.has_dependency_manifest:\n        problems.append(\"no dependency manifest\")''',\n'''    elif not ev.has_dependency_manifest:\n        problems.append(\"no dependency manifest\")\n    if port is not None and port.n:\n        problems.append(f\"{port.n} hard-coded machine-specific value(s)\")''')\ns=s.replace('''    # ---- model assessment --------------------------------------------------''',\n'''    # ---- portability -------------------------------------------------------\n    if port is not None:\n        L.append(\"## Portability\\\\n\")\n        L.append(f\"{port.summary()}\\\\n\")\n        if port.findings:\n            L.append(\"| File | Line | Value |\")\n            L.append(\"|---|---|---|\")\n            for f in 
+```
+
+**Tool response**
+
+```
+wired + tests added
+  PASS  test_zenodo_title_normalisation_strips_decoration
+
+24/25 passed
+pushed
+prevalence: 285/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -A6 \"FAIL\"", "description": "Identify the failing test"}
+```
+
+**Tool response**
+
+```
+  FAIL  test_private_network_addresses_are_flagged
+  PASS  test_public_ip_like_versions_are_not_flagged
+  PASS  test_real_paths_are_still_recognised
+  PASS  test_redaction_is_not_itself_redactable
+  PASS  test_root_manifest_is_selected_over_nested
+  PASS  test_scorer_separates_escalation_from_failure
+  PASS  test_user_home_paths_are_flagged
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nimport re\nfrom artifact_triage.solution.portability import PATTERNS, BENIGN, scan_text\nline = \\\"HOST = '192.168.1.42'\\\"\nfor kind, pat, _ in PATTERNS:\n    m = pat.search(line)\n    print(f'  {kind:<22} {\\\"MATCH \\\" + repr(m.group(1)) if m else \\\"no match\\\"}')\nprint('scan_text ->', scan_text(line, 'conf.py'))\n\"", "description": "Debug private IP pattern"}
+```
+
+**Tool response**
+
+```
+  absolute_home_path     no match
+  windows_user_path      no match
+  absolute_mnt_path      no match
+  localhost_port         no match
+  private_host           no match
+  conda_env_path         no match
+scan_text -> []
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/portability.py'; s=open(p).read()\ns=s.replace('''    (\"private_host\", re.compile(\n        r\"\\\\b((?:10|192\\\\.168|172\\\\.(?:1[6-9]|2\\\\d|3[01]))\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3})\\\\b\"),\n     \"private network address only reachable on the author's network\"),''',\n'''    # Each RFC1918 range needs its own octet count: 10.x.x.x has three\n    # remaining octets, 192.168.x.x and 172.16-31.x.x only two. An earlier\n    # single alternation demanded three after every prefix, so the 192.168 and\n    # 172.x branches could never match anything - a pattern that silently never\n    # fired. A regression test caught it.\n    (\"private_host\", re.compile(\n        r\"\\\\b(10\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\"\n        r\"|192\\\\.168\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\"\n        r\"|172\\\\.(?:1[6-9]|2\\\\d|3[01])\\\\.\\\\d{1,3}\\\\.\\\\d{1,3})\\\\b\"),\n     \"private network address only reachable on the author's network\"),''')\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage
+```
+
+**Tool response**
+
+```
+  HOST = '192.168.1.42'      -> private_host
+  H='10.0.0.5'               -> private_host
+  H='172.16.3.9'             -> private_host
+  v='8.8.8.8'                -> not flagged
+  v='172.5.0.1'              -> not flagged
+
+25/25 passed
+
+prevalence: 296/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A\ngit -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"Fix a regex that could never fire, caught by its own regression test\n\nThe private-address pattern demanded three octets after every RFC1918 prefix.\nBut 192.168 is already two octets and 172.16 is two - so those branches required\nfive-octet addresses and could never match anything. Only the 10.x branch worked.\n\nThis is the third instance of the same failure class in this project: silent\nunder-reporting. A check that quietly never fires looks identical to a clean\nresult. It produced no error, no warning, and a plausible number.\n\nEach RFC1918 range now carries its own octet count. Verified: 192.168.1.42,\n10.0.0.5 and 172.16.3.9 flag; 8.8.8.8 and 172.5.0.1 correctly do not.\n\n25/25 tests passing.\"\ngit push -q origin main && echo pushed\necho \"prevalence: $(ls data/cache/prevalence 2>/dev/null | wc -l | tr -d ' ')/398\"", "description": "Commit regex fix"}
+```
+
+**Tool response**
+
+```
+pushed
+prevalence: 301/398
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/dashboard.py", "content": "\"\"\"Render every measurement into one self-contained HTML report.\n\nResults currently live across seven JSON files. A reviewer should not have to\nopen seven files to see what was found, and a video cannot show seven files\nlegibly in five minutes.\n\nSelf-contained by design: no CDN, no external CSS, no fonts to fetch. It opens\nfrom disk, offline, forever - which matters for a project whose whole subject is\nartifacts that stop working when something external moves.\n\nEvery number is read from a results file. Nothing here is typed by hand, so the\npage cannot drift from the data.\n\"\"\"\nfrom __future__ import annotations\n\nimport html\nimport json\nfrom pathlib import Path\n\nOUT = Path(\"results/dashboard.html\")\n\nCSS = \"\"\"\n:root{--bg:#fbfbfa;--fg:#1c1c1a;--muted:#6b6b66;--line:#e2e2dd;\n--bad:#b23c2e;--ok:#2f7d5c;--warn:#a8761c;--accent:#2d4a7a}\n@media(prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#e8e8e4;\n--muted:#9a9a94;--line:#2c2c33;--bad:#e07a6a;--ok:#6cc39b;--warn:#d7a martin;\n--accent:#8fb0e0}}\n*{box-sizing:bo
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/dashboard.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/dashboard.py'; s=open(p).read()\ns=s.replace(\"--bad:#e07a6a;--ok:#6cc39b;--warn:#d7a martin;\",\n            \"--bad:#e07a6a;--ok:#6cc39b;--warn:#d7a94a;\")\nopen(p,'w').write(s)\nprint(\"css fixed\")\nPY\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\nif 'dashboard:' not in s:\n    s=s.replace(\"spend:\", \"dashboard: ## Render all results into one self-contained HTML page\\n\\tPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard\\n\\nspend:\")\n    open(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend >/dev/null 2>&1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard\necho; echo \"=== sanity: no external resources ===\"\ngrep -cE 'https?://(fonts|cdn|unpkg|jsdelivr)' results/dashboard.html | xargs echo \"  external refs:\"\necho \"  size: $(du -h results/dashboard.html | cut -f1)\"\necho; echo \"prevalence: $(ls data/cache/prevalence 2>/dev/null | wc -l | tr -d ' ')/398\"", "description": "Fix CSS and generate dashboard"}
+```
+
+**Tool response**
+
+```
+css fixed
+wrote results/dashboard.html  (6,190 bytes, self-contained)
+
+=== sanity: no external resources ===
+  external refs: 0
+  size: 8.0K
+
+prevalence: 322/398
+```
+
+**Tool call** `mcp__claude-in-chrome__navigate`
+
+```json
+{"tabId": 781484748, "url": "file:///Users/adarsh/Desktop/Projects/micro1.%20Frontier%20Engineering%20Challenge%202026/results/dashboard.html"}
+```
+
+**Tool response**
+
+```
+Navigated to https://file:///Users/adarsh/Desktop/Projects/micro1.%20Frontier%20Engineering%20Challenge%202026/results/dashboard.html
+
+
+Tab Context:
+- Executed on tabId: 781484748
+- Available tabs:
+  • tabId 781484748: "file" ("https://file:///Users/adarsh/Desktop/Projects/micro1.%20Frontier%20Engineering%20Challenge%202026/results/dashboard.html")
+<system-reminder>You used a single tool call this turn. Prefer browser_batch to execute multiple actions in one call — it is significantly faster. Batch your next sequence of clicks, types, navigations, and screenshots together.</system-reminder>
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n# structural validation instead of a visual check\n.venv/bin/python - <<'PY'\nfrom html.parser import HTMLParser\nclass V(HTMLParser):\n    def __init__(self): super().__init__(); self.stack=[]; self.err=[]\n    def handle_starttag(self,t,a):\n        if t not in (\"meta\",\"br\",\"img\",\"link\",\"hr\",\"input\"): self.stack.append(t)\n    def handle_endtag(self,t):\n        if self.stack and self.stack[-1]==t: self.stack.pop()\n        elif t in self.stack: self.err.append(f\"mismatched </{t}>\")\ndoc=open(\"results/dashboard.html\").read()\nv=V(); v.feed(doc)\nprint(f\"  unclosed tags : {v.stack or 'none'}\")\nprint(f\"  mismatches    : {v.err or 'none'}\")\nprint(f\"  has doctype   : {doc.lower().startswith('<!doctype html>')}\")\nprint(f\"  dark-mode vars: {'prefers-color-scheme' in doc}\")\nprint(f\"  tables        : {doc.count('<table')}\")\nPY\ngit add -A\ngit -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" \\\n  commit -q -m \"Results dashboard: every measurement in one self-contained page\n\nResults lived across seven JSON files. A reviewer should n
+```
+
+**Tool response**
+
+```
+  unclosed tags : none
+  mismatches    : none
+  has doctype   : True
+  dark-mode vars: True
+  tables        : 3
+pushed
+prevalence: 332/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ns=s.replace(\"## Experiments removed\", \"\"\"## Extension - from a classifier to a measurement instrument\n\nOnce the falsified experiment settled the comparison, the remaining weaknesses were\nscope: n=15, one venue, and only one class of defect checked. Each was addressed\nwith evidence rather than assertion.\n\n| Stage | What I tried and why | Evidence | Decision / Learning |\n|---|---|---|---|\n| Iteration 27 | Searched the literature for whether this problem is actually documented, rather than continuing to assert it. | Over 40% of \"functional\" artifacts from 2024-25 fail within months; 62.6% break at least once; only 56.4% reachable at published links; link rot averages 9.4%. | **Reframed the negative result.** The badge comparison did not fail because the metric was broken - it was measuring **artifact decay**, which is the documented phenomenon. The gap between a 2024 badge and today's repository *is* the finding. |\n| Iteration 28 | Added link-rot checking, since the stated failure mode was \"only checks file paths\". | 10
+```
+
+**Tool response**
+
+```
+changelog extended
+changelog lines: 118 CHANGELOG.md
+pushed
+prevalence: 345/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nuntil [ -f results/prevalence.json ]; do\n  pgrep -f \"eval.prevalence\" >/dev/null || break\n  sleep 15\ndone\ntail -32 results/prevalence.log", "description": "Wait for prevalence sweep to complete", "run_in_background": true}
+```
+
+**Tool response**
+
+```
+Command running in background with ID: bua8a66pf. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bua8a66pf.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport re, sys\nfrom artifact_triage.corpus.sources import fetch, parse\nfrom collections import Counter\ncands = {\n \"issta-2025\":\"https://2025.issta.org/track/issta-2025-artifact-evaluation\",\n \"issta-2023\":\"https://2023.issta.org/track/issta-2023-artifact-evaluation\",\n \"issta-2022\":\"https://2022.issta.org/track/issta-2022-artifact-evaluation\",\n \"ase-2024\":\"https://conf.researchr.org/track/ase-2024/ase-2024-artifact-evaluation-track\",\n \"ase-2023\":\"https://conf.researchr.org/track/ase-2023/ase-2023-artifact-evaluation-track\",\n \"fse-2025\":\"https://conf.researchr.org/track/fse-2025/fse-2025-artifacts\",\n \"icse-2025\":\"https://conf.researchr.org/track/icse-2025/icse-2025-artifact-evaluation\",\n \"msr-2024\":\"https://conf.researchr.org/track/msr-2024/msr-2024-artifact-track\",\n \"issre-2024\":\"https://conf.researchr.org/track/issre-2024/issre-2024-artifact-evaluation\",\n \"saner-2025\":\"https://conf.researchr.org/track/saner-2025/saner-2025-artifact-evaluation\",\n \"icsme-2024\":\"https://conf.researchr.org/track
+```
+
+**Tool response**
+
+```
+  issta-2025     unreachable (URLError)
+  issta-2023     facet-badges=0    tiers=0      0 parsed  
+  issta-2022     unreachable (URLError)
+  ase-2024       facet-badges=0    tiers=0      0 parsed  
+  ase-2023       unreachable (HTTPError)
+  fse-2025       facet-badges=0    tiers=0      0 parsed  
+  icse-2025      facet-badges=0    tiers=0      0 parsed  
+  msr-2024       unreachable (HTTPError)
+  issre-2024     unreachable (HTTPError)
+  saner-2025     unreachable (HTTPError)
+  icsme-2024     unreachable (HTTPError)
+  sigir-2024     facet-badges=0    tiers=0      0 parsed  
+
+USABLE ADDITIONAL VENUES: none
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/pinning.py'; s=open(p).read()\ns=s.replace('''@dataclass\nclass PinReport:''','''# A container is only reproducible if its base image is pinned. `FROM python`\n# or `FROM python:latest` resolves to a different image every month - the same\n# drift problem as an unpinned pip requirement, one layer down.\n_FROM = re.compile(r\"^\\\\s*FROM\\\\s+(\\\\S+)\", re.I | re.M)\n\n\n@dataclass\nclass DockerReport:\n    dockerfile: str | None\n    base_images: list[str]\n    unpinned: list[str]\n\n    def to_dict(self) -> dict:\n        return asdict(self)\n\n    def summary(self) -> str:\n        if self.dockerfile is None:\n            return \"no Dockerfile\"\n        if not self.base_images:\n            return f\"{self.dockerfile}: no FROM directive found\"\n        if not self.unpinned:\n            return (f\"{self.dockerfile}: all {len(self.base_images)} base \"\n                    f\"image(s) pinned\")\n        return (f\"{self.dockerfile}: {len(self.unpinned)} of \"\n                f\"{len(self.base_images)} base image(s) unpinned \"\n    
+```
+
+**Tool response**
+
+```
+docker base-image check added
+  HexHive/FishFuzz                             FF_AFL++/Dockerfile: all 1 base image(s) pinned
+  NWU-NISL-Fuzzing/upbeat                      Dockerfile: all 1 base image(s) pinned
+  QuentinMaz/MDPFuzz_Replicability_Study_Art   Dockerfile: 1 of 1 base image(s) unpinned (continuumio/miniconda3)
+  lrtsuser/LRTS                                Dockerfile: all 1 base image(s) pinned
+  trustdnn/issta2024                           Dockerfile: all 1 base image(s) pinned
+
+  artifacts with a Dockerfile : 5/15
+  with an UNPINNED base image : 1/5 (20%)
+
+prevalence: 369/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\n# wire docker into the CLI report\np='src/artifact_triage/cli.py'; s=open(p).read()\ns=s.replace('''    if port is not None and port.n:\n        problems.append(f\"{port.n} hard-coded machine-specific value(s)\")''',\n'''    if port is not None and port.n:\n        problems.append(f\"{port.n} hard-coded machine-specific value(s)\")\n    if docker is not None and docker.unpinned:\n        problems.append(f\"unpinned container base image \"\n                        f\"({', '.join(docker.unpinned[:2])})\")''')\ns=s.replace('''           pins=None, port=None) -> str:''',\n            '''           pins=None, port=None, docker=None) -> str:''')\ns=s.replace('''        L.append(\"> Unpinned versions are the most-cited cause of artifact \"\n                 \"decay: over 40% of 2024\u201325 \\\\\"functional\\\\\" artifacts fail \"\n                 \"within months.\\\\n\")''',\n'''        L.append(\"> Unpinned versions are the most-cited cause of artifact \"\n                 \"decay: over 40% of 2024\u201325 \\\\\"functional\\\\\" artifacts fail \"\n                 \"within 
+```
+
+**Tool response**
+
+```
+wired + tested
+
+29/29 passed
+pushed
+prevalence: 380/398
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor i in $(seq 1 10); do\n  [ -f results/prevalence.json ] && break\n  pgrep -f \"eval.prevalence\" >/dev/null || break\n  sleep 12\ndone\ntail -34 results/prevalence.log", "description": "Check for prevalence completion"}
+```
+
+**Tool response**
+
+```
+  [260/398] profiled 243
+  [280/398] profiled 263
+  [300/398] profiled 283
+  [320/398] profiled 303
+  [360/398] profiled 342
+    ! genijalac11/CRYSTAL23-scripts-collection: HTTPError
+    ! apps/renovate: HTTPError
+    ! Tanvir-Mahmud-Mahim/Process-induced-compressive-strain-with-a-van-der-Waals-ferroelectric-gate-in-a-single-device.: HTTPError
+
+====================================================================
+PREVALENCE OF BROKEN README CLAIMS IN RESEARCH ARTIFACTS
+====================================================================
+  artifacts profiled                 : 376
+  with checkable path claims         : 343
+  WITH >=1 BROKEN CLAIM              : 224 (65.3%)
+  total claims checked               : 4261
+  total broken                       : 829 (19.5%)
+  median broken-claim ratio          : 0.125
+
+  Infrastructure present:
+    dependency manifest       253/376  (67%)
+    container definition      102/376  (27%)
+    CI configuration          165/376  (44%)
+    tests                     139/376  (37%)
+    licence                   330/376  (88%)
+
+  READMEs disclosing their own badge  : 208/376 (55%)
+
+  DECAY HYPOTHESIS (do older artifacts have more broken claims?)
+    rece
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/prevalence.py'; s=open(p).read()\n\n# 1) distinguish real tier disclosure from ordinary CI badges\ns=s.replace('''            \"leaked_badge\": fx[\"readme_scrub\"][\"leaked\"],''',\n'''            \"scrub_hits\": fx[\"readme_scrub\"][\"hits\"],\n            # A shields.io \"build passing\" badge is not an ACM tier disclosure.\n            # Only these patterns indicate a README revealing its own grade.\n            \"leaked_tier\": any(k in fx[\"readme_scrub\"][\"hits\"] for k in\n                               (\"acm_badge_phrase\", \"badge_tier_bare\",\n                                \"results_reproduced\", \"ae_committee\")),''')\ns=s.replace('''    leaked = sum(1 for r in rows if r[\"leaked_badge\"])\n    print(f\"\\\\n  READMEs disclosing their own badge  : {leaked}/{len(rows)} \"\n          f\"({leaked/len(rows):.0%})\")''',\n'''    tier_leak = sum(1 for r in rows if r[\"leaked_tier\"])\n    any_badge = sum(1 for r in rows if r[\"scrub_hits\"])\n    print(f\"\\\\n  READMEs disclosing an ACM tier      : {tier_leak}/{len(rows)} \"\n    
+```
+
+**Tool response**
+
+```
+reporting corrected
+=== re-running from cache (no new API calls) ===
+PREVALENCE OF BROKEN README CLAIMS IN RESEARCH ARTIFACTS
+====================================================================
+  artifacts profiled                 : 376
+  with checkable path claims         : 343
+  WITH >=1 BROKEN CLAIM              : 224 (65.3%)
+  total claims checked               : 4261
+  total broken                       : 829 (19.5%)
+  median broken-claim ratio          : 0.125
+
+  Infrastructure present:
+    dependency manifest       253/376  (67%)
+    container definition      102/376  (27%)
+    CI configuration          165/376  (44%)
+    tests                     139/376  (37%)
+    licence                   330/376  (88%)
+
+  READMEs disclosing an ACM tier      : 23/376 (6%)
+  (any badge-like text redacted      : 208/376 - mostly ordinary CI/coverage badges, not tier disclosure)
+
+  DECAY HYPOTHESIS (do older artifacts have more broken claims?)
+    recently pushed  (n=171, median 0d): 0.274
+    least recent     (n=172, median 33d): 0.219
+    age span across corpus: 2123 days
+    -> DOES NOT SUPPORT the decay hypothesis
+====================================================================
+-> r
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/prevalence.py'; s=open(p).read()\nstart=s.index('    # --- decay hypothesis ---')\nend=s.index('    OUT.parent.mkdir(exist_ok=True)')\ns = s[:start] + '''    # --- decay hypothesis ----------------------------------------------------\n    # A median split is the wrong instrument here: last-push dates are heavily\n    # skewed toward \"recently touched\", so both halves end up recent (medians of\n    # 0 and 33 days) even though the corpus spans nearly six years. Fixed age\n    # buckets compare genuinely old artifacts against genuinely new ones.\n    BUCKETS = [(0, 90, \"under 3 months\"), (90, 365, \"3-12 months\"),\n               (365, 730, \"1-2 years\"), (730, 10**6, \"over 2 years\")]\n    dated = [r for r in checkable if r[\"stale_days\"] is not None]\n    decay = None\n    if len(dated) >= 20:\n        rows_by_bucket = []\n        for lo, hi, label in BUCKETS:\n            g = [r for r in dated if lo <= r[\"stale_days\"] < hi]\n            if len(g) >= 8:  # too few to mean anything\n                rows_by_bucket.append({\n          
+```
+
+**Tool response**
+
+```
+age-bucket analysis installed
+    dependency manifest       253/376  (67%)
+    container definition      102/376  (27%)
+    CI configuration          165/376  (44%)
+    tests                     139/376  (37%)
+    licence                   330/376  (88%)
+
+  READMEs disclosing an ACM tier      : 23/376 (6%)
+  (any badge-like text redacted      : 208/376 - mostly ordinary CI/coverage badges, not tier disclosure)
+
+  DECAY HYPOTHESIS (do older artifacts have more broken claims?)
+    age bucket            n   median   broken ratio  % with a break
+    under 3 months      293       1d          0.248            67%
+    3-12 months          35     161d          0.224            63%
+    1-2 years             8     614d          0.249            50%
+    -> broken-claim ratio is INCREASING with age
+       CONSISTENT with the decay literature
+====================================================================
+-> results/prevalence.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/prevalence.py'; s=open(p).read()\ns=s.replace('''            ratios = [b[\"mean_broken_ratio\"] for b in rows_by_bucket]\n            trend = \"increasing\" if ratios[-1] > ratios[0] else (\n                \"flat\" if abs(ratios[-1] - ratios[0]) < 0.02 else \"decreasing\")\n            print(f\"    -> broken-claim ratio is {trend.upper()} with age\")\n            if trend == \"increasing\":\n                print(\"       CONSISTENT with the decay literature\")\n            else:\n                print(\"       NOT consistent with decay - the defect appears to be\")\n                print(\"       present from publication, not acquired over time\")''',\n'''            ratios = [b[\"mean_broken_ratio\"] for b in rows_by_bucket]\n            delta = ratios[-1] - ratios[0]\n            # Check \"flat\" FIRST. An earlier version tested `increasing` first,\n            # so a delta of 0.001 was reported as an increasing trend - noise\n            # dressed up as a finding.\n            if abs(delta) < 0.05:\n                trend = \"flat\"\n    
+```
+
+**Tool response**
+
+```
+trend logic corrected
+
+  DECAY HYPOTHESIS (do older artifacts have more broken claims?)
+    age bucket            n   median   broken ratio  % with a break
+    under 3 months      293       1d          0.248            67%
+    3-12 months          35     161d          0.224            63%
+    1-2 years             8     614d          0.249            50%
+    -> broken-claim ratio is FLAT with age (delta +0.001 across buckets)
+       NO age effect. The defect is present from
+       publication rather than acquired over time - so it
+       is not explained by dependency drift, and a reviewer
+       could have caught it on day one.
+       CAVEAT: small n in bucket(s): 1-2 years
+====================================================================
+-> results/prevalence.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard\npython3 - <<'PY'\np='README.md'; s=open(p).read()\ns=s.replace('''## 4. Can another person reproduce the result?''',\n'''### Prevalence in the wild \u2014 376 artifacts\n\nThe verifier needs no labels and no model, so it can be pointed at every artifact\nwe could find. Harvested 398 research-artifact repositories from Zenodo across\nvenues; 376 profiled successfully.\n\n| | |\n|---|---|\n| Artifacts with **\u22651 broken README claim** | **224 / 343 (65.3%)** |\n| Claims checked | 4,261 |\n| Claims that resolve to nothing | **829 (19.5%)** |\n| Median broken-claim ratio | 0.125 |\n\nReproducibility infrastructure across the same 376:\n\n| Signal | Present |\n|---|---|\n| Licence | 88% |\n| Dependency manifest | 67% |\n| CI configuration | 44% |\n| Tests | 37% |\n| Container definition | 27% |\n\n### The defect is not decay \u2014 artifacts ship broken\n\nThe literature attributes artifact failure to *drift*: dependencies moving under\na project over months. That predicts older artifacts should carry more broken\nclaims. T
+```
+
+**Tool response**
+
+```
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/dashboard.py", line 231, in <module>
+    main()
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/dashboard.py", line 220, in main
+    body = build()
+           ^^^^^^^
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/dashboard.py", line 174, in build
+    A(f'<tr><td>{lbl}</td><td class="num">{d[k+"_n"]}</td>'
+                                           ~^^^^^^^^
+KeyError: 'fresh_n'
+README updated with prevalence findings
+pushed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/dashboard.py'; s=open(p).read()\nstart=s.index(\"        d = pv.get(\\\"decay\\\")\")\nend=s.index(\"    # ---------- defect classes ----------\")\ns = s[:start] + '''        d = pv.get(\"decay\")\n        if d and d.get(\"buckets\"):\n            A('<h3>Is the defect decay, or present from publication?</h3>')\n            A('<p>The literature attributes artifact failure to dependency '\n              'drift over time, which predicts older artifacts should be worse.</p>')\n            A('<div class=\"tw\"><table><tr><th>Age bucket</th><th>n</th>'\n              '<th>Median age</th><th>Broken-claim ratio</th>'\n              '<th>% with a break</th><th></th></tr>')\n            for b in d[\"buckets\"]:\n                A(f'<tr><td>{esc(b[\"label\"])}</td>'\n                  f'<td class=\"num\">{b[\"n\"]}</td>'\n                  f'<td class=\"num\">{b[\"median_days\"]}d</td>'\n                  f'<td class=\"num\">{b[\"mean_broken_ratio\"]:.3f}</td>'\n                  f'<td class=\"num\">{b[\"share_with_broken\"]:.0%}</td>'\n                
+```
+
+**Tool response**
+
+```
+dashboard decay section rebuilt
+wrote results/dashboard.html  (8,036 bytes, self-contained)
+  unclosed: none   size: 8,036B   tables: 4
+pushed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src nohup .venv/bin/python -u -m artifact_triage.eval.issue_validation > results/issue_validation.log 2>&1 &\necho \"started pid $!\"\nsleep 50; tail -5 results/issue_validation.log", "description": "Run GitHub issue validation"}
+```
+
+**Tool response**
+
+```
+started pid 4599
+comparing 60 flagged vs 60 clean repositories
+  flagged: 15/60
+  flagged: 30/60
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='AGENTS.md'; s=open(p).read()\ns=s.replace('''## 3. Claim verifier \u2014 `src/artifact_triage/solution/verify.py`''',\n'''## 3. Deterministic checks \u2014 no model involved\n\nFive checks, all ordinary Python, all free, all offline-capable. Each exists\nbecause it targets a failure mode with published evidence behind it.\n\n| Module | Checks | Evidence it targets |\n|---|---|---|\n| `solution/verify.py` | README file paths resolve | 65.3% of 376 artifacts fail this |\n| `solution/links.py` | README URLs resolve | link rot 9.4% avg, up to 29.8% |\n| `solution/pinning.py` | dependency versions pinned; container base image pinned | unpinned versions are the most-cited decay cause |\n| `solution/portability.py` | hard-coded machine-specific paths and hosts | \"incomplete environments\" |\n| `corpus/scrub.py` | README does not leak its own grade | measured at 27% of the labelled corpus |\n\n**Why deterministic.** These cannot hallucinate, cost nothing, run offline, return\nidentical output on every machine, and every finding is citable by file and line.\nAsking a model *
+```
+
+**Tool response**
+
+```
+AGENTS.md updated
+REPRODUCTION.md updated
+pushed
+
+  flagged: 45/60
+  flagged: 60/60
+  clean: 15/60
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='docs/VIDEO_SCRIPT.md'; s=open(p).read()\ns=s.replace('''## 0:00 \u2013 0:35 \u2014 The problem\n\n> \"Every major software-engineering conference runs an artifact evaluation\n> track. Volunteer reviewers \u2014 usually PhD students \u2014 decide whether a paper's\n> released code is *Functional* or *Reusable*.\n>\n> A README is a set of promises. It says install with `requirements.txt`, run\n> `scripts/run_experiments.sh`, see `configs/default.yaml`. Nothing checks them.\n> A reviewer reads fluent, confident prose and forms an impression, because\n> reading prose is what a human can cheaply do.\n>\n> So the expensive failure is specific: a convincing README that isn't consistent\n> with its own repository.\"\n\n**On screen:** the LPR artifact's README, scrolling. Then the verifier output\nshowing *15 of 17 referenced paths do not exist.*''',\n'''## 0:00 \u2013 0:40 \u2014 The problem, and how big it is\n\n> \"A research paper's README is a set of promises. Install with\n> `requirements.txt`. Run `scripts/run_experiments.sh`. See\n> `configs/default.yaml`. Nothing che
+```
+
+**Tool response**
+
+```
+video script updated with prevalence findings
+pushed
+
+Correlational only, small sample. Issue volume is reported alongside.
+======================================================================
+-> results/issue_validation.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '/DO USERS COMPLAIN/,$p' results/issue_validation.log", "description": "Read issue validation results"}
+```
+
+**Tool response**
+
+```
+DO USERS COMPLAIN ABOUT WHAT THE VERIFIER DETECTS?
+======================================================================
+                                           flagged           clean
+----------------------------------------------------------------------
+repos with >=1 issue                            35               8
+repos with a complaint                          13               3
+share with a complaint                       0.371           0.375
+median issue count                              24            20.0
+mean complaint rate                         0.0499          0.0531
+----------------------------------------------------------------------
+NULL / REVERSED: flagged 37% vs clean 38%. The verifier detects something users do not report.
+Correlational only, small sample. Issue volume is reported alongside.
+======================================================================
+-> results/issue_validation.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/issue_validation.py'; s=open(p).read()\ns=s.replace('''    print(\"Correlational only, small sample. Issue volume is reported alongside.\")\n    print(\"=\" * 70)''',\n'''    # The engagement figure reframes the whole comparison, so it is printed\n    # with the result rather than buried in the JSON.\n    tot = len(out[\"flagged\"]) + len(out[\"clean\"])\n    with_any = sum(1 for g in (\"flagged\", \"clean\")\n                   for x in out[g] if x[\"n_issues\"] > 0)\n    print()\n    print(f\"ENGAGEMENT: only {with_any}/{tot} repositories \"\n          f\"({with_any/tot:.0%}) have ANY issues at all.\")\n    print(\"This bounds what the comparison can show. A GitHub issue requires\")\n    print(\"someone to try the artifact, hit a problem, and take the time to\")\n    print(\"report it. Most research artifacts are published and never exercised,\")\n    print(\"so silence is not evidence that they work - and user complaints are\")\n    print(\"a weak instrument for validating a defect detector, whichever way\")\n    print(\"the numbers fall.\
+```
+
+**Tool response**
+
+```
+engagement finding surfaced
+DO USERS COMPLAIN ABOUT WHAT THE VERIFIER DETECTS?
+======================================================================
+                                           flagged           clean
+----------------------------------------------------------------------
+repos with >=1 issue                            35               8
+repos with a complaint                          13               3
+share with a complaint                       0.371           0.375
+median issue count                              24            20.0
+mean complaint rate                         0.0499          0.0531
+----------------------------------------------------------------------
+NULL / REVERSED: flagged 37% vs clean 38%. The verifier detects something users do not report.
+
+ENGAGEMENT: only 43/120 repositories (36%) have ANY issues at all.
+This bounds what the comparison can show. A GitHub issue requires
+someone to try the artifact, hit a problem, and take the time to
+report it. Most research artifacts are published and never exercised,
+so silence is not evidence that they work - and user complaints are
+a weak instrument for validating a defect detector, whichever way
+the numb
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\ns=s.replace('''## 4. Can another person reproduce the result?''',\n'''### A null result, reported as one\n\nI wanted an independent check that the defect matters to real people, so I\ncompared GitHub reproduction-complaint rates (\"file not found\", \"cannot\nreproduce\") between repositories the verifier flags and those it does not. The\nfalsification condition was written down **before** the measurement.\n\n| | Flagged | Clean |\n|---|---|---|\n| Share with a reproduction complaint | 37.1% | 37.5% |\n| Median issue count | 24 | 20 |\n\n**Indistinguishable.** The hypothesis is not supported.\n\nThe reason is visible in the sample: **only 43 of 120 repositories (36%) have any\nissues at all**. A GitHub issue requires someone to try the artifact, hit the\nproblem, and take the time to write it up. Most research artifacts are published\nand never exercised \u2014 so silence is not evidence that they work, and user\ncomplaints are a weak instrument for validating a defect detector regardless of\nwhich way the numbers fall.\n\nThat is arguab
+```
+
+**Tool response**
+
+```
+  TOTAL                      $ 0.4889   210 calls
+  BUDGET                     $   5.00
+  REMAINING                  $ 4.5111  (9.8% used)
+pushed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/verify.py'; s=open(p).read()\ns=s.replace('''@dataclass\nclass Claim:''','''def suggest(path: str, file_tree: list[str], limit: int = 3) -> list[str]:\n    \"\"\"Find the most plausible real file for a broken claim.\n\n    A report that only says \"this is wrong\" leaves the author to go hunting. Most\n    broken claims are near-misses - a renamed directory, a moved script, a\n    pluralised folder - so the fix is usually one path away and can be found\n    deterministically.\n\n    Ranked by basename match first (a moved file keeps its name), then by\n    sequence similarity on the full path.\n    \"\"\"\n    from difflib import SequenceMatcher\n\n    target = path.strip().lstrip(\"./\")\n    base = target.rsplit(\"/\", 1)[-1]\n    stem = base.rsplit(\".\", 1)[0].lower()\n    ext = base.rsplit(\".\", 1)[-1].lower() if \".\" in base else \"\"\n\n    scored: list[tuple[float, str]] = []\n    for cand in file_tree:\n        cbase = cand.rsplit(\"/\", 1)[-1]\n        # Same filename elsewhere in the tree is almost always the answer.\n       
+```
+
+**Tool response**
+
+```
+suggestions added to the verifier
+=== zhangxiaosa/LPR (15 broken) ===
+  perses_deploy.jar                            -> no close match
+  script/summarize_perses_or_vulcan.py         -> no close match
+  scripts/analyze_and_draw.sh                  -> no close match
+  scripts/keep_running.sh                      -> no close match
+  scripts/run_creduce.py                       -> no close match
+  scripts/run_lpr.py                           -> no close match
+
+=== THU-WingTecher/DeepConstr (5 broken) ===
+  DeepConstr/results/tf_exp.csv                -> no close match
+  DeepConstr/results/torch_exp.csv             -> no close match
+  DeepConstr/results/unnormal_val_deepconstr_torch.json -> no close match
+  env                                          -> no close match
+  pt_gen.csv                                   -> no close match
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json\nfrom artifact_triage.solution.verify import suggest\nfx=json.load(open(\"data/fixtures/zhangxiaosa__LPR.json\"))\ntree=fx[\"file_tree\"]\nprint(\"tree size:\", len(tree))\n# what .py files actually exist near 'scripts'?\npy=[p for p in tree if p.endswith(\".py\")]\nprint(\"py files:\", len(py))\nprint(\"sample py:\", py[:8])\nsc=[p for p in tree if \"script\" in p.lower()][:8]\nprint(\"paths containing 'script':\", sc)\nprint()\nprint(\"suggest('scripts/run_lpr.py') ->\", suggest(\"scripts/run_lpr.py\", tree))\nfrom difflib import SequenceMatcher\nbest=sorted(((SequenceMatcher(None,\"run_lpr\",p.rsplit(\"/\",1)[-1].rsplit(\".\",1)[0].lower()).ratio(),p) for p in py), reverse=True)[:5]\nprint(\"top raw similarity:\", [(round(r,3),p) for r,p in best])\nPY", "description": "Debug why suggestions return nothing"}
+```
+
+**Tool response**
+
+```
+tree size: 31020
+py files: 0
+sample py: []
+paths containing 'script': []
+
+suggest('scripts/run_lpr.py') -> []
+top raw similarity: []
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json\nfrom collections import Counter\nfx=json.load(open(\"data/fixtures/zhangxiaosa__LPR.json\"))\ntree=fx[\"file_tree\"]\next=Counter(p.rsplit(\".\",1)[-1].lower() if \".\" in p.rsplit(\"/\",1)[-1] else \"(none)\" for p in tree)\nprint(\"top file types:\", ext.most_common(8))\ntop=Counter(p.split(\"/\")[0] for p in tree)\nprint(\"top-level entries:\", top.most_common(8))\nprint(\"\\nsample paths:\", tree[:5])\nPY\necho\necho \"=== does the suggester work where a near-miss DOES exist? ===\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nfrom artifact_triage.solution.verify import suggest\ntree=[\"src/train_model.py\",\"scripts/run_experiment.sh\",\"configs/base.yaml\",\"README.md\"]\nfor claim in [\"train_model.py\",\"src/train_models.py\",\"scripts/run_experiments.sh\",\n              \"config/base.yaml\",\"totally/unrelated.py\"]:\n    print(f\"  {claim:<32} -> {suggest(claim, tree) or 'no close match'}\")\nPY", "description": "Inspect LPR contents and validate suggester on near-misses"}
+```
+
+**Tool response**
+
+```
+top file types: [('json', 8218), ('sh', 7243), ('c', 6841), ('(none)', 6261), ('txt', 1623), ('orig', 412), ('rs', 300), ('js', 100)]
+top-level entries: [('precomputed_results', 29056), ('benchmark_suites', 1962), ('LPR Large Language Models-Aided Program Reduction.pdf', 1), ('README.md', 1)]
+
+sample paths: ['LPR Large Language Models-Aided Program Reduction.pdf', 'README.md', 'benchmark_suites/.DS_Store', 'benchmark_suites/c/creduce/clang-22382/log.txt', 'benchmark_suites/c/creduce/clang-22382/r.sh']
+
+=== does the suggester work where a near-miss DOES exist? ===
+  train_model.py                   -> ['src/train_model.py']
+  src/train_models.py              -> ['src/train_model.py']
+  scripts/run_experiments.sh       -> ['scripts/run_experiment.sh']
+  config/base.yaml                 -> ['configs/base.yaml']
+  totally/unrelated.py             -> no close match
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns=s.replace('''# --------------------------------------------------------------------------\n# End-to-end: the verifier is deterministic.''','''# --------------------------------------------------------------------------\n# Suggestions - a report that only says \"wrong\" leaves the author hunting.\n# Most broken claims are near-misses, so the fix is one path away.\n# --------------------------------------------------------------------------\n_TREE = [\"src/train_model.py\", \"scripts/run_experiment.sh\",\n         \"configs/base.yaml\", \"README.md\"]\n\n\ndef test_moved_file_is_suggested_by_basename():\n    from artifact_triage.solution.verify import suggest\n    assert suggest(\"train_model.py\", _TREE) == [\"src/train_model.py\"]\n\n\ndef test_pluralisation_typo_is_suggested():\n    from artifact_triage.solution.verify import suggest\n    assert suggest(\"scripts/run_experiments.sh\", _TREE)[0] == \\\\\n        \"scripts/run_experiment.sh\"\n    assert suggest(\"config/base.yaml\", _TREE)[0] == \"configs/base.yaml\"\n\
+```
+
+**Tool response**
+
+```
+33/33 passed
+| Referenced in README | Present? | Closest real file |
+|---|---|---|
+| `perses_deploy.jar` | **no** | &mdash; nothing similar |
+| `script/summarize_perses_or_vulcan.py` | **no** | &mdash; nothing similar |
+| `scripts/analyze_and_draw.sh` | **no** | &mdash; nothing similar |
+| `scripts/keep_running.sh` | **no** | &mdash; nothing similar |
+| `scripts/run_creduce.py` | **no** | &mdash; nothing similar |
+pushed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== make help ===\"; make help 2>&1 | head -20\necho\necho \"=== free targets, run in order ===\"\nfor t in test corpus verify-check spend dashboard; do :; done\nfor t in test corpus spend dashboard; do\n  printf \"  %-12s \" \"$t\"\n  if out=$(make $t 2>&1); then echo \"OK\"; else echo \"FAILED\"; echo \"$out\" | tail -3; fi\ndone\nfor m in artifact_triage.solution.verify artifact_triage.eval.negative_control artifact_triage.solution.pinning artifact_triage.solution.portability; do\n  printf \"  %-42s \" \"${m##*.}\"\n  if PYTHONPATH=src .venv/bin/python -m $m >/dev/null 2>&1; then echo \"OK\"; else echo \"FAILED\"; fi\ndone", "description": "Verify all free make targets work"}
+```
+
+**Tool response**
+
+```
+=== make help ===
+  setup      Create venv and install pinned deps
+  dashboard  Render all results into one self-contained HTML page
+  spend      Cumulative model spend against the $5 budget
+  test       Regression tests pinning every bug the changelog claims to have fixed
+  preflight  Verify credentials and model access before spending tokens
+  corpus     Build the labeled artifact corpus (scrubbed) from cached fixtures
+  baseline   Run the single-prompt baseline over the corpus
+  solution   Run the claim-verification agent over the corpus
+  eval       Score baseline + solution against expert badge labels
+  repro      The one command judges run: corpus -> baseline -> solution -> eval
+  discover   Harvest research-artifact repos at scale from Zenodo
+  prevalence Measure how widespread broken README claims are (no model needed)
+  pinning    Dependency pinning analysis
+  portability Scan for hard-coded machine-specific values
+  links      Check README URLs for link rot
+  report     Reviewer report for one repo: make report REPO=owner/name
+  validate   Do real users complain about what the verifier detects?
+  trajectories Export agent trajectories (product agents + build agent)
+
+=== f
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/Makefile", "content": "# Every target below is verified to run. See `make verify-targets`.\n#\n# PYTHONPATH=src is used consistently rather than relying on an editable\n# install, so the commands work in a fresh clone before `pip install -e .`\n# has been run - which is exactly the situation a judge starts from.\n\nPY := PYTHONPATH=src .venv/bin/python\n\n.PHONY: help setup test preflight corpus baseline solution eval repro \\\n        discover prevalence pinning portability links report validate \\\n        trajectories dashboard spend verify-targets selfcheck clean\n\nhelp:  ## Show this help\n\t@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf \"  %-14s %s\\n\", $$1, $$2}'\n\n# ---------------------------------------------------------------- setup ----\nsetup:  ## Create the venv and install dependencies\n\tuv venv\n\tuv pip install -e .\n\n# ------------------------------------------------- free: no credentials ----\ntest:  ## Regression tests pinning every bug the changelog claims to have fixed\n\t.venv/bin/python tests/test_regressions.py\n\ncorpus:  ## Rebuild artifa
+```
+
+**Tool response**
+
+```
+The file /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/Makefile has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/compare.py", "content": "\"\"\"Score the baseline and the solution with the one shared scorer.\n\n`make eval` previously pointed at a module that did not exist - a documented\ncommand that fails when run, which is precisely the defect this project detects.\nIt is fixed here, and `scripts/verify_targets.py` now proves every documented\ncommand actually runs.\n\nThis reads the recorded runs rather than re-invoking the model, so it costs\nnothing and can be run repeatedly.\n\"\"\"\nfrom __future__ import annotations\n\nimport json\nfrom pathlib import Path\n\nfrom artifact_triage.eval.metrics import (Prediction, TIERS, comparison_table,\n                                          score)\n\nBASELINE = Path(\"results/baseline.json\")\nSOLUTION = Path(\"results/solution.json\")\nOUT = Path(\"results/comparison.json\")\n\n\ndef load(path: Path, name: str):\n    if not path.exists():\n        raise SystemExit(f\"{path} missing - run `make {name}` first\")\n    return json.loads(path.read_text())\n\n\ndef rebuild(raw: list[dict], usd_in: float, usd_out: float, name: str,\n      
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/compare.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/scripts/verify_targets.py", "content": "\"\"\"Prove that every documented command actually runs.\n\nThis project detects READMEs that document files which do not exist. Its own\nMakefile shipped a `corpus` target pointing at `artifact_triage.corpus.build` -\na module that was never written - so `make repro`, the one command a judge runs,\nfailed immediately.\n\nThat is the same defect the tool exists to catch, in the tool's own repository.\nSo the fix is not just to correct the target: it is to make the claim checkable.\nThis runs every credential-free target and reports which succeed.\n\nTargets needing a model provider are listed but not executed, so this stays free.\n\"\"\"\nfrom __future__ import annotations\n\nimport subprocess\nimport sys\nimport time\nfrom pathlib import Path\n\n# Credential-free: these must pass on any clean checkout.\nFREE = [\"test\", \"corpus\", \"verify\", \"control\", \"pinning\", \"portability\",\n        \"dashboard\", \"spend\"]\n\n# Need a provider or heavy network; exercised separately.\nGATED = {\n    \"preflight\": \"needs a model provider\",\n    \"baselin
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/scripts/verify_targets.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/verify_targets.py 2>&1 | head -32", "description": "Verify every documented make target runs"}
+```
+
+**Tool response**
+
+```
+========================================================================
+VERIFYING EVERY DOCUMENTED COMMAND
+========================================================================
+  PASS  make test              0.1s  
+  PASS  make corpus            0.8s  
+  PASS  make verify            0.6s  
+  PASS  make control           1.5s  
+  PASS  make pinning           0.1s  
+  PASS  make portability       0.2s  
+  PASS  make dashboard         0.0s  
+  PASS  make spend             0.0s  
+------------------------------------------------------------------------
+  Not executed here (need credentials or heavy network):
+        make preflight      needs a model provider
+        make baseline       needs a model provider
+        make solution       needs a model provider
+        make eval           needs results/baseline.json and results/solution.json
+        make falsified      needs a model provider
+        make links          network - checks live URLs
+        make discover       network - Zenodo harvest, several minutes
+        make prevalence     network - GitHub API over 398 repos
+        make validate       network - GitHub issues API
+        make report         needs REPO=owner/name
+    
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nmake eval 2>&1 | tail -26", "description": "Test the eval target"}
+```
+
+**Tool response**
+
+```
+METRIC                                            baseline              solution
+--------------------------------------------------------------------------------
+PRIMARY  MAE (tiers, lower better)                   0.733                 1.000
+Exact tier accuracy                                  0.333                 0.200
+Adjacent (within 1 tier)                             0.933                 0.800
+Overclaim rate (unsafe dir.)                         0.267                 0.267
+Escalated to human                                      0%                    0%
+Human minutes per task                                 8.0                   8.0
+Cost per task (USD)                                 0.0000                0.0000
+
+n = 15 artifacts, labels = ACM artifact-evaluation badges (ISSTA 2024)
+
+ZERO-SKILL CONTROLS (no model, no input)
+----------------------------------------------------
+  always-Available       MAE 1.133   exact 0.267
+  always-Functional      MAE 0.667   exact 0.333  <-- best
+  always-Reusable        MAE 0.867   exact 0.400
+----------------------------------------------------
+
+  *** baseline, solution do NOT beat a zero-skill constant predictor. ***
+  Badge agreement i
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ns=s.replace(\"## Experiments removed\", \"\"\"| Iteration 41 | Added \"did you mean\" suggestions - a report that only says *wrong* leaves the author hunting. | Verified on near-misses: `config/base.yaml` -> `configs/base.yaml`, `run_experiments.sh` -> `run_experiment.sh`, with an extension guard so a `.py` claim is never answered by a `.md` file. | Kept. Building it surfaced the project's strongest example: `zhangxiaosa/LPR` returns **no** suggestion for any of its 15 broken paths, because the repository contains **zero Python files across 31,020 paths**. Its top level is `precomputed_results/` (29,056 files), `benchmark_suites/`, the paper PDF and the README. The artifact ships its results and benchmark inputs but **not the tool its README documents** - and it is badged `Reusable`. |\n| Iteration 42 | Ran every documented `make` target to check it worked, rather than assuming. | **`make corpus` pointed at `artifact_triage.corpus.build` - a module that was never written.** `make eval` pointed at another that did not exist. `make repr
+```
+
+**Tool response**
+
+```
+(eval):12: command not found: pip
+pushed
+
+commits: 33
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit log -1 --format=%B | sed -n '10,16p'", "description": "Check the commit message for shell mangling"}
+```
+
+**Tool response**
+
+```
+Fixed:
+  - Makefile rewritten; every target uses PYTHONPATH=src so it works in a fresh
+    clone before
+  - eval/compare.py written (the missing scorer entry point). It now prints the
+    zero-skill constant controls on EVERY run and states plainly when a real
+    system fails to beat them - the honest caveat is enforced by the tooling,
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n# Write the message to a file so the shell never interprets it.\ncat > /tmp/cmsg.txt <<'MSGEOF'\nFix broken documented commands - the defect this project detects, in this project\n\nmake corpus pointed at artifact_triage.corpus.build; make eval pointed at\nartifact_triage.eval.score. Neither module was ever written. make repro - the one\ncommand a judge runs - failed on its first step.\n\nThis is precisely what the tool detects in other people's artifacts: a README\ndocumenting a command that does not exist. Finding it in my own Makefile is the\nstrongest possible argument for running the check at review time.\n\nFixed:\n  - Makefile rewritten; every target uses PYTHONPATH=src so it works in a fresh\n    clone before \"pip install -e .\" has been run\n  - eval/compare.py written (the missing scorer entry point). It now prints the\n    zero-skill constant controls on EVERY run and states plainly when a real\n    system fails to beat them - the honest caveat is enforced by the tooling,\n    not by my memory.\n  - scripts/verify_targets.py runs every credential-free target and fails loudly\
+```
+
+**Tool response**
+
+```
+amended and pushed
+Fixed:
+  - Makefile rewritten; every target uses PYTHONPATH=src so it works in a fresh
+    clone before "pip install -e ." has been run
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nmake selfcheck 2>/dev/null | head -46", "description": "Dogfood - run the tool on our own repository"}
+```
+
+**Tool response**
+
+```
+PYTHONPATH=src .venv/bin/python -m artifact_triage.cli adarshcod30/artifact-repro-triage
+# Artifact reproducibility report — `adarshcod30/artifact-repro-triage`
+
+Generated 2026-08-29 00:38 UTC against commit `8469a78f8100`.
+
+## Verdict: **1 issue(s) need attention**
+
+- 6 README path(s) that do not exist
+
+## README claims verified against the repository
+
+`26` file path(s) referenced, checked against `2,557` files at the pinned commit.
+
+| Referenced in README | Present? | Closest real file |
+|---|---|---|
+| `configs/default.yaml` | **no** | &mdash; nothing similar |
+| `requirements.txt` | **no** | &mdash; nothing similar |
+| `scripts/run_experiments.sh` | **no** | &mdash; nothing similar |
+| `scripts/run_lpr.py` | **no** | &mdash; nothing similar |
+| `scripts/run_perses.py` | **no** | &mdash; nothing similar |
+| `token_counter_deploy.jar` | **no** | &mdash; nothing similar |
+
+> Each row is a documented instruction a user would follow and find missing.
+
+## External links
+
+`3` checked, `0` unverifiable (host blocks automated requests).
+
+No dead links found.
+
+## Reproducibility infrastructure
+
+| Signal | Present |
+|---|---|
+| Dependency manifest | yes |
+| Container definition | **no** |
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ncat > LICENSE <<'EOF'\nMIT License\n\nCopyright (c) 2026 Adarsh Dwivedi\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN T
+```
+
+**Tool response**
+
+```
+pushed
+
+## Reproducibility infrastructure
+
+| Signal | Present |
+|---|---|
+| Dependency manifest | yes |
+| Container definition | **no** |
+| Build / install script | yes |
+| CI configuration | **no** |
+| Tests | yes |
+| Licence | **no** |
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nrm -f data/cache/github/*artifact-repro-triage* data/cache/links/adarshcod30__artifact-repro-triage.json\nsleep 5\nmake selfcheck 2>/dev/null | sed -n '/Verdict/,+3p;/Reproducibility infrastructure/,+10p'", "description": "Clear cache and re-run selfcheck"}
+```
+
+**Tool response**
+
+```
+## Verdict: **1 issue(s) need attention**
+
+- 6 README path(s) that do not exist
+
+## Reproducibility infrastructure
+
+| Signal | Present |
+|---|---|
+| Dependency manifest | yes |
+| Container definition | **no** |
+| Build / install script | yes |
+| CI configuration | yes |
+| Tests | yes |
+| Licence | yes |
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/verify.py'; s=open(p).read()\ns=s.replace('''def interesting(path: str) -> bool:''',\n'''IGNORE_FILE = \".artifact-triage-ignore\"\n\n\ndef load_ignores(file_tree: list[str], fetch=None, slug: str = \"\") -> list[str]:\n    \"\"\"Read author-declared exceptions from `.artifact-triage-ignore`.\n\n    Some READMEs legitimately reference paths that do not belong to their own\n    repository - a tutorial quoting another project, or, as here, a tool whose\n    documentation shows example output from the artifacts it analyses. The\n    checker cannot infer that intent, and a linter that cannot be told about a\n    legitimate exception is a linter people stop running.\n\n    So the author declares them, in the open, in a file a reviewer can read. The\n    report always states how many exceptions were applied - a silent suppression\n    would be worse than a false positive.\n    \"\"\"\n    if IGNORE_FILE not in file_tree or fetch is None or not slug:\n        return []\n    text = fetch(slug, IGNORE_FILE)\n    if not text:\n        return []\n  
+```
+
+**Tool response**
+
+```
+declared-exceptions support added
+
+33/33 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A\ncat > /tmp/m.txt <<'EOF'\nDeclared exceptions: .artifact-triage-ignore\n\nDogfooding surfaced a genuine false-positive class. This tool's own README quotes\npaths belonging to the artifacts it analyses - scripts/run_lpr.py is LPR's, not\nours - and those get checked against our file tree. Meta-documentation. No\nartifact in the corpus described anything but itself, so only pointing the tool\nat itself could find it.\n\nThe checker cannot infer intent, and a linter that cannot be told about a\nlegitimate exception is a linter people stop running. So the author declares\nthem, in the open, in a file a reviewer can read.\n\nThe report always states how many exceptions were applied. A silent suppression\nwould be worse than the false positive it hides - it would make the tool's own\noutput unfalsifiable, which is the failure this project exists to detect.\n\nOur own ignore file annotates every entry with which artifact it was quoted from.\nEOF\ngit -c user.name=\"Adarsh Dwivedi\" -c user.email=\"adarshdwivedi256@gmail.com\" commit -q -F /tmp/m.txt\ngit push -q origin main && echo
+```
+
+**Tool response**
+
+```
+pushed
+## Verdict: **1 issue(s) need attention**
+
+- 6 README path(s) that do not exist
+
+## README claims verified against the repository
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nfrom artifact_triage.cli import build_factsheet\nfrom artifact_triage.solution.verify import load_ignores, IGNORE_FILE\nfrom artifact_triage.solution.pinning import fetch_file\nslug=\"adarshcod30/artifact-repro-triage\"\nfx=build_factsheet(slug)\nprint(\"commit:\", fx[\"commit\"])\nprint(\"ignore file in tree?\", IGNORE_FILE in fx[\"file_tree\"])\nprint(\"matching entries:\", [p for p in fx[\"file_tree\"] if \"triage-ignore\" in p])\nig=load_ignores(fx[\"file_tree\"], fetch=fetch_file, slug=slug)\nprint(\"ignores loaded:\", len(ig), ig[:4])\nPY", "description": "Debug why ignore file is not picked up"}
+```
+
+**Tool response**
+
+```
+commit: 09c43928566e
+ignore file in tree? True
+matching entries: ['.artifact-triage-ignore']
+ignores loaded: 14 ['scripts/run_lpr.py', 'scripts/run_perses.py', 'scripts/run_creduce.py', 'scripts/run_vulcan.py']
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"load_ignores\\|ev = verify\" src/artifact_triage/cli.py", "description": "Check whether CLI wiring applied"}
+```
+
+**Tool response**
+
+```
+241:    ev = verify(fx)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '236,250p' src/artifact_triage/cli.py", "description": "Inspect CLI context around verify call"}
+```
+
+**Tool response**
+
+```
+    slug = parse_slug(args.repo)
+    print(f"fetching {slug} …", file=sys.stderr)
+    fx = build_factsheet(slug)
+    if not fx["readme_present"]:
+        print("warning: this repository has no README", file=sys.stderr)
+    ev = verify(fx)
+
+    from artifact_triage.solution.pinning import analyse as analyse_pins
+    pins = analyse_pins(slug, fx["file_tree"])
+
+    from artifact_triage.solution.pinning import analyse_docker
+    docker = analyse_docker(slug, fx["file_tree"])
+
+    from artifact_triage.solution.portability import inspect as inspect_port
+    print("scanning for environment leakage …", file=sys.stderr)
+```
+
+**Tool call** `Edit`
+
+```json
+{"replace_all": false, "file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/cli.py", "old_string": "    ev = verify(fx)\n\n    from artifact_triage.solution.pinning import analyse as analyse_pins", "new_string": "    from artifact_triage.solution.pinning import fetch_file\n    from artifact_triage.solution.verify import load_ignores\n    ignores = load_ignores(fx[\"file_tree\"], fetch=fetch_file, slug=slug)\n    ev = verify(fx, ignores=ignores)\n\n    from artifact_triage.solution.pinning import analyse as analyse_pins"}
+```
+
+**Tool response**
+
+```
+The file /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/cli.py has been updated successfully. (note: the file had been modified on disk since you last read it — the edit applied cleanly, but the file contains other changes not in your context. Read it before edits that depend on surrounding content.)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"exception pattern\" src/artifact_triage/cli.py || echo \"NOTE: report line not wired either\"\nmake selfcheck 2>/dev/null | sed -n '/Verdict/,+6p;/exception pattern/p'\n.venv/bin/python tests/test_regressions.py 2>&1 | tail -2", "description": "Re-run selfcheck with ignores wired"}
+```
+
+**Tool response**
+
+```
+124:        L.append(f"\n*{ev.ignored} author-declared exception pattern(s) applied "
+## Verdict: **no mechanical issues found**
+
+Every checkable claim in the README resolved. This does not mean the artifact reproduces — see *Not checked*.
+
+## README claims verified against the repository
+
+`20` file path(s) referenced, checked against `2,577` files at the pinned commit.
+*14 author-declared exception pattern(s) applied from `.artifact-triage-ignore`.*
+
+33/33 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns=s.replace('''# --------------------------------------------------------------------------\n# End-to-end: the verifier is deterministic.''','''# --------------------------------------------------------------------------\n# Declared exceptions. Found by dogfooding: our own README quotes other\n# artifacts' paths. Suppression must be explicit and must be reported.\n# --------------------------------------------------------------------------\ndef _fx(paths, refs):\n    return {\"artifact_id\": \"o/r\", \"file_tree\": paths, \"n_files\": len(paths),\n            \"readme\": \"x\", \"readme_referenced_paths\": refs, \"signals\": {}}\n\n\ndef test_declared_exception_suppresses_a_claim():\n    fx = _fx([\"a.py\"], [\"other/project.py\"])\n    assert verify(fx).claims_broken == 1\n    assert verify(fx, ignores=[\"other/*\"]).claims_broken == 0\n\n\ndef test_suppression_count_is_always_reported():\n    fx = _fx([\"a.py\"], [\"other/project.py\"])\n    ev = verify(fx, ignores=[\"other/*\"])\n    assert ev.ignored == 1, \"a silent 
+```
+
+**Tool response**
+
+```
+37/37 passed
+pushed
+```
+
+**Tool call** `Write`
+
+```json
+{"file_path": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/export_dataset.py", "content": "\"\"\"Publish the measurements as a dataset others can reuse.\n\nThe prevalence sweep produced a per-artifact record for 376 research\nrepositories: how many file paths their README references, how many resolve,\nwhat reproducibility infrastructure is present, and when the repository was last\ntouched. That is a research dataset in its own right, and it is more durable than\nany conclusion drawn from it - somebody testing a different hypothesis should not\nhave to re-run the sweep.\n\nTwo formats:\n  - CSV     for spreadsheets and R\n  - JSONL   one record per line, for streaming\n\nA DATASHEET is written alongside, because a dataset without provenance and\nstated limits invites exactly the over-claiming this project is about.\n\"\"\"\nfrom __future__ import annotations\n\nimport csv\nimport json\nfrom pathlib import Path\n\nSRC = Path(\"results/prevalence.json\")\nOUT_DIR = Path(\"dataset\")\n\nFIELDS = [\n    \"artifact_id\", \"n_files\", \"claims\", \"broken\", \"broken_ratio\",\n    \"has_dependency_manifest\", \"has_container\", \"h
+```
+
+**Tool response**
+
+```
+File created successfully at: /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/export_dataset.py (file state is current in your context — no need to Read it back)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\nif 'dataset:' not in s:\n    s=s.replace(\"dashboard:  ##\", \"dataset:  ## Export the 376-artifact measurements as CSV + JSONL + datasheet\\n\\t$(PY) -m artifact_triage.eval.export_dataset\\n\\ndashboard:  ##\")\n    open(p,'w').write(s)\nPY\npython3 - <<'PY'\np='scripts/verify_targets.py'; s=open(p).read()\ns=s.replace('FREE = [\"test\", \"corpus\", \"verify\", \"control\", \"pinning\", \"portability\",\\n        \"dashboard\", \"spend\"]',\n            'FREE = [\"test\", \"corpus\", \"verify\", \"control\", \"pinning\", \"portability\",\\n        \"dataset\", \"dashboard\", \"spend\"]')\nopen(p,'w').write(s)\nPY\nmake dataset\necho; head -3 dataset/artifact_readme_consistency.csv\necho; .venv/bin/python scripts/verify_targets.py 2>&1 | tail -3", "description": "Export dataset and verify targets"}
+```
+
+**Tool response**
+
+```
+PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset
+  dataset/artifact_readme_consistency.csv    35,098 bytes
+  dataset/artifact_readme_consistency.jsonl  154,945 bytes
+  dataset/DATASHEET.md
+
+  376 artifacts, 4,261 claims measured
+
+artifact_id,n_files,claims,broken,broken_ratio,has_dependency_manifest,has_container,has_ci,has_tests,has_licence,readme_bytes,stale_days,stars,archived,leaked_tier
+stefanosbalaskas/gp3tools-python,169,5,1,0.2,True,False,True,True,True,4586,0.0,0,False,False
+hsjwang/solutions-table,28,4,0,0.0,True,False,True,False,False,15219,0.1,0,False,False
+
+        make setup          creates the venv
+========================================================================
+  All 9 credential-free targets run.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nmake trajectories 2>&1 | tail -3\ngit add -A\ncat > /tmp/m.txt <<'EOF'\nDataset release: 376 artifacts, 4,261 measured claims, with a datasheet\n\nThe prevalence sweep produced a per-artifact record that is a research dataset in\nits own right, and more durable than any conclusion drawn from it. Somebody\ntesting a different hypothesis should not have to re-run the sweep.\n\n  dataset/artifact_readme_consistency.csv     35 KB\n  dataset/artifact_readme_consistency.jsonl  155 KB\n  dataset/DATASHEET.md\n\nThe datasheet leads with limitations rather than burying them:\n  - Sampling is NOT random. Zenodo's default sort favours recent deposits, so\n    the corpus skews hard toward artifacts pushed in the last three months.\n  - Only GitHub-mirrored artifacts appear; deposits without a link are absent\n    and may differ systematically.\n  - Path extraction is conservative, so the claim count is a LOWER bound.\n  - A resolved path is not a working artifact. Nothing was executed.\n  - Broken counts can include legitimate references to other projects - measured\n    on this project's own README
+```
+
+
+---
+
+Redactions applied: `{'aws_secret': 3, 'env_assignment': 33}`

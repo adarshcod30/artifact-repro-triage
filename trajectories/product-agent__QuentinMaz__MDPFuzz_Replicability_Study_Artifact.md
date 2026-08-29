@@ -59,6 +59,7 @@ VERIFIED REPOSITORY FACTS (checked against the actual file tree):
 
 README PATH CLAIMS: 2 checked, 0 could NOT be found in the repository.
 Every path the README references was found.
+The README references no checkable file paths.
 ```
 
 ## Step 3 — BASELINE agent
@@ -109,7 +110,7 @@ The studies consist in executing testing methods for Reinforcement Learning mode
 
 ## Step 3 — SOLUTION agent
 
-**Prompt** (9,441 chars; README truncated here for readability):
+**Prompt** (9,488 chars; README truncated here for readability):
 
 ```
 Artifact repository: QuentinMaz/MDPFuzz_Replicability_Study_Artifact
@@ -127,6 +128,7 @@ VERIFIED REPOSITORY FACTS (checked against the actual file tree):
 
 README PATH CLAIMS: 2 checked, 0 could NOT be found in the repository.
 Every path the README references was found.
+The README references no checkable file paths.
 
 README (verbatim):
 ---
@@ -136,8 +138,7 @@ This repository is the artifact of the paper *Policy Testing with MDPFuzz (Repli
 Its content consists of a <ins>reproduction</ins> study and a <ins>replication</ins> study of the paper [MDPFuzz: testing models solving Markov decision processes](https://dl.acm.org/doi/abs/10.1145/3533767.3534388).
 <!-- To that regard, the submission was already supported by two distinct code basis of the studies. -->
 This present artifact's structure reflects this, as it is composed of two main folders, namely: `reproduction/` and `replication/`.
-The very own nature of the work makes that it involves a tremendous amount of computations; yet we design the code such that the results should be similar if not identical to the ones in the paper.
-We 
+The very own nature of the work makes that it involves a tremendous amount of computations; yet we design the code such that the results should be similar
 … README continues …
 ```
 

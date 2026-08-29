@@ -56,6 +56,9 @@ report:  ## Reviewer report for one repo: make report REPO=owner/name
 selfcheck:  ## Run the tool on THIS repository (dogfooding)
 	$(PY) -m artifact_triage.cli adarshcod30/artifact-repro-triage
 
+dataset:  ## Export the 376-artifact measurements as CSV + JSONL + datasheet
+	$(PY) -m artifact_triage.eval.export_dataset
+
 dashboard:  ## Render every result into one self-contained HTML page
 	$(PY) -m artifact_triage.eval.dashboard
 

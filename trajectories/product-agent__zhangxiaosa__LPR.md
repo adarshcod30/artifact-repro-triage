@@ -59,21 +59,22 @@ VERIFIED REPOSITORY FACTS (checked against the actual file tree):
 
 README PATH CLAIMS: 17 checked, 15 could NOT be found in the repository.
 Paths the README references that do not exist:
-  - perses_deploy.jar
-  - script/summarize_perses_or_vulcan.py
-  - scripts/analyze_and_draw.sh
-  - scripts/keep_running.sh
-  - scripts/run_creduce.py
-  - scripts/run_lpr.py
-  - scripts/run_perses.py
-  - scripts/run_vulcan.py
-  - scripts/summarize_lpr.py
-  - summarize_creduce.py
-  - summarize_perses_or_vulcan.py
-  - summarize_xxx.py
-  - tmp/LPR/tools/token_counter_deploy.jar
-  - token_counter_deploy.jar
-  - vulcan_deploy.jar
+  - perses_deploy.jar   (nothing similar in the repository)
+  - script/summarize_perses_or_vulcan.py   (nothing similar in the repository)
+  - scripts/analyze_and_draw.sh   (nothing similar in the repository)
+  - scripts/keep_running.sh   (nothing similar in the repository)
+  - scripts/run_creduce.py   (nothing similar in the repository)
+  - scripts/run_lpr.py   (nothing similar in the repository)
+  - scripts/run_perses.py   (nothing similar in the repository)
+  - scripts/run_vulcan.py   (nothing similar in the repository)
+  - scripts/summarize_lpr.py   (nothing similar in the repository)
+  - summarize_creduce.py   (nothing similar in the repository)
+  - summarize_perses_or_vulcan.py   (nothing similar in the repository)
+  - summarize_xxx.py   (nothing similar in the repository)
+  - tmp/LPR/tools/token_counter_deploy.jar   (nothing similar in the repository)
+  - token_counter_deploy.jar   (nothing similar in the repository)
+  - vulcan_deploy.jar   (nothing similar in the repository)
+The README references no checkable file paths.
 ```
 
 > This is the feedback that shapes the next step. 15 of 17 referenced paths do not exist, and each is citable by name — the model reasons over these facts instead of over the README's prose.
@@ -139,7 +140,7 @@ However, the deviation should be trivial, and the results should still support t
 
 ## Step 3 — SOLUTION agent
 
-**Prompt** (13,292 chars; README truncated here for readability):
+**Prompt** (13,909 chars; README truncated here for readability):
 
 ```
 Artifact repository: zhangxiaosa/LPR
@@ -157,36 +158,19 @@ VERIFIED REPOSITORY FACTS (checked against the actual file tree):
 
 README PATH CLAIMS: 17 checked, 15 could NOT be found in the repository.
 Paths the README references that do not exist:
-  - perses_deploy.jar
-  - script/summarize_perses_or_vulcan.py
-  - scripts/analyze_and_draw.sh
-  - scripts/keep_running.sh
-  - scripts/run_creduce.py
-  - scripts/run_lpr.py
-  - scripts/run_perses.py
-  - scripts/run_vulcan.py
-  - scripts/summarize_lpr.py
-  - summarize_creduce.py
-  - summarize_perses_or_vulcan.py
-  - summarize_xxx.py
-  - tmp/LPR/tools/token_counter_deploy.jar
-  - token_counter_deploy.jar
-  - vulcan_deploy.jar
-
-README (verbatim):
----
-# Artifact for "LPR: Large Language Models-Aided Program Reduction"
-
-
-Thank you for evaluating this artifact!
-
-To evaluate this artifact, a Linux machine with [docker](https://docs.docker.com/get-docker/) installed is needed.
-
-### List of Claims Supported by the Artifact
-
-- LPR is more effective than Vulcan.
-
-- LPR is on par with Vulcan in terms of efficiency. LPR is more efficient than Vulcan on complex p
+  - perses_deploy.jar   (nothing similar in the repository)
+  - script/summarize_perses_or_vulcan.py   (nothing similar in the repository)
+  - scripts/analyze_and_draw.sh   (nothing similar in the repository)
+  - scripts/keep_running.sh   (nothing similar in the repository)
+  - scripts/run_creduce.py   (nothing similar in the repository)
+  - scripts/run_lpr.py   (nothing similar in the repository)
+  - scripts/run_perses.py   (nothing similar in the repository)
+  - scripts/run_vulcan.py   (nothing similar in the repository)
+  - scripts/summarize_lpr.py   (nothing similar in the repository)
+  - summarize_creduce.py   (nothing similar in the repository)
+  - summarize_perses_or_vulcan.py   (nothing similar in the repository)
+  - summarize_xxx.py   (nothing similar in the repository)
+  - tmp/LPR/tools/token_counter_deploy.jar   (nothing similar in the re
 … README continues …
 ```
 

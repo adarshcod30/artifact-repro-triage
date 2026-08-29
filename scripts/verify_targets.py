@@ -20,7 +20,7 @@ from pathlib import Path
 
 # Credential-free: these must pass on any clean checkout.
 FREE = ["test", "corpus", "verify", "control", "pinning", "portability",
-        "dashboard", "spend"]
+        "dataset", "dashboard", "spend"]
 
 # Need a provider or heavy network; exercised separately.
 GATED = {

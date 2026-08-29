@@ -59,11 +59,12 @@ VERIFIED REPOSITORY FACTS (checked against the actual file tree):
 
 README PATH CLAIMS: 27 checked, 5 could NOT be found in the repository.
 Paths the README references that do not exist:
-  - DeepConstr/results/tf_exp.csv
-  - DeepConstr/results/torch_exp.csv
-  - DeepConstr/results/unnormal_val_deepconstr_torch.json
-  - env
-  - pt_gen.csv
+  - DeepConstr/results/tf_exp.csv   (nothing similar in the repository)
+  - DeepConstr/results/torch_exp.csv   (nothing similar in the repository)
+  - DeepConstr/results/unnormal_val_deepconstr_torch.json   (nothing similar in the repository)
+  - env   (nothing similar in the repository)
+  - pt_gen.csv   (nothing similar in the repository)
+The README references no checkable file paths.
 ```
 
 > This is the feedback that shapes the next step. 5 of 27 referenced paths do not exist, and each is citable by name — the model reasons over these facts instead of over the README's prose.
@@ -122,7 +123,7 @@ Welcome to the artifact repository of the DeepConstr paper which is accepted by 
 
 ## Step 3 — SOLUTION agent
 
-**Prompt** (16,997 chars; README truncated here for readability):
+**Prompt** (17,234 chars; README truncated here for readability):
 
 ```
 Artifact repository: THU-WingTecher/DeepConstr
@@ -140,11 +141,12 @@ VERIFIED REPOSITORY FACTS (checked against the actual file tree):
 
 README PATH CLAIMS: 27 checked, 5 could NOT be found in the repository.
 Paths the README references that do not exist:
-  - DeepConstr/results/tf_exp.csv
-  - DeepConstr/results/torch_exp.csv
-  - DeepConstr/results/unnormal_val_deepconstr_torch.json
-  - env
-  - pt_gen.csv
+  - DeepConstr/results/tf_exp.csv   (nothing similar in the repository)
+  - DeepConstr/results/torch_exp.csv   (nothing similar in the repository)
+  - DeepConstr/results/unnormal_val_deepconstr_torch.json   (nothing similar in the repository)
+  - env   (nothing similar in the repository)
+  - pt_gen.csv   (nothing similar in the repository)
+The README references no checkable file paths.
 
 README (verbatim):
 ---
@@ -154,14 +156,7 @@ README (verbatim):
     <!-- <a href="https://arxiv.org/abs/2302.02261">[REDACTED] -->
     <a href="https://doi.org/10.5281/zenodo.12669927">[REDACTED]
     <a href="https://github.com/THU-WingTecher/DeepConstr/blob/main/LICENSE">[REDACTED]</a>
-    <a href="https://hub.docker.com/repository/docker/gwihwan/artifact-issta24/tags">[REDACTED]</a>
-</p>
-
-Welcome to the artifact repository of the DeepConstr paper which is accepted by ISSTA 2024.
-
-### Source Code Structure 
-```
-|-- build        # Directory for compi
+    <a href="https://hub.docker
 … README continues …
 ```
 
