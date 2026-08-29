@@ -196,20 +196,73 @@ separately rather than averaged away.
 
 ---
 
+## Try it on your own repository
+
+The deterministic path needs **no API key, no cost, and about five seconds**:
+
+```bash
+uv venv && uv pip install -e .
+artifact-triage <owner>/<repo>
+```
+
+Point it at any research artifact — including your own — and it reports which of
+the README's file references actually resolve, which URLs are dead, and what
+reproducibility infrastructure is present. Add `--model` for a tier assessment
+and an escalation recommendation.
+
+Real output, abridged:
+
+```
+# Artifact reproducibility report — `zhangxiaosa/LPR`
+Generated against commit `1cd376048ae5`.
+
+## Verdict: 2 issue(s) need attention
+- 15 README path(s) that do not exist
+- no dependency manifest
+
+`17` file path(s) referenced, checked against `31,020` files.
+
+| Referenced in README        | Present in repository |
+|-----------------------------|-----------------------|
+| `scripts/run_lpr.py`        | **no**                |
+| `scripts/run_perses.py`     | **no**                |
+| `token_counter_deploy.jar`  | **no**                |
+…
+```
+
+Every report ends with a **Not checked** section stating plainly what the tool
+does not verify. A reviewer who cannot see a tool's limits cannot responsibly use
+its output.
+
 ## Repository layout
 
 ```
 src/artifact_triage/
-  corpus/     sources.py  scrape expert badge labels
-              zenodo.py   resolve artifacts to their deposits
-              github.py   repo metadata
-              fetch.py    build scrubbed fact sheets (tree API, zero disk)
-              scrub.py    redact badge self-disclosure
-  baseline/   run.py      one direct prompt over the README
-  solution/   verify.py   deterministic claim verification
-              run.py      judge verified facts, escalate the uncertain
-  eval/       metrics.py  one scorer, shared by both systems
-              negative_control.py  injected-falsehood test
+  cli.py                    artifact-triage <owner/repo> — the user-facing tool
+  corpus/     sources.py    scrape expert badge labels
+              zenodo.py     resolve artifacts to their deposits
+              discover.py   harvest 398 artifact repos at scale
+              github.py     repo metadata
+              fetch.py      scrubbed fact sheets (tree API, zero disk)
+              scrub.py      redact badge self-disclosure
+  baseline/   run.py        one direct prompt over the README
+  solution/   verify.py     deterministic claim verification
+              links.py      link-rot checking
+              run.py        judge verified facts, escalate the uncertain
+  eval/       metrics.py    one scorer, shared by both systems
+              negative_control.py   injected-falsehood test
+              falsified_run.py      the primary experiment
+              prevalence.py         how widespread is the defect?
+              issue_validation.py   do real users complain about it?
+              export_trajectories.py
+tests/        test_regressions.py   18 tests pinning every fixed bug
+```
+
+```bash
+make test         # 18 regression tests, no credentials, ~2s
+make report REPO=owner/name
+make prevalence   # measure the defect across 398 artifacts
+make links        # link-rot scan
 ```
 
 `baseline` and `solution` feed a **single shared scorer**. Fairness is structural:
