@@ -10,7 +10,7 @@ Written for someone starting from a clean machine with nothing installed.
 |---|---|
 | OS | macOS or Linux (developed on macOS 15, Apple Silicon) |
 | Python | 3.11 or newer |
-| Disk | ~120 MB (37 MB clone + venv; no repositories are cloned) |
+| Disk | ~130 MB (46 MB clone + venv; no repositories are cloned) |
 | Network | Only for the model calls. Corpus rebuild is optional and cached. |
 | Credentials | One model provider (see step 3) |
 
@@ -27,16 +27,18 @@ uv venv
 uv pip install -e .
 ```
 
-**Use `--depth 1`.** Measured on a clean machine: shallow clone **37 MB in 3
-seconds**; full clone 91 MB in 32 seconds. The history carries API-cache files
+**Use `--depth 1`.** Measured on a clean machine: shallow clone **46 MB in 3
+seconds**. The history carries API-cache files
 that were later removed, and nothing needs them.
 
 Install takes roughly 30 seconds (`boto3`, `botocore[crt]`, `certifi`).
 
 ### Verified from a clean clone
 
-This was run end to end on a fresh shallow clone. All ten credential-free
-targets pass with no API key, no AWS account and no configuration:
+Run end to end on a fresh shallow clone of the **published** repository — new
+directory, new virtualenv, no cached state, no credentials, no configuration.
+All ten credential-free targets pass, and `artifact-triage <owner>/<repo>`
+produces a report:
 
 ```
 test  verify  control  subtle  ablation  pinning  portability
@@ -105,7 +107,7 @@ make eval        # score both with the shared scorer
 Everything that needs **no credentials and costs nothing**:
 
 ```bash
-make test          # 116 regression tests, ~2s
+make test          # 117 regression tests, ~2s
 make report REPO=owner/name   # reviewer report for any repository
 make prevalence    # broken-claim prevalence across the harvested corpus
 make links         # link-rot scan

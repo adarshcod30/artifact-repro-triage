@@ -127,12 +127,12 @@ However, the deviation should be trivial, and the results should still support t
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "The README provides detailed instructions on how to set up and run the experiments.",
+    "The artifact is documented with clear instructions on how to set up and run the experiments.",
     "The artifact includes scripts and tools necessary to reproduce the results.",
-    "Precomputed results are provided to facilitate evaluation.",
-    "The documentation explains the non-deterministic nature of LLM outputs and provides guidance on handling it.",
-    "The artifact includes benchmark suites and detailed commands to run different reduction algorithms."
+    "The README provides detailed steps for running different components of the artifact.",
+    "Precomputed results are provided to facilitate evaluation, acknowledging the time-consuming and LLM-dependent nature of the experiments.",
+    "The artifact is exercisable with provided Docker environment setup instructions.",
+    "The documentation includes notes on potential issues (e.g., LLM randomness, connection losses) and how to mitigate them."
   ],
   "escalated_to_human": false
 }
@@ -181,14 +181,14 @@ Licence present: False
 ```json
 {
   "tier": "Available",
-  "confidence": 0.85,
+  "confidence": 0.8,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "However, the documentation is inconsistent with the actual files present in the repository.",
-    "Missing scripts and tools as referenced in the README.",
-    "No dependency manifest, Dockerfile, CI configuration, or tests are present.",
-    "The environment setup and execution instructions are provided, but the actual files and scripts needed are missing.",
-    "The artifact does not meet the criteria for 'Functional' or 'Reusable' tiers due to the significant documentation and file inconsistencies."
+    "The documentation is inconsistent with the actual files present in the repository.",
+    "There are no dependency manifests, Dockerfile, CI configuration, or tests present.",
+    "The README references many file paths that do not exist in the repository.",
+    "The environment reproducibility is lacking due to missing dependencies and configuration files.",
+    "The artifact does not meet the criteria for Functional or Reusable tiers due to the above issues."
   ],
   "escalated_to_human": true
 }

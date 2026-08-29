@@ -1525,6 +1525,45 @@ def test_slug_migration_is_idempotent():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 94 - the repro guide quoted a clone size that had grown
+#
+# REPRODUCTION.md promised a "37 MB" shallow clone. A clean-room clone measured
+# 46 MB: cache files were added over time and the documented figure was never
+# revisited. Small, but it is a documented claim about the artifact that had
+# drifted from the artifact - the exact defect this project detects in other
+# people's READMEs, in this project's own reproduction guide.
+#
+# Checked against the tracked tree rather than a remembered number.
+# --------------------------------------------------------------------------
+def test_documented_clone_size_matches_the_tracked_tree():
+    import re
+    import subprocess
+    root = Path(__file__).resolve().parents[1]
+    doc = (root / "REPRODUCTION.md").read_text()
+    m = re.search(r"shallow clone \*\*(\d+) MB", doc)
+    assert m, "REPRODUCTION.md no longer states a clone size"
+    claimed = int(m.group(1))
+    try:
+        files = subprocess.run(["git", "ls-files"], cwd=root, capture_output=True,
+                               text=True, timeout=60).stdout.split()
+    except Exception:
+        return                      # not a git checkout; nothing to compare
+    if not files:
+        return
+    total = 0
+    for f in files:
+        p = root / f
+        if p.exists():
+            total += p.stat().st_size
+    mb = total / 1e6
+    # Tracked bytes plus git object overhead. Allow generous slack, and fail
+    # only when the claim is off by enough to mislead someone sizing a disk.
+    assert abs(mb - claimed) <= 15, (
+        f"REPRODUCTION.md claims {claimed} MB; tracked files total {mb:.0f} MB")
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
