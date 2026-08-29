@@ -27,3 +27,30 @@ discovered artifacts: 398
   [360/398] profiled 342
     ! genijalac11/CRYSTAL23-scripts-collection: HTTPError
     ! apps/renovate: HTTPError
+    ! Tanvir-Mahmud-Mahim/Process-induced-compressive-strain-with-a-van-der-Waals-ferroelectric-gate-in-a-single-device.: HTTPError
+
+====================================================================
+PREVALENCE OF BROKEN README CLAIMS IN RESEARCH ARTIFACTS
+====================================================================
+  artifacts profiled                 : 376
+  with checkable path claims         : 343
+  WITH >=1 BROKEN CLAIM              : 224 (65.3%)
+  total claims checked               : 4261
+  total broken                       : 829 (19.5%)
+  median broken-claim ratio          : 0.125
+
+  Infrastructure present:
+    dependency manifest       253/376  (67%)
+    container definition      102/376  (27%)
+    CI configuration          165/376  (44%)
+    tests                     139/376  (37%)
+    licence                   330/376  (88%)
+
+  READMEs disclosing their own badge  : 208/376 (55%)
+
+  DECAY HYPOTHESIS (do older artifacts have more broken claims?)
+    recently pushed  (n=171, median 0d old): 0.274
+    least recent     (n=172, median 33d old): 0.219
+    -> DOES NOT SUPPORT the decay hypothesis
+====================================================================
+-> results/prevalence.json

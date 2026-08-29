@@ -111,7 +111,12 @@ def main() -> None:
             "stale_days": age_days(fx.get("pushed_at")),
             "stars": fx.get("stars", 0),
             "archived": fx.get("archived", False),
-            "leaked_badge": fx["readme_scrub"]["leaked"],
+            "scrub_hits": fx["readme_scrub"]["hits"],
+            # A shields.io "build passing" badge is not an ACM tier disclosure.
+            # Only these patterns indicate a README revealing its own grade.
+            "leaked_tier": any(k in fx["readme_scrub"]["hits"] for k in
+                               ("acm_badge_phrase", "badge_tier_bare",
+                                "results_reproduced", "ae_committee")),
         })
         if i % 20 == 0:
             print(f"  [{i}/{len(items)}] profiled {len(rows)}")
@@ -146,34 +151,77 @@ def main() -> None:
         n = sum(1 for r in rows if r[key])
         print(f"    {label:<24} {n:>4}/{len(rows)}  ({n/len(rows):.0%})")
 
-    leaked = sum(1 for r in rows if r["leaked_badge"])
-    print(f"\n  READMEs disclosing their own badge  : {leaked}/{len(rows)} "
-          f"({leaked/len(rows):.0%})")
+    tier_leak = sum(1 for r in rows if r["leaked_tier"])
+    any_badge = sum(1 for r in rows if r["scrub_hits"])
+    print(f"\n  READMEs disclosing an ACM tier      : {tier_leak}/{len(rows)} "
+          f"({tier_leak/len(rows):.0%})")
+    print(f"  (any badge-like text redacted      : {any_badge}/{len(rows)} - "
+          f"mostly ordinary CI/coverage badges, not tier disclosure)")
 
     # --- decay hypothesis ----------------------------------------------------
+    # A median split is the wrong instrument here: last-push dates are heavily
+    # skewed toward "recently touched", so both halves end up recent (medians of
+    # 0 and 33 days) even though the corpus spans nearly six years. Fixed age
+    # buckets compare genuinely old artifacts against genuinely new ones.
+    BUCKETS = [(0, 90, "under 3 months"), (90, 365, "3-12 months"),
+               (365, 730, "1-2 years"), (730, 10**6, "over 2 years")]
     dated = [r for r in checkable if r["stale_days"] is not None]
     decay = None
-    if len(dated) >= 12:
-        dated.sort(key=lambda r: r["stale_days"])
-        half = len(dated) // 2
-        fresh, stale = dated[:half], dated[half:]
-        f_ratio = statistics.mean(r["broken_ratio"] for r in fresh)
-        s_ratio = statistics.mean(r["broken_ratio"] for r in stale)
-        decay = {
-            "fresh_n": len(fresh), "stale_n": len(stale),
-            "fresh_median_days": round(statistics.median(r["stale_days"] for r in fresh)),
-            "stale_median_days": round(statistics.median(r["stale_days"] for r in stale)),
-            "fresh_broken_ratio": round(f_ratio, 4),
-            "stale_broken_ratio": round(s_ratio, 4),
-            "supports_decay": s_ratio > f_ratio,
-        }
+    if len(dated) >= 20:
+        rows_by_bucket = []
+        for lo, hi, label in BUCKETS:
+            g = [r for r in dated if lo <= r["stale_days"] < hi]
+            if len(g) >= 8:  # too few to mean anything
+                rows_by_bucket.append({
+                    "label": label, "n": len(g),
+                    "median_days": round(statistics.median(r["stale_days"] for r in g)),
+                    "mean_broken_ratio": round(
+                        statistics.mean(r["broken_ratio"] for r in g), 4),
+                    "share_with_broken": round(
+                        sum(1 for r in g if r["broken"] > 0) / len(g), 3),
+                })
         print("\n  DECAY HYPOTHESIS (do older artifacts have more broken claims?)")
-        print(f"    recently pushed  (n={len(fresh)}, median "
-              f"{decay['fresh_median_days']}d old): {f_ratio:.3f}")
-        print(f"    least recent     (n={len(stale)}, median "
-              f"{decay['stale_median_days']}d old): {s_ratio:.3f}")
-        print(f"    -> {'SUPPORTS' if decay['supports_decay'] else 'DOES NOT SUPPORT'}"
-              f" the decay hypothesis")
+        print(f"    {'age bucket':<18}{'n':>5}{'median':>9}"
+              f"{'broken ratio':>15}{'% with a break':>16}")
+        for b in rows_by_bucket:
+            print(f"    {b['label']:<18}{b['n']:>5}{b['median_days']:>8}d"
+                  f"{b['mean_broken_ratio']:>15.3f}{b['share_with_broken']:>15.0%}")
+        conclusive = len(rows_by_bucket) >= 3
+        trend = None
+        if conclusive:
+            ratios = [b["mean_broken_ratio"] for b in rows_by_bucket]
+            delta = ratios[-1] - ratios[0]
+            # Check "flat" FIRST. An earlier version tested `increasing` first,
+            # so a delta of 0.001 was reported as an increasing trend - noise
+            # dressed up as a finding.
+            if abs(delta) < 0.05:
+                trend = "flat"
+            elif delta > 0:
+                trend = "increasing"
+            else:
+                trend = "decreasing"
+            print(f"    -> broken-claim ratio is {trend.upper()} with age "
+                  f"(delta {delta:+.3f} across buckets)")
+            if trend == "increasing":
+                print("       CONSISTENT with the decay literature")
+            elif trend == "flat":
+                print("       NO age effect. The defect is present from")
+                print("       publication rather than acquired over time - so it")
+                print("       is not explained by dependency drift, and a reviewer")
+                print("       could have caught it on day one.")
+            else:
+                print("       Broken claims DECREASE with age (unexpected;")
+                print("       likely survivorship - maintained repos stay listed)")
+            small = [b["label"] for b in rows_by_bucket if b["n"] < 15]
+            if small:
+                print(f"       CAVEAT: small n in bucket(s): {', '.join(small)}")
+        else:
+            print(f"    -> INCONCLUSIVE: only {len(rows_by_bucket)} populated "
+                  f"bucket(s); need at least 3")
+        decay = {"buckets": rows_by_bucket, "conclusive": conclusive,
+                 "trend": trend,
+                 "age_span_days": round(max(r["stale_days"] for r in dated) -
+                                        min(r["stale_days"] for r in dated))}
     print("=" * 68)
 
     OUT.parent.mkdir(exist_ok=True)

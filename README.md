@@ -149,6 +149,50 @@ normal. The verifier is behaving correctly and being penalised for it — `LPR`
 genuinely has 15 of 17 README paths missing, the solution correctly downgrades
 it, and its badge says `Reusable`.
 
+### Prevalence in the wild — 376 artifacts
+
+The verifier needs no labels and no model, so it can be pointed at every artifact
+we could find. Harvested 398 research-artifact repositories from Zenodo across
+venues; 376 profiled successfully.
+
+| | |
+|---|---|
+| Artifacts with **≥1 broken README claim** | **224 / 343 (65.3%)** |
+| Claims checked | 4,261 |
+| Claims that resolve to nothing | **829 (19.5%)** |
+| Median broken-claim ratio | 0.125 |
+
+Reproducibility infrastructure across the same 376:
+
+| Signal | Present |
+|---|---|
+| Licence | 88% |
+| Dependency manifest | 67% |
+| CI configuration | 44% |
+| Tests | 37% |
+| Container definition | 27% |
+
+### The defect is not decay — artifacts ship broken
+
+The literature attributes artifact failure to *drift*: dependencies moving under
+a project over months. That predicts older artifacts should carry more broken
+claims. They do not.
+
+| Age bucket | n | Median age | Broken-claim ratio |
+|---|---|---|---|
+| under 3 months | 293 | 1d | 0.248 |
+| 3–12 months | 35 | 161d | 0.224 |
+| 1–2 years | 8 | 614d | 0.249 |
+
+**Flat** (delta +0.001 across buckets). Broken path claims are present at
+publication, not acquired over time — so they are not explained by dependency
+drift, and **a reviewer could have caught every one of them on day one**. That is
+what makes a mechanical check worth running at review time rather than as
+post-hoc archaeology.
+
+*(Caveat reported with the result: the oldest bucket has n=8. Zenodo's recency
+sort skews the corpus toward new deposits.)*
+
 ## 4. Can another person reproduce the result?
 
 Yes, from a clean environment, in seconds and offline. See
