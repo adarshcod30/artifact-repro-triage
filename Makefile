@@ -5,6 +5,9 @@ help:
 setup:    ## Create venv and install pinned deps
 	uv sync
 
+spend:     ## Cumulative model spend against the $5 budget
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend
+
 test:      ## Regression tests pinning every bug the changelog claims to have fixed
 	.venv/bin/python tests/test_regressions.py
 

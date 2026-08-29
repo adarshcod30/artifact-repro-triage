@@ -180,6 +180,35 @@ def test_overclaim_is_tracked_separately_from_mae():
 
 
 # --------------------------------------------------------------------------
+# Dependency pinning - a vendored manifest six levels deep is not the
+# artifact's own manifest. Selecting one inflated the pinned ratio.
+# --------------------------------------------------------------------------
+def test_vendored_manifest_is_not_selected():
+    from artifact_triage.solution.pinning import _shallowest, LOCKFILES
+    tree = ["FF_AFL++/frida_mode/ts/package-lock.json", "src/main.c"]
+    assert _shallowest(tree, LOCKFILES) is None, \
+        "a manifest 3+ levels deep is vendored code, not the artifact's own"
+
+
+def test_root_manifest_is_selected_over_nested():
+    from artifact_triage.solution.pinning import _shallowest, PY_MANIFESTS
+    tree = ["deep/nested/dir/requirements.txt", "requirements.txt"]
+    assert _shallowest(tree, PY_MANIFESTS) == "requirements.txt"
+
+
+def test_pinned_and_floating_are_classified_correctly():
+    from artifact_triage.solution.pinning import classify_requirements
+    text = ("torch==2.1.0\n"          # pinned
+            "numpy\n"                 # floating
+            "hydra-core>=1.1.0\n"     # floating (lower bound only)
+            "pandas>=1.0,<2.0\n"      # bounded
+            "# a comment\n"
+            "-r other.txt\n")         # option line, not a requirement
+    pinned, bounded, floating, _ = classify_requirements(text)
+    assert (pinned, bounded, floating) == (1, 1, 2)
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

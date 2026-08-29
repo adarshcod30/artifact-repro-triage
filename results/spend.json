@@ -1,0 +1,27 @@
+{
+ "total_usd": 0.4889,
+ "budget_usd": 5.0,
+ "remaining_usd": 4.5111,
+ "total_calls": 210,
+ "thresholds_crossed": [],
+ "entries": [
+  {
+   "source": "baseline run",
+   "usd": 0.0333,
+   "calls": 15,
+   "note": "one prompt per artifact"
+  },
+  {
+   "source": "solution run",
+   "usd": 0.0359,
+   "calls": 15,
+   "note": "verified facts per artifact"
+  },
+  {
+   "source": "falsified experiment",
+   "usd": 0.4197,
+   "calls": 180,
+   "note": "3 trials x 2 systems x clean+dirty"
+  }
+ ]
+}
