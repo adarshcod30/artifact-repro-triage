@@ -659,11 +659,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   133 tests pinning every fixed bug
+tests/        test_regressions.py   138 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 133 regression tests, no credentials, ~2s
+make test         # 138 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan
@@ -692,6 +692,14 @@ paths" it reported in this README are **quotations from other artifacts**:
 example output; `configs/default.yaml` comes from the negative-control injection
 list. The checker cannot tell a claim about *this* repository from a quotation
 about another one.
+
+**The link checker refuses internal addresses.** URLs come from READMEs written
+by other people, and link checking is on by default, so this is the one place
+the tool acts on adversarial input. It will not fetch loopback, private,
+link-local or reserved addresses — including after a redirect, since a public
+URL can redirect into private space. Without that, a README could have pointed
+the tool at `169.254.169.254`, the cloud metadata endpoint. Found by reading the
+module rather than by an incident.
 
 **Two results cannot currently be certified, and `make check-claims` says so
 rather than hiding it.** `adversarial.json` carries no provenance stamp — the

@@ -1813,6 +1813,73 @@ def test_dashboard_reads_the_field_name_that_exists():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 105 - server-side request forgery in the link checker
+#
+# `links.py` fetches every URL found in a README, and link checking is ON BY
+# DEFAULT in the CLI. The READMEs are untrusted by construction: this tool is
+# pointed at third-party research artifacts, runs in CI, and is built for
+# reviewers assessing submitted work.
+#
+# A README could therefore make the tool request:
+#   http://169.254.169.254/latest/meta-data/...  cloud metadata, which serves
+#                                                IAM credentials under IMDSv1
+#   http://localhost:8080/...                    services on the host
+#   http://10.x / 192.168.x / 172.16.x           the internal network
+#
+# HEAD-only is not a defence - a status code is an internal port-scan oracle -
+# and urllib follows redirects by default, so a public URL can redirect into
+# private space. Both the original URL and every redirect hop are now checked.
+# --------------------------------------------------------------------------
+INTERNAL_URLS = [
+    "http://localhost:8080/admin",
+    "http://127.0.0.1:5000/debug",
+    "http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+    "http://10.0.0.5/secret",
+    "http://192.168.1.1/router",
+    "http://172.16.0.1/",
+    "http://[::1]/",
+    "http://0.0.0.0/",
+]
+
+
+def test_internal_addresses_are_never_fetched():
+    from artifact_triage.solution.links import is_internal
+    for u in INTERNAL_URLS:
+        assert is_internal(u), f"would have been fetched: {u}"
+
+
+def test_public_urls_are_still_checked():
+    from artifact_triage.solution.links import is_internal
+    for u in ("https://example.com/page", "https://github.com/a/b",
+              "http://zenodo.org/record/1"):
+        assert not is_internal(u), f"wrongly blocked: {u}"
+
+
+def test_a_blocked_url_is_reported_not_counted_as_dead():
+    """Declining to look is not the same as finding it broken."""
+    from artifact_triage.solution.links import check
+    r = check("http://127.0.0.1:9/closed")
+    assert r.unverifiable and r.ok, (r.ok, r.unverifiable, r.error)
+    assert "internal" in (r.error or "")
+
+
+def test_redirects_are_re_validated_not_only_the_first_url():
+    import inspect
+    from artifact_triage.solution import links
+    src = inspect.getsource(links)
+    assert "redirect_request" in src and "BlockedURL" in src, \
+        "a public URL can redirect into private space; each hop must be checked"
+    assert "_OPENER.open" in src and "urllib.request.urlopen(req" not in src, \
+        "every request must go through the redirect-guarding opener"
+
+
+def test_unparseable_urls_fail_closed():
+    from artifact_triage.solution.links import is_internal
+    assert is_internal("http://[oops")
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

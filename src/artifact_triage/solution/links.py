@@ -9,6 +9,14 @@ research artifacts averages 9.4% and reaches 29.8% in some years, and only 56.4%
 of artifacts were reachable at the links their papers provided. A README pointing
 at a dead dataset is unusable however well written it is.
 
+UNTRUSTED INPUT
+---------------
+The URLs checked here come from READMEs written by other people, and link
+checking is on by default. That makes this the one module in the project that
+takes an adversarial input and acts on it, so it refuses to fetch loopback,
+private, link-local or reserved addresses - including after a redirect. See
+`is_internal`.
+
 DETERMINISM BOUNDARY
 --------------------
 This module is the one part of the pipeline that depends on the outside world,
@@ -20,10 +28,13 @@ which is itself a measurement.
 """
 from __future__ import annotations
 
+import ipaddress
 import json
 import re
+import socket
 import ssl
 import urllib.error
+import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, asdict
@@ -51,6 +62,70 @@ UNVERIFIABLE_HOSTS = (
     "sciencedirect.com", "ieeexplore.ieee.org", "dl.acm.org",
     "springer.com", "link.springer.com", "wiley.com",
 )
+
+
+# ---------------------------------------------------------------------------
+# SSRF defence. This module fetches URLs taken from UNTRUSTED READMEs, which is
+# the tool's entire purpose: it is pointed at third-party research artifacts,
+# it runs in CI, and it is built for reviewers assessing submitted work. That
+# is an adversarial setting by construction.
+#
+# Without this, a README could make the tool request:
+#   http://169.254.169.254/latest/meta-data/...  the cloud metadata endpoint,
+#                                                which serves IAM credentials
+#                                                under IMDSv1
+#   http://localhost:8080/...                    services on the host
+#   http://10.x / 192.168.x / 172.16.x           the internal network
+#
+# HEAD-only is not a defence: the status code alone is an internal port-scan
+# oracle. And urllib FOLLOWS REDIRECTS by default, so an entirely public URL
+# can redirect into private space - which is why the redirect target is
+# re-validated rather than only the original URL.
+# ---------------------------------------------------------------------------
+class BlockedURL(Exception):
+    """The URL resolves somewhere a link check has no business going."""
+
+
+def _addresses(host: str) -> list[str]:
+    try:
+        return [ai[4][0] for ai in socket.getaddrinfo(host, None)]
+    except Exception:
+        return []
+
+
+def is_internal(url: str) -> bool:
+    """True if the URL resolves to a loopback, private or reserved address."""
+    try:
+        host = urllib.parse.urlsplit(url).hostname
+    except ValueError:
+        return True                      # unparseable: refuse rather than guess
+    if not host:
+        return True
+    candidates = [host] + _addresses(host)
+    for cand in candidates:
+        try:
+            ip = ipaddress.ip_address(cand)
+        except ValueError:
+            continue                     # a name, not an address
+        if (ip.is_private or ip.is_loopback or ip.is_link_local
+                or ip.is_reserved or ip.is_multicast or ip.is_unspecified):
+            return True
+    # A name that resolves to nothing cannot be fetched anyway; let the request
+    # fail normally rather than reporting it as blocked.
+    return False
+
+
+class _GuardedRedirects(urllib.request.HTTPRedirectHandler):
+    """Re-check every hop. A public URL may redirect into private space."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if is_internal(newurl):
+            raise BlockedURL(newurl)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_OPENER = urllib.request.build_opener(_GuardedRedirects,
+                                      urllib.request.HTTPSHandler(context=_SSL))
 
 
 @dataclass
@@ -85,21 +160,29 @@ def _unverifiable(url: str) -> bool:
 def check(url: str) -> LinkResult:
     if _unverifiable(url):
         return LinkResult(url, None, True, True, "host blocks automated checks")
+    if is_internal(url):
+        # Reported, never fetched. Counting it as dead would be wrong too - we
+        # simply decline to find out, and say so.
+        return LinkResult(url, None, True, True,
+                          "internal or loopback address - not fetched")
     req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": UA})
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT, context=_SSL) as r:
+        with _OPENER.open(req, timeout=TIMEOUT) as r:
             return LinkResult(url, r.status, 200 <= r.status < 400, False)
     except urllib.error.HTTPError as exc:
         # Some servers reject HEAD but serve GET. Retry once before calling it dead.
         if exc.code in (403, 405, 501):
             try:
                 req = urllib.request.Request(url, headers={"User-Agent": UA})
-                with urllib.request.urlopen(req, timeout=TIMEOUT, context=_SSL) as r:
+                with _OPENER.open(req, timeout=TIMEOUT) as r:
                     return LinkResult(url, r.status, 200 <= r.status < 400, False)
             except Exception:
                 return LinkResult(url, exc.code, False, True,
                                   "rejects automated requests")
         return LinkResult(url, exc.code, False, False, f"HTTP {exc.code}")
+    except BlockedURL as exc:
+        return LinkResult(url, None, True, True,
+                          f"redirected to an internal address ({exc})")
     except Exception as exc:
         return LinkResult(url, None, False, False, type(exc).__name__)
 
