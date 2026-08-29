@@ -518,6 +518,58 @@ def test_video_script_timings_are_consistent():
 
 
 # --------------------------------------------------------------------------
+# A reviewer running this on an unfamiliar repository will hit missing repos,
+# private repos and rate limits routinely. A urllib traceback tells them
+# nothing about which happened or what to do next.
+# --------------------------------------------------------------------------
+def test_missing_repo_gives_an_actionable_message_not_a_traceback():
+    import urllib.error
+    from artifact_triage import cli
+
+    def boom(url, key):
+        raise urllib.error.HTTPError(url, 404, "Not Found", {}, None)
+
+    orig = cli._get
+    try:
+        cli._get = boom
+        try:
+            cli.build_factsheet("nope/nope")
+            assert False, "should have raised"
+        except cli.RepoUnavailable as e:
+            msg = str(e)
+            assert "not found" in msg.lower()
+            assert "private or" in msg.lower(), "should explain the likely causes"
+    finally:
+        cli._get = orig
+
+
+def test_rate_limit_message_names_the_fix():
+    import urllib.error
+    from artifact_triage import cli
+
+    def boom(url, key):
+        raise urllib.error.HTTPError(url, 403, "Forbidden", {}, None)
+
+    orig = cli._get
+    try:
+        cli._get = boom
+        try:
+            cli.build_factsheet("a/b")
+            assert False, "should have raised"
+        except cli.RepoUnavailable as e:
+            assert "GITHUB_TOKEN" in str(e), "must tell the user how to fix it"
+    finally:
+        cli._get = orig
+
+
+def test_url_and_git_suffix_forms_parse_to_the_same_slug():
+    from artifact_triage.cli import parse_slug
+    for form in ("psf/black", "psf/black.git", "https://github.com/psf/black",
+                 "https://github.com/psf/black.git", "git@github.com:psf/black"):
+        assert parse_slug(form) == "psf/black", form
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

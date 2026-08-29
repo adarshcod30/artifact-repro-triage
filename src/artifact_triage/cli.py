@@ -43,8 +43,37 @@ def parse_slug(text: str) -> str:
     return f"{m.group(1)}/{m.group(2)}"
 
 
+class RepoUnavailable(SystemExit):
+    """A clean, actionable message instead of a traceback.
+
+    A tool a reviewer runs on an unfamiliar repository will hit missing repos,
+    private repos and rate limits routinely. Dumping a urllib traceback tells
+    them nothing about which of those happened or what to do next.
+    """
+
+
 def build_factsheet(slug: str) -> dict:
-    meta = _get(f"{API}/repos/{slug}", "repo-" + slug.replace("/", "__"))
+    import urllib.error
+    try:
+        meta = _get(f"{API}/repos/{slug}", "repo-" + slug.replace("/", "__"))
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            raise RepoUnavailable(
+                f"'{slug}' was not found on GitHub.\n"
+                f"Check the spelling, or the repository may be private or "
+                f"deleted. Artifacts do disappear - that is part of what this "
+                f"tool measures.")
+        if exc.code in (403, 429):
+            raise RepoUnavailable(
+                f"GitHub rate-limited this request ({exc.code}).\n"
+                f"Anonymous access allows 60 requests/hour. Set GITHUB_TOKEN, "
+                f"or run `gh auth login`, for 5000/hour.")
+        raise RepoUnavailable(f"GitHub returned HTTP {exc.code} for '{slug}'.")
+    except urllib.error.URLError as exc:
+        raise RepoUnavailable(
+            f"Could not reach GitHub: {exc.reason}.\n"
+            f"This command needs network access; the deterministic checks over "
+            f"cached fixtures (`make verify`) do not.")
     _, sha = default_branch_sha(slug)
     entries = tree(slug, sha)
     raw = readme(slug)
