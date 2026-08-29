@@ -1699,6 +1699,89 @@ def test_changed_functions_is_safe_on_a_bad_reference():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 99 - the --model report path had no test
+#
+# `--model` is a documented flag, and its rendering was rewritten when the
+# report stopped contradicting itself about human review. Testing it required
+# an API call, so nothing tested it - the same reason the `_report` crash in
+# falsified_run.py survived until it cost a paid trial.
+#
+# The model's ANSWER needs a call. The rendering of that answer does not.
+# --------------------------------------------------------------------------
+def test_model_report_renders_without_calling_a_model():
+    import json as _json
+    from artifact_triage.cli import render
+    from artifact_triage.solution.criteria import assess
+    from artifact_triage.solution.escalate import decide
+    from artifact_triage.solution.verify import verify
+
+    fixtures = sorted(Path("data/fixtures").glob("*.json"))
+    if not fixtures:
+        return
+    fx = _json.loads(fixtures[0].read_text())
+    ev = verify(fx)
+    d = decide(ev, "Functional", 0.8, True)
+    model = {"tier": "Functional", "confidence": 0.8, "reasons": ["because"],
+             "escalated": d.escalate, "escalation_reasons": d.reasons}
+    out = render(fx, ev, None, model, None, None, None, assess(ev))
+    assert "## Assessment" in out
+    assert "Always required of a reviewer" in out
+    assert "## ACM Functional criteria" in out
+
+
+def test_contradiction_rule_fires_when_a_tier_defies_the_evidence():
+    """Never fires on this corpus - the model downgrades those artifacts
+    itself - so it is a guard, and only a test can show it works."""
+    from artifact_triage.solution.escalate import decide
+    ev = _fake_evidence(claims_total=17, claims_broken=15,
+                        broken_paths=["x.py"] * 15)
+    ev.broken_ratio = 15 / 17
+    ev.has_dependency_manifest = True
+    ev.has_container = True
+    d = decide(ev, "Functional", 0.9, True)
+    assert d.escalate
+    assert any("contradicts the evidence" in r for r in d.reasons)
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 100 - the dashboard quoted numbers it never read
+#
+# results/dashboard.html is a deliverable. Two of its figures were written by
+# hand: the constant control's MAE as a literal `0.667`, and the baseline's
+# collapse as "(14/15)". The second had drifted - and the count moves between
+# runs anyway, because the model is not deterministic.
+#
+# A rendered artifact quoting figures it does not read from the data is exactly
+# the defect this project detects, in this project's own dashboard. Reading the
+# wrong field name also failed SILENTLY into a placeholder rather than erroring.
+# --------------------------------------------------------------------------
+def test_dashboard_does_not_hardcode_result_numbers():
+    import re
+    src = (Path(__file__).resolve().parents[1]
+           / "src/artifact_triage/eval/dashboard.py").read_text()
+    body = "\n".join(ln for ln in src.splitlines()
+                     if not ln.lstrip().startswith("#"))
+    # CSS carries percentages and radii; result figures look like 0.667 / 14/15.
+    for m in re.finditer(r"<td class=\"num\">([^<{]+)</td>", body):
+        val = m.group(1).strip()
+        assert not re.match(r"^[0-9]+(\.[0-9]+)?$", val), \
+            f"hardcoded result number in the dashboard: {val!r}"
+
+
+def test_dashboard_reads_the_field_name_that_exists():
+    """Reading `predicted` instead of `tier` degraded to a placeholder."""
+    import json as _json
+    p = Path("results/baseline.json")
+    if not p.exists():
+        return
+    raw = _json.loads(p.read_text()).get("raw") or []
+    if raw:
+        assert "tier" in raw[0], "baseline.json rows are keyed by `tier`"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

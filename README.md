@@ -412,7 +412,7 @@ work, and the write-up keeps it visible rather than quietly dropping it.
 
 **A zero-skill constant beats both systems.** It wins by collapsing onto the
 middle class, which MAE rewards on a 3-class ordinal problem — and the baseline
-does nearly the same thing, predicting `Functional` for 13 of 15 artifacts.
+does nearly the same thing, predicting `Functional` for 14 of 15 artifacts.
 
 > **These two figures are single-run point estimates, and they move.** Across
 > three same-day runs baseline scored 0.733–0.800 and solution 0.700–0.800; the
@@ -652,11 +652,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   127 tests pinning every fixed bug
+tests/        test_regressions.py   131 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 127 regression tests, no credentials, ~2s
+make test         # 131 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

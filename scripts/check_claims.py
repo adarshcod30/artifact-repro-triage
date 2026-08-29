@@ -100,6 +100,18 @@ def claims() -> list[tuple[str, str, str, str]]:
                         f"best constant control ({best['system']})",
                         "comparison.json"))
 
+    # The baseline's collapse onto one class is quoted in the README and was
+    # hand-written as "14 of 15", then "13 of 15" - it moves between runs,
+    # because the model is not deterministic. Derived now.
+    bl = load("results/baseline.json")
+    if bl and bl.get("raw"):
+        tiers = [r.get("tier") for r in bl["raw"] if r.get("tier")]
+        if tiers:
+            top = max({t: tiers.count(t) for t in set(tiers)}.items(),
+                      key=lambda kv: kv[1])
+            out.append(("README.md", f"`Functional` for {top[1]} of {len(tiers)}",
+                        "baseline collapse onto one class", "baseline.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",

@@ -139,10 +139,29 @@ def build() -> str:
           'write-up keeps it visible.</p>')
         A('<div class="tw"><table><tr><th>System</th>'
           '<th>MAE (lower better)</th><th>Note</th></tr>')
-        A('<tr><td>constant predictor &mdash; always &ldquo;Functional&rdquo;</td>'
-          '<td class="num">0.667</td><td>no model, no input, zero skill</td></tr>')
+        # Both of these used to be written by hand: the control MAE as a
+        # literal 0.667, and the baseline's collapse as "(14/15)" - which had
+        # drifted to wrong, since the baseline predicts the middle class 13
+        # times. A rendered deliverable quoting figures it does not read from
+        # the data is the defect this project detects, in this project's own
+        # dashboard.
+        cmp_ = load("results/comparison.json") or {}
+        ctrl = next((c for c in cmp_.get("controls", [])
+                     if c.get("system") == cmp_.get("best_control")), None)
+        ctrl_mae = f'{ctrl["mae"]:.3f}' if ctrl else "n/a"
+        # `tier`, not `predicted` - baseline.json and comparison.json name the
+        # same field differently, and reading the wrong one failed silently
+        # into a placeholder rather than an error.
+        preds = [i.get("tier") for i in (b.get("raw") or [])]
+        modal = max({p: preds.count(p) for p in set(preds) if p}.items(),
+                    key=lambda kv: kv[1], default=(None, 0))
+        collapse = (f"collapsed onto one class ({modal[1]}/{len(preds)})"
+                    if modal[0] else "see comparison.json")
+        A(f'<tr><td>constant predictor &mdash; always &ldquo;Functional&rdquo;</td>'
+          f'<td class="num">{ctrl_mae}</td>'
+          f'<td>no model, no input, zero skill</td></tr>')
         A(f'<tr><td>baseline</td><td class="num">{b["report"]["mae"]}</td>'
-          f'<td>collapsed onto the middle class (14/15)</td></tr>')
+          f'<td>{collapse}</td></tr>')
         A(f'<tr><td>solution</td><td class="num">{s["report"]["mae"]}</td>'
           f'<td>penalised for correctly flagging decayed artifacts</td></tr>')
         A('</table></div>')
