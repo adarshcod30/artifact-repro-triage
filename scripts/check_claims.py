@@ -1,0 +1,112 @@
+"""Verify that every number claimed in the documentation matches the results.
+
+This project detects READMEs whose claims have drifted from their repository.
+Its own README quotes roughly twenty figures from `results/*.json` - detection
+rates, prevalence, corpus sizes, spend - and nothing checked that they still
+agree with the data after each re-run.
+
+That is the same defect, one level up: a document whose claims are no longer
+verified against the thing it describes.
+
+So each claim is registered here with the results file it comes from. If a
+re-run changes a number and the prose is not updated, this fails and names both
+values. A write-up that cannot be checked against its own data is exactly what
+this project argues against.
+"""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def load(rel: str):
+    p = ROOT / rel
+    return json.loads(p.read_text()) if p.exists() else None
+
+
+def claims() -> list[tuple[str, str, str, str]]:
+    """(document, literal string that must appear, actual value, source)."""
+    out: list[tuple[str, str, str, str]] = []
+
+    fr = load("results/falsified_run.json")
+    if fr:
+        sr = fr.get("solution_rates") or []
+        br = fr.get("baseline_rates") or []
+        if sr:
+            out.append(("README.md", f"{sum(sr)/len(sr):.0%}",
+                        "solution detection mean", "falsified_run.json"))
+        if br:
+            out.append(("README.md", f"{sum(br)/len(br):.0%}",
+                        "baseline detection mean", "falsified_run.json"))
+        if fr.get("trials"):
+            out.append(("README.md", str(fr["trials"]), "trial count",
+                        "falsified_run.json"))
+
+    nc = load("results/negative_control.json")
+    if nc:
+        out.append(("README.md", f"{nc['injected']}/{nc['injected']}",
+                    "negative control detection", "negative_control.json"))
+        out.append(("CHANGELOG.md", f"{nc['injected']}/{nc['injected']}",
+                    "negative control detection", "negative_control.json"))
+
+    pv = load("results/prevalence.json")
+    if pv:
+        if pv.get("prevalence") is not None:
+            out.append(("README.md", f"{pv['prevalence']:.1%}",
+                        "prevalence of broken claims", "prevalence.json"))
+        if pv.get("broken_claim_rate") is not None:
+            out.append(("README.md", f"{pv['broken_claim_rate']:.1%}",
+                        "broken claim rate", "prevalence.json"))
+        out.append(("README.md", f"{pv['total_claims']:,}",
+                    "total claims checked", "prevalence.json"))
+        out.append(("README.md", str(pv["n_profiled"]),
+                    "artifacts profiled", "prevalence.json"))
+
+    sp = load("results/spend.json")
+    if sp:
+        out.append(("README.md", f"${sp['total_usd']:.2f}",
+                    "total model spend", "spend.json"))
+
+    return out
+
+
+def main() -> int:
+    rows = claims()
+    if not rows:
+        print("no results files found - run the pipeline first")
+        return 0
+
+    cache: dict[str, str] = {}
+    failures = []
+    print("=" * 74)
+    print("CHECKING DOCUMENTED NUMBERS AGAINST results/*.json")
+    print("=" * 74)
+    for doc, literal, what, src in rows:
+        if doc not in cache:
+            p = ROOT / doc
+            cache[doc] = p.read_text() if p.exists() else ""
+        present = literal in cache[doc]
+        print(f"  {'OK  ' if present else 'FAIL'}  {doc:<14} "
+              f"{what:<32} {literal:>10}   <- {src}")
+        if not present:
+            failures.append((doc, what, literal, src))
+
+    print("-" * 74)
+    if failures:
+        print(f"  {len(failures)} DOCUMENTED NUMBER(S) NO LONGER MATCH THE DATA:")
+        for doc, what, literal, src in failures:
+            print(f"    {doc}: {what} should read {literal} (from {src})")
+        print("\n  The write-up has drifted from its results - the same defect")
+        print("  this project detects, in this project's own documentation.")
+        return 1
+    print(f"  All {len(rows)} documented numbers match the results files.")
+    print("=" * 74)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

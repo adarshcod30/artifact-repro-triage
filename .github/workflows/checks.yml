@@ -29,6 +29,12 @@ jobs:
       - name: Deterministic verifier (must be byte-identical everywhere)
         run: PYTHONPATH=src python -m artifact_triage.solution.verify
 
+      - name: Documented numbers must match the results files
+        run: python scripts/check_claims.py
+
+      - name: README links and anchors must resolve
+        run: python tests/test_regressions.py
+
       - name: Negative control (must be 75/75 with 0 false positives)
         run: |
           PYTHONPATH=src python -m artifact_triage.eval.negative_control \

@@ -95,6 +95,9 @@ repro:  ## The one command judges run
 	$(MAKE) dashboard
 
 # --------------------------------------------------------------- checks ----
+check-claims:  ## Verify every number in the docs matches results/*.json
+	.venv/bin/python scripts/check_claims.py
+
 verify-targets:  ## Prove every credential-free target actually runs
 	.venv/bin/python scripts/verify_targets.py
 
