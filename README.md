@@ -319,8 +319,19 @@ have falsified the central claim rather than merely qualified it.
 | **Explicitly told to hunt for internal contradictions** | **1/13 (8%)** |
 
 Given the same falsified README and an instruction to look specifically for
-instructions referencing files that appear nowhere else, it detects nothing.
-**Reading prose cannot find a fabricated path however hard you ask it to.**
+instructions referencing files that appear nowhere else, it finds **one of
+thirteen**.
+
+The falsification condition was pre-registered in
+[`adversarial.py`](src/artifact_triage/eval/adversarial.py): *"if it still
+scores 0%, the limitation is structural rather than a prompting artefact."*
+**It did not score 0%.** That docstring is left exactly as written — editing a
+pre-registration after seeing the result would be worse than the result itself.
+
+So the honest reading is weaker than the one first published here, which said it
+"detects nothing": **prompting alone recovers almost none of the gap — 8% against
+the solution's 100% — but "almost none" is not "none".** Three runs supported the
+absolute; the fourth did not.
 
 **"The solution is reading the README, not the evidence."**
 
@@ -662,11 +673,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   144 tests pinning every fixed bug
+tests/        test_regressions.py   148 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 144 regression tests, no credentials, ~2s
+make test         # 148 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

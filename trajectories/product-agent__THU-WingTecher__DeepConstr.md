@@ -111,12 +111,12 @@ Welcome to the artifact repository of the DeepConstr paper which is accepted by 
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is placed in a public archival repository and includes detailed documentation.",
-    "The README provides clear instructions on how to set up and run the software, including dependencies and environment setup.",
-    "The artifact includes scripts for conducting experiments and generating test cases, indicating it is exercisable.",
-    "The documentation covers various aspects of the project, such as source code structure, setup instructions, and quick start guides for different frameworks.",
-    "The presence of a Docker image simplifies the setup process and ensures consistency across different environments.",
-    "The artifact includes evidence of verification and validation through experiments and bug finding."
+    "The artifact is placed in a public archival repository.",
+    "The README provides detailed documentation on how to set up, run, and use the artifact.",
+    "The artifact includes scripts for fuzzing, constraint extraction, and experiment reproduction.",
+    "The documentation explains the structure of the source code and how to navigate it.",
+    "The artifact includes evidence of bug finding and comparative experiments.",
+    "The setup instructions are clear and include steps for both Docker and non-Docker environments."
   ],
   "escalated_to_human": false
 }
@@ -168,14 +168,15 @@ No machine-specific values found across 12 inspected file(s).
 
 ```json
 {
-  "tier": "Available",
+  "tier": "Functional",
   "confidence": 0.7,
   "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "The README is extensive but contains references to non-existent files, indicating a lack of consistency.",
-    "Dependencies are not pinned, which may affect reproducibility.",
-    "No Dockerfile is present, further complicating environment reproducibility.",
-    "The artifact includes tests and a license, but the documentation issues and dependency management reduce confidence in higher tiers."
+    "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
+    "The README provides detailed setup and usage instructions, suggesting the artifact is documented.",
+    "The presence of tests and a license indicates some level of completeness and consideration for use.",
+    "However, several file paths referenced in the README do not exist, indicating a lack of consistency.",
+    "The dependencies are not pinned, which may affect the reproducibility and stability of the environment.",
+    "There is no Dockerfile or CI configuration, which are common practices for ensuring environment reproducibility."
   ],
   "escalated_to_human": false
 }
@@ -184,6 +185,6 @@ No machine-specific values found across 12 inspected file(s).
 ## Step 4 — Outcome
 
 - **baseline**: predicted `Functional`, expert badge `Available`
-- **solution**: predicted `Available`, expert badge `Available`
+- **solution**: predicted `Functional`, expert badge `Available`
 
 See `results/falsified_run.json` for the same agents run against this artifact's falsified twin, which is the reported experiment.

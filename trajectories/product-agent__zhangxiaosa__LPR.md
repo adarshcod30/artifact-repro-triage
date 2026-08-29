@@ -127,12 +127,12 @@ However, the deviation should be trivial, and the results should still support t
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is documented with clear instructions on how to set up and run the experiments.",
-    "The artifact includes scripts and tools necessary to reproduce the results.",
-    "The README provides detailed steps for running different components of the artifact.",
+    "The artifact is documented with clear instructions on how to set up the environment and run the experiments.",
+    "The README provides detailed steps for reproducing the results, including running different reduction algorithms and analyzing the outputs.",
     "Precomputed results are provided to facilitate evaluation, acknowledging the time-consuming and LLM-dependent nature of the experiments.",
-    "The artifact is exercisable with provided Docker environment setup instructions.",
-    "The documentation includes notes on potential issues (e.g., LLM randomness, connection losses) and how to mitigate them."
+    "The folder structure is well-organized, with separate directories for scripts, prompts, benchmark suites, and tools.",
+    "The README notes the non-deterministic nature of LLM outputs and provides strategies for handling this, such as running experiments multiple times and restarting from intermediate results.",
+    "The artifact includes scripts for summarizing results and analyzing size changes, supporting the claims made in the paper."
   ],
   "escalated_to_human": false
 }
@@ -181,12 +181,12 @@ Licence present: False
 ```json
 {
   "tier": "Available",
-  "confidence": 0.8,
+  "confidence": 0.85,
   "reasons": [
     "The artifact is placed in a public archival repository.",
     "The documentation is inconsistent with the actual files present in the repository.",
-    "There are no dependency manifests, Dockerfile, CI configuration, or tests present.",
-    "The README references many file paths that do not exist in the repository.",
+    "There are no dependency manifests, container configurations, or tests present.",
+    "Many scripts and tools referenced in the README are missing.",
     "The environment reproducibility is lacking due to missing dependencies and configuration files.",
     "The artifact does not meet the criteria for Functional or Reusable tiers due to the above issues."
   ],

@@ -1986,6 +1986,78 @@ def test_spend_report_does_not_redeclare_the_ceiling():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 108 - the trajectory exporter published another project's session
+#
+# `TRANSCRIPT_DIR` was `~/.claude/projects` - EVERY project on the machine -
+# and the exporter took the most recently modified transcript. Work on any
+# other repository in between, and "the build agent trajectory" became a
+# different project's session, written into a submission deliverable bound for
+# a public repository. It did exactly that: a 2,251-event session from an
+# unrelated repo replaced the 6,800-event build history.
+#
+# That is a privacy leak, not a wrong-file inconvenience, and it was caught
+# only because the event count dropped in the output.
+#
+# The first fix then over-corrected: redacting every foreign directory's
+# trailing segment pulled in `adarsh`, the home-directory segment shared by
+# every absolute path in the transcript. It fired 1,059 times and rewrote
+# `cd "/Users/adarsh/..."` into `cd "[REDACTED] ..."` - a redactor that
+# destroys the document to hide nothing.
+# --------------------------------------------------------------------------
+def _traj_module():
+    import importlib.util
+    import sys as _sys
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "_traj", root / "scripts" / "export_build_trajectory.py")
+    m = importlib.util.module_from_spec(spec)
+    _sys.modules["_traj"] = m
+    spec.loader.exec_module(m)
+    return m
+
+
+def test_trajectory_export_is_scoped_to_this_project():
+    m = _traj_module()
+    expected = "".join(c if c.isalnum() else "-" for c in str(Path.cwd()))
+    assert m.project_transcript_dir().name == expected
+
+
+def test_trajectory_export_fails_closed_across_projects():
+    """It must never fall back to whatever transcript is newest on disk."""
+    import inspect
+    m = _traj_module()
+    src = inspect.getsource(m.latest_transcript)
+    assert "rglob" not in src, "searching all projects is what caused the leak"
+    assert "Refusing" in src or "no transcript directory" in src
+
+
+def test_foreign_redaction_never_matches_our_own_paths():
+    """The `adarsh` disaster: hiding nothing while destroying everything."""
+    import re as _re
+    m = _traj_module()
+    pat = _re.compile(m._foreign_pattern(), _re.I)
+    for safe in (str(Path.cwd()),
+                 f'cd "{Path.cwd()}"',
+                 str(Path.cwd() / "src/artifact_triage/cli.py")):
+        assert not pat.search(safe), f"would redact our own path: {safe!r}"
+
+
+def test_published_trajectory_contains_no_foreign_project_body():
+    p = Path("trajectories/build-agent.md")
+    if not p.exists():
+        return
+    text = p.read_text(errors="replace")
+    mine = "".join(c if c.isalnum() else "-" for c in str(Path.cwd()))
+    root = Path.home() / ".claude/projects"
+    if not root.is_dir():
+        return
+    for d in root.iterdir():
+        if d.is_dir() and d.name != mine:
+            assert d.name not in text, f"foreign project slug published: {d.name}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

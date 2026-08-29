@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 5,740 recorded events.
+Session `b0c00099` — 6,874 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -22,8 +22,8 @@ Team size: 1
 6.3K registrations
 OverviewAbout micro1ThemeDetailsPrizes & AwardsStages & TimelineEligibility CriteriaEvaluation CriteriaSubmission PackageRule BookFAQs
 Overview
-Build at the frontier of agentic AI. August 28–31, 2026. Online, individual, free.
-AI can produce convincing code in seconds. Real engineering begins when convincing is not enough: incomplete requirements, hi
+Build at the frontier of agentic AI. [REDACTED] 28–31, 2026. Online, individual, free.
+AI can produce convincing code in seconds. Real engineering begins when convincing is not enough: incomplete requirements
 
 **Tool call** `ToolSearch`
 
@@ -129,7 +129,7 @@ Submission Package
 Rule Book
 FAQs
 Overview
-Build at the frontier of agentic AI. August 28–31, 2026. Online, individual, free.
+Build at the frontier of agentic AI. [REDACTED] 28–31, 2026. Online, individual, free.
 
 AI can produce convincing code in seconds. Real engineering begins when convincing is not enough: incomplete requirements, hidden dependencies, difficult edge cases, failure modes, and decisions that require technical judgment.
 
@@ -192,7 +192,7 @@ The full challenge statement is released at kickoff (Aug 28 at 15:00 UTC). Until
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\" && mkdir -p imgs && cd imgs && base=\"https://uc.hackerearth.com/he-s3-ap-south-1/media/sprint/micro1-frontier-engineering-challenge-2026/editor/editor_image_2709535_\"\ni=1\nfor id in 9612a15 870ffa6 225bef0 36eb1d8 b391a8d 9a1195d b224b6e 43679e8; do\n  curl -s -o \"img${i}_${id}.png\" \"${base}${id}.png\"\n  i=$((i+1))\ndone\nls -la", "description": "Download challenge page images"}
+{"command": "cd \"[REDACTED]\" && mkdir -p imgs && cd imgs && base=\"https://uc.hackerearth.com/he-s3-ap-south-1/media/sprint/micro1-frontier-engineering-challenge-2026/editor/editor_image_2709535_\"\ni=1\nfor id in 9612a15 870ffa6 225bef0 36eb1d8 b391a8d 9a1195d b224b6e 43679e8; do\n  curl -s -o \"img${i}_${id}.png\" \"${base}${id}.png\"\n  i=$((i+1))\ndone\nls -la", "description": "Download challenge page images"}
 ```
 
 **Tool response**
@@ -215,49 +215,49 @@ Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineeri
 **Tool call** `Read`
 
 ```json
-{"file_path": "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/imgs/img6_9a1195d.png"}
+{"file_path": "[REDACTED]"}
 ```
 
 **Tool call** `Read`
 
 ```json
-{"file_path": "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/imgs/img7_b224b6e.png"}
+{"file_path": "[REDACTED]"}
 ```
 
 **Tool call** `Read`
 
 ```json
-{"file_path": "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/imgs/img5_b391a8d.png"}
+{"file_path": "[REDACTED]"}
 ```
 
 **Tool call** `Read`
 
 ```json
-{"file_path": "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/imgs/img8_43679e8.png"}
+{"file_path": "[REDACTED]"}
 ```
 
 **Tool call** `Read`
 
 ```json
-{"file_path": "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/imgs/img4_36eb1d8.png"}
+{"file_path": "[REDACTED]"}
 ```
 
 **Tool call** `Read`
 
 ```json
-{"file_path": "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/imgs/img3_225bef0.png"}
+{"file_path": "[REDACTED]"}
 ```
 
 **Tool call** `Read`
 
 ```json
-{"file_path": "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/imgs/img2_870ffa6.png"}
+{"file_path": "[REDACTED]"}
 ```
 
 **Tool call** `Read`
 
 ```json
-{"file_path": "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/imgs/img1_9612a15.png"}
+{"file_path": "[REDACTED]"}
 ```
 
 **Tool call** `mcp__claude-in-chrome__javascript_tool`
@@ -313,7 +313,7 @@ Tab Context:
 **Tool call** `Bash`
 
 ```json
-{"command": "M=\"/Users/adarsh/.claude/projects/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/memory\"\nls \"$M\" 2>/dev/null; echo \"--- MEMORY.md ---\"; cat \"$M/MEMORY.md\" 2>/dev/null || echo \"(no MEMORY.md)\"", "description": "Check existing memory files"}
+{"command": "M=\"[REDACTED]\"\nls \"$M\" 2>/dev/null; echo \"--- MEMORY.md ---\"; cat \"$M/MEMORY.md\" 2>/dev/null || echo \"(no MEMORY.md)\"", "description": "Check existing memory files"}
 ```
 
 **Tool response**
@@ -326,7 +326,7 @@ Tab Context:
 **Tool call** `Bash`
 
 ```json
-{"command": "M=\"/Users/adarsh/.claude/projects/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/memory\"\ncat > \"$M/micro1-hackathon-rubric.md\" <<'EOF'\n---\nname: micro1-hackathon-rubric\ndescription: micro1 Frontier Engineering Challenge 2026 - hard deadlines, scoring weights, and required deliverables\nmetadata:\n  type: project\n---\n\nmicro1 Frontier Engineering Challenge 2026 (HackerEarth, individual entry).\n\nHard dates (UTC): kickoff + problem PDF Fri 2026-08-28 15:00; registration closes\nSat 2026-08-29 23:59; submissions close Mon 2026-08-31 18:00 (late/incomplete\nrejected); winners Mon 2026-09-07.\n\nScoring out of 100, behind a pass/fail qualification gate (eligibility,\ncompleteness, integrity, trace, reproducibility - a project that cannot be run\nis disqualified before any rubric scoring):\n- Agent solution & engineering 30%\n- End to end quality 20%\n- Measured improvement 15%\n- Reproducibility 15%\n- Problem & user value 15%\n- Hot take / insights 5%\n\nFour required deliverables, all mandatory: (1) solution code + Improvement\nChangelog, (2) reproduction guide from a clean environment, (3) video <= 5 min,\n(4) agent trajectories for
+{"command": "M=\"[REDACTED]\"\ncat > \"$M/micro1-hackathon-rubric.md\" <<'EOF'\n---\nname: micro1-hackathon-rubric\ndescription: micro1 Frontier Engineering Challenge 2026 - hard deadlines, scoring weights, and required deliverables\nmetadata:\n  type: project\n---\n\nmicro1 Frontier Engineering Challenge 2026 (HackerEarth, individual entry).\n\nHard dates (UTC): kickoff + problem PDF Fri 2026-08-28 15:00; registration closes\nSat 2026-08-29 23:59; submissions close Mon 2026-08-31 18:00 (late/incomplete\nrejected); winners Mon 2026-09-07.\n\nScoring out of 100, behind a pass/fail qualification gate (eligibility,\ncompleteness, integrity, trace, reproducibility - a project that cannot be run\nis disqualified before any rubric scoring):\n- Agent solution & engineering 30%\n- End to end quality 20%\n- Measured improvement 15%\n- Reproducibility 15%\n- Problem & user value 15%\n- Hot take / insights 5%\n\nFour required deliverables, all mandatory: (1) solution code + Improvement\nChangelog, (2) reproduction guide from a clean environment, (3) video <= 5 min,\n(4) agent trajectories for
 ```
 
 **Tool response**
@@ -372,7 +372,7 @@ micro1-hackathon-rubric.md
 ```
 Web search results for query: "HackerRank Orchestrate challenge AI agent"
 
-Links: [{"title":"Building an AI Support Triage Agent in 24 Hours: My HackerRank Orchestrate 2026 Experience | by Akshay J Kulkarni | Medium","url":"https://medium.com/@akshayjk0701/building-an-ai-support-triage-agent-in-24-hours-my-hackerrank-orchestrate-2026-experience-b635f436b459"},{"title":"hackerrank-orchestrate-may26/README.md at main · interviewstreet/hackerrank-orchestrate-may26","url":"https://github.com/interviewstreet/hackerrank-orchestrate-may26/blob/main/README.md"},{"title":"hackerrank-orchestrate-august26/AGENTS.md at main · interviewstreet/hackerrank-orchestrate-august26","url":"https://github.com/interviewstreet/hackerrank-orchestrate-august26/blob/main/AGENTS.md"},{"title":"hackerrank-orchestrate-may26/AGENTS.md at main · interviewstreet/hackerrank-orchestrate-may26","url":"https://github.com/interviewstreet/hackerrank-orchestrate-may26/blob/main/AGENTS.md"},{"title":"GitHub - interviewstreet/hackerrank-orchestrate-may26 · GitHub","url":"https://github.com/interviewstreet/hackerrank-orchestrate-may26"},{"title":"HackerRank Orchestrate","url":"https://www.startupgrantsindia.com/competitions
+Links: [{"title":"Building an AI Support Triage Agent in 24 Hours: My HackerRank Orchestrate 2026 Experience | by Akshay J Kulkarni | Medium","url":"https://medium.com/@akshayjk0701/building-an-ai-support-triage-agent-in-24-hours-my-hackerrank-orchestrate-2026-experience-b635f436b459"},{"title":"hackerrank-orchestrate-may26/README.md at main · interviewstreet/hackerrank-orchestrate-may26","url":"https://github.com/interviewstreet/hackerrank-orchestrate-may26/blob/main/README.md"},{"title":"[REDACTED] at main · [REDACTED]","url":"[REDACTED]"},{"title":"hackerrank-orchestrate-may26/AGENTS.md at main · interviewstreet/hackerrank-orchestrate-may26","url":"https://github.com/interviewstreet/hackerrank-orchestrate-may26/blob/main/AGENTS.md"},{"title":"GitHub - interviewstreet/hackerrank-orchestrate-may26 · GitHub","url":"https://github.com/interviewstreet/hackerrank-orchestrate-may26"},{"title":"HackerRank Orchestrate","url":"https://www.startupgrantsindia.com/competitions
 ```
 
 ## Human checkpoint 5
@@ -461,7 +461,7 @@ Submission Package
 Rule Book
 FAQs
 Overview
-Build at the frontier of agentic AI. August 28–31, 2026. Online, individual, free.
+Build at the frontier of agentic AI. [REDACTED] 28–31, 2026. Online, individual, free.
 
 AI can produce convincing code in seconds. Real engineering begins when convincing is not enough: incomplete requirements, hidden dependencies, difficult edge cases, failure modes, and decisions that require technical judgment.
 
@@ -510,7 +510,7 @@ Tab Context:
 **Tool call** `Bash`
 
 ```json
-{"command": "M=\"/Users/adarsh/.claude/projects/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/memory\"\ncat > \"$M/micro1-problem-spec.md\" <<'EOF'\n---\nname: micro1-problem-spec\ndescription: The micro1 hackathon problem is fully open-ended - you choose the problem, build the baseline, and author the evaluation yourself\nmetadata:\n  type: project\n---\n\nOfficial brief (PDF \"micro1 - First Hackathon97ce7c5.pdf\", titled **Agentic Workflows\nHackathon**) prescribes NO problem, NO starter repo, NO dataset, NO acceptance tests -\ndespite the pre-kickoff page hinting it might. You pick \"a specific and meaningful\nproblem you understand\" and author the evaluation yourself.\n\nFour questions the project must answer: who has this problem / what bottleneck makes\nit worth solving / does the agent solve it well / can another person reproduce it.\n\nAgent capability menu named in the brief: better context, better tools, memory,\nverification, specialized skills, orchestration across several agents. The brief\nstates \"purposeful choices matter more than the number of components.\"\n\nEvaluation spec: ONE primary metric; 10+ cases; include one deliberately c
+{"command": "M=\"[REDACTED]\"\ncat > \"$M/micro1-problem-spec.md\" <<'EOF'\n---\nname: micro1-problem-spec\ndescription: The micro1 hackathon problem is fully open-ended - you choose the problem, build the baseline, and author the evaluation yourself\nmetadata:\n  type: project\n---\n\nOfficial brief (PDF \"micro1 - First Hackathon97ce7c5.pdf\", titled **Agentic Workflows\nHackathon**) prescribes NO problem, NO starter repo, NO dataset, NO acceptance tests -\ndespite the pre-kickoff page hinting it might. You pick \"a specific and meaningful\nproblem you understand\" and author the evaluation yourself.\n\nFour questions the project must answer: who has this problem / what bottleneck makes\nit worth solving / does the agent solve it well / can another person reproduce it.\n\nAgent capability menu named in the brief: better context, better tools, memory,\nverification, specialized skills, orchestration across several agents. The brief\nstates \"purposeful choices matter more than the number of components.\"\n\nEvaluation spec: ONE primary metric; 10+ cases; include one deliberately c
 ```
 
 **Tool response**
@@ -699,13 +699,13 @@ no gh config
 **Tool call** `Bash`
 
 ```json
-{"command": "cd /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\necho \"== anon API rate limit ==\"\ncurl -s https://api.github.com/rate_limit | python3 -c \"import sys,json; d=json.load(sys.stdin)['resources']['core']; print(f\\\"core: {d['remaining']}/{d['limit']} remaining\\\")\"\necho\necho \"== shallow clone test (real artifact repo) ==\"\nrm -rf _clonetest && mkdir _clonetest && cd _clonetest\n/usr/bin/time -p git clone --depth 1 --filter=blob:none --quiet https://github.com/psf/black.git 2>&1 | tail -3\ndu -sh black 2>/dev/null\necho \"files:\"; find black -type f | wc -l\ncd .. && rm -rf _clonetest\necho\necho \"== git identity ==\"\ngit config --global user.name 2>/dev/null || echo \"user.name: NOT SET\"\ngit config --global user.email 2>/dev/null || echo \"user.email: NOT SET\"\ngit config --global credential.helper 2>/dev/null || echo \"credential.helper: none\"", "description": "Test whether plain git clone suffices instead of GitHub MCP"}
+{"command": "cd [REDACTED]\necho \"== anon API rate limit ==\"\ncurl -s https://api.github.com/rate_limit | python3 -c \"import sys,json; d=json.load(sys.stdin)['resources']['core']; print(f\\\"core: {d['remaining']}/{d['limit']} remaining\\\")\"\necho\necho \"== shallow clone test (real artifact repo) ==\"\nrm -rf _clonetest && mkdir _clonetest && cd _clonetest\n/usr/bin/time -p git clone --depth 1 --filter=blob:none --quiet https://github.com/psf/black.git 2>&1 | tail -3\ndu -sh black 2>/dev/null\necho \"files:\"; find black -type f | wc -l\ncd .. && rm -rf _clonetest\necho\necho \"== git identity ==\"\ngit config --global user.name 2>/dev/null || echo \"user.name: NOT SET\"\ngit config --global user.email 2>/dev/null || echo \"user.email: NOT SET\"\ngit config --global credential.helper 2>/dev/null || echo \"credential.helper: none\"", "description": "Test whether plain git clone suffices instead of GitHub MCP"}
 ```
 
 **Tool response**
 
 ```
-(eval):cd:1: no such file or directory: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad
+(eval):cd:1: no such file or directory: [REDACTED]
 == anon API rate limit ==
 core: 59/60 remaining
 
@@ -834,8 +834,8 @@ file:/opt/homebrew/etc/gitconfig	osxkeychain=[REDACTED] repo scope works? (list 
 adarshcod30/Kadi	AI-Driven Crime Analytics & Visualization Platform for the Karnataka State Police	public	2026-08-28T22:30:18Z
 adarshcod30/Medicure-AI	Retrieval-first medicine identification for India: photograph a strip, get the composition, NPPA price check, Jan Aushadhi generic and interaction warnings — each with a calibrated confidence, and an honest refusal when the evidence is thin.	public	2026-08-28T20:56:41Z
 adarshcod30/Vayu	VAYU — Verifiable Airshed Intelligence & Enforcement. National air-quality platform: LightGBM + CNN-LSTM forecasting, Gemini-verified citizen reports, a 15,360-cell satellite grid, Gaussian-plume ROI ranking, and diff-in-diff outcome verification. Deployed on Google Cloud Run.	public	2026-08-28T16:27:26Z
-adarshcod30/Unisol		public	2026-08-28T00:10:22Z
-adarshcod30/KrishiMitra	Crop intelligence for Indian smallholders: CatBoost crop recommendation cross-checked against 5 years of government district returns, leaf-disease detection from photos (93.75%, 10,162 images), FAO-56 irrigation advisory and Soil Health Card baselines from 13.35M tests. 
+[REDACTED]		public	2026-08-28T00:10:22Z
+[REDACTED]	Crop intelligence for Indian smallholders: CatBoost crop recommendation cross-checked against 5 years of government district returns, leaf-disease detection from photos (93.75%, 10,162 images), FAO-56 irrigation advisory and Soil Health Card baselines from 13.35M tests. 
 ```
 
 **Tool call** `Bash`
@@ -1366,7 +1366,7 @@ icse-2024 papers       bytes=1518170 facet-badge=29 {'Reusable': 1, 'Functional'
 **Tool response**
 
 ```
-Command did not complete within its 120s timeout and was moved to the background (ID: bkfs8zpvu). Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bkfs8zpvu.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command did not complete within its 120s timeout and was moved to the background (ID: bkfs8zpvu). Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -1435,7 +1435,7 @@ OK: no tier words survived
 **Tool call** `Bash`
 
 ```json
-{"command": "tail -25 \"/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bkfs8zpvu.output\"", "description": "Read hardened verification results"}
+{"command": "tail -25 \"[REDACTED]\"", "description": "Read hardened verification results"}
 ```
 
 **Tool response**
@@ -1552,7 +1552,7 @@ time left: 2d 18h 57m
 **Tool response**
 
 ```
-Command did not complete within its 120s timeout and was moved to the background (ID: b1i3igy60). Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b1i3igy60.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command did not complete within its 120s timeout and was moved to the background (ID: b1i3igy60). Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -1581,7 +1581,7 @@ n = 4 artifacts, labels = ACM artifact-evaluation badges (ISSTA 2024)
 **Tool call** `Bash`
 
 ```json
-{"command": "tail -22 \"/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b1i3igy60.output\" 2>/dev/null || echo \"(still running)\"", "description": "Check fixture build progress"}
+{"command": "tail -22 \"[REDACTED]\" 2>/dev/null || echo \"(still running)\"", "description": "Check fixture build progress"}
 ```
 
 **Tool response**
@@ -1593,13 +1593,13 @@ n = 4 artifacts, labels = ACM artifact-evaluation badges (ISSTA 2024)
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nF=\"/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b1i3igy60.output\"\nls -la \"$F\" 2>/dev/null && echo \"--- content ---\" && cat \"$F\"\necho \"=== fixtures on disk ===\"; ls data/fixtures 2>/dev/null | wc -l | tr -d ' '\necho \"=== clones dir ===\"; du -sh data/clones 2>/dev/null || echo \"(cleaned up / not present)\"", "description": "Inspect fetch job output and fixtures"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nF=\"[REDACTED]\"\nls -la \"$F\" 2>/dev/null && echo \"--- content ---\" && cat \"$F\"\necho \"=== fixtures on disk ===\"; ls data/fixtures 2>/dev/null | wc -l | tr -d ' '\necho \"=== clones dir ===\"; du -sh data/clones 2>/dev/null || echo \"(cleaned up / not present)\"", "description": "Inspect fetch job output and fixtures"}
 ```
 
 **Tool response**
 
 ```
--rw-r--r--@ 1 adarsh  wheel  0 Aug 29 04:33 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b1i3igy60.output
+-rw-r--r--@ 1 adarsh  wheel  0 Aug 29 04:33 [REDACTED]
 --- content ---
 === fixtures on disk ===
 5
@@ -1906,7 +1906,7 @@ Reusable         2      0   0.00    Y   .    Y     .  QuentinMaz/MDPFuzz_Repli
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ns=s.replace(\"## Experiments removed\", \"\"\"## Claim verification (the core mechanism)\n\n| Stage | What I tried and why | Evidence | Decision / Learning |\n|---|---|---|---|\n| Iteration 12 | Extract every file path a README references, then check each against the real file tree. A README is a set of promises; broken promises are hard evidence, established with zero model calls. | First run reported implausible ratios - 55 of 58 claims \"broken\" on one artifact. | Investigated instead of reporting it. |\n| Iteration 13 | Inspected the extracted claims directly. | The extractor matched any token containing a dot: version numbers (`3.10.12`, `0.01`), Java class names (`com.baidu...EchoServiceTest.testDy`), module paths (`vllm.entrypoints.openai.api`), bare domains (`github.com`). | Required a real source/config extension plus structural checks. Claims fell 58 -> 21 and 29 -> 7 on the worst offenders. **A dot does not make a path.** |\n| Iteration 14 | Measured whether broken-claim ratio alone separates the badge tiers. | It does not
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ns=s.replace(\"## Experiments removed\", \"\"\"## Claim verification (the core mechanism)\n\n| Stage | What I tried and why | Evidence | Decision / Learning |\n|---|---|---|---|\n| Iteration 12 | Extract every file path a README references, then check each against the real file tree. A README is a set of promises; broken promises are hard evidence, established with zero model calls. | First run reported implausible ratios - 55 of 58 claims \"broken\" on one artifact. | Investigated instead of reporting it. |\n| Iteration 13 | Inspected the extracted claims directly. | The extractor matched any token containing a dot: version numbers (`3.10.12`, `0.01`), Java class names [REDACTED] module paths (`vllm.entrypoints.openai.api`), bare domains (`github.com`). | Required a real source/config extension plus structural checks. Claims fell 58 -> 21 and 29 -> 7 on the worst offenders. **A dot does not make a path.** |\n| Iteration 14 | Measured whether broken-claim ratio alone separates the badge tiers. | It does not
 ```
 
 **Tool response**
@@ -2831,14 +2831,14 @@ cost: $0.1404   model: us.amazon.nova-pro-v1:0
 **Tool response**
 
 ```
-Command did not complete within its 120s timeout and was moved to the background (ID: b8t4pvhbp). Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b8t4pvhbp.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command did not complete within its 120s timeout and was moved to the background (ID: b8t4pvhbp). Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
 **Tool call** `Bash`
 
 ```json
-{"command": "F=\"/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b8t4pvhbp.output\"\necho \"=== progress ===\"; grep -cE '^\\[' \"$F\" 2>/dev/null || echo 0\ntail -4 \"$F\" 2>/dev/null\necho; echo \"=== credential state in .env (values never printed) ===\"\ncd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nawk -F= '/^AWS_ACCESS_KEY_ID=[REDACTED] {\n  printf \"  %-24s %s\\n\", $1, (length($2)>0 ? \"set (\"length($2)\" chars)\" : \"EMPTY\") }' .env", "description": "Check trial progress and credential completeness"}
+{"command": "F=\"[REDACTED]\"\necho \"=== progress ===\"; grep -cE '^\\[' \"$F\" 2>/dev/null || echo 0\ntail -4 \"$F\" 2>/dev/null\necho; echo \"=== credential state in .env (values never printed) ===\"\ncd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nawk -F= '/^AWS_ACCESS_KEY_ID=[REDACTED] {\n  printf \"  %-24s %s\\n\", $1, (length($2)>0 ? \"set (\"length($2)\" chars)\" : \"EMPTY\") }' .env", "description": "Check trial progress and credential completeness"}
 ```
 
 **Tool response**
@@ -2858,7 +2858,7 @@ repeat-trial support added
 **Tool call** `Bash`
 
 ```json
-{"command": "pgrep -fl \"falsified_run\" | head -3 || echo \"process NOT running\"\necho \"--- output file size ---\"\nF=\"/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b8t4pvhbp.output\"\nwc -c \"$F\"", "description": "Check whether trial process is alive"}
+{"command": "pgrep -fl \"falsified_run\" | head -3 || echo \"process NOT running\"\necho \"--- output file size ---\"\nF=\"[REDACTED]\"\nwc -c \"$F\"", "description": "Check whether trial process is alive"}
 ```
 
 **Tool response**
@@ -2868,7 +2868,7 @@ repeat-trial support added
 python3 - <<'"'"'PY'"'"'
 p='"'"'src/artifact_triage/eval/falsified_run.py'"'"'; s=open(p).read()
 --- output file size ---
-      27 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b8t4pvhbp.output
+      27 [REDACTED]
 ```
 
 **Tool call** `Bash`
@@ -2963,7 +2963,7 @@ pushed
 **Tool response**
 
 ```
-Command running in background with ID: bhehb0zsi. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bhehb0zsi.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bhehb0zsi. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -3149,7 +3149,7 @@ The tiers, per ACM's published definitions:
 **Tool call** `Bash`
 
 ```json
-{"command": "D=\"/Users/adarsh/.claude/projects/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026\"\nls -la \"$D\" 2>/dev/null | head -8\necho \"--- jsonl transcripts ---\"\nls -laS \"$D\"/*.jsonl 2>/dev/null | head -5 | awk '{print $5, $9}'", "description": "Locate Claude Code session transcripts"}
+{"command": "D=\"[REDACTED]\"\nls -la \"$D\" 2>/dev/null | head -8\necho \"--- jsonl transcripts ---\"\nls -laS \"$D\"/*.jsonl 2>/dev/null | head -5 | awk '{print $5, $9}'", "description": "Locate Claude Code session transcripts"}
 ```
 
 **Tool response**
@@ -3162,7 +3162,7 @@ drwxr-xr-x@  3 adarsh  staff       96 Aug 28 21:36 b0c00099-ee4c-4b92-8782-f5e37
 -rw-------@  1 adarsh  staff  9856741 Aug 29 05:21 b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl
 drwxr-xr-x@  5 adarsh  staff      160 Aug 28 21:37 memory
 --- jsonl transcripts ---
-9856741 /Users/adarsh/.claude/projects/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl
+9856741 [REDACTED]
 ```
 
 **Tool call** `Write`
@@ -3626,7 +3626,7 @@ evidence section added
 **Tool response**
 
 ```
-Command running in background with ID: bki95tqfu. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bki95tqfu.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bki95tqfu. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -4269,7 +4269,7 @@ prevalence: 345/398
 **Tool response**
 
 ```
-Command running in background with ID: bua8a66pf. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bua8a66pf.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bua8a66pf. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -5956,7 +5956,7 @@ started (1 trial, ~$0.14)
 **Tool response**
 
 ```
-Command did not complete within its 120s timeout and was moved to the background (ID: bgzy07bn0). Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bgzy07bn0.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command did not complete within its 120s timeout and was moved to the background (ID: bgzy07bn0). Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -6025,7 +6025,7 @@ artifacts processed (of 45): 33
 **Tool response**
 
 ```
-Command running in background with ID: bzvzq5ayl. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bzvzq5ayl.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bzvzq5ayl. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -6228,7 +6228,7 @@ existing corpus: 398 repos
 **Tool call** `Bash`
 
 ```json
-{"command": "export PATH=\"/opt/homebrew/bin:$PATH\"\ncd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== actual Bedrock spend per day (Cost Explorer) ===\"\naws ce get-cost-and-usage \\\n  --time-period Start=2026-08-26,End=2026-08-30 \\\n  --granularity DAILY --metrics UnblendedCost \\\n  --filter '{\"Dimensions\":{\"Key\":\"SERVICE\",\"Values\":[\"Amazon Bedrock\"]}}' \\\n  --query 'ResultsByTime[].{day:TimePeriod.Start,usd:Total.UnblendedCost.Amount}' \\\n  --output table 2>&1 | head -14\necho\necho \"=== by usage type (what exactly is billing) ===\"\naws ce get-cost-and-usage \\\n  --time-period Start=2026-08-26,End=2026-08-30 \\\n  --granularity MONTHLY --metrics UnblendedCost \\\n  --filter '{\"Dimensions\":{\"Key\":\"SERVICE\",\"Values\":[\"Amazon Bedrock\"]}}' \\\n  --group-by Type=DIMENSION,Key=[REDACTED] \\\n  --query 'ResultsByTime[0].Groups[].{usage:Keys[0],usd:Metrics.UnblendedCost.Amount}' \\\n  --output table 2>&1 | head -20", "description": "Get authoritative Bedrock spend from Cost Explorer"}
+{"command": "export PATH=\"/opt/homebrew/bin:$PATH\"\ncd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== actual Bedrock spend per day (Cost Explorer) ===\"\naws ce get-cost-and-usage \\\n  --time-period Start=2026-08-26,End=2026-08-30 \\\n  --granularity DAILY --metrics UnblendedCost \\\n  --filter '{\"Dimensions\":{\"Key\":\"[REDACTED]\",\"Values\":[\"Amazon Bedrock\"]}}' \\\n  --query 'ResultsByTime[].{day:TimePeriod.Start,usd:Total.UnblendedCost.Amount}' \\\n  --output table 2>&1 | head -14\necho\necho \"=== by usage type (what exactly is billing) ===\"\naws ce get-cost-and-usage \\\n  --time-period Start=2026-08-26,End=2026-08-30 \\\n  --granularity MONTHLY --metrics UnblendedCost \\\n  --filter '{\"Dimensions\":{\"Key\":\"[REDACTED]\",\"Values\":[\"Amazon Bedrock\"]}}' \\\n  --group-by Type=DIMENSION,Key=[REDACTED] \\\n  --query 'ResultsByTime[0].Groups[].{usage:Keys[0],usd:Metrics.UnblendedCost.Amount}' \\\n  --output table 2>&1 | head -20", "description": "Get authoritative Bedrock spend from Cost Explorer"}
 ```
 
 **Tool response**
@@ -6246,7 +6246,7 @@ aws: [ERROR]: Your session has expired. Please reauthenticate using 'aws login'.
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python - <<'PY'\nimport boto3, json\nenv={}\nfor line in open(\".env\"):\n    line=line.strip()\n    if line and not line.startswith(\"#\") and \"=\" in line:\n        k,v=line.split(\"=\",1); env[k.strip()]=v.strip()\ns=boto3.Session(aws_access_key_id=[REDACTED]                aws_secret_access_key=[REDACTED]                region_name=\"us-east-1\")\nce=s.client(\"ce\")\ntry:\n    r=ce.get_cost_and_usage(\n        TimePeriod={\"Start\":\"2026-08-26\",\"End\":\"2026-08-30\"},\n        Granularity=\"DAILY\", Metrics=[\"UnblendedCost\"],\n        Filter={\"Dimensions\":{\"Key\":\"SERVICE\",\"Values\":[\"Amazon Bedrock\"]}})\n    tot=0.0\n    print(\"  Bedrock spend by day:\")\n    for d in r[\"ResultsByTime\"]:\n        amt=float(d[\"Total\"][\"UnblendedCost\"][\"Amount\"]); tot+=amt\n        print(f\"    {d['TimePeriod']['Start']}   ${amt:.4f}\")\n    print(f\"  TOTAL: ${tot:.4f}\")\nexcept Exception as e:\n    print(f\"  Cost Explorer denied: {type(e).__name__}\")\n    print(f\"  {str(e)[:200]}\")\nPY", "description": "Query Cost Explo
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python - <<'PY'\nimport boto3, json\nenv={}\nfor line in open(\".env\"):\n    line=line.strip()\n    if line and not line.startswith(\"#\") and \"=\" in line:\n        k,v=line.split(\"=\",1); env[k.strip()]=v.strip()\ns=boto3.Session(aws_access_key_id=[REDACTED]                aws_secret_access_key=[REDACTED]                region_name=\"us-east-1\")\nce=s.client(\"ce\")\ntry:\n    r=ce.get_cost_and_usage(\n        TimePeriod={\"Start\":\"2026-08-26\",\"End\":\"2026-08-30\"},\n        Granularity=\"DAILY\", Metrics=[\"UnblendedCost\"],\n        Filter={\"Dimensions\":{\"Key\":\"[REDACTED]\",\"Values\":[\"Amazon Bedrock\"]}})\n    tot=0.0\n    print(\"  Bedrock spend by day:\")\n    for d in r[\"ResultsByTime\"]:\n        amt=float(d[\"Total\"][\"UnblendedCost\"][\"Amount\"]); tot+=amt\n        print(f\"    {d['TimePeriod']['Start']}   ${amt:.4f}\")\n    print(f\"  TOTAL: ${tot:.4f}\")\nexcept Exception as e:\n    print(f\"  Cost Explorer denied: {type(e).__name__}\")\n    print(f\"  {str(e)[:200]}\")\nPY", "description": "Query Cost Explo
 ```
 
 **Tool response**
@@ -6626,14 +6626,14 @@ cached: 465/769
 **Tool response**
 
 ```
-Command running in background with ID: b00d4b02s. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b00d4b02s.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: b00d4b02s. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
 **Tool call** `Bash`
 
 ```json
-{"command": "cd /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad 2>/dev/null || cd /tmp\nrm -rf cleanclone && mkdir -p cleanclone && cd cleanclone\necho \"=== clone (as a judge would) ===\"\n/usr/bin/time -p git clone --quiet https://github.com/adarshcod30/artifact-repro-triage.git 2>&1 | tail -3\ncd artifact-repro-triage\necho \"  repo size: $(du -sh . | cut -f1)\"\necho\necho \"=== setup ===\"\nexport PATH=\"/opt/homebrew/bin:$PATH\"\nuv venv --quiet 2>&1 | tail -1\nuv pip install --quiet -e . 2>&1 | tail -2\necho \"  installed\"\necho\necho \"=== the checks a judge can run with NO credentials ===\"\nfor t in test verify control subtle ablation pinning portability dataset dashboard check-claims; do\n  printf \"  %-14s \" \"$t\"\n  if out=$(make $t 2>&1); then echo \"PASS\"; else echo \"FAIL\"; echo \"$out\" | tail -2; fi\ndone", "description": "Full clean-clone reproduction test"}
+{"command": "cd [REDACTED] 2>/dev/null || cd /tmp\nrm -rf cleanclone && mkdir -p cleanclone && cd cleanclone\necho \"=== clone (as a judge would) ===\"\n/usr/bin/time -p git clone --quiet https://github.com/adarshcod30/artifact-repro-triage.git 2>&1 | tail -3\ncd artifact-repro-triage\necho \"  repo size: $(du -sh . | cut -f1)\"\necho\necho \"=== setup ===\"\nexport PATH=\"/opt/homebrew/bin:$PATH\"\nuv venv --quiet 2>&1 | tail -1\nuv pip install --quiet -e . 2>&1 | tail -2\necho \"  installed\"\necho\necho \"=== the checks a judge can run with NO credentials ===\"\nfor t in test verify control subtle ablation pinning portability dataset dashboard check-claims; do\n  printf \"  %-14s \" \"$t\"\n  if out=$(make $t 2>&1); then echo \"PASS\"; else echo \"FAIL\"; echo \"$out\" | tail -2; fi\ndone", "description": "Full clean-clone reproduction test"}
 ```
 
 **Tool response**
@@ -6908,7 +6908,7 @@ pushed
 **Tool response**
 
 ```
-Command running in background with ID: b2p7xys0p. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b2p7xys0p.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: b2p7xys0p. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -7394,7 +7394,7 @@ artifacts done (of 45): 18
 **Tool response**
 
 ```
-Command running in background with ID: bvqbgi9p7. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bvqbgi9p7.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bvqbgi9p7. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -8597,7 +8597,7 @@ The work focuses on detection within a sample of c
         "Enis Afgan"
       ],
       "author_count": 100,
-      "abstract_snippet": "Galaxy (https://galaxyproject.org) is deployed globally, predominantly through free-to-use services, supporting user-driven research that broadens in scope each year. Users are attracted to public Galaxy services by platform stability, tool and reference dataset diversity, training, support and integration, which enables complex, reproducible, shareable data analysis. Applying the principles of user experience design (UXD), has driven improvements in accessibility, tool discoverability through Galaxy Labs/subdomains, and a redesigned Galaxy ToolShed. Galaxy tool capabilities are progressing in two strategic directions: integrating general purpose 
+      "abstract_snippet": "Galaxy (https://galaxyproject.org) is deployed globally, predominantly through free-to-use [REDACTED] supporting user-driven research that broadens in scope each year. Users are attracted to public Galaxy [REDACTED] by platform stability, tool and reference dataset diversity, training, support and integration, which enables complex, reproducible, shareable data analysis. Applying the principles of user experience design (UXD), has driven improvements in accessibility, tool discoverability through Galaxy Labs/subdomains, and a redesigned Galaxy ToolShed. Galaxy tool capabilities are progressing in two strategic directions: integrating general purpose 
 ```
 
 **Tool call** `Write`
@@ -9211,7 +9211,7 @@ RELATED_WORK.md updated
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\nrm -rf $SP/oldver && mkdir -p $SP/oldver\ngit show 40b448c:src/artifact_triage/solution/verify.py > $SP/oldver/verify_old.py\nPYTHONPATH=src .venv/bin/python - <<PY\nimport json, sys, importlib.util\nfrom pathlib import Path\nfrom artifact_triage.eval.negative_control import falsify\nfrom artifact_triage.solution.verify import verify as verify_new\n\nspec = importlib.util.spec_from_file_location(\"verify_old\", \"$SP/oldver/verify_old.py\")\nm = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)\nverify_old = m.verify\n\ndiff = 0; same = 0; rows=[]\nfor p in sorted(Path(\"data/fixtures\").glob(\"*.json\")):\n    fx = json.loads(p.read_text())\n    dirty, inj = falsify(fx)\n    if not inj: continue\n    o, n = verify_old(dirty), verify_new(dirty)\n    ob, nb = sorted(o.broken_paths), sorted(n.broken_paths)\n    if ob != nb:\n        diff += 1\n        removed = set(ob) - set(nb); added = set(nb) - set(ob)\n        rows.append
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nrm -rf $SP/oldver && mkdir -p $SP/oldver\ngit show 40b448c:src/artifact_triage/solution/verify.py > $SP/oldver/verify_old.py\nPYTHONPATH=src .venv/bin/python - <<PY\nimport json, sys, importlib.util\nfrom pathlib import Path\nfrom artifact_triage.eval.negative_control import falsify\nfrom artifact_triage.solution.verify import verify as verify_new\n\nspec = importlib.util.spec_from_file_location(\"verify_old\", \"$SP/oldver/verify_old.py\")\nm = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)\nverify_old = m.verify\n\ndiff = 0; same = 0; rows=[]\nfor p in sorted(Path(\"data/fixtures\").glob(\"*.json\")):\n    fx = json.loads(p.read_text())\n    dirty, inj = falsify(fx)\n    if not inj: continue\n    o, n = verify_old(dirty), verify_new(dirty)\n    ob, nb = sorted(o.broken_paths), sorted(n.broken_paths)\n    if ob != nb:\n        diff += 1\n        removed = set(ob) - set(nb); added = set(nb) - set(ob)\n        rows.append
 ```
 
 **Tool response**
@@ -9222,7 +9222,7 @@ Traceback (most recent call last):
   File "<stdin>", line 7, in <module>
   File "<frozen importlib._bootstrap_external>", line 940, in exec_module
   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
-  File "/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/oldver/verify_old.py", line 67, in <module>
+  File "[REDACTED]", line 67, in <module>
     @dataclass
      ^^^^^^^^^
   File "/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/dataclasses.py", line 1232, in dataclass
@@ -9239,7 +9239,7 @@ Traceback (most recent call last):
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\nPYTHONPATH=src .venv/bin/python - <<PY\nimport json, sys, importlib.util\nfrom pathlib import Path\nfrom artifact_triage.eval.negative_control import falsify\nfrom artifact_triage.solution.verify import verify as verify_new\n\nspec = importlib.util.spec_from_file_location(\"verify_old\", \"$SP/oldver/verify_old.py\")\nm = importlib.util.module_from_spec(spec)\nsys.modules[\"verify_old\"] = m\nspec.loader.exec_module(m)\nverify_old = m.verify\n\ndiff = same = 0; rows=[]\nfor p in sorted(Path(\"data/fixtures\").glob(\"*.json\")):\n    fx = json.loads(p.read_text())\n    dirty, inj = falsify(fx)\n    if not inj: continue\n    o, n = verify_old(dirty), verify_new(dirty)\n    ob, nb = sorted(o.broken_paths), sorted(n.broken_paths)\n    if ob != nb:\n        diff += 1\n        rows.append((fx[\"artifact_id\"], len(ob), len(nb),\n                     sorted(set(ob)-set(nb))[:5], sorted(set(nb)-set(ob))[:5]))\n    else:\n        same += 1\nprint(f
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nPYTHONPATH=src .venv/bin/python - <<PY\nimport json, sys, importlib.util\nfrom pathlib import Path\nfrom artifact_triage.eval.negative_control import falsify\nfrom artifact_triage.solution.verify import verify as verify_new\n\nspec = importlib.util.spec_from_file_location(\"verify_old\", \"$SP/oldver/verify_old.py\")\nm = importlib.util.module_from_spec(spec)\nsys.modules[\"verify_old\"] = m\nspec.loader.exec_module(m)\nverify_old = m.verify\n\ndiff = same = 0; rows=[]\nfor p in sorted(Path(\"data/fixtures\").glob(\"*.json\")):\n    fx = json.loads(p.read_text())\n    dirty, inj = falsify(fx)\n    if not inj: continue\n    o, n = verify_old(dirty), verify_new(dirty)\n    ob, nb = sorted(o.broken_paths), sorted(n.broken_paths)\n    if ob != nb:\n        diff += 1\n        rows.append((fx[\"artifact_id\"], len(ob), len(nb),\n                     sorted(set(ob)-set(nb))[:5], sorted(set(nb)-set(ob))[:5]))\n    else:\n        same += 1\nprint(f
 ```
 
 **Tool response**
@@ -9299,7 +9299,7 @@ CHANGED  evidence:  7 fixtures
 **Tool response**
 
 ```
-Command running in background with ID: bwlhuewn0. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bwlhuewn0.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bwlhuewn0. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -9386,7 +9386,7 @@ AssertionError: stale test counts: README.md:590 claims 75, actual 77; README.md
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ntail -25 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bwlhuewn0.output", "description": "Check falsified re-run progress"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ntail -25 [REDACTED]", "description": "Check falsified re-run progress"}
 ```
 
 **Tool response**
@@ -9398,13 +9398,13 @@ AssertionError: stale test counts: README.md:590 claims 75, actual 77; README.md
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nF=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bwlhuewn0.output\nls -la \"$F\" 2>&1; echo \"---\"; cat \"$F\" 2>&1 | tail -20", "description": "Read background task output file"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nls -la \"$F\" 2>&1; echo \"---\"; cat \"$F\" 2>&1 | tail -20", "description": "Read background task output file"}
 ```
 
 **Tool response**
 
 ```
--rw-r--r--@ 1 adarsh  wheel  0 Aug 29 15:19 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bwlhuewn0.output
+-rw-r--r--@ 1 adarsh  wheel  0 Aug 29 15:19 [REDACTED]
 ---
 ```
 
@@ -9452,7 +9452,7 @@ changelog updated
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ncat /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bwlhuewn0.output 2>&1 | tail -30", "description": "Check falsified re-run"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ncat [REDACTED] 2>&1 | tail -30", "description": "Check falsified re-run"}
 ```
 
 **Tool response**
@@ -9477,13 +9477,13 @@ NameError: name 'b_ment' is not defined
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nF=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bwlhuewn0.output\nwc -l \"$F\"; echo \"=== first 40 ===\"; head -40 \"$F\"", "description": "Read full re-run output"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nwc -l \"$F\"; echo \"=== first 40 ===\"; head -40 \"$F\"", "description": "Read full re-run output"}
 ```
 
 **Tool response**
 
 ```
-      39 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bwlhuewn0.output
+      39 [REDACTED]
 === first 40 ===
 Traceback (most recent call last):
   File "<frozen runpy>", line 198, in _run_module_as_main
@@ -9669,13 +9669,13 @@ def main() -> None:
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nrm -f results/falsified_trials.jsonl\nARTIFACT_TRIAGE_TRIALS=3 PYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.falsified_run > /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/fals.log 2>&1\ntail -18 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/fals.log", "description": "Re-run falsified experiment, 3 trials", "timeout": 900000, "run_in_background": true}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nrm -f results/falsified_trials.jsonl\nARTIFACT_TRIAGE_TRIALS=3 PYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.falsified_run > [REDACTED] 2>&1\ntail -18 [REDACTED]", "description": "Re-run falsified experiment, 3 trials", "timeout": 900000, "run_in_background": true}
 ```
 
 **Tool response**
 
 ```
-Command running in background with ID: bo1dnd74s. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bo1dnd74s.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bo1dnd74s. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -9772,7 +9772,7 @@ README updated
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ntail -20 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/fals.log 2>/dev/null; echo \"--- checkpoints ---\"; wc -l results/falsified_trials.jsonl 2>/dev/null", "description": "Check re-run progress"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ntail -20 [REDACTED] 2>/dev/null; echo \"--- checkpoints ---\"; wc -l results/falsified_trials.jsonl 2>/dev/null", "description": "Check re-run progress"}
 ```
 
 **Tool response**
@@ -9812,7 +9812,7 @@ cache NOT ignored
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nrm -f data/cache/github/*psf-requests* data/cache/github/*psf__requests*\ncat > /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/m.txt <<'MSG'\nAnswer the reviewer's actual checklist, and stop losing paid data\n\nThe literature says the bottleneck is reviewer capacity (Olszewski, CCS 2023),\nnot detection, and that artifacts should be judged at publication time (Arvan,\nEMNLP 2022). So the gap is not a better detector - READU already beats ours -\nit is meeting the reviewer at the decision they must make.\n\nsolution/criteria.py maps every finding onto the four ACM Functional\nqualities, quoted verbatim: documented, consistent, complete, exercisable.\nBroken path claims are direct evidence against Complete. Consistent is marked\nNOT machine-checkable and escalated by construction, because answering it\nrequires reading the paper - a regression test asserts it can never be marked\notherwise.\n\nThree bugs found while doing it:\n\n- _report() in falsified_run.py read b_ment/s_ment as bare name
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nrm -f data/cache/github/*psf-requests* data/cache/github/*psf__requests*\ncat > [REDACTED] <<'MSG'\nAnswer the reviewer's actual checklist, and stop losing paid data\n\nThe literature says the bottleneck is reviewer capacity (Olszewski, CCS 2023),\nnot detection, and that artifacts should be judged at publication time (Arvan,\nEMNLP 2022). So the gap is not a better detector - READU already beats ours -\nit is meeting the reviewer at the decision they must make.\n\nsolution/criteria.py maps every finding onto the four ACM Functional\nqualities, quoted verbatim: documented, consistent, complete, exercisable.\nBroken path claims are direct evidence against Complete. Consistent is marked\nNOT machine-checkable and escalated by construction, because answering it\nrequires reading the paper - a regression test asserts it can never be marked\notherwise.\n\nThree bugs found while doing it:\n\n- _report() in falsified_run.py read b_ment/s_ment as bare name
 ```
 
 **Tool response**
@@ -9824,7 +9824,7 @@ e4d0e70 Answer the reviewer's actual checklist, and stop losing paid data
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 45; tail -25 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/fals.log; echo \"--- checkpoints: $(wc -l < results/falsified_trials.jsonl 2>/dev/null || echo 0) ---\"", "description": "Check experiment progress", "timeout": 120000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 45; tail -25 [REDACTED] echo \"--- checkpoints: $(wc -l < results/falsified_trials.jsonl 2>/dev/null || echo 0) ---\"", "description": "Check experiment progress", "timeout": 120000}
 ```
 
 **Tool response**
@@ -9853,7 +9853,7 @@ deterministic verifier: 75/75 injected claims
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 90; echo \"checkpoints: $(wc -l < results/falsified_trials.jsonl 2>/dev/null || echo 0)\"; tail -14 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/fals.log", "description": "Poll experiment progress", "timeout": 150000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 90; echo \"checkpoints: $(wc -l < results/falsified_trials.jsonl 2>/dev/null || echo 0)\"; tail -14 [REDACTED]", "description": "Poll experiment progress", "timeout": 150000}
 ```
 
 **Tool response**
@@ -9879,7 +9879,7 @@ cost: $0.1417   model: us.amazon.nova-pro-v1:0
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 100; tail -12 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/fals.log", "description": "Wait for aggregate", "timeout": 180000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 100; tail -12 [REDACTED]", "description": "Wait for aggregate", "timeout": 180000}
 ```
 
 **Tool response**
@@ -10132,13 +10132,13 @@ CHECKING DOCUMENTED NUMBERS AGAINST results/*.json
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.baseline.run > $SP/bl.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.solution.run > $SP/sol.log 2>&1\ntail -6 $SP/bl.log; echo \"===\"; tail -6 $SP/sol.log", "description": "Re-run baseline and solution on current code", "timeout": 600000, "run_in_background": true}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.baseline.run > $SP/bl.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.solution.run > $SP/sol.log 2>&1\ntail -6 $SP/bl.log; echo \"===\"; tail -6 $SP/sol.log", "description": "Re-run baseline and solution on current code", "timeout": 600000, "run_in_background": true}
 ```
 
 **Tool response**
 
 ```
-Command running in background with ID: begoik59t. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/begoik59t.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: begoik59t. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -10158,7 +10158,7 @@ ok
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 60\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\necho \"--- baseline ---\"; tail -4 $SP/bl.log 2>/dev/null; echo \"--- solution ---\"; tail -4 $SP/sol.log 2>/dev/null", "description": "Poll baseline and solution runs", "timeout": 120000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\necho \"--- baseline ---\"; tail -4 $SP/bl.log 2>/dev/null; echo \"--- solution ---\"; tail -4 $SP/sol.log 2>/dev/null", "description": "Poll baseline and solution runs", "timeout": 120000}
 ```
 
 **Tool response**
@@ -10622,7 +10622,7 @@ CHECKING DOCUMENTED NUMBERS AGAINST results/*.json
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 78 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 79 | Checked whether the new criteria block contradicts anything already in the report. | It did. `Decision.explain()` said **\"handled automatically - evidence was sufficient\"**, and the CLI printed nothing about review when no rule fired - while the criteria section two blocks later states that `Consistent` can *never* be settled by a machine. The report claimed autonomy in one section and disclaimed it in the next. | Separated **structural** human need (always true: rule on `Consistent`, run the artifact) from **additional** evidence-triggered escalation, so the escalation signal stays meaningful without the report overclaiming. This is the same defect as the earlier \"5 missing paths / all paths were found\" bug, and the same one the project detects in other people's READMEs. |\"\"\"\ns = s[:end] + new + s[end:]\nopen(p,'w').write(s)\nPY\ncat > /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 78 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 79 | Checked whether the new criteria block contradicts anything already in the report. | It did. `Decision.explain()` said **\"handled automatically - evidence was sufficient\"**, and the CLI printed nothing about review when no rule fired - while the criteria section two blocks later states that `Consistent` can *never* be settled by a machine. The report claimed autonomy in one section and disclaimed it in the next. | Separated **structural** human need (always true: rule on `Consistent`, run the artifact) from **additional** evidence-triggered escalation, so the escalation signal stays meaningful without the report overclaiming. This is the same defect as the earlier \"5 missing paths / all paths were found\" bug, and the same one the project detects in other people's READMEs. |\"\"\"\ns = s[:end] + new + s[end:]\nopen(p,'w').write(s)\nPY\ncat > [REDACTED]
 ```
 
 **Tool response**
@@ -10651,7 +10651,7 @@ Traceback (most recent call last):
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ncat > $SP/deadcode.py <<'EOF'\n\"\"\"Which functions in src/ are never entered by the test suite or a real run?\n\nTwo real bugs in this project lived in code that never executed: an RFC1918\npattern that could not fire, and a report path that crashed the first time it\nran. Static \"is it referenced\" checks miss both. This runs the code and asks\nwhat never got entered.\n\"\"\"\nimport ast, runpy, sys, os\nfrom pathlib import Path\n\nROOT = Path(\"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\")\nSRC = ROOT / \"src\"\nsys.path.insert(0, str(SRC))\n\n# map: file -> {def_line: qualified_name}\ndefs = {}\nfor p in SRC.rglob(\"*.py\"):\n    tree = ast.parse(p.read_text())\n    stack = []\n    def walk(node, prefix=\"\"):\n        for c in ast.iter_child_nodes(node):\n            if isinstance(c, (ast.FunctionDef, ast.AsyncFunctionDef)):\n                name = prefix + c.name\n                defs.setdefault(str(
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ncat > $SP/deadcode.py <<'EOF'\n\"\"\"Which functions in src/ are never entered by the test suite or a real run?\n\nTwo real bugs in this project lived in code that never executed: an RFC1918\npattern that could not fire, and a report path that crashed the first time it\nran. Static \"is it referenced\" checks miss both. This runs the code and asks\nwhat never got entered.\n\"\"\"\nimport ast, runpy, sys, os\nfrom pathlib import Path\n\nROOT = Path(\"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\")\nSRC = ROOT / \"src\"\nsys.path.insert(0, str(SRC))\n\n# map: file -> {def_line: qualified_name}\ndefs = {}\nfor p in SRC.rglob(\"*.py\"):\n    tree = ast.parse(p.read_text())\n    stack = []\n    def walk(node, prefix=\"\"):\n        for c in ast.iter_child_nodes(node):\n            if isinstance(c, (ast.FunctionDef, ast.AsyncFunctionDef)):\n                name = prefix + c.name\n                defs.setdefault(str(
 ```
 
 **Tool response**
@@ -10717,7 +10717,7 @@ src/artifact_triage/solution/pinni
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\n.venv/bin/python $SP/deadcode.py 2>&1 | sed -n '/NEVER ENTERED/,/falsified_run/p' | head -40", "description": "See remaining never-entered functions"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\n.venv/bin/python $SP/deadcode.py 2>&1 | sed -n '/NEVER ENTERED/,/falsified_run/p' | head -40", "description": "See remaining never-entered functions"}
 ```
 
 **Tool response**
@@ -11164,7 +11164,7 @@ pinning: {'manifest': None, 'total': 0, 'pinned': 0, 'bounded': 0, 'floating': 0
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.cli zhangxiaosa/LPR --no-links 2>/dev/null | sed -n '/ACM Functional/,+4p'\necho \"=== re-run dead-code sweep ===\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\n.venv/bin/python $SP/deadcode.py 2>&1 | tail -3", "description": "Verify markdown mode and re-measure dead code"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.cli zhangxiaosa/LPR --no-links 2>/dev/null | sed -n '/ACM Functional/,+4p'\necho \"=== re-run dead-code sweep ===\"[REDACTED]\n.venv/bin/python $SP/deadcode.py 2>&1 | tail -3", "description": "Verify markdown mode and re-measure dead code"}
 ```
 
 **Tool response**
@@ -11228,7 +11228,7 @@ Generated against commit `1cd376048ae5`.
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | tail -6\ncat > /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/m4.txt <<'MSG'\nThe budget ceiling was checked once per run, not once per call\n\nHunted the bug class that had already produced two findings - code that never\nexecutes - with a tracer that runs the test suite plus a full CLI report and\nlists every function never entered.\n\nbudget_check was among them: the guard protecting a hard $5 ceiling had never\nonce executed under test. Reading it exposed the real defect. It is called from\nclient(), which runs ONCE per run, while ask() meters every call and re-checks\nnothing. A run starting at $4.95 passed the check and could then make hundreds\nof billed calls with nothing watching. That is a ceiling enforced at run\ngranularity rather than spend granularity, which is no ceiling at all for any\nrun large enough to matter.\n\nNow enforced per call inside _meter, with four tests that actually enter the\nguard. Raising mid-run is safe onl
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | tail -6\ncat > [REDACTED] <<'MSG'\nThe budget ceiling was checked once per run, not once per call\n\nHunted the bug class that had already produced two findings - code that never\nexecutes - with a tracer that runs the test suite plus a full CLI report and\nlists every function never entered.\n\nbudget_check was among them: the guard protecting a hard $5 ceiling had never\nonce executed under test. Reading it exposed the real defect. It is called from\nclient(), which runs ONCE per run, while ask() meters every call and re-checks\nnothing. A run starting at $4.95 passed the check and could then make hundreds\nof billed calls with nothing watching. That is a ceiling enforced at run\ngranularity rather than spend granularity, which is no ceiling at all for any\nrun large enough to matter.\n\nNow enforced per call inside _meter, with four tests that actually enter the\nguard. Raising mid-run is safe onl
 ```
 
 **Tool response**
@@ -11342,13 +11342,13 @@ json mode OK, broken: 15
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.baseline.run > $SP/bl2.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.solution.run > $SP/sol2.log 2>&1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.compare > $SP/cmp2.log 2>&1\ntail -2 $SP/bl2.log; tail -2 $SP/sol2.log; grep -E \"MAE|constant|do NOT beat\" $SP/cmp2.log | head -5", "description": "Re-run to clear staleness", "timeout": 600000, "run_in_background": true}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.baseline.run > $SP/bl2.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.solution.run > $SP/sol2.log 2>&1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.compare > $SP/cmp2.log 2>&1\ntail -2 $SP/bl2.log; tail -2 $SP/sol2.log; grep -E \"MAE|constant|do NOT beat\" $SP/cmp2.log | head -5", "description": "Re-run to clear staleness", "timeout": 600000, "run_in_background": true}
 ```
 
 **Tool response**
 
 ```
-Command running in background with ID: bbysqi2st. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bbysqi2st.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bbysqi2st. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -11405,7 +11405,7 @@ repo with 15 broken paths exit=0
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ntail -4 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/cmp2.log 2>/dev/null | head -6\ngrep -E \"MAE \\(tiers|do NOT beat|always-Functional\" /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/cmp2.log 2>/dev/null", "description": "Check re-run outcome"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ntail -4 [REDACTED] 2>/dev/null | head -6\ngrep -E \"MAE \\(tiers|do NOT beat|always-Functional\" [REDACTED] 2>/dev/null", "description": "Check re-run outcome"}
 ```
 
 **Tool response**
@@ -11417,16 +11417,16 @@ Exit code 2
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\nls -la $SP/*.log 2>/dev/null | tail -4\ntail -3 $SP/bl2.log 2>/dev/null; echo \"---\"; tail -3 $SP/sol2.log 2>/dev/null", "description": "Check background run progress"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nls -la $SP/*.log 2>/dev/null | tail -4\ntail -3 $SP/bl2.log 2>/dev/null; echo \"---\"; tail -3 $SP/sol2.log 2>/dev/null", "description": "Check background run progress"}
 ```
 
 **Tool response**
 
 ```
--rw-r--r--@ 1 adarsh  wheel  1159 Aug 29 15:51 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/bl2.log
--rw-r--r--@ 1 adarsh  wheel  9921 Aug 29 15:27 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/fals.log
--rw-r--r--@ 1 adarsh  wheel  1418 Aug 29 15:30 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/sol.log
--rw-r--r--@ 1 adarsh  wheel  1251 Aug 29 15:52 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/sol2.log
+-rw-r--r--@ 1 adarsh  wheel  1159 Aug 29 15:51 [REDACTED]
+-rw-r--r--@ 1 adarsh  wheel  9921 Aug 29 15:27 [REDACTED]
+-rw-r--r--@ 1 adarsh  wheel  1418 Aug 29 15:30 [REDACTED]
+-rw-r--r--@ 1 adarsh  wheel  1251 Aug 29 15:52 [REDACTED]
 
 MAE 0.733  exact 0.333  overclaim 0.267  $0.0330
 -> results/baseline.json
@@ -11439,7 +11439,7 @@ MAE 0.733  exact 0.333  overclaim 0.267  $0.0330
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 30\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ntail -2 $SP/sol2.log; echo \"--- compare ---\"; grep -E \"PRIMARY|always-Functional|do NOT beat\" $SP/cmp2.log 2>/dev/null", "description": "Wait for solution run and comparison", "timeout": 90000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\ntail -2 $SP/sol2.log; echo \"--- compare ---\"; grep -E \"PRIMARY|always-Functional|do NOT beat\" $SP/cmp2.log 2>/dev/null", "description": "Wait for solution run and comparison", "timeout": 90000}
 ```
 
 **Tool response**
@@ -12191,7 +12191,7 @@ false positives        : 0
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ngit show HEAD:src/artifact_triage/corpus/fetch.py > $SP/fetch_old.py\nPYTHONPATH=src .venv/bin/python - <<PY\nimport json, sys, importlib.util\nfrom pathlib import Path\nfrom artifact_triage.corpus.fetch import referenced_paths as new_rp\nspec = importlib.util.spec_from_file_location(\"fetch_old\", \"$SP/fetch_old.py\")\nm = importlib.util.module_from_spec(spec); sys.modules[\"fetch_old\"]=m; spec.loader.exec_module(m)\nold_rp = m.referenced_paths\n\ndiff=0\nfor p in sorted(Path(\"data/fixtures\").glob(\"*.json\")):\n    fx=json.loads(p.read_text()); rm=fx.get(\"readme\") or \"\"\n    o,n = set(old_rp(rm)), set(new_rp(rm))\n    if o!=n:\n        diff+=1\n        print(f\"{fx['artifact_id'][:32]:<34} {len(o)} -> {len(n)}   dropped: {sorted(o-n)[:4]}\")\nprint(\"---\"); print(f\"fixtures whose extracted claims change: {diff}/15\")\nPY", "description": "Compare old vs new extractor on fixtures"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ngit show HEAD:src/artifact_triage/corpus/fetch.py > $SP/fetch_old.py\nPYTHONPATH=src .venv/bin/python - <<PY\nimport json, sys, importlib.util\nfrom pathlib import Path\nfrom artifact_triage.corpus.fetch import referenced_paths as new_rp\nspec = importlib.util.spec_from_file_location(\"fetch_old\", \"$SP/fetch_old.py\")\nm = importlib.util.module_from_spec(spec); sys.modules[\"fetch_old\"]=m; spec.loader.exec_module(m)\nold_rp = m.referenced_paths\n\ndiff=0\nfor p in sorted(Path(\"data/fixtures\").glob(\"*.json\")):\n    fx=json.loads(p.read_text()); rm=fx.get(\"readme\") or \"\"\n    o,n = set(old_rp(rm)), set(new_rp(rm))\n    if o!=n:\n        diff+=1\n        print(f\"{fx['artifact_id'][:32]:<34} {len(o)} -> {len(n)}   dropped: {sorted(o-n)[:4]}\")\nprint(\"---\"); print(f\"fixtures whose extracted claims change: {diff}/15\")\nPY", "description": "Compare old vs new extractor on fixtures"}
 ```
 
 **Tool response**
@@ -12230,13 +12230,13 @@ fixtures whose extracted claims change: 1/15
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ncp results/prevalence.json $SP/prevalence_before.json\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev.log 2>&1\ntail -22 $SP/prev.log", "description": "Re-run prevalence sweep with URL fix", "timeout": 900000, "run_in_background": true}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ncp results/prevalence.json $SP/prevalence_before.json\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev.log 2>&1\ntail -22 $SP/prev.log", "description": "Re-run prevalence sweep with URL fix", "timeout": 900000, "run_in_background": true}
 ```
 
 **Tool response**
 
 ```
-Command running in background with ID: bw4u9iik4. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bw4u9iik4.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bw4u9iik4. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -12255,7 +12255,7 @@ Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering 
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 60\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ntail -6 $SP/prev.log 2>/dev/null", "description": "Check prevalence progress", "timeout": 120000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\ntail -6 $SP/prev.log 2>/dev/null", "description": "Check prevalence progress", "timeout": 120000}
 ```
 
 **Tool response**
@@ -12272,7 +12272,7 @@ Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering 
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\npython3 - <<PY\nimport json\na=json.load(open(\"$SP/prevalence_before.json\")); b=json.load(open(\"results/prevalence.json\"))\nkeys=[REDACTED] k in keys:\n    if k in a or k in b:\n        print(f\"  {k:<24}{str(a.get(k)):>12}{str(b.get(k)):>12}\")\nprint()\nprint(\"all keys:\", [k for k in b if k!='per_artifact'])\nPY", "description": "Compare prevalence before and after"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY\nimport json\na=json.load(open(\"$SP/prevalence_before.json\")); b=json.load(open(\"results/prevalence.json\"))\nkeys=[REDACTED] k in keys:\n    if k in a or k in b:\n        print(f\"  {k:<24}{str(a.get(k)):>12}{str(b.get(k)):>12}\")\nprint()\nprint(\"all keys:\", [k for k in b if k!='per_artifact'])\nPY", "description": "Compare prevalence before and after"}
 ```
 
 **Tool response**
@@ -12512,13 +12512,13 @@ url-like remaining: []
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev2.log 2>&1\ntail -30 $SP/prev2.log", "description": "Re-run prevalence with rederivation", "timeout": 900000, "run_in_background": true}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev2.log 2>&1\ntail -30 $SP/prev2.log", "description": "Re-run prevalence with rederivation", "timeout": 900000, "run_in_background": true}
 ```
 
 **Tool response**
 
 ```
-Command running in background with ID: bmoaarcx3. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bmoaarcx3.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bmoaarcx3. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -12555,7 +12555,7 @@ if __name__ == "__main__":
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ntail -12 $SP/prev2.log 2>/dev/null", "description": "Check prevalence progress"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ntail -12 $SP/prev2.log 2>/dev/null", "description": "Check prevalence progress"}
 ```
 
 **Tool response**
@@ -12590,7 +12590,7 @@ tests now: 107
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 120\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ntail -6 $SP/prev2.log", "description": "Wait for prevalence sweep", "timeout": 180000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\ntail -6 $SP/prev2.log", "description": "Wait for prevalence sweep", "timeout": 180000}
 ```
 
 **Tool response**
@@ -12607,7 +12607,7 @@ tests now: 107
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\npython3 - <<PY\nimport json, re\na=json.load(open(\"$SP/prevalence_before.json\")); b=json.load(open(\"results/prevalence.json\"))\nprint(f\"{'metric':<26}{'BEFORE':>12}{'AFTER':>12}\")\nfor k in (\"n_profiled\",\"n_checkable\",\"n_with_broken\",\"prevalence\",\"total_claims\",\"total_broken\",\"broken_claim_rate\"):\n    print(f\"  {k:<24}{str(a.get(k)):>12}{str(b.get(k)):>12}\")\ndom = re.compile(r'^(?:www\\.)?[\\w-]+\\.(?:com|org|net|io|edu|gov|de|uk|cn|ai|dev|me|co)(?:/|\\$)', re.I)\nfor nm,d in ((\"before\",a),(\"after\",b)):\n    tot=sum(len(r.get('broken_paths',[])) for r in d['per_artifact'])\n    url=sum(1 for r in d['per_artifact'] for p in r.get('broken_paths',[]) if dom.match(p))\n    print(f\"  {nm}: broken listed {tot}, url-like {url}\")\nPY", "description": "Compare corrected prevalence numbers"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY\nimport json, re\na=json.load(open(\"$SP/prevalence_before.json\")); b=json.load(open(\"results/prevalence.json\"))\nprint(f\"{'metric':<26}{'BEFORE':>12}{'AFTER':>12}\")\nfor k in (\"n_profiled\",\"n_checkable\",\"n_with_broken\",\"prevalence\",\"total_claims\",\"total_broken\",\"broken_claim_rate\"):\n    print(f\"  {k:<24}{str(a.get(k)):>12}{str(b.get(k)):>12}\")\ndom = re.compile(r'^(?:www\\.)?[\\w-]+\\.(?:com|org|net|io|edu|gov|de|uk|cn|ai|dev|me|co)(?:/|\\$)', re.I)\nfor nm,d in ((\"before\",a),(\"after\",b)):\n    tot=sum(len(r.get('broken_paths',[])) for r in d['per_artifact'])\n    url=sum(1 for r in d['per_artifact'] for p in r.get('broken_paths',[]) if dom.match(p))\n    print(f\"  {nm}: broken listed {tot}, url-like {url}\")\nPY", "description": "Compare corrected prevalence numbers"}
 ```
 
 **Tool response**
@@ -12714,7 +12714,7 @@ RESULT PROVENANCE
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\nmkdir -p $SP/fixtures_before && cp data/fixtures/*.json $SP/fixtures_before/\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.corpus.fetch > $SP/corpus.log 2>&1\ntail -5 $SP/corpus.log\necho \"=== what changed ===\"\nPYTHONPATH=src .venv/bin/python - <<PY\nimport json, glob, os\ntot_o=tot_n=0; changed=0\nfor f in sorted(glob.glob(\"data/fixtures/*.json\")):\n    new=json.load(open(f)); old=json.load(open(os.path.join(\"$SP/fixtures_before\", os.path.basename(f))))\n    o=set(old[\"readme_referenced_paths\"]); n=set(new[\"readme_referenced_paths\"])\n    tot_o+=len(o); tot_n+=len(n)\n    if o!=n:\n        changed+=1\n        print(f\"  {new['artifact_id'][:32]:<34} {len(o)} -> {len(n)}  dropped={sorted(o-n)[:3]}  added={sorted(n-o)[:3]}\")\nprint(f\"fixtures changed: {changed}/15   total claims {tot_o} -> {tot_n}\")\nPY", "description": "Rebuild fixtures from cache", "timeout": 600000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nmkdir -p $SP/fixtures_before && cp data/fixtures/*.json $SP/fixtures_before/\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.corpus.fetch > $SP/corpus.log 2>&1\ntail -5 $SP/corpus.log\necho \"=== what changed ===\"\nPYTHONPATH=src .venv/bin/python - <<PY\nimport json, glob, os\ntot_o=tot_n=0; changed=0\nfor f in sorted(glob.glob(\"data/fixtures/*.json\")):\n    new=json.load(open(f)); old=json.load(open(os.path.join(\"$SP/fixtures_before\", os.path.basename(f))))\n    o=set(old[\"readme_referenced_paths\"]); n=set(new[\"readme_referenced_paths\"])\n    tot_o+=len(o); tot_n+=len(n)\n    if o!=n:\n        changed+=1\n        print(f\"  {new['artifact_id'][:32]:<34} {len(o)} -> {len(n)}  dropped={sorted(o-n)[:3]}  added={sorted(n-o)[:3]}\")\nprint(f\"fixtures changed: {changed}/15   total claims {tot_o} -> {tot_n}\")\nPY", "description": "Rebuild fixtures from cache", "timeout": 600000}
 ```
 
 **Tool response**
@@ -12753,13 +12753,13 @@ Reusable    n=6   mean broken-claim ratio=0.358  mean claims=7.7  dep-manifest=4
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset 2>&1 | tail -5\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\nARTIFACT_TRIAGE_TRIALS=3 PYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.falsified_run > $SP/fals2.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.baseline.run > $SP/bl3.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.solution.run > $SP/sol3.log 2>&1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.compare > $SP/cmp3.log 2>&1\necho DONE", "description": "Regenerate dataset and re-run paid experiments", "timeout": 900000, "run_in_background": true}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset 2>&1 | tail [REDACTED]\nARTIFACT_TRIAGE_TRIALS=3 PYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.falsified_run > $SP/fals2.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.baseline.run > $SP/bl3.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.solution.run > $SP/sol3.log 2>&1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.compare > $SP/cmp3.log 2>&1\necho DONE", "description": "Regenerate dataset and re-run paid experiments", "timeout": 900000, "run_in_background": true}
 ```
 
 **Tool response**
 
 ```
-Command running in background with ID: bv36ea6pf. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bv36ea6pf.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bv36ea6pf. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -12779,7 +12779,7 @@ changelog updated
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 150\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ntail -10 $SP/fals2.log 2>/dev/null", "description": "Check falsified re-run progress", "timeout": 200000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\ntail -10 $SP/fals2.log 2>/dev/null", "description": "Check falsified re-run progress", "timeout": 200000}
 ```
 
 **Tool response**
@@ -12800,7 +12800,7 @@ changelog updated
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 180\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ngrep -A6 \"AGGREGATE\" $SP/fals2.log 2>/dev/null; echo \"--- compare ---\"; grep -E \"PRIMARY|always-Functional|do NOT beat|recorded run\" $SP/cmp3.log 2>/dev/null", "description": "Wait for experiments to finish", "timeout": 240000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\ngrep -A6 \"AGGREGATE\" $SP/fals2.log 2>/dev/null; echo \"--- compare ---\"; grep -E \"PRIMARY|always-Functional|do NOT beat|recorded run\" $SP/cmp3.log 2>/dev/null", "description": "Wait for experiments to finish", "timeout": 240000}
 ```
 
 **Tool response**
@@ -13192,13 +13192,13 @@ def github_repos(record: dict) -> list[str]:
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ncp data/discovered.jsonl $SP/discovered_before.jsonl\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.corpus.discover > $SP/disc.log 2>&1\ntail -6 $SP/disc.log; echo \"---\"; wc -l < data/discovered.jsonl", "description": "Re-run discovery from cache", "timeout": 900000, "run_in_background": true}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ncp data/discovered.jsonl $SP/discovered_before.jsonl\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.corpus.discover > $SP/disc.log 2>&1\ntail -6 $SP/disc.log; echo \"---\"; wc -l < data/discovered.jsonl", "description": "Re-run discovery from cache", "timeout": 900000, "run_in_background": true}
 ```
 
 **Tool response**
 
 ```
-Command running in background with ID: bxttszw19. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/bxttszw19.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: bxttszw19. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -13221,7 +13221,7 @@ discovered 398 distinct artifact repositories
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n \"$(grep -n 'if __name__' src/artifact_triage/corpus/discover.py | cut -d: -f1),+15p\" src/artifact_triage/corpus/discover.py\necho \"=== backup intact? ===\"\nwc -l /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/discovered_before.jsonl", "description": "Check discovery entry point"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n \"$(grep -n 'if __name__' src/artifact_triage/corpus/discover.py | cut -d: -f1),+15p\" src/artifact_triage/corpus/discover.py\necho \"=== backup intact? ===\"\nwc -l [REDACTED]", "description": "Check discovery entry point"}
 ```
 
 **Tool response**
@@ -13244,13 +13244,13 @@ if __name__ == "__main__":
         items = prior + extra
         OUT.write_text("".join(json.dumps(asdict(d)) + "\n" for d in items))
 === backup intact? ===
-     769 /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad/discovered_before.jsonl
+     769 [REDACTED]
 ```
 
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ncp $SP/discovered_before.jsonl data/discovered.jsonl\nwc -l < data/discovered.jsonl\ngit diff --stat data/discovered.jsonl | tail -2", "description": "Restore stratified corpus"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ncp $SP/discovered_before.jsonl data/discovered.jsonl\nwc -l < data/discovered.jsonl\ngit diff --stat data/discovered.jsonl | tail -2", "description": "Restore stratified corpus"}
 ```
 
 **Tool response**
@@ -13350,13 +13350,13 @@ exit=
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/fix_discovered_slugs.py 2>&1 | tail -3\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ncp results/prevalence.json $SP/prev_b2.json\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev3.log 2>&1\ntail -4 $SP/prev3.log", "description": "Verify idempotency and re-run sweep", "timeout": 900000, "run_in_background": true}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/fix_discovered_slugs.py 2>&1 | tail [REDACTED]\ncp results/prevalence.json $SP/prev_b2.json\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev3.log 2>&1\ntail -4 $SP/prev3.log", "description": "Verify idempotency and re-run sweep", "timeout": 900000, "run_in_background": true}
 ```
 
 **Tool response**
 
 ```
-Command running in background with ID: b6susjumd. Output is being written to: /private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/tasks/b6susjumd.output. You will be notified when it completes. To check interim output, use Read on that file path.
+Command running in background with ID: b6susjumd. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
 Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
 ```
 
@@ -13402,7 +13402,7 @@ Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering 
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 120\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\ntail -5 $SP/prev3.log 2>/dev/null", "description": "Check prevalence sweep", "timeout": 180000}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\ntail -5 $SP/prev3.log 2>/dev/null", "description": "Check prevalence sweep", "timeout": 180000}
 ```
 
 **Tool response**
@@ -13418,7 +13418,7 @@ Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering 
 **Tool call** `Bash`
 
 ```json
-{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nSP=/private/tmp/claude-501/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/b0c00099-ee4c-4b92-8782-f5e379e360ef/scratchpad\npython3 - <<PY\nimport json\na=json.load(open(\"$SP/prev_b2.json\")); b=json.load(open(\"results/prevalence.json\"))\nprint(f\"{'metric':<24}{'BEFORE':>12}{'AFTER':>12}\")\nfor k in (\"n_profiled\",\"n_checkable\",\"n_with_broken\",\"prevalence\",\"total_claims\",\"total_broken\",\"broken_claim_rate\"):\n    print(f\"  {k:<22}{str(a.get(k)):>12}{str(b.get(k)):>12}\")\nPY\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|should read|TOO LOOSE|All 1|Every result|STALE\"", "description": "Compare prevalence after slug recovery"}
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY\nimport json\na=json.load(open(\"$SP/prev_b2.json\")); b=json.load(open(\"results/prevalence.json\"))\nprint(f\"{'metric':<24}{'BEFORE':>12}{'AFTER':>12}\")\nfor k in (\"n_profiled\",\"n_checkable\",\"n_with_broken\",\"prevalence\",\"total_claims\",\"total_broken\",\"broken_claim_rate\"):\n    print(f\"  {k:<22}{str(a.get(k)):>12}{str(b.get(k)):>12}\")\nPY\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|should read|TOO LOOSE|All 1|Every result|STALE\"", "description": "Compare prevalence after slug recovery"}
 ```
 
 **Tool response**
@@ -13528,7 +13528,7 @@ completed	success	A full stop deleted ten real artifacts from the corpus	checks	
 **Tool call** `Bash`
 
 ```json
-{"command": "cat \"/Users/adarsh/.claude/projects/-Users-adarsh-Desktop-Projects-micro1--Frontier-Engineering-Challenge-2026/memory/micro1-hackathon-rubric.md\" 2>/dev/null", "description": "Recall hackathon rubric"}
+{"command": "cat \"[REDACTED]\" 2>/dev/null", "description": "Recall hackathon rubric"}
 ```
 
 **Tool response**
@@ -13596,7 +13596,2993 @@ drwxr-xr-x  27 adarsh  staff     864 Aug 29 16:47 ..
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_trajectories 2>&1 | tail -5\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -6\nls -la trajectories/ | head -8", "description": "Regenerate agent trajectories", "timeout": 300000}
 ```
 
+**Tool response**
+
+```
+  wrote trajectories/product-agent__zhangxiaosa__LPR.md  (8,368 chars)
+  wrote trajectories/product-agent__QuentinMaz__MDPFuzz_Replicability_Study_Artifact.md  (6,942 chars)
+  wrote trajectories/product-agent__THU-WingTecher__DeepConstr.md  (7,740 chars)
+  wrote trajectories/README.md
+source: b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl  (5,740 events)
+wrote trajectories/build-agent.md  (877,856 chars, 27 human checkpoints)
+redactions: {'aws_secret': 3, 'env_assignment': 43}
+total 1784
+drwxr-xr-x@  7 adarsh  staff     224 Aug 29 05:22 .
+drwxr-xr-x  27 adarsh  staff     864 Aug 29 16:47 ..
+-rw-r--r--@  1 adarsh  staff    1091 Aug 29 16:49 README.md
+-rw-r--r--@  1 adarsh  staff  878183 Aug 29 16:49 build-agent.md
+-rw-r--r--@  1 adarsh  staff    6966 Aug 29 16:49 product-agent__QuentinMaz__MDPFuzz_Replicability_Study_Artifact.md
+-rw-r--r--@  1 adarsh  staff    7766 Aug 29 16:49 product-agent__THU-WingTecher__DeepConstr.md
+-rw-r--r--@  1 adarsh  staff    8394 Aug 29 16:49 product-agent__zhangxiaosa__LPR.md
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== scanning trajectories for credential shapes ===\"\ngrep -icE \"AKIA[0-9A-Z]{16}\" trajectories/*.md | sed 's/$/ (AKIA)/'\ngrep -oE \"aws_secret_access_key['\\\"]?\\s*[:=]\\s*[A-Za-z0-9/+=]{20,}\" trajectories/*.md | head -3\ngrep -oE \"[A-Za-z0-9/+=]{40}\" trajectories/build-agent.md | sort -u | head -5\necho \"--- redaction markers present? ---\"\ngrep -oE \"\\[REDACTED[^]]*\\]\" trajectories/build-agent.md | sort | uniq -c | head", "description": "Independently scan trajectories for secrets"}
+```
+
+**Tool response**
+
+```
+=== scanning trajectories for credential shapes ===
+trajectories/README.md:0 (AKIA)
+trajectories/product-agent__QuentinMaz__MDPFuzz_Replicability_Study_Artifact.md:0 (AKIA)
+trajectories/product-agent__THU-WingTecher__DeepConstr.md:0 (AKIA)
+trajectories/product-agent__zhangxiaosa__LPR.md:0 (AKIA)
+trajectories/build-agent.md:0 (AKIA)
+========================================
+[REDACTED]
+[REDACTED]
+[REDACTED]
+[REDACTED]
+--- redaction markers present? ---
+   5 [REDACTED:BADGE]
+   1 [REDACTED:[REDACTED:BADGE]
+   2 [REDACTED\\\\]
+   1 [REDACTED\\]
+ 100 [REDACTED]
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nrm -rf cleanroom && mkdir cleanroom && cd cleanroom\ngit clone -q --depth 1 https://github.com/adarshcod30/artifact-repro-triage.git repo 2>&1 | tail -2\ncd repo && du -sh . && ls", "description": "Clean-room clone from GitHub", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+ 45M	.
+AGENTS.md
+CHANGELOG.md
+LICENSE
+Makefile
+README.md
+RELATED_WORK.md
+REPRODUCTION.md
+data
+dataset
+docs
+pyproject.toml
+results
+scripts
+src
+tests
+trajectories
+uv.lock
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nsed -n '1,40p' REPRODUCTION.md", "description": "Read reproduction guide"}
+```
+
+**Tool response**
+
+```
+# Reproduction Guide
+
+Written for someone starting from a clean machine with nothing installed.
 
 ---
 
-Redactions applied: `{'aws_secret': 3, 'env_assignment': 43}`
+## 1. What you need
+
+| | |
+|---|---|
+| OS | macOS or Linux (developed on macOS 15, Apple Silicon) |
+| Python | 3.11 or newer |
+| Disk | ~120 MB (37 MB clone + venv; no repositories are cloned) |
+| Network | Only for the model calls. Corpus rebuild is optional and cached. |
+| Credentials | One model provider (see step 3) |
+
+**No Docker. No GPU. No repository clones.** Artifact fact sheets are committed as
+JSON fixtures, so the corpus does not need rebuilding and no rate limit applies.
+
+## 2. Setup
+
+```bash
+git clone --depth 1 https://github.com/adarshcod30/artifact-repro-triage.git
+cd artifact-repro-triage
+pip install uv          # if you don't have it
+uv venv
+uv pip install -e .
+```
+
+**Use `--depth 1`.** Measured on a clean machine: shallow clone **37 MB in 3
+seconds**; full clone 91 MB in 32 seconds. The history carries API-cache files
+that were later removed, and nothing needs them.
+
+Install takes roughly 30 seconds (`boto3`, `botocore[crt]`, `certifi`).
+
+### Verified from a clean clone
+
+This was run end to end on a fresh shallow clone. All ten credential-free
+targets pass with n
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\n(uv venv -q && uv pip install -q -e . ) 2>&1 | tail -3\necho \"--- venv built ---\"\n.venv/bin/python --version", "description": "Build clean-room environment", "timeout": 600000}
+```
+
+**Tool response**
+
+```
+--- venv built ---
+Python 3.11.15
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nsed -n '40,70p' REPRODUCTION.md", "description": "Read the claimed credential-free targets"}
+```
+
+**Tool response**
+
+```
+```
+test  verify  control  subtle  ablation  pinning  portability
+dataset  dashboard  check-claims
+```
+
+`make verify-targets` re-runs that check and fails loudly if any documented
+command does not work.
+
+> `certifi` is not optional on macOS: python.org builds ship without a CA bundle,
+> and every HTTPS call fails with `CERTIFICATE_VERIFY_FAILED` without it.
+
+## 3. Credentials
+
+Copy the template and fill in **one** provider:
+
+```bash
+cp .env.example .env    # then edit .env
+```
+
+**AWS Bedrock (what the reported results used):**
+
+```
+AWS_ACCESS_KEY_ID=[REDACTED]
+AWS_SECRET_ACCESS_KEY=[REDACTED]
+AWS_REGION=us-east-1
+ARTIFACT_TRIAGE_PROVIDER=bedrock
+ARTIFACT_TRIAGE_MODEL=us.amazon.nova-pro-v1:0
+```
+
+The IAM principal needs `bedrock:InvokeModel` on the model, and the model must be
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nls -a | grep -i env || echo \">>> .env.example MISSING from the clone\"\necho \"=== running the 10 documented credential-free targets ===\"\nfor t in test verify control subtle ablation pinning portability dataset dashboard check-claims; do\n  out=$(make $t 2>&1); rc=$?\n  if [ $rc -eq 0 ]; then echo \"  PASS  make $t\"; else echo \"  FAIL  make $t (exit $rc)\"; echo \"$out\" | tail -4 | sed 's/^/         /'; fi\ndone", "description": "Run all documented credential-free targets from clean", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+.env.example
+.venv
+=== running the 10 documented credential-free targets ===
+  PASS  make test
+  PASS  make verify
+  PASS  make control
+  PASS  make subtle
+  PASS  make ablation
+  PASS  make pinning
+  PASS  make portability
+  PASS  make dataset
+  PASS  make dashboard
+  PASS  make check-claims
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\n.venv/bin/artifact-triage zhangxiaosa/LPR --no-links 2>/dev/null | head -8\necho \"...\"\n.venv/bin/artifact-triage --help 2>&1 | head -12", "description": "Test CLI entry point from clean install", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+# Artifact reproducibility report — `zhangxiaosa/LPR`
+
+Generated 2026-08-29 11:21 UTC against commit `1cd376048ae5`.
+
+## Verdict: **2 issue(s) need attention**
+
+- 15 README path(s) that do not exist
+- no dependency manifest — environment cannot be recreated
+...
+usage: artifact-triage [-h] [--model] [--no-links] [--fail-on-findings]
+                       [--json] [-o OUT]
+                       repo
+
+Reproducibility report for a research artifact repository.
+
+positional arguments:
+  repo                owner/repo or a GitHub URL
+
+options:
+  -h, --help          show this help message and exit
+  --model             also produce a tier assessment (needs credentials)
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nrm -rf sizetest && mkdir sizetest && cd sizetest\nS=$(date +%s)\ngit clone -q --depth 1 https://github.com/adarshcod30/artifact-repro-triage.git r 2>&1 | tail -1\nE=$(date +%s)\necho \"shallow clone: $(du -sh r | cut -f1) in $((E-S))s\"\ndu -sh r/.git r/data r/trajectories r/results r/dataset 2>/dev/null", "description": "Measure actual clone size and time", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+shallow clone:  46M in 3s
+8.1M	r/.git
+ 34M	r/data
+888K	r/trajectories
+1.0M	r/results
+360K	r/dataset
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -rn \"37 MB\\|37MB\\|120 MB\\|91 MB\" README.md REPRODUCTION.md AGENTS.md docs/VIDEO_SCRIPT.md 2>/dev/null", "description": "Find stale size claims"}
+```
+
+**Tool response**
+
+```
+REPRODUCTION.md:13:| Disk | ~120 MB (37 MB clone + venv; no repositories are cloned) |
+REPRODUCTION.md:30:**Use `--depth 1`.** Measured on a clean machine: shallow clone **37 MB in 3
+REPRODUCTION.md:31:seconds**; full clone 91 MB in 32 seconds. The history carries API-cache files
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='REPRODUCTION.md'; s=open(p).read()\ns = s.replace(\"| Disk | ~120 MB (37 MB clone + venv; no repositories are cloned) |\",\n              \"| Disk | ~130 MB (46 MB clone + venv; no repositories are cloned) |\")\ns = s.replace(\"\"\"**Use `--depth 1`.** Measured on a clean machine: shallow clone **37 MB in 3\nseconds**; full clone 91 MB in 32 seconds. The history carries API-cache files\"\"\",\n\"\"\"**Use `--depth 1`.** Measured on a clean machine: shallow clone **46 MB in 3\nseconds**. The history carries API-cache files\"\"\")\nopen(p,'w').write(s)\nPY\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 94 - the repro guide quoted a clone size that had grown\n#\n# REPRODUCTION.md promised a \"37 MB\" shallow clone. A clean-room clone measured\n# 46 MB: cache files were added over time and the documented figure was never\n# revisited. Small, but it is a documented claim about the artifact that had\n# drifted from the artifact - the exact defect this
+```
+
+**Tool response**
+
+```
+117/117 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='REPRODUCTION.md'; s=open(p).read()\nold = \"\"\"### Verified from a clean clone\n\nThis was run end to end on a fresh shallow clone. All ten credential-free\ntargets pass with no API key, no AWS account and no configuration:\"\"\"\nnew = \"\"\"### Verified from a clean clone\n\nRun end to end on a fresh shallow clone of the **published** repository \u2014 new\ndirectory, new virtualenv, no cached state, no credentials, no configuration.\nAll ten credential-free targets pass, and `artifact-triage <owner>/<repo>`\nproduces a report:\"\"\"\nassert old in s\ns = s.replace(old, new)\nopen(p,'w').write(s)\n\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 93 |\"); end = s.index(\"\\n\", i)\nnew2 = \"\"\"\n| Iteration 94 | The rubric puts reproducibility behind a **pass/fail gate** - a project that cannot be run is disqualified before any scoring - so I stopped asserting it and tested it: fresh clone of the **published** repo, fresh virtualenv, no credentials, no cached state. | **All ten credential-free targets pass**, and the installed `artifact-triage` entr
+```
+
+**Tool response**
+
+```
+fb20adf Verify the reproducibility gate instead of asserting it
+```
+
+## Human checkpoint 28
+
+> keep hunting
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\n.venv/bin/python $SP/deadcode.py 2>&1 | sed -n '/NEVER ENTERED/,$p' | grep -vE \"^\\s*$\" | head -45", "description": "Re-run never-executed-function sweep"}
+```
+
+**Tool response**
+
+```
+FUNCTIONS NEVER ENTERED by tests or a full CLI report run
+==========================================================================
+src/artifact_triage/baseline/run.py
+      31  main
+src/artifact_triage/common/ledger.py
+      72  remaining
+src/artifact_triage/common/llm.py
+     186  _Bedrock.__init__
+     197  _Bedrock.ask
+     214  _Anthropic.__init__
+     219  _Anthropic.ask
+     232  _Gemini.__init__
+     239  _Gemini.ask
+     257  _Grok.__init__
+     264  _Grok.ask
+     288  client
+     293  _meter
+     321  ask
+src/artifact_triage/corpus/discover.py
+      59  _get
+      86  search
+     104  harvest
+     128  harvest_stratified
+src/artifact_triage/corpus/fetch.py
+     175  build
+src/artifact_triage/corpus/github.py
+      35  _token
+      77  keywords
+      84  search
+      97  readme
+     112  _norm
+     116  verify
+     149  resolve
+src/artifact_triage/corpus/scrub.py
+      97  ScrubReport.total
+     101  ScrubReport.leaked
+     114  assert_clean
+src/artifact_triage/corpus/sources.py
+      49  fetch
+      55  parse
+      79  collect
+src/artifact_triage/corpus/zenodo.py
+      86  similarity
+      90  query
+     116  resolve
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '108,130p' src/artifact_triage/corpus/scrub.py\necho \"=== callers ===\"\ngrep -rn \"assert_clean\" src tests scripts .github 2>/dev/null | grep -v \"def assert_clean\"", "description": "Inspect the unused leakage assertion"}
+```
+
+**Tool response**
+
+```
+        text, n = pat.subn(REDACTION, text)
+        if n:
+            hits[name] = n
+    return ScrubReport(text, hits)
+
+
+def assert_clean(text: str) -> None:
+    """Fail loudly if anything survived. Used as a post-condition in the corpus build."""
+    leftover = scrub(text)
+    if leftover.leaked:
+        raise AssertionError(f"badge leakage survived scrubbing: {leftover.hits}")
+
+
+if __name__ == "__main__":
+    samples = [
+        "This artifact received the **Artifacts Evaluated - Reusable** badge at ISSTA 2024.",
+        "![ACM Badge](https://img.shields.io/badge/artifact-reusable-green)",
+        "Our results were reproduced by the Artifact Evaluation Committee.",
+        "The artifact is Reusable and well documented.",
+        "[![badge](https://img.shields.io/badge/ACM-Functional-blue)](https://acm.org)",
+        "A normal README describing how to run `python main.py --seed 0`.",
+    ]
+    # A scrubbed sample must contain no residual tier word outside code context.
+=== callers ===
+scripts/export_build_trajectory.py:146:    assert_clean(doc)  # post-condition: nothing sensitive survived
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nimport json, glob\nfrom artifact_triage.corpus.scrub import assert_clean\nbad=0\nfor f in sorted(glob.glob('data/fixtures/*.json')):\n    d=json.load(open(f))\n    try: assert_clean(d.get('readme') or '')\n    except AssertionError as e: bad+=1; print(' LEAK', d['artifact_id'], e)\nprint(f'fixtures failing the post-condition: {bad}/15')\n\"", "description": "Test the post-condition against the corpus"}
+```
+
+**Tool response**
+
+```
+fixtures failing the post-condition: 0/15
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/fetch.py'; s=open(p).read()\ns = s.replace('''from artifact_triage.corpus.scrub import scrub''',\n              '''from artifact_triage.corpus.scrub import assert_clean, scrub''')\ns = s.replace('''    rep = scrub(raw)''',\n'''    rep = scrub(raw)\n    # The post-condition `assert_clean`'s own docstring claimed it already had.\n    # It did not: its only caller was the trajectory exporter, so the corpus\n    # build - the one place badge leakage would actually contaminate a result -\n    # had no check at all. Scrubbing is idempotent (the redaction token contains\n    # no matchable keyword), so a second pass finding anything means the first\n    # pass missed it. That is exactly how the British-spelling leak survived.\n    assert_clean(rep.text)''', 1)\nopen(p,'w').write(s)\nPY\ngrep -n \"assert_clean\" src/artifact_triage/corpus/fetch.py\npython3 - <<'PY'\np='src/artifact_triage/corpus/scrub.py'; s=open(p).read()\ns = s.replace('''def assert_clean(text: str) -> None:\n    \"\"\"Fail loudly if anything survived. Used as a post-condition in
+```
+
+**Tool response**
+
+```
+24:from artifact_triage.corpus.scrub import assert_clean, scrub
+186:    # The post-condition `assert_clean`'s own docstring claimed it already had.
+192:    assert_clean(rep.text)
+
+fixtures      : 15/15
+badge leakage : 4 READMEs disclosed their own tier (scrubbed)
+disk used     : 0 bytes of clones - tree API only
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit diff --stat data/fixtures | tail -3\necho \"--- (empty means fixtures unchanged; results stay current) ---\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.scrub import assert_clean\n# a leak the OLD scrubber would have passed through\ntry:\n    assert_clean('Artefacts Evaluated - Reusable')\n    print('post-condition did NOT fire (bad)')\nexcept AssertionError as e:\n    print('post-condition fires on a real leak:', str(e)[:70])\n\"", "description": "Confirm fixtures unchanged and guard fires"}
+```
+
+**Tool response**
+
+```
+--- (empty means fixtures unchanged; results stay current) ---
+post-condition fires on a real leak: badge leakage survived scrubbing: {'acm_badge_phrase': 1}
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.scrub import scrub, assert_clean\n# what the OLD buggy scrubber produced for 'Artefacts Evaluated - Reusable'\nleaked_output = '[REDACTED] Evaluated - Reusable'\nr = scrub(leaked_output)\nprint('second pass hits on the leaked output:', r.hits, ' leaked=', r.leaked)\ntry:\n    assert_clean(leaked_output); print('=> post-condition would NOT have caught it')\nexcept AssertionError: print('=> post-condition WOULD have caught it')\n\"", "description": "Test whether the post-condition catches that leak shape"}
+```
+
+**Tool response**
+
+```
+second pass hits on the leaked output: {}  leaked= False
+=> post-condition would NOT have caught it
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/scrub.py'; s=open(p).read()\ns = s.replace('''def assert_clean(text: str) -> None:''',\n'''# A redaction immediately followed by a bare tier word is the SIGNATURE of the\n# British-spelling bug: the label was removed and the answer was left sitting\n# next to the hole. Pattern-matching the phrasing cannot catch that - the\n# surviving text matches nothing - but the shape is unmistakable, which is why\n# this generalises to phrasings nobody anticipated.\n_ORPHAN_TIER = re.compile(\n    re.escape(REDACTION) + r\"[^\\\\n]{0,40}?\\\\b(functional|reusable)\\\\b\", re.I)\n\n\ndef assert_no_orphan_tier(text: str) -> None:\n    \"\"\"Catch 'redacted the label, kept the tier'.\"\"\"\n    m = _ORPHAN_TIER.search(text)\n    if m:\n        raise AssertionError(\n            f\"a tier word survives beside a redaction: {m.group(0)!r} - \"\n            f\"scrubbing removed the container and left the answer\")\n\n\ndef assert_clean(text: str) -> None:''')\ns = s.replace('''    leftover = scrub(text)\n    if leftover.leaked:\n        raise AssertionError(f\
+```
+
+**Tool response**
+
+```
+  CAUGHT the British-spelling leak: a tier word survives beside a redaction: '[REDACTED] Evaluat
+  CAUGHT far-away tier word: a tier word survives beside a redaction: '[REDACTED] and the
+  pass   innocent
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/scrub.py'; s=open(p).read()\ns = s.replace('''_ORPHAN_TIER = re.compile(\n    re.escape(REDACTION) + r\"[^\\\\n]{0,40}?\\\\b(functional|reusable)\\\\b\", re.I)''',\n'''# Deliberately narrow: only SEPARATORS and the structural words \"evaluated\" /\n# \"available\" may sit between the redaction and the tier. A 40-character window\n# was tried first and flagged innocent prose - \"[REDACTED] and the code is\n# reusable\" - which would break the build on a false alarm. The signature is\n# \"redacted label + separator + tier\", not \"tier word somewhere nearby\".\n_ORPHAN_TIER = re.compile(\n    re.escape(REDACTION)\n    + r\"[\\\\s\\\\-\\\\u2013\\\\u2014:/_()\\\\[\\\\]]*(?:evaluated|available)?\"\n    + r\"[\\\\s\\\\-\\\\u2013\\\\u2014:/_()\\\\[\\\\]]*\\\\b(functional|reusable)\\\\b\", re.I)''')\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.scrub import assert_clean\ncases = [('[REDACTED] Evaluated - Reusable','LEAK: British-spelling bug'),\n         ('[REDACTED] (Reusable)','LEAK: parenthesised')
+```
+
+**Tool response**
+
+```
+  CAUGHT  LEAK: British-spelling bug
+  CAUGHT  LEAK: parenthesised
+  pass    LEAK: bare tier after redaction
+  pass    innocent prose
+  pass    innocent, next line
+  pass    innocent
+=== corpus false positives? ===
+  fixtures failing: 0/15
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/scrub.py'; s=open(p).read()\ns = s.replace('''# \"redacted label + separator + tier\", not \"tier word somewhere nearby\".''',\n'''# \"redacted label + separator + tier\", not \"tier word somewhere nearby\".\n#\n# `available` is deliberately NOT in the tier group. It is an extremely common\n# English word - \"[REDACTED] available at ...\" is ordinary prose - and it is the\n# FLOOR tier, so learning an artifact is merely `Available` is the least\n# informative leak there is. Including it would trade frequent false build\n# failures for almost no protection. `functional` and `reusable` are the two\n# tiers that actually carry information, and both are rarer in prose.''')\nopen(p,'w').write(s)\nPY\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 95 - a post-condition whose docstring claimed it was wired in\n#\n# `assert_clean`'s docstring read \"Used as a post-condition in the corpus\n# build.\" It was not: the only caller 
+```
+
+**Tool response**
+
+```
+  FAIL  test_orphaned_tier_beside_a_redaction_is_caught
+120/121 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.scrub import assert_clean, scrub\nfor t in ['[REDACTED]/Functional','[REDACTED]_reusable','[REDACTED] (Reusable)']:\n    try: assert_clean(t); print(f'  NOT caught: {t!r}  -> scrub hits {scrub(t).hits}')\n    except AssertionError: print(f'  caught:     {t!r}')\n\"", "description": "Find which orphan shapes escape"}
+```
+
+**Tool response**
+
+```
+  caught:     '[REDACTED]/Functional'
+  NOT caught: '[REDACTED]_reusable'  -> scrub hits {}
+  caught:     '[REDACTED] (Reusable)'
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/scrub.py'; s=open(p).read()\ns = s.replace(r'''    + r\"[\\s\\-\u2013\u2014:/_()\\[\\]]*\\b(functional|reusable)\\b\", re.I)''',\nr'''    # NOT \\b before the tier: \"_\" is a word character, so there is no word\n    # boundary in \"[REDACTED]_reusable\" and \\b silently failed to match one of\n    # the very separator forms the extractor fix was written for.\n    + r\"[\\s\\-\u2013\u2014:/_()\\[\\]]*(?<![A-Za-z])(functional|reusable)\"\n      r\"(?![A-Za-z])\", re.I)''')\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.scrub import assert_clean\nfor t in ['[REDACTED]/Functional','[REDACTED]_reusable','[REDACTED] (Reusable)','[REDACTED] Evaluated - Reusable']:\n    try: assert_clean(t); print(f'  NOT caught: {t!r}')\n    except AssertionError: print(f'  caught:     {t!r}')\nfor t in ['[REDACTED] and the code is reusable here','[REDACTED] available at the DOI']:\n    try: assert_clean(t); print(f'  ok (no false alarm): {t!r}')\n    except AssertionError: print(f'  FALSE ALARM: {t!r}')\n\"\n.venv/b
+```
+
+**Tool response**
+
+```
+  caught:     '[REDACTED]/Functional'
+  NOT caught: '[REDACTED]_reusable'
+  caught:     '[REDACTED] (Reusable)'
+  caught:     '[REDACTED] Evaluated - Reusable'
+  ok (no false alarm): '[REDACTED] and the code is reusable here'
+  ok (no false alarm): '[REDACTED] available at the DOI'
+  FAIL  test_orphaned_tier_beside_a_redaction_is_caught
+120/121 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n -A6 \"_ORPHAN_TIER = re.compile\" src/artifact_triage/corpus/scrub.py", "description": "Inspect the actual regex in the file"}
+```
+
+**Tool response**
+
+```
+131:_ORPHAN_TIER = re.compile(
+132-    re.escape(REDACTION)
+133-    + r"[\s\-\u2013\u2014:/_()\[\]]*(?:evaluated|available)?"
+134-    + r"[\s\-\u2013\u2014:/_()\[\]]*\b(functional|reusable)\b", re.I)
+135-
+136-
+137-def assert_no_orphan_tier(text: str) -> None:
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/scrub.py'; s=open(p).read()\nold = '''    + r\"[\\\\s\\\\-\\\\u2013\\\\u2014:/_()\\\\[\\\\]]*\\\\b(functional|reusable)\\\\b\", re.I)'''\nnew = '''    # NOT \\\\b before the tier: \"_\" is a word character, so there is no word\n    # boundary in \"[REDACTED]_reusable\" and \\\\b silently failed on one of the\n    # very separator forms this check exists to catch.\n    + r\"[\\\\s\\\\-\\\\u2013\\\\u2014:/_()\\\\[\\\\]]*(?<![A-Za-z])(functional|reusable)\"\n      r\"(?![A-Za-z])\", re.I)'''\nassert old in s, \"anchor not found\"\ns = s.replace(old, new)\nopen(p,'w').write(s)\nprint(\"applied\")\nPY\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.scrub import assert_clean\nleaks=['[REDACTED]/Functional','[REDACTED]_reusable','[REDACTED] (Reusable)','[REDACTED] Evaluated - Reusable']\nok=['[REDACTED] and the code is reusable here','[REDACTED] available at the DOI','A functional programming approach']\nfor t in leaks:\n    try: assert_clean(t); print(f'  MISSED  {t!r}')\n    except AssertionError: print(f'  caught  {t!r}')\nf
+```
+
+**Tool response**
+
+```
+applied
+  caught  '[REDACTED]/Functional'
+  caught  '[REDACTED]_reusable'
+  caught  '[REDACTED] (Reusable)'
+  caught  '[REDACTED] Evaluated - Reusable'
+  clean   '[REDACTED] and the code is reusable here'
+  clean   '[REDACTED] available at the DOI'
+  clean   'A functional programming approach'
+121/121 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.corpus.fetch 2>&1 | tail -3\necho \"--- fixtures changed? ---\"; git diff --stat data/fixtures | tail -2\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|TOO LOOSE|All 1|Every result|STALE\"", "description": "Rebuild corpus and verify nothing drifted", "timeout": 600000}
+```
+
+**Tool response**
+
+```
+fixtures      : 15/15
+badge leakage : 4 READMEs disclosed their own tier (scrubbed)
+disk used     : 0 bytes of clones - tree API only
+--- fixtures changed? ---
+  All 18 documented numbers match the results files.
+  STALE  negative_control     produced at commit 7363401 by different code (fingerprint 
+  STALE  baseline             produced at commit 7363401 by different code (fingerprint 
+  STALE  solution             produced at commit 7363401 by different code (fingerprint 
+  STALE  falsified_run        produced at commit 7363401 by different code (fingerprint 
+  STALE  prevalence           produced at commit eb2b979 by different code (fingerprint
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ncp results/negative_control.json $SP/nc_b.json; cp results/prevalence.json $SP/pv_b.json\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.negative_control 2>&1 | tail -4\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev4.log 2>&1\npython3 -c \"\nimport json\nfor n,b in (('negative_control','$SP/nc_b.json'),('prevalence','$SP/pv_b.json')):\n    a=json.load(open(f'results/{n}.json')); o=json.load(open(b))\n    a.pop('_provenance',None); o.pop('_provenance',None)\n    print(f'  {n}: identical apart from provenance = {a==o}')\"", "description": "Re-run free experiments and compare", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+detected by verifier   : 75   (100.0%)
+false positives        : 0
+==============================================================
+-> results/negative_control.json
+  negative_control: identical apart from provenance = True
+  prevalence: identical apart from provenance = False
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY\nimport json\na=json.load(open(\"$SP/pv_b.json\")); b=json.load(open(\"results/prevalence.json\"))\nfor k in (\"n_profiled\",\"n_checkable\",\"n_with_broken\",\"prevalence\",\"total_claims\",\"total_broken\",\"broken_claim_rate\"):\n    mark = \"\" if a.get(k)==b.get(k) else \"   <-- CHANGED\"\n    print(f\"  {k:<22}{str(a.get(k)):>12}{str(b.get(k)):>12}{mark}\")\nPY", "description": "Diff prevalence metrics"}
+```
+
+**Tool response**
+
+```
+  n_profiled                     742         742
+  n_checkable                    609         609
+  n_with_broken                  343         343
+  prevalence                  0.5632      0.5632
+  total_claims                  6840        6840
+  total_broken                  1264        1264
+  broken_claim_rate           0.1848      0.1848
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY\nimport json\na={r['artifact_id']:r for r in json.load(open(\"$SP/pv_b.json\"))['per_artifact']}\nb={r['artifact_id']:r for r in json.load(open('results/prevalence.json'))['per_artifact']}\nfields=set()\nfor k in a:\n    if k in b:\n        for f in a[k]:\n            if a[k].get(f)!=b[k].get(f): fields.add(f)\nprint(\"fields that differ across identical re-runs:\", fields or \"none\")\nfor k in list(a)[:2]:\n    if k in b: print(f\"  {k}: {a[k].get('stale_days')} -> {b[k].get('stale_days')}\")\nPY\ngrep -n \"byte-identical\" dataset/DATASHEET.md src/artifact_triage/eval/export_dataset.py README.md 2>/dev/null | head", "description": "Identify the non-reproducible field"}
+```
+
+**Tool response**
+
+```
+fields that differ across identical re-runs: {'stale_days'}
+  stefanosbalaskas/gp3tools-python: 0.49151414799768517 -> 0.508540532650463
+  hsjwang/solutions-table: 0.5691649069444444 -> 0.5861912955439815
+src/artifact_triage/eval/export_dataset.py:63:byte-identical output.
+dataset/DATASHEET.md:31:byte-identical output.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"stale_days\\|def age_days\\|measured_at\" src/artifact_triage/eval/prevalence.py | head", "description": "Find the time-dependent field"}
+```
+
+**Tool response**
+
+```
+108:def age_days(iso: str | None) -> float | None:
+143:            "stale_days": age_days(fx.get("pushed_at")),
+200:    dated = [r for r in checkable if r["stale_days"] is not None]
+205:            g = [r for r in dated if lo <= r["stale_days"] < hi]
+209:                    "median_days": round(statistics.median(r["stale_days"] for r in g)),
+255:                 "age_span_days": round(max(r["stale_days"] for r in dated) -
+256:                                        min(r["stale_days"] for r in dated))}
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '106,116p' src/artifact_triage/eval/prevalence.py", "description": "Read age_days"}
+```
+
+**Tool response**
+
+```
+def age_days(iso: str | None) -> float | None:
+    if not iso:
+        return None
+    try:
+        d = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return (datetime.now(timezone.utc) - d).total_seconds() / 86400
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/prevalence.py'; s=open(p).read()\ns = s.replace('''def age_days(iso: str | None) -> float | None:\n    if not iso:\n        return None\n    try:\n        d = datetime.fromisoformat(iso.replace(\"Z\", \"+00:00\"))\n    except ValueError:\n        return None\n    return (datetime.now(timezone.utc) - d).total_seconds() / 86400''',\n'''# Measured against a single reference time captured once per run, not against\n# `now` at each call. The datasheet claimed \"re-running produces byte-identical\n# output\"; `stale_days` made that false, because every row was timed against a\n# slightly later clock. Recording the reference makes the field reproducible\n# GIVEN the reference, and makes the remaining non-determinism explicit rather\n# than an unstated exception to a determinism claim.\nMEASURED_AT = datetime.now(timezone.utc)\n\n\ndef age_days(iso: str | None, ref: datetime | None = None) -> float | None:\n    if not iso:\n        return None\n    try:\n        d = datetime.fromisoformat(iso.replace(\"Z\", \"+00:00\"))\n    except ValueError:\n     
+```
+
+**Tool response**
+
+```
+320:        "_provenance": stamp("prevalence"),
+323:        "prevalence": round(len(with_broken) / len(checkable), 4) if checkable else None,
+330:            "prevalence": f"{len(with_broken) / len(checkable):.1%}" if checkable else None,
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/prevalence.py'; s=open(p).read()\ns = s.replace('''        \"_provenance\": stamp(\"prevalence\"),''',\n'''        \"_provenance\": stamp(\"prevalence\"),\n        # The reference clock for every `stale_days` value below, so an age can\n        # be recomputed exactly rather than being silently relative to whenever\n        # the run happened.\n        \"measured_at\": MEASURED_AT.strftime(\"%Y-%m-%dT%H:%M:%SZ\"),''')\nopen(p,'w'[REDACTED]\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev5.log 2>&1\ncp results/prevalence.json $SP/pv_r1.json\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/prev6.log 2>&1\npython3 - <<PY\nimport json\na=json.load(open(\"$SP/pv_r1.json\")); b=json.load(open(\"results/prevalence.json\"))\nfor d in (a,b): d.pop(\"_provenance\",None); d.pop(\"measured_at\",None)\ndiff=set()\nA={r['artifact_id']:r for r i
+```
+
+**Tool response**
+
+```
+fields differing between two consecutive runs: {'stale_days'}
+measured_at recorded: 2026-08-29T11:41:31Z
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 96 - the datasheet promised byte-identical re-runs, and was wrong\n#\n# \"All measurement code is deterministic. Re-running it on the same commits\n# produces byte-identical output.\" Two consecutive runs disagreed - on exactly\n# one field. `stale_days` is an AGE, computed against `datetime.now()` at each\n# call, so every row was timed against a slightly later clock and the\n# determinism claim was false.\n#\n# Small, but it is the headline promise of the reproducibility section, and it\n# is the same defect the dataset exists to measure.\n# --------------------------------------------------------------------------\ndef test_age_is_measured_against_a_recorded_reference_not_now():\n    from datetime import datetime, timezone\n    from artifact_triage.eval import prevalence\n    ref = datetime(2026, 1, 1, tzinfo=timezone.utc)\n    a = prevalence.age_days(\"2025-12-25T00:00:00Z\", ref=ref)\n    b = prevalence.age_days(\"2
+```
+
+**Tool response**
+
+```
+  742 artifacts, 6,840 claims measured
+124/124 passed
+  All 18 documented numbers match the results files.
+  STALE  baseline             produced at commit 7363401 by different code (fingerprint 
+  STALE  solution             produced at commit 7363401 by different code (fingerprint 
+  STALE  falsified_run        produced at commit 7363401 by different code (fingerprint
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ngit show 7363401:src/artifact_triage/corpus/fetch.py > $SP/fetch_7363401.py\ngit show 7363401:src/artifact_triage/corpus/scrub.py > $SP/scrub_7363401.py\npython3 - <<PY\nimport ast, sys\ndef fn_src(path, names):\n    tree = ast.parse(open(path).read()); out={}\n    for n in ast.walk(tree):\n        if isinstance(n,(ast.FunctionDef,)) and n.name in names:\n            out[n.name]=ast.dump(n)   # structural, ignores comments/formatting\n    return out\nold_f = fn_src(\"$SP/fetch_7363401.py\", {\"referenced_paths\",\"_is_path\",\"_is_dir_ref\",\"signals_present\"})\nnew_f = fn_src(\"src/artifact_triage/corpus/fetch.py\", {\"referenced_paths\",\"_is_path\",\"_is_dir_ref\",\"signals_present\"})\nold_s = fn_src(\"$SP/scrub_7363401.py\", {\"scrub\"})\nnew_s = fn_src(\"src/artifact_triage/corpus/scrub.py\", {\"scrub\"})\nsame=True\nfor k in set(old_f)|set(new_f):\n    if old_f.get(k)!=new_f.get(k): print(f\"  CHANGED fetch.{k}\"); same=False\nfor 
+```
+
+**Tool response**
+
+```
+  CHANGED fetch.referenced_paths
+result-affecting functions unchanged: False
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ngit show eb2b979:src/artifact_triage/corpus/fetch.py > $SP/fetch_eb.py\ngit show eb2b979:src/artifact_triage/corpus/scrub.py > $SP/scrub_eb.py\npython3 - <<PY\nimport ast\ndef fn(path, names):\n    t=ast.parse(open(path).read()); return {n.name:ast.dump(n) for n in ast.walk(t)\n        if isinstance(n, ast.FunctionDef) and n.name in names}\nnames_f={\"referenced_paths\",\"_is_path\",\"_is_dir_ref\",\"signals_present\",\"build\"}\no=fn(\"$SP/fetch_eb.py\",names_f); n=fn(\"src/artifact_triage/corpus/fetch.py\",names_f)\nfor k in sorted(set(o)|set(n)):\n    if o.get(k)!=n.get(k): print(f\"  CHANGED fetch.{k}\")\no=fn(\"$SP/scrub_eb.py\",{\"scrub\"}); n=fn(\"src/artifact_triage/corpus/scrub.py\",{\"scrub\"})\nfor k in sorted(set(o)|set(n)):\n    if o.get(k)!=n.get(k): print(f\"  CHANGED scrub.{k}\")\nprint(\"(only 'build' should appear - it gained a post-condition and is not called by the experiments)\")\nPY", "description": "Diff against the 
+```
+
+**Tool response**
+
+```
+  CHANGED fetch.build
+(only 'build' should appear - it gained a post-condition and is not called by the experiments)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py >/dev/null 2>&1; echo \"check-claims exit with 3 stale results: $?\"\nmake check-claims >/dev/null 2>&1; echo \"make check-claims exit: $?\"", "description": "Check whether staleness fails the build"}
+```
+
+**Tool response**
+
+```
+check-claims exit with 3 stale results: 0
+make check-claims exit: 0
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/common/provenance.py'; s=open(p).read()\ns = s.replace('''def commit() -> str:\n    try:\n        out = subprocess.run([\"git\", \"rev-parse\", \"--short\", \"HEAD\"],\n                             capture_output=True, text=True, cwd=ROOT, timeout=10)\n        return out.stdout.strip() or \"unknown\"\n    except Exception:\n        return \"unknown\"''',\n'''def commit() -> str:\n    \"\"\"The commit, marked `-dirty` when the tree had uncommitted changes.\n\n    Without the mark this field quietly lies. A result produced from a modified\n    working tree was labelled with a commit whose code never produced it - the\n    hash looks authoritative and cannot recover what actually ran. That happened\n    here: results stamped `7363401` were produced by code that only landed two\n    commits later, and comparing against that commit gave a misleading answer\n    until the discrepancy was noticed by hand.\n    \"\"\"\n    try:\n        out = subprocess.run([\"git\", \"rev-parse\", \"--short\", \"HEAD\"],\n                             capture_output=True,
+```
+
+**Tool response**
+
+```
+17:import hashlib
+18:import subprocess
+19:from pathlib import Path
+commit now: fb20adf-dirty
+falsified changed fns vs eb2b979: ['fetch.py:build']
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n \"$(grep -n 'def check_staleness' scripts/check_claims.py | cut -d: -f1),+24p\" scripts/check_claims.py", "description": "Read staleness reporting"}
+```
+
+**Tool response**
+
+```
+def check_staleness() -> list[str]:
+    """Report results produced by code that has since changed.
+
+    A results file is a claim about what the code does. If the code changes and
+    the result does not, the claim silently becomes false while still looking
+    authoritative - the project's own subject, applied to itself.
+    """
+    sys.path.insert(0, str(ROOT / "src"))
+    from artifact_triage.common.provenance import is_stale
+
+    stale = []
+    print("\nRESULT PROVENANCE")
+    print("-" * 74)
+    for name in ("negative_control", "baseline", "solution", "falsified_run",
+                 "prevalence"):
+        payload = load(f"results/{name}.json")
+        if payload is None:
+            continue
+        bad, why = is_stale(payload)
+        print(f"  {'STALE' if bad else 'ok   '}  {name:<20} {why[:58]}")
+        if bad:
+            stale.append(name)
+    return stale
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('''    from artifact_triage.common.provenance import is_stale''',\n              '''    from artifact_triage.common.provenance import changed_functions, is_stale''')\ns = s.replace('''        bad, why = is_stale(payload)\n        print(f\"  {'STALE' if bad else 'ok   '}  {name:<20} {why[:58]}\")\n        if bad:\n            stale.append(name)\n    return stale''',\n'''        bad, why = is_stale(payload)\n        print(f\"  {'STALE' if bad else 'ok   '}  {name:<20} {why[:58]}\")\n        if bad:\n            stale.append(name)\n            # Say WHAT changed, not merely that something did. A file-level\n            # fingerprint trips on a comment as readily as on a rewrite, and\n            # \"stale\" with no detail invites either a needless paid re-run or a\n            # shrug. The reader can then judge whether the change could reach\n            # this result at all.\n            prov = payload.get(\"_provenance\") or {}\n            since = (prov.get(\"commit\") or \"\").replace(\"-dirty\", \"\")\n     
+```
+
+**Tool response**
+
+```
+RESULT PROVENANCE
+--------------------------------------------------------------------------
+  ok     negative_control     current
+  STALE  baseline             produced at commit 7363401 by different code (fingerprint 
+           functions changed since 7363401: fetch.py:build, fetch.py:referenced_paths
+  STALE  solution             produced at commit 7363401 by different code (fingerprint 
+           functions changed since 7363401: fetch.py:build, fetch.py:referenced_paths
+  STALE  falsified_run        produced at commit 7363401 by different code (fingerprint 
+           functions changed since 7363401: fetch.py:build, fetch.py:referenced_paths
+  ok     prevalence           current
+--------------------------------------------------------------------------
+  3 result(s) were produced by code that has since
+  changed: baseline, solution, falsified_run
+  The numbers may still be right, but nothing currently proves it.
+  Re-run those before treating them as reported results.
+==========================================================================
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 97 - the commit field in a provenance stamp could lie\n#\n# `stamp()` recorded `git rev-parse HEAD` with no check for uncommitted\n# changes. Results produced from a modified tree were labelled with a commit\n# whose code never produced them - a hash that looks authoritative and cannot\n# recover what actually ran.\n#\n# It bit here: results stamped `7363401` were produced by code that landed two\n# commits later, so diffing against that commit gave a misleading answer until\n# the discrepancy was spotted by hand.\n# --------------------------------------------------------------------------\ndef test_commit_stamp_marks_a_dirty_working_tree():\n    import inspect\n    from artifact_triage.common import provenance\n    src = inspect.getsource(provenance.commit)\n    assert \"status\" in src and \"-dirty\" in src, \\\\\n        \"a stamp from a modified tree must not look like a clean commit\"\n\n\ndef test_staleness_report
+```
+
+**Tool response**
+
+```
+127/127 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 94 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 95 | The never-executed sweep flagged `scrub.assert_clean`, whose docstring reads *\"Used as a post-condition in the corpus build.\"* | **It was not.** Its only caller was the trajectory exporter, so the corpus build - the one place badge leakage would actually contaminate a result - had **no check at all**, while the code asserted it did. A documented guarantee the repository does not contain is exactly the defect this project detects in other people's READMEs. | Wired in. Then I wrote that it \"is exactly how the British-spelling leak survived\", **tested that claim, and it was false** - `[REDACTED] Evaluated - Reusable` matches no pattern, so a second pass sees nothing. Corrected the comment rather than leaving it flattering, and added a second post-condition that catches the bug's real signature: **a tier word orphaned beside a redaction**, detectable by shape when the phrasing matches nothing. A first attempt used a 40-character window and fla
+```
+
+**Tool response**
+
+```
+f50db8e Post-conditions that were never wired, and a commit stamp that could lie
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit status --porcelain src data/fixtures | head -3; echo \"(empty = clean tree)\"\nPYTHONPATH=src .venv/bin/python -c \"from artifact_triage.common.provenance import commit; print('stamp will record:', commit())\"", "description": "Confirm clean tree before final run"}
+```
+
+**Tool response**
+
+```
+(empty = clean tree)
+stamp will record: f50db8e
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.baseline.run > $SP/bl4.log 2>&1\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.solution.run > $SP/sol4.log 2>&1\nARTIFACT_TRIAGE_TRIALS=3 PYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.falsified_run > $SP/fals3.log 2>&1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.compare > $SP/cmp4.log 2>&1\necho DONE", "description": "Final re-run from a clean tree", "timeout": 900000, "run_in_background": true}
+```
+
+**Tool response**
+
+```
+Command running in background with ID: bgdbf3iaj. Output is being written to: [REDACTED] You will be notified when it completes. To check interim output, use Read on that file path.
+Session cwd remains /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026; directory changes made by the backgrounded command do not apply to subsequent commands.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\ngrep -A6 AGGREGATE $SP/fals3.log 2>/dev/null; tail -2 $SP/bl4.log 2>/dev/null; tail -2 $SP/sol4.log 2>/dev/null", "description": "Wait for the final experiments", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+MAE 0.733  exact 0.333  overclaim 0.267  $0.0335
+-> results/baseline.json
+MAE 0.8  exact 0.2  overclaim 0.4  escalated 33%  $0.0361
+-> results/solution.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep [REDACTED]\ngrep -A6 AGGREGATE $SP/fals3.log 2>/dev/null || tail -3 $SP/fals3.log", "description": "Wait for falsified aggregate", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+AGGREGATE OVER 3 TRIAL(S)   model=us.amazon.nova-pro-v1:0
+########################################################################
+  baseline detection : mean 0%   range 0%-0%   [0.0, 0.0, 0.0]
+  solution detection : mean 100%   range 100%-100%   [1.0, 1.0, 1.0]
+  verifier (deterministic) : {1.0} - identical every trial
+  total cost: $0.4229
+########################################################################
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend >/dev/null 2>&1\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|should read|STALE|ok  |Every result|All 1\"", "description": "Check claims and provenance after final run"}
+```
+
+**Tool response**
+
+```
+  FAIL  README.md            floor-free: solution cites absence                      58/60  -              <- falsified_run.json + falsified_llama.json
+  FAIL  README.md            floor-free: baseline cites absence                       1/60  -              <- falsified_run.json + falsified_llama.json
+  FAIL  README.md            baseline MAE (badge agreement)           | Baseline | 0.733 |  -              <- comparison.json
+  FAIL  docs/VIDEO_SCRIPT.md baseline MAE (spoken)                                   0.733  -              <- comparison.json
+  FAIL  README.md            solution MAE (badge agreement)           | Solution | 0.800 |  -              <- comparison.json
+  FAIL  README.md            total model spend                                       $4.92  -              <- spend.json
+  FAIL  AGENTS.md            total model spend                                       $4.92  -              <- spend.json
+    README.md: floor-free: solution cites absence should read 58/60 (from falsified_run.json + falsified_llama.json)
+    README.md: floor-free: baseline cites absence should read 1/60 (from falsified_run.json + falsified_llama.json)
+    README.md: baseline MAE (badge agreemen
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"0/60\\|59/60\\|cites the fabrication\" README.md | head", "description": "Find floor-free claims"}
+```
+
+**Tool response**
+
+```
+28:| **Floor-free metric** | baseline cites the fabrication **0/60**; solution **59/60** |
+296:> The floor-free metric moved the other way in the same run, 60/60 → **59/60**,
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\ns = s.replace(\"| **Floor-free metric** | baseline cites the fabrication **0/60**; solution **59/60** |\",\n              \"| **Floor-free metric** | baseline cites the fabrication **1/60**; solution **58/60** |\")\ns = s.replace(\"\"\"> The floor-free metric moved the other way in the same run, 60/60 \u2192 **59/60**,\n> which is the honest shape of a non-deterministic model: not everything\n> improves at once.\"\"\",\n\"\"\"> The floor-free metric moved the other way, 60/60 \u2192 **58/60**, and the\n> baseline stopped being a clean zero: **1 of 60** baseline responses did\n> mention the fabricated path. That single hit matters more than the two the\n> solution lost. It means the correct claim is *\"the baseline almost never\n> notices\"*, not *\"the baseline never notices\"* \u2014 an absolute statement that\n> three runs happened to support and a fourth did not. Non-determinism does not\n> only move numbers; it can turn a categorical claim into a statistical one.\"\"\")\ns = s.replace(\"| Baseline | 0.800 | no |\", \"| Baseline | 0.7
+```
+
+**Tool response**
+
+```
+  All 18 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p'\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\"", "description": "Verify provenance and tests"}
+```
+
+**Tool response**
+
+```
+RESULT PROVENANCE
+--------------------------------------------------------------------------
+  ok     negative_control     current
+  ok     baseline             current
+  ok     solution             current
+  ok     falsified_run        current
+  ok     prevalence           current
+--------------------------------------------------------------------------
+  Every result was produced by the current code.
+==========================================================================
+127/127 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json\nfor n in ('baseline','solution','falsified_run'):\n    p=json.load(open(f'results/{n}.json'))['_provenance']\n    print(f\\\"  {n:<14} commit={p['commit']:<12} corpus={p.get('corpus_fingerprint','-')}\\\")\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 97 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 98 | Re-ran the three model experiments from a **clean** tree, so their stamps record code that can actually be recovered. | Detection replicated at **100%, no variance**. But the floor-free metric moved: the baseline stopped being a clean zero at **1 of 60**. One baseline response *did* cite the fabricated path. | **That single hit matters more than the two the solution lost.** The honest claim is \"the baseline almost never notices\", not \"the baseline never notices\" - an absolute that three runs happened to support and a fourth did not. Non-determinism does not only move numbers; it can turn a categorical claim into a statistical one, and the write-up now says so. |\"\"\"\ns = s[:end] + new + s[end:]\nopen(p,'w
+```
+
+**Tool response**
+
+```
+  baseline       commit=f50db8e      corpus=d7c75c847b77
+  solution       commit=f50db8e      corpus=d7c75c847b77
+  falsified_run  commit=f50db8e      corpus=d7c75c847b77
+d2463da Re-run from a clean tree; the baseline is not a categorical zero
+```
+
+## Human checkpoint 29
+
+> keep hunting
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nimport json\nfrom pathlib import Path\nfrom artifact_triage.cli import render\nfrom artifact_triage.solution.verify import verify\nfrom artifact_triage.solution.criteria import assess\nfrom artifact_triage.solution.escalate import decide\n\nfx = json.loads(sorted(Path('data/fixtures').glob('*LPR*.json'))[0].read_text())\nev = verify(fx)\nd = decide(ev, 'Functional', 0.8, True)\nmodel = {'tier':'Functional','confidence':0.8,'reasons':['r1'],\n         'escalated': d.escalate, 'escalation_reasons': d.reasons}\nout = render(fx, ev, None, model, None, None, None, assess(ev))\nimport re\nsec = out[out.index('## Assessment'):out.index('## ACM Functional')]\nprint(sec)\n\" 2>&1 | head -20", "description": "Exercise the --model render path offline"}
+```
+
+**Tool response**
+
+```
+## Assessment
+
+- **Suggested tier**: `Functional`
+- **Confidence**: 0.8
+- **Always required of a reviewer**, whatever the rules say:
+  - rule on `Consistent` - it needs the paper, not the files
+  - run the artifact - no static check shows that it executes
+- **Additionally flagged for review:**
+  - rated Functional while 15 of 17 documented paths do not exist - the verdict contradicts the evidence
+  - neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human
+
+Reasoning:
+
+- r1
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 99 - the --model report path had no test\n#\n# `--model` is a documented flag, and its rendering was rewritten when the\n# report stopped contradicting itself about human review. Testing it required\n# an API call, so nothing tested it - the same reason the `_report` crash in\n# falsified_run.py survived until it cost a paid trial.\n#\n# The model's ANSWER needs a call. The rendering of that answer does not.\n# --------------------------------------------------------------------------\ndef test_model_report_renders_without_calling_a_model():\n    import json as _json\n    from artifact_triage.cli import render\n    from artifact_triage.solution.criteria import assess\n    from artifact_triage.solution.escalate import decide\n    from artifact_triage.solution.verify import verify\n\n    fixtures = sorted(Path(\"data/fixtures\").glob(\"*.json\"))\n    if not fixtures:\n        return\n    fx = _json.loads(fixtures[0].read_
+```
+
+**Tool response**
+
+```
+129/129 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== dashboard ===\"; PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard 2>&1 | tail -14", "description": "Run the dashboard", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+=== dashboard ===
+wrote results/dashboard.html  (8,094 bytes, self-contained)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -oE \"[0-9]+\\.[0-9]+%|[0-9]{1,3}%|[0-9],[0-9]{3}|[0-9]+/[0-9]+\" results/dashboard.html | sort -u | head -20\necho \"=== hardcoded numbers in dashboard source? ===\"\ngrep -nE \"9[0-9]%|100%|6,[0-9]{3}|[0-9]{3} artifacts|0\\.[0-9]{3}\" src/artifact_triage/eval/dashboard.py | head", "description": "Audit dashboard for stale numbers"}
+```
+
+**Tool response**
+
+```
+0%
+100%
+12%
+14/15
+18.5%
+40%
+46%
+47%
+56%
+58%
+61%
+62%
+8%
+88%
+92%
+98%
+=== hardcoded numbers in dashboard source? ===
+41:background:color-mix(in srgb,var(--bg) 92%,var(--fg) 8%)}
+46:table{border-collapse:collapse;width:100%;margin:.75rem 0;font-size:.9rem}
+56:.bar>i{display:block;height:100%;background:var(--accent)}
+143:          '<td class="num">0.667</td><td>no model, no input, zero skill</td></tr>')
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '130,150p' src/artifact_triage/eval/dashboard.py", "description": "Read dashboard comparison block"}
+```
+
+**Tool response**
+
+```
+        A(card(f"{nc['detection_rate']:.0%}", "detected", "ok"))
+        A(card(nc["false_positives"], "false positives", "ok"))
+        A('</div>')
+
+    # ---------- honest negative result ----------
+    b, s = load("results/baseline.json"), load("results/solution.json")
+    if b and s:
+        A('<h2>Reported negative result &mdash; badge agreement</h2>')
+        A('<p>The evaluation this project started with does not work, and the '
+          'write-up keeps it visible.</p>')
+        A('<div class="tw"><table><tr><th>System</th>'
+          '<th>MAE (lower better)</th><th>Note</th></tr>')
+        A('<tr><td>constant predictor &mdash; always &ldquo;Functional&rdquo;</td>'
+          '<td class="num">0.667</td><td>no model, no input, zero skill</td></tr>')
+        A(f'<tr><td>baseline</td><td class="num">{b["report"]["mae"]}</td>'
+          f'<td>collapsed onto the middle class (14/15)</td></tr>')
+        A(f'<tr><td>solution</td><td class="num">{s["report"]["mae"]}</td>'
+          f'<td>penalised for correctly flagging decayed artifacts</td></tr>')
+        A('</table></div>')
+        A('<p class="note">A zero-skill constant beats both. The committee '
+          'badged the curated 
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/dashboard.py'; s=open(p).read()\nold = '''        A('<tr><td>constant predictor &mdash; always &ldquo;Functional&rdquo;</td>'\n          '<td class=\"num\">0.667</td><td>no model, no input, zero skill</td></tr>')\n        A(f'<tr><td>baseline</td><td class=\"num\">{b[\"report\"][\"mae\"]}</td>'\n          f'<td>collapsed onto the middle class (14/15)</td></tr>')'''\nnew = '''        # Both of these used to be written by hand: the control MAE as a\n        # literal 0.667, and the baseline's collapse as \"(14/15)\" - which had\n        # drifted to wrong, since the baseline predicts the middle class 13\n        # times. A rendered deliverable quoting figures it does not read from\n        # the data is the defect this project detects, in this project's own\n        # dashboard.\n        cmp_ = load(\"results/comparison.json\") or {}\n        ctrl = next((c for c in cmp_.get(\"controls\", [])\n                     if c.get(\"system\") == cmp_.get(\"best_control\")), None)\n        ctrl_mae = f'{ctrl[\"mae\"]:.3f}' if ctrl else \"n/a\"\n        
+```
+
+**Tool response**
+
+```
+wrote results/dashboard.html  (8,074 bytes, self-contained)
+badge agreement  The evaluation this project started with does not work, and the write-up keeps it visible.     System  MAE (lower better)  Note    constant predictor &mdash; always &ldquo;Functional&rdquo;  0.667  no model, no input, zero skill    baseline  0.733  see comparison.json    solution  0.8  penalised for correctly flagging decayed artifacts     A zero-skill constant beats both. The committee badged the cu
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json; d=json.load(open('results/baseline.json'))\nprint('top keys:', list(d))\nr=d.get('raw') or []\nprint('raw len:', len(r), 'first keys:', list(r[0]) if r else None)\nimport collections\nprint(collections.Counter(x.get('tier') for x in r))\"", "description": "Inspect baseline raw structure"}
+```
+
+**Tool response**
+
+```
+top keys: ['_provenance', 'report', 'raw']
+raw len: 15 first keys: ['artifact_id', 'tier', 'confidence', 'reasons', 'error']
+Counter({'Functional': 14, 'Available': 1})
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/dashboard.py'; s=open(p).read()\ns = s.replace('''        preds = [i.get(\"predicted\") for i in (b.get(\"raw\") or [])]''',\n              '''        # `tier`, not `predicted` - baseline.json and comparison.json name the\n        # same field differently, and reading the wrong one failed silently\n        # into a placeholder rather than an error.\n        preds = [i.get(\"tier\") for i in (b.get(\"raw\") or [])]''')\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard >/dev/null 2>&1\npython3 -c \"\nimport re; h=open('results/dashboard.html').read(); i=h.index('baseline')\nprint(re.sub(r'<[^>]+>',' ',h[i:i+160]))\"\necho \"=== make the collapse count a checked claim ===\"\npython3 - <<'PY'\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('''    nc = load(\"results/negative_control.json\")''',\n'''    # The baseline's collapse onto one class is quoted in the README and was\n    # hand-written as \"14 of 15\", then \"13 of 15\" - it moves between runs,\n    # because the model is not determ
+```
+
+**Tool response**
+
+```
+baseline detection    100%  solution detection    3</di
+=== make the collapse count a checked claim ===
+  OK    README.md            baseline collapse onto one class    `Functional` for 14 of 15  L415           <- baseline.json
+  All 19 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport re\nh=open('results/dashboard.html').read()\ni=h.index('badge agreement')\ntxt=re.sub(r'<[^>]+>',' ', h[i:i+800])\nprint(re.sub(r'\\s+',' ',txt)[:450])\"", "description": "Verify dashboard negative-result table"}
+```
+
+**Tool response**
+
+```
+badge agreement The evaluation this project started with does not work, and the write-up keeps it visible. System MAE (lower better) Note constant predictor &mdash; always &ldquo;Functional&rdquo; 0.667 no model, no input, zero skill baseline 0.733 collapsed onto one class (14/15) solution 0.8 penalised for correctly flagging decayed artifacts A zero-skill constant beats both. The committee badged the curated Zenodo deposit; we analyse the living
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 100 - the dashboard quoted numbers it never read\n#\n# results/dashboard.html is a deliverable. Two of its figures were written by\n# hand: the constant control's MAE as a literal `0.667`, and the baseline's\n# collapse as \"(14/15)\". The second had drifted - and the count moves between\n# runs anyway, because the model is not deterministic.\n#\n# A rendered artifact quoting figures it does not read from the data is exactly\n# the defect this project detects, in this project's own dashboard. Reading the\n# wrong field name also failed SILENTLY into a placeholder rather than erroring.\n# --------------------------------------------------------------------------\ndef test_dashboard_does_not_hardcode_result_numbers():\n    import re\n    src = (Path(__file__).resolve().parents[1]\n           / \"src/artifact_triage/eval/dashboard.py\").read_text()\n    body = \"\\\\n\".join(ln for ln in src.splitlines()\n                  
+```
+
+**Tool response**
+
+```
+131/131 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A && git commit -q -m \"$(printf 'The dashboard quoted numbers it never read\\n\\nresults/dashboard.html is a deliverable, and two of its figures were written by\\nhand: the constant controls MAE as a literal 0.667, and the baselines collapse\\nas \"(14/15)\". The second had drifted, and the count moves between runs anyway\\nbecause the model is not deterministic. A rendered artifact quoting figures it\\ndoes not read from the data is the defect this project detects, in this\\nprojects own dashboard.\\n\\nBoth are derived now, and the collapse count is a checked claim (19 documented\\nnumbers verified). Reading the wrong field name - predicted instead of tier -\\nalso failed silently into a placeholder rather than erroring, so that is tested\\ntoo.\\n\\nAlso added an offline test for the --model report path. The models ANSWER needs\\nan API call; the RENDERING of that answer does not, which is why that path had\\nno test - the same reason the _report crash in falsified_run.py survived until\\nit cost a paid trial.\\n\\n131 tests passing.\\n\\nCo-Authored-By: Claude Opus 5 <norep
+```
+
+**Tool response**
+
+```
+=== issue_validation (network, free) ===
+ENGAGEMENT: only 35/120 repositories (29%) have ANY issues at all.
+This bounds what the comparison can show. A GitHub issue requires
+someone to try the artifact, hit a problem, and take the time to
+report it. Most research artifacts are published and never exercised,
+so silence is not evidence that they work - and user complaints are
+a weak instrument for validating a defect detector, whichever way
+the numbers fall.
+
+Correlational only. Small n on the clean side; treat the point
+estimates as indistinguishable rather than as a measured equality.
+======================================================================
+-> results/issue_validation.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json; d=json.load(open('results/issue_validation.json'))\nprint({k:v for k,v in d.items() if not isinstance(v,(list,dict))})\"\necho \"--- README references ---\"\ngrep -n \"issue\\|complaint\" README.md | grep -iE \"[0-9]\" | head -6", "description": "Check issue-validation figures in docs"}
+```
+
+**Tool response**
+
+```
+{}
+--- README references ---
+41:  likely to carry a user complaint than ones we do not.
+510:compared GitHub reproduction-complaint rates ("file not found", "cannot
+516:| Share with a reproduction complaint | 37.1% | 37.5% |
+517:| Median issue count | 24 | 20 |
+522:issues at all**. A GitHub issue requires someone to try the artifact, hit the
+525:complaints are a weak instrument for validating a defect detector regardless of
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json; d=json.load(open('results/issue_validation.json'))\ndef walk(o,p=''):\n    if isinstance(o,dict):\n        for k,v in o.items(): walk(v,f'{p}.{k}')\n    elif not isinstance(o,list): print(f'{p}: {o}')\nwalk(d)\" | head -20\nsed -n '508,528p' README.md", "description": "Compare issue-validation data to the README table"}
+```
+
+**Tool response**
+
+```
+.flagged_summary.n_repos: 60
+.flagged_summary.n_repos_with_issues: 23
+.flagged_summary.repos_with_a_complaint: 6
+.flagged_summary.share_with_a_complaint: 0.261
+.flagged_summary.median_issues: 9
+.flagged_summary.mean_complaint_rate: 0.084
+.clean_summary.n_repos: 60
+.clean_summary.n_repos_with_issues: 12
+.clean_summary.repos_with_a_complaint: 5
+.clean_summary.share_with_a_complaint: 0.417
+.clean_summary.median_issues: 4.0
+.clean_summary.mean_complaint_rate: 0.1212
+
+I wanted an independent check that the defect matters to real people, so I
+compared GitHub reproduction-complaint rates ("file not found", "cannot
+reproduce") between repositories the verifier flags and those it does not. The
+falsification condition was written down **before** the measurement.
+
+| | Flagged | Clean |
+|---|---|---|
+| Share with a reproduction complaint | 37.1% | 37.5% |
+| Median issue count | 24 | 20 |
+
+**Indistinguishable.** The hypothesis is not supported.
+
+The reason is visible in the sample: **only 43 of 120 repositories (36%) have any
+issues at all**. A GitHub issue requires someone to try the artifact, hit the
+problem, and take the time to write it up. Most research artifacts are published
+and never ex
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nold = \"\"\"| | Flagged | Clean |\n|---|---|---|\n| Share with a reproduction complaint | 37.1% | 37.5% |\n| Median issue count | 24 | 20 |\n\n**Indistinguishable.** The hypothesis is not supported.\n\nThe reason is visible in the sample: **only 43 of 120 repositories (36%) have any\nissues at all**.\"\"\"\nnew = \"\"\"| | Flagged | Clean |\n|---|---|---|\n| Share with a reproduction complaint | 26.1% | 41.7% |\n| Repositories with any issues at all | 23 / 60 | 12 / 60 |\n| Median issue count | 9 | 4 |\n\n**The hypothesis is not supported, and the point estimate now runs against it** \u2014\nflagged repositories carry *fewer* complaints than clean ones. I do not believe\nthat reversal either: it rests on 6 complaints out of 23 versus 5 out of 12.\nWith numbers that small the honest reading is that this instrument cannot\nresolve the question in either direction.\n\nThe reason is visible in the sample: **only 35 of 120 repositories (29%) have any\nissues at all**.\"\"\"\nassert old in s\ns = s.replace(old, new)\nopen(p,'w').write(s)\n\np=
+```
+
+**Tool response**
+
+```
+  OK    README.md            complaint share, flagged                                26.1%  L516           <- issue_validation.json
+  OK    README.md            complaint share, clean                                  41.7%  L516           <- issue_validation.json
+  OK    README.md            repositories with any issues       only 35 of 120 repositorie  L526           <- issue_validation.json
+  All 22 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '36,44p' README.md", "description": "Check the summary claim about complaints"}
+```
+
+**Tool response**
+
+```
+them would make everything else less trustworthy:
+
+- A **zero-skill constant predictor beats both systems** on ACM badge agreement.
+  Badge agreement is uninformative here, and the write-up says so.
+- The **external validation returned null.** Repositories we flag are no more
+  likely to carry a user complaint than ones we do not.
+
+---
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\ns = s.replace(\"\"\"- The **external validation returned null.** Repositories we flag are no more\n  likely to carry a user complaint than ones we do not.\"\"\",\n\"\"\"- The **external validation returned null.** Repositories we flag are no more\n  likely to carry a user complaint than ones we do not \u2014 and on the latest\n  sample the point estimate runs the *other* way. Only 29% of repositories have\n  any issues at all, so the instrument cannot resolve it in either direction.\"\"\")\nopen(p,'w').write(s)\nPY\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|All 2|Every result\"", "description": "Soften the summary claim and verify"}
+```
+
+**Tool response**
+
+```
+131/131 passed
+  All 22 documented numbers match the results files.
+  Every result was produced by the current code.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 98 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 99 | Exercised the `--model` report path **without** a model call, and the modules the never-executed sweep still flagged. | `--model` had no test, because testing it appeared to need an API call - the same reason the `_report` crash survived until it cost a paid trial. **The model's answer needs a call; the rendering of that answer does not.** |Two tests now cover the assessment block and the contradiction rule, which never fires on this corpus and could only ever be shown to work by a test. |\n| Iteration 100 | Audited `results/dashboard.html`, which is a **deliverable**. | Two of its figures were **written by hand**: the constant control's MAE as a literal `0.667`, and the baseline's collapse as \"(14/15)\" - which had drifted, and moves between runs anyway. Reading the wrong field name (`predicted`, where the file uses `tier`) then failed **silently into a placeholder** rather than erroring. | Both derived, the collapse count is now a checked c
+```
+
+**Tool response**
+
+```
+c132ff1 The external-validity table had drifted, and reversed direction
+```
+
+## Human checkpoint 30
+
+> keep hunting
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== README ablation / subtle figures ===\"\nsed -n '/### A harder control/,/### Ablation/p' README.md | grep -nE \"[0-9]\" | head -8\necho \"---\"\nsed -n '/### Ablation/,/### Honest negative/p' README.md | grep -nE \"[0-9]\" | head -10", "description": "Find unchecked ablation and subtle figures"}
+```
+
+**Tool response**
+
+```
+=== README ablation / subtle figures ===
+5:mutates them the way references actually go stale — `run.py` → `run_v2.py`,
+11:| Mutations introduced | 44 |
+12:| Detected as broken | **40 (91%)** |
+13:| Correct original file suggested | **32 (73%)** |
+---
+10:| Recall on 75 known falsehoods | **100%** | **100%** |
+11:| Tokens extracted as paths, unmodified READMEs | 307 | 145 |
+12:| Flagged as broken documentation | **195** | **35** |
+14:Identical recall; 160 fewer findings. There is no ground truth for those extras,
+15:so they are shown rather than scored — `zenodo.org`, `20.04`, `3.7.4`,
+16:`FF_DRIVER_NAME.final.bc`, `dl.acm.org/doi/abs/10.1145/...`.
+19:checker that reports 195 defects where 35 exist gets switched off, so suppressing
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.subtle_control 2>&1 | tail -8\necho \"==========\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.ablation 2>&1 | tail -10", "description": "Re-run subtle control and ablation", "timeout": 600000}
+```
+
+**Tool response**
+
+```
+  detected as broken          : 39 (91%)
+  correct original suggested  : 32 (74%)
+----------------------------------------------------------------------
+  Harder than the invented-path control: each mutated reference
+  still reads correctly and differs from a working path by a few
+  characters. This is what a stale README actually looks like.
+======================================================================
+-> results/subtle_control.json
+==========
+    hub.docker.com
+    20.04
+    3.7.4
+    dl.acm.org/doi/abs/10.1145/3533767.353438
+
+  Domains, version numbers and compiler artifacts are not broken
+  documentation. Suppressing them is the whole job: a checker that
+  reports 195 defects where 35 exist will be switched off.
+============================================================================
+-> results/ablation.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json\nfor n in ('subtle_control','ablation'):\n    d=json.load(open(f'results/{n}.json'))\n    print(n, {k:v for k,v in d.items() if not isinstance(v,(list,dict))})\"", "description": "Read subtle and ablation results"}
+```
+
+**Tool response**
+
+```
+subtle_control {'mutations': 43, 'detected': 39, 'detection_rate': 0.907, 'correctly_suggested': 32, 'suggestion_rate': 0.7442}
+ablation {}
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json; d=json.load(open('results/ablation.json'))\ndef w(o,p=''):\n    if isinstance(o,dict):\n        for k,v in o.items(): w(v,f'{p}.{k}')\n    elif not isinstance(o,list): print(f'{p}: {o}')\nw(d)\" | head -14", "description": "Inspect ablation figures"}
+```
+
+**Tool response**
+
+```
+.totals.naive.inj: 75
+.totals.naive.found: 75
+.totals.naive.flagged: 188
+.totals.naive.claims: 300
+.totals.strict.inj: 75
+.totals.strict.found: 75
+.totals.strict.flagged: 30
+.totals.strict.claims: 140
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nsubs=[(\"| Mutations introduced | 44 |\",\"| Mutations introduced | 43 |\"),\n(\"| Detected as broken | **40 (91%)** |\",\"| Detected as broken | **39 (91%)** |\"),\n(\"| Correct original file suggested | **32 (73%)** |\",\"| Correct original file suggested | **32 (74%)** |\"),\n(\"| Tokens extracted as paths, unmodified READMEs | 307 | 145 |\",\"| Tokens extracted as paths, unmodified READMEs | 300 | 140 |\"),\n(\"| Flagged as broken documentation | **195** | **35** |\",\"| Flagged as broken documentation | **188** | **30** |\"),\n(\"Identical recall; 160 fewer findings.\",\"Identical recall; 158 fewer findings.\"),\n(\"checker that reports 195 defects where 35 exist gets switched off, so suppressing\",\n \"checker that reports 188 defects where 30 exist gets switched off, so suppressing\"),\n]\nfor a,b in subs:\n    if a not in s: print(\"  !! missing:\", a[:52])\n    s=s.replace(a,b)\nopen(p,'w').write(s)\n\np='scripts/check_claims.py'; c=open(p).read()\nc = c.replace('''    nc = load(\"results/negative_control.json\")''',\n'''    # T
+```
+
+**Tool response**
+
+```
+  OK    README.md            subtle control: mutations          | Mutations introduced | 4  L375           <- subtle_control.json
+  OK    README.md            subtle control: detected                         **39 (91%)**  L376           <- subtle_control.json
+  OK    README.md            subtle control: suggested                        **32 (74%)**  L377           <- subtle_control.json
+  OK    README.md            ablation: tokens extracted                      | 300 | 140 |  L393           <- ablation.json
+  OK    README.md            ablation: flagged                            **188** | **30**  L394           <- ablation.json
+  All 27 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '/### Adversarial tests/,/### Does it generalise/p' README.md | grep -E \"^\\|\" | head -8\necho \"=== actual adversarial ===\"\npython3 -c \"\nimport json; d=json.load(open('results/adversarial.json'))\nprint({k:v for k,v in d.items() if not isinstance(v,(list,dict))})\"", "description": "Check adversarial figures"}
+```
+
+**Tool response**
+
+```
+| Baseline variant | Detection |
+|---|---|
+| Plain (judge the artifact) | 0% |
+| **Explicitly told to hunt for internal contradictions** | **0/13 (0%)** |
+| Condition | Detection |
+|---|---|
+| Falsified README + real evidence | **100%** |
+| Falsified README + placebo evidence | **0/11 (0%)** |
+=== actual adversarial ===
+{'model': 'us.amazon.nova-pro-v1:0', 'n': 15, 'strong_baseline_detected': 0, 'strong_baseline_eligible': 13, 'placebo_detected': 0, 'placebo_eligible': 11, 'usd': 0.1416}
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor f in adversarial subtle_control ablation issue_validation falsified_llama comparison; do\n  python3 -c \"\nimport json\nd=json.load(open('results/$f.json'))\np=d.get('_provenance')\nprint(f'  {\\\"$f\\\":<20} provenance: {p if p else \\\"NONE\\\"}')\" 2>/dev/null\ndone", "description": "Check which results lack provenance stamps"}
+```
+
+**Tool response**
+
+```
+  adversarial          provenance: NONE
+  subtle_control       provenance: NONE
+  ablation             provenance: NONE
+  issue_validation     provenance: NONE
+  falsified_llama      provenance: {'kind': 'falsified', 'commit': '489d100', 'code_fingerprint': '214474995ed4'}
+  comparison           provenance: NONE
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor f in subtle_control ablation issue_validation compare adversarial; do\n  echo \"--- $f ---\"; grep -n \"OUT.write_text\\|stamp(\" src/artifact_triage/eval/$f.py | head -3\ndone", "description": "Find unstamped result writers"}
+```
+
+**Tool response**
+
+```
+--- subtle_control ---
+156:    OUT.write_text(json.dumps({
+--- ablation ---
+--- issue_validation ---
+166:    OUT.write_text(json.dumps(
+--- compare ---
+114:    OUT.write_text(json.dumps({
+--- adversarial ---
+160:    OUT.write_text(json.dumps({
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\nimport re\ntargets = {\n 'subtle_control': ('subtle', 'OUT.write_text(json.dumps({'),\n 'issue_validation': ('issue_validation', 'OUT.write_text(json.dumps('),\n 'compare': ('comparison', 'OUT.write_text(json.dumps({'),\n 'adversarial': ('adversarial', 'OUT.write_text(json.dumps({'),\n}\nfor mod,(kind,anchor) in targets.items():\n    p=f'src/artifact_triage/eval/{mod}.py'; s=open(p).read()\n    if 'from artifact_triage.common.provenance import stamp' not in s:\n        # insert import after the last existing artifact_triage import\n        lines=s.split('\\n')\n        last=max(i for i,l in enumerate(lines) if l.startswith('from artifact_triage'))\n        lines.insert(last+1,'from artifact_triage.common.provenance import stamp')\n        s='\\n'.join(lines)\n    if anchor in s and '\"_provenance\"' not in s:\n        if anchor.endswith('({'):\n            s = s.replace(anchor, anchor + f'\\n        \"_provenance\": stamp(\"{kind}\"),', 1)\n        else:\n            s = s.replace(anchor, anchor + f'\\n        {{\"_provenance\": stamp(\"{kind}\")}} | ', 1)\n    open(p,'
+```
+
+**Tool response**
+
+```
+stamped subtle_control
+stamped issue_validation
+stamped compare
+stamped adversarial
+src/artifact_triage/eval/issue_validation.py:168:        {"_provenance": stamp("issue_validation")} | 
+src/artifact_triage/eval/subtle_control.py:158:        "_provenance": stamp("subtle"),
+src/artifact_triage/eval/adversarial.py:162:        "_provenance": stamp("adversarial"),
+src/artifact_triage/eval/compare.py:116:        "_provenance": stamp("comparison"),
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '164,172p' src/artifact_triage/eval/issue_validation.py", "description": "Check the issue_validation edit"}
+```
+
+**Tool response**
+
+```
+    print("estimates as indistinguishable rather than as a measured equality.")
+    print("=" * 70)
+
+    OUT.write_text(json.dumps(
+        {"_provenance": stamp("issue_validation")} | 
+        {"flagged_summary": fs, "clean_summary": cs, "detail": out}, indent=1))
+    print(f"-> {OUT}")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/issue_validation.py'; s=open(p).read()\ns = s.replace('''    OUT.write_text(json.dumps(\n        {\"_provenance\": stamp(\"issue_validation\")} | \n        {\"flagged_summary\": fs, \"clean_summary\": cs, \"detail\": out}, indent=1))''',\n'''    OUT.write_text(json.dumps({\n        \"_provenance\": stamp(\"issue_validation\"),\n        \"flagged_summary\": fs, \"clean_summary\": cs, \"detail\": out}, indent=1))''')\nopen(p,'w').write(s)\n\np='src/artifact_triage/common/provenance.py'; s=open(p).read()\ns = s.replace('''    \"prevalence\": [\"src/artifact_triage/eval/prevalence.py\",''',\n'''    # A kind MISSING from this map hashes nothing, so every result of that kind\n    # would look permanently \"current\" - a silent false pass, which is worse\n    # than an alarm. Five result files were unstamped and five kinds were\n    # unmapped; both gaps are closed here.\n    \"subtle\": [\"src/artifact_triage/eval/subtle_control.py\",\n               \"src/artifact_triage/solution/verify.py\",\n               \"src/artifact_triage/corpus/fetch.py\"
+```
+
+**Tool response**
+
+```
+135:    Path("results/ablation.json").write_text(json.dumps(
+  subtle             61f313893936  (3 influencers)
+  ablation           0347abf0745f  (3 influencers)
+  comparison         2cc0daf83d76  (2 influencers)
+  adversarial        5c2655e2cace  (5 influencers)
+  issue_validation   b9bd1a12c0a5  (3 influencers)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '133,140p' src/artifact_triage/eval/ablation.py", "description": "Read ablation writer"}
+```
+
+**Tool response**
+
+```
+    Path("results").mkdir(exist_ok=True)
+    Path("results/ablation.json").write_text(json.dumps(
+        {"totals": tot, "per_artifact": rows}, indent=1))
+    print("-> results/ablation.json")
+
+
+if __name__ == "__main__":
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/ablation.py'; s=open(p).read()\ns = s.replace('''        {\"totals\": tot, \"per_artifact\": rows}, indent=1))''',\n              '''        {\"_provenance\": stamp(\"ablation\"),\n         \"totals\": tot, \"per_artifact\": rows}, indent=1))''')\nif 'from artifact_triage.common.provenance import stamp' not in s:\n    lines=s.split('\\n')\n    last=max(i for i,l in enumerate(lines) if l.startswith('from artifact_triage'))\n    lines.insert(last+1,'from artifact_triage.common.provenance import stamp')\n    s='\\n'.join(lines)\nopen(p,'w').write(s)\n\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('''    for name in (\"negative_control\", \"baseline\", \"solution\", \"falsified_run\",\n                 \"prevalence\"):''',\n'''    # This list used to cover five results while the summary line below said\n    # \"Every result was produced by the current code\". Five OTHER result files\n    # were unstamped and unchecked, so that sentence was a blanket claim over a\n    # subset - the same \"certifies what it cannot see\" failure thi
+```
+
+**Tool response**
+
+```
+201:    # "Every result was produced by the current code". Five OTHER result files
+299:        print("  Every result was produced by the current code.")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '290,305p' scripts/check_claims.py", "description": "Read the summary block"}
+```
+
+**Tool response**
+
+```
+    stale = check_staleness()
+    print("-" * 74)
+    if stale:
+        print(f"  {len(stale)} result(s) were produced by code that has since")
+        print(f"  changed: {', '.join(stale)}")
+        print("  The numbers may still be right, but nothing currently proves it.")
+        print("  Re-run those before treating them as reported results.")
+    else:
+        print("  Every result was produced by the current code.")
+    print("=" * 74)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('''    return stale''', '''    return stale, unstamped''')\ns = s.replace('''    stale = check_staleness()\n    print(\"-\" * 74)\n    if stale:\n        print(f\"  {len(stale)} result(s) were produced by code that has since\")\n        print(f\"  changed: {', '.join(stale)}\")\n        print(\"  The numbers may still be right, but nothing currently proves it.\")\n        print(\"  Re-run those before treating them as reported results.\")\n    else:\n        print(\"  Every result was produced by the current code.\")''',\n'''    stale, unstamped = check_staleness()\n    print(\"-\" * 74)\n    if stale:\n        print(f\"  {len(stale)} result(s) were produced by code that has since\")\n        print(f\"  changed: {', '.join(stale)}\")\n        print(\"  The numbers may still be right, but nothing currently proves it.\")\n        print(\"  Re-run those before treating them as reported results.\")\n    if unstamped:\n        # Never fold these into a clean bill of health. An unstamped result is\n        # UNKNOWN
+```
+
+**Tool response**
+
+```
+RESULT PROVENANCE
+--------------------------------------------------------------------------
+  ok     negative_control     current
+  ok     baseline             current
+  ok     solution             current
+  ok     falsified_run        current
+  STALE  falsified_llama      produced at commit 489d100 by different code (fingerprint 
+           functions changed since 489d100: fetch.py:build, fetch.py:referenced_paths, falsified_run.py:_checkpoint, falsified_run.py:_report, falsified_run.py:main, falsified_run.py:mentions
+  ok     prevalence           current
+  ?      comparison           no provenance recorded - cannot be checked
+  ?      subtle_control       no provenance recorded - cannot be checked
+  ?      ablation             no provenance recorded - cannot be checked
+  ?      adversarial          no provenance recorded - cannot be checked
+  ?      issue_validation     no provenance recorded - cannot be checked
+--------------------------------------------------------------------------
+  1 result(s) were produced by code that has since
+  changed: falsified_llama
+  The numbers may still be right, but nothing currently proves it.
+  Re-run those before treating them as reported res
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor m in subtle_control ablation compare issue_validation; do\n  PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m >/dev/null 2>&1 && echo \"  re-ran $m\" || echo \"  FAILED $m\"\ndone\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | head -18", "description": "Re-run and stamp the free results", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+  re-ran subtle_control
+  re-ran ablation
+  FAILED compare
+  re-ran issue_validation
+RESULT PROVENANCE
+--------------------------------------------------------------------------
+  ok     negative_control     current
+  ok     baseline             current
+  ok     solution             current
+  ok     falsified_run        current
+  STALE  falsified_llama      produced at commit 489d100 by different code (fingerprint 
+           functions changed since 489d100: fetch.py:build, fetch.py:referenced_paths, falsified_run.py:_checkpoint, falsified_run.py:_report, falsified_run.py:main, falsified_run.py:mentions
+  ok     prevalence           current
+  ?      comparison           no provenance recorded - cannot be checked
+  ok     subtle_control       current
+  ok     ablation             current
+  ?      adversarial          no provenance recorded - cannot be checked
+  ok     issue_validation     current
+--------------------------------------------------------------------------
+  1 result(s) were produced by code that has since
+  changed: falsified_llama
+  The numbers may still be right, but nothing currently proves it.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.compare 2>&1 | tail -6", "description": "Diagnose the compare failure"}
+```
+
+**Tool response**
+
+```
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/compare.py", line 17
+    from artifact_triage.common.provenance import stamp
+    ^^^^
+SyntaxError: invalid syntax
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '12,20p' src/artifact_triage/eval/compare.py", "description": "Inspect the broken import"}
+```
+
+**Tool response**
+
+```
+import json
+from pathlib import Path
+
+from artifact_triage.eval.metrics import (Prediction, TIERS, comparison_table,
+from artifact_triage.common.provenance import stamp
+                                          score)
+
+BASELINE = Path("results/baseline.json")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/compare.py'; s=open(p).read()\ns = s.replace('''from artifact_triage.eval.metrics import (Prediction, TIERS, comparison_table,\nfrom artifact_triage.common.provenance import stamp\n                                          score)''',\n'''from artifact_triage.common.provenance import stamp\nfrom artifact_triage.eval.metrics import (Prediction, TIERS, comparison_table,\n                                          score)''')\nopen(p,'w').write(s)\nPY\n.venv/bin/python -c \"import ast;ast.parse(open('src/artifact_triage/eval/compare.py').read());print('SYNTAX OK')\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.compare 2>&1 | tail -3\necho \"=== check other files for the same breakage ===\"\nfor f in subtle_control ablation issue_validation adversarial; do\n  .venv/bin/python -c \"import ast;ast.parse(open('src/artifact_triage/eval/$f.py').read())\" 2>&1 | head -2 | sed \"s|^|  $f: |\"\ndone\necho \"  (silence = all parse cleanly)\"", "description": "Fix the import and check for similar damage"}
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+  solution  MAE over 4 recorded run(s): mean 0.775  range 0.700-0.800
+
+-> results/comparison.json
+=== check other files for the same breakage ===
+  (silence = all parse cleanly)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p'\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3", "description": "Verify provenance coverage and tests"}
+```
+
+**Tool response**
+
+```
+RESULT PROVENANCE
+--------------------------------------------------------------------------
+  ok     negative_control     current
+  ok     baseline             current
+  ok     solution             current
+  ok     falsified_run        current
+  STALE  falsified_llama      produced at commit 489d100 by different code (fingerprint 
+           functions changed since 489d100: fetch.py:build, fetch.py:referenced_paths, falsified_run.py:_checkpoint, falsified_run.py:_report, falsified_run.py:main, falsified_run.py:mentions
+  ok     prevalence           current
+  ok     comparison           current
+  ok     subtle_control       current
+  ok     ablation             current
+  ?      adversarial          no provenance recorded - cannot be checked
+  ok     issue_validation     current
+--------------------------------------------------------------------------
+  1 result(s) were produced by code that has since
+  changed: falsified_llama
+  The numbers may still be right, but nothing currently proves it.
+  Re-run those before treating them as reported results.
+  1 result(s) carry NO provenance and cannot be
+  checked at all: adversarial
+========================================================
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -A6 \"test_every_result_kind_tracks_the_extractor\" | head -10", "description": "Read the failing test"}
+```
+
+**Tool response**
+
+```
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py", line 643, in test_every_result_kind_tracks_the_extractor
+    assert "src/artifact_triage/corpus/fetch.py" in files, (
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'comparison' does not track fetch.py, so a change to the extractor would leave its results looking current
+  PASS  test_a_changed_corpus_marks_results_stale
+  PASS  test_a_file_inside_an_output_dir_is_still_a_claim
+  PASS  test_a_long_run_is_stopped_the_moment_it_crosses_the_ceiling
+--
+  FAIL  test_every_result_kind_tracks_the_extractor
+  PASS  test_every_stored_fixture_passes_the_post_condition
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '628,650p' tests/test_regressions.py", "description": "Read the extractor-tracking guard"}
+```
+
+**Tool response**
+
+```
+def test_directory_without_trailing_slash_is_not_assumed():
+    from artifact_triage.corpus.fetch import _is_dir_ref
+    assert not _is_dir_ref("some/path"), \
+        "without an explicit slash this is ambiguous with a file"
+
+
+# --------------------------------------------------------------------------
+# A staleness detector with a blind spot is worse than none: it certifies the
+# thing it cannot see. fetch.py decides which claims exist at all, so it
+# influences every result.
+# --------------------------------------------------------------------------
+def test_every_result_kind_tracks_the_extractor():
+    from artifact_triage.common.provenance import INFLUENCERS
+    for kind, files in INFLUENCERS.items():
+        assert "src/artifact_triage/corpus/fetch.py" in files, (
+            f"'{kind}' does not track fetch.py, so a change to the extractor "
+            f"would leave its results looking current")
+
+
+def test_fingerprint_changes_when_influencing_code_changes():
+    from artifact_triage.common import provenance
+    before = provenance.fingerprint("verify")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns = s.replace('''def test_every_result_kind_tracks_the_extractor():\n    from artifact_triage.common.provenance import INFLUENCERS\n    for kind, files in INFLUENCERS.items():\n        assert \"src/artifact_triage/corpus/fetch.py\" in files, (\n            f\"'{kind}' does not track fetch.py, so a change to the extractor \"\n            f\"would leave its results looking current\")''',\n'''# `comparison` is the one exception, and it is a real one rather than a\n# loosening: compare.py never reads a README. It scores baseline.json and\n# solution.json, both of which carry their own provenance and are checked\n# separately, so an extractor change reaches `comparison` only THROUGH results\n# that would themselves be marked stale. Listing fetch.py there would fire on\n# changes that cannot reach it - the cry-wolf failure fixed twice already.\nDERIVED_FROM_OTHER_RESULTS = {\"comparison\"}\n\n\ndef test_every_result_kind_tracks_the_extractor():\n    from artifact_triage.common.provenance import INFLUENCERS\n    for kind, files 
+```
+
+**Tool response**
+
+```
+133/133 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|should read|All 2|TOO LOOSE\"", "description": "Verify documented numbers after re-runs"}
+```
+
+**Tool response**
+
+```
+  All 27 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"provenance\\|every result\" README.md | grep -iE \"current|every\" | head -4\nsed -n '/## Known limitations/,/^## /p' README.md | head -14", "description": "Check README claims about provenance coverage"}
+```
+
+**Tool response**
+
+```
+## Known limitations, found by running the tool on itself
+
+`make selfcheck` points the tool at this repository. It found three things.
+
+**Two were real and are fixed.** No `LICENSE` and no CI configuration — the tool
+flagged its own author for exactly the category of omission it flags in others.
+
+**One was a false positive, and it is a genuine limitation.** All six "broken
+paths" it reported in this README are **quotations from other artifacts**:
+`scripts/run_lpr.py` and `token_counter_deploy.jar` belong to LPR and appear as
+example output; `configs/default.yaml` comes from the negative-control injection
+list. The checker cannot tell a claim about *this* repository from a quotation
+about another one.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nanchor = \"**One was a false positive, and it is a genuine limitation.**\"\ni = s.index(anchor)\nend = s.index(\"\\n\\n\", s.index(\"about another one.\"))\nadd = \"\"\"\n\n**Two results cannot currently be certified, and `make check-claims` says so\nrather than hiding it.** `adversarial.json` carries no provenance stamp \u2014 the\nstamp was added after that experiment ran \u2014 and `falsified_llama.json` was\nproduced before several later fixes. Both would cost model calls to redo, and\nthe $5 budget is spent ($4.92 of $5.00), so they are reported as *unverified*\ninstead of being quietly presented alongside results that are. The checker\nlists them by name every run.\n\nThe figures they support \u2014 the strong-baseline and placebo controls (0/13 and\n0/11) and the Llama cross-model check \u2014 should be read as measured under\nearlier code. Neither is load-bearing for the headline: the placebo control's\nconclusion is qualitative (evidence causes the detection, prose does not), and\nthe headline detection result is from `falsified
+```
+
+**Tool response**
+
+```
+**Two results cannot currently be certified, and `make check-claims` says so
+rather than hiding it.** `adversarial.json` carries no provenance stamp — the
+stamp was added after that experiment ran — and `falsified_llama.json` was
+produced before several later fixes. Both would cost model calls to redo, and
+the $5 budget is spent ($4.92 of $5.00), so they are reported as *unverified*
+instead of being quietly presented alongside results that are. The checker
+133/133 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 101 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 102 | Checked the tables the claim checker did **not** cover - subtle control and ablation. | Both had drifted. Subtle control read 44 mutations / 40 detected / 73% suggested against an actual **43 / 39 / 74%**; ablation read 307 and 145 tokens with 195 and 35 flagged against **300 / 140 / 188 / 30**. | Corrected and registered, taking the checker from 22 to **27 verified numbers**. Every quantitative table in the write-up is now derived from the results file it describes. |\n| Iteration 103 | Asked which results the provenance checker actually covers. | **Five result files carried no stamp at all** - `comparison`, `subtle_control`, `ablation`, `adversarial`, `issue_validation` - and the checker inspected five named kinds while printing **\"Every result was produced by the current code.\"** A blanket clean bill over a subset, with no hint that a subset existed: the \"certifies what it cannot see\" failure, at the top level. Worse, a kind absent fr
+```
+
+**Tool response**
+
+```
+3a93d74 Five results had no provenance, and the checker called them all current
+```
+
+## Human checkpoint 31
+
+> keep hunting without using the nova model don't use now use at last
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '60,120p' src/artifact_triage/solution/links.py", "description": "Read link checking logic"}
+```
+
+**Tool response**
+
+```
+    ok: bool
+    unverifiable: bool
+    error: str | None = None
+
+
+def extract(text: str, limit: int = 40) -> list[str]:
+    seen, out = set(), []
+    for u in _URL.findall(text):
+        u = u.rstrip(".,;:!?")
+        # Badge/shield images are decoration, not promises.
+        if "shields.io" in u or "badge" in u.lower():
+            continue
+        if u in seen:
+            continue
+        seen.add(u)
+        out.append(u)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def _unverifiable(url: str) -> bool:
+    return any(h in url.lower() for h in UNVERIFIABLE_HOSTS)
+
+
+def check(url: str) -> LinkResult:
+    if _unverifiable(url):
+        return LinkResult(url, None, True, True, "host blocks automated checks")
+    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT, context=_SSL) as r:
+            return LinkResult(url, r.status, 200 <= r.status < 400, False)
+    except urllib.error.HTTPError as exc:
+        # Some servers reject HEAD but serve GET. Retry once before calling it dead.
+        if exc.code in (403, 405, 501):
+            try:
+                req = urllib.reque
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"_URL = \\|UNVERIFIABLE_HOSTS\" src/artifact_triage/solution/links.py\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.solution.links import extract, _unverifiable\nmd = '''\nSee http://localhost:8080/admin and http://127.0.0.1:5000/debug\nMetadata: http://169.254.169.254/latest/meta-data/iam/security-credentials/\nInternal: http://10.0.0.5/secret http://192.168.1.1/router\nNormal: https://example.com/page\n'''\nfor u in extract(md):\n    print(f'  extracted: {u:<62} unverifiable={_unverifiable(u)}')\n\"", "description": "Test whether internal URLs would be probed"}
+```
+
+**Tool response**
+
+```
+42:_URL = re.compile(r"https?://[^\s\)\]\}<>\"'`,;]+")
+48:UNVERIFIABLE_HOSTS = (
+82:    return any(h in url.lower() for h in UNVERIFIABLE_HOSTS)
+  extracted: http://localhost:8080/admin                                    unverifiable=False
+  extracted: http://127.0.0.1:5000/debug                                    unverifiable=False
+  extracted: http://169.254.169.254/latest/meta-data/iam/security-credentials/ unverifiable=False
+  extracted: http://10.0.0.5/secret                                         unverifiable=False
+  extracted: http://192.168.1.1/router                                      unverifiable=False
+  extracted: https://example.com/page                                       unverifiable=False
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '1,58p' src/artifact_triage/solution/links.py | head -58", "description": "Read links.py header"}
+```
+
+**Tool response**
+
+```
+"""Check whether the URLs a README promises still resolve.
+
+The stated main failure mode of the path verifier is that it only checks claims
+shaped like file paths. This closes part of that gap: a README also promises
+*locations* - a dataset download, a project page, a dependency, a DOI.
+
+Published measurements say this matters. Link rot in software-engineering
+research artifacts averages 9.4% and reaches 29.8% in some years, and only 56.4%
+of artifacts were reachable at the links their papers provided. A README pointing
+at a dead dataset is unusable however well written it is.
+
+DETERMINISM BOUNDARY
+--------------------
+This module is the one part of the pipeline that depends on the outside world,
+and the outside world changes. It is therefore kept *separate* from
+`verify.py`, which stays offline and byte-deterministic. Results are cached to
+`data/cache/links/` and committed, so a reported figure can be reproduced exactly
+even after a host goes down - and re-running with `--refresh` shows the drift,
+which is itself a measurement.
+"""
+from __future__ import annotations
+
+import json
+import re
+import ssl
+import urllib.error
+import urllib.request
+from concurrent.futures import ThreadPoo
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/links.py'; s=open(p).read()\n\ns = s.replace('''import json\nimport re\nimport ssl\nimport urllib.error\nimport urllib.request''',\n'''import ipaddress\nimport json\nimport re\nimport socket\nimport ssl\nimport urllib.error\nimport urllib.parse\nimport urllib.request''')\n\ns = s.replace('''@dataclass\nclass LinkResult:''',\n'''# ---------------------------------------------------------------------------\n# SSRF defence. This module fetches URLs taken from UNTRUSTED READMEs, which is\n# the tool's entire purpose: it is pointed at third-party research artifacts,\n# it runs in CI, and it is built for reviewers assessing submitted work. That\n# is an adversarial setting by construction.\n#\n# Without this, a README could make the tool request:\n#   http://169.254.169.254/latest/meta-data/...  the cloud metadata endpoint,\n#                                                which serves IAM credentials\n#                                                under IMDSv1\n#   http://localhost:8080/...                    [REDACTED] on the host\n#   http:/
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+  internal=True   http://localhost:8080/admin
+  internal=True   http://127.0.0.1:5000/x
+  internal=True   http://169.254.169.254/latest/meta-data/
+  internal=True   http://10.0.0.5/s
+  internal=True   http://192.168.1.1/
+  internal=True   http://[::1]/
+  internal=False  https://example.com/page
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.solution.links import check\nimport time\nt=time.time(); r=check('http://127.0.0.1:9/closed-port')\nprint(f'  internal: ok={r.ok} unverifiable={r.unverifiable} err={r.error!r}  ({time.time()-t:.3f}s - no connection attempted)')\nt=time.time(); r=check('https://example.com/')\nprint(f'  public:   ok={r.ok} status={r.status} ({time.time()-t:.2f}s)')\nt=time.time(); r=check('https://example.com/definitely-not-a-real-page-xyz')\nprint(f'  404:      ok={r.ok} status={r.status} err={r.error!r}')\n\"", "description": "Verify blocking and normal operation", "timeout": 120000}
+```
+
+**Tool response**
+
+```
+  internal: ok=True unverifiable=True err='internal or loopback address - not fetched'  (0.001s - no connection attempted)
+  public:   ok=True status=200 (0.08s)
+  404:      ok=False status=404 err='HTTP 404'
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 105 - server-side request forgery in the link checker\n#\n# `links.py` fetches every URL found in a README, and link checking is ON BY\n# DEFAULT in the CLI. The READMEs are untrusted by construction: this tool is\n# pointed at third-party research artifacts, runs in CI, and is built for\n# reviewers assessing submitted work.\n#\n# A README could therefore make the tool request:\n#   http://169.254.169.254/latest/meta-data/...  cloud metadata, which serves\n#                                                IAM credentials under IMDSv1\n#   http://localhost:8080/...                    [REDACTED] on the host\n#   http://10.x / 192.168.x / 172.16.x           the internal network\n#\n# HEAD-only is not a defence - a status code is an internal port-scan oracle -\n# and urllib follows redirects by default, so a public URL can redirect into\n# private space. Both the original URL and every redirect hop are now checked.\n# --------
+```
+
+**Tool response**
+
+```
+138/138 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/links.py'; s=open(p).read()\ns = s.replace('''DETERMINISM BOUNDARY''',\n'''UNTRUSTED INPUT\n---------------\nThe URLs checked here come from READMEs written by other people, and link\nchecking is on by default. That makes this the one module in the project that\ntakes an adversarial input and acts on it, so it refuses to fetch loopback,\nprivate, link-local or reserved addresses - including after a redirect. See\n`is_internal`.\n\nDETERMINISM BOUNDARY''')\nopen(p,'w').write(s)\n\np='README.md'; s=open(p).read()\nanchor = \"**Two results cannot currently be certified\"\ni = s.index(anchor)\nadd = \"\"\"**The link checker refuses internal addresses.** URLs come from READMEs written\nby other people, and link checking is on by default, so this is the one place\nthe tool acts on adversarial input. It will not fetch loopback, private,\nlink-local or reserved addresses \u2014 including after a redirect, since a public\nURL can redirect into private space. Without that, a README could have pointed\nthe tool at `169.254.169.254`, the cloud metada
+```
+
+**Tool response**
+
+```
+138/138 passed
+9e436e9 SSRF in the link checker, which runs by default
+```
+
+## Human checkpoint 32
+
+> keep hunting
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"escape\\|html.escape\\|artifact_id\\|broken_paths\\|f'<td\\|f\\\"<td\" src/artifact_triage/eval/dashboard.py | head -20", "description": "Check dashboard HTML escaping"}
+```
+
+**Tool response**
+
+```
+71:    return html.escape(str(x))
+114:              f'<td class="num">{min(br):.0%}&ndash;{max(br):.0%}</td>'
+115:              f'<td><code>{esc(br)}</code></td></tr>')
+117:              f'<td class="num">{min(sr):.0%}&ndash;{max(sr):.0%}</td>'
+118:              f'<td><code>{esc(sr)}</code></td></tr>')
+161:          f'<td class="num">{ctrl_mae}</td>'
+162:          f'<td>no model, no input, zero skill</td></tr>')
+164:          f'<td>{collapse}</td></tr>')
+166:          f'<td>penalised for correctly flagging decayed artifacts</td></tr>')
+197:                  f'<td class="num">{b["n"]}</td>'
+198:                  f'<td class="num">{b["median_days"]}d</td>'
+199:                  f'<td class="num">{b["mean_broken_ratio"]:.3f}</td>'
+200:                  f'<td class="num">{b["share_with_broken"]:.0%}</td>'
+201:                  f'<td>{bar(b["mean_broken_ratio"] * 3)}</td></tr>')
+230:          f'<td class="ok">no</td></tr>')
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -nE \"\\{[a-z_]+\\[[\\\"'][a-z_]+[\\\"']\\]\\}|\\{lang|\\{name|\\{k\\}|\\{row\" src/artifact_triage/eval/dashboard.py | grep -v \"esc(\" | head -12", "description": "Find unescaped interpolations"}
+```
+
+**Tool response**
+
+```
+197:                  f'<td class="num">{b["n"]}</td>'
+198:                  f'<td class="num">{b["median_days"]}d</td>'
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -nE \"<td>|<th>|<code>\" src/artifact_triage/eval/dashboard.py | grep -vE \"esc\\(|class=\\\"num\\\"|<td>no|<td>yes\" | head -14", "description": "Audit remaining HTML sinks"}
+```
+
+**Tool response**
+
+```
+111:            A('<div class="tw"><table><tr><th>System</th><th>Mean</th>'
+112:              '<th>Range</th><th>Per trial</th></tr>')
+113:            A(f'<tr><td>baseline</td><td class="num bad">{sum(br)/len(br):.0%}</td>'
+116:            A(f'<tr><td>solution</td><td class="num ok">{sum(sr)/len(sr):.0%}</td>'
+140:        A('<div class="tw"><table><tr><th>System</th>'
+141:          '<th>MAE (lower better)</th><th>Note</th></tr>')
+160:        A(f'<tr><td>constant predictor &mdash; always &ldquo;Functional&rdquo;</td>'
+164:          f'<td>{collapse}</td></tr>')
+166:          f'<td>penalised for correctly flagging decayed artifacts</td></tr>')
+192:            A('<div class="tw"><table><tr><th>Age bucket</th><th>n</th>'
+193:              '<th>Median age</th><th>Broken-claim ratio</th>'
+194:              '<th>% with a break</th><th></th></tr>')
+201:                  f'<td>{bar(b["mean_broken_ratio"] * 3)}</td></tr>')
+221:    A('<div class="tw"><table><tr><th>Check</th><th>What it catches</th>'
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"esc(\" src/artifact_triage/eval/dashboard.py | head -12\necho \"=== does the dashboard render any repo-derived string at all? ===\"\ngrep -nE \"by_language|artifact_id|broken_paths|per_artifact\" src/artifact_triage/eval/dashboard.py | head", "description": "Check what untrusted data reaches the dashboard"}
+```
+
+**Tool response**
+
+```
+70:def esc(x) -> str:
+75:    return (f'<div class="card"><div class="n {cls}">{esc(n)}</div>'
+76:            f'<div class="l">{esc(label)}</div></div>')
+115:              f'<td><code>{esc(br)}</code></td></tr>')
+118:              f'<td><code>{esc(sr)}</code></td></tr>')
+196:                A(f'<tr><td>{esc(b["label"])}</td>'
+211:                A(f'<p class="note">Broken-claim ratio is <strong>{esc(trend)}'
+216:                  f'{esc(", ".join(small))}. Zenodo\'s recency sort skews the '
+229:        A(f'<tr><td>{esc(name)}</td><td>{esc(what)}</td>'
+=== does the dashboard render any repo-derived string at all? ===
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nimport json, copy\nfrom pathlib import Path\nfrom artifact_triage.cli import render\nfrom artifact_triage.solution.verify import verify\nfrom artifact_triage.solution.criteria import assess\n\nfx = json.loads(sorted(Path('data/fixtures').glob('*LPR*.json'))[0].read_text())\nfx = copy.deepcopy(fx)\nevil = ['a|b.py', 'x\\`\\`\\`.py', '<script>alert(1)</script>.py', '../../etc/passwd.py',\n        'x\\n\\n## Injected Heading\\n\\n.py']\nfx['readme_referenced_paths'] = evil\nev = verify(fx)\nout = render(fx, ev, None, None, None, None, None, assess(ev))\ni = out.index('## README claims')\nprint(out[i:i+700])\n\"", "description": "Test the report against hostile path strings"}
+```
+
+**Tool response**
+
+```
+## README claims verified against the repository
+
+`4` file path(s) referenced, checked against `31,020` files at the pinned commit.
+
+| Referenced in README | Present? | Closest real file |
+|---|---|---|
+| `a|b.py` | **no** | &mdash; nothing similar |
+| `x```.py` | **no** | &mdash; nothing similar |
+| `../../etc/passwd.py` | **no** | &mdash; nothing similar |
+| `x
+
+## Injected Heading
+
+.py` | **no** | &mdash; nothing similar |
+
+> Each row is a documented instruction a user would follow and find missing.
+
+## Reproducibility infrastructure
+
+| Signal | Present |
+|---|---|
+| Dependency manifest | **no** |
+| Container definition | **no** |
+| Build / install script | **no** |
+| CI configuration | *
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"_INLINE = \\|_PATHLIKE = \" src/artifact_triage/corpus/fetch.py\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.fetch import referenced_paths\nprobes = [\n 'Run \\`a|b.py\\` now',\n 'See \\`x\\`\\`\\`.py\\`',\n 'Open \\`<script>alert(1)</script>.py\\`',\n 'Edit \\`../../etc/passwd.py\\`',\n 'File \\`weird|pipe/name.py\\` here',\n]\nfor p in probes:\n    print(f'  {p[:44]:<46} -> {referenced_paths(p)}')\n\"", "description": "Test whether hostile paths are reachable"}
+```
+
+**Tool response**
+
+```
+40:_INLINE = re.compile(r"`([^`\n]{2,80})`")
+57:_PATHLIKE = re.compile(r"^[\w./\-]+\.([A-Za-z0-9]{1,10})$")
+  Run `a|b.py` now                               -> ['b.py']
+  See `x```.py`                                  -> []
+  Open `<script>alert(1)</script>.py`            -> []
+  Edit `../../etc/passwd.py`                     -> ['etc/passwd.py']
+  File `weird|pipe/name.py` here                 -> ['pipe/name.py']
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"Referenced in README\" -A6 src/artifact_triage/cli.py | head -12", "description": "Find the report table renderer"}
+```
+
+**Tool response**
+
+```
+158:        L.append("| Referenced in README | Present? | Closest real file |")
+159-        L.append("|---|---|---|")
+160-        for p in ev.broken_paths[:20]:
+161-            hint = ev.suggestions.get(p)
+162-            fix = f"`{hint[0]}`" if hint else "&mdash; nothing similar"
+163-            L.append(f"| `{p}` | **no** | {fix} |")
+164-        if len(ev.broken_paths) > 20:
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/cli.py'; s=open(p).read()\ns = s.replace('''def _exit_code(criteria, strict: bool) -> int:''',\n'''def cell(text: str) -> str:\n    \"\"\"Make an untrusted string safe to place in a markdown table cell.\n\n    The report prints strings taken from other people's READMEs. Today the\n    extractor cannot emit one containing \"|\", a newline or a backtick - it\n    anchors on `^[\\\\w./\\\\-]+\\\\.(ext)$` - so nothing here is reachable, and this\n    is not a live defect.\n    \n    But that safety is an IMPLICIT COUPLING: the report is safe only because a\n    regex three modules away happens to be strict, and nothing says so. Worse,\n    `verify()` reads a STORED field, so a hand-edited fixture bypasses the\n    extractor entirely. A newline would inject arbitrary markdown into the\n    report - a fabricated heading, for instance - and a \"|\" would break the\n    table.\n    \n    Escaping here costs nothing and removes the dependency on a distant\n    module staying strict. A test pins the extractor's guarantee separately.\n    \"\"\"\n    return 
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+cell(): 'a\\|b.py' 'x heading'
+| Referenced in README | Present? | Closest real file |
+|---|---|---|
+| `a\|b.py` | **no** | &mdash; nothing similar |
+| `x  ## Injected  .py` | **no** | &mdash; nothing similar |
+
+> Each row is a documented instruction a user would follow 
+injected heading present: True
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 106 - the report's safety rested on an undeclared coupling\n#\n# The CLI report prints strings taken from other people's READMEs into markdown\n# tables. A path containing \"|\" breaks the table; one containing a newline\n# injects arbitrary markdown - a fabricated heading, say - into the report.\n#\n# NEITHER IS REACHABLE TODAY, and saying otherwise would be the same overclaim\n# this project keeps correcting. `_PATHLIKE` anchors on ^[\\\\w./\\\\-]+\\\\.(ext)$, so\n# the extractor cannot emit either character.\n#\n# But that is an IMPLICIT coupling: the report is safe only because a regex in\n# another module happens to be strict, and nothing recorded the dependency.\n# `verify()` also reads a STORED field, so a hand-edited fixture bypasses the\n# extractor entirely. Both ends are pinned here - the extractor's guarantee,\n# and the report's independence from it.\n# -------------------------------------------------------
+```
+
+**Tool response**
+
+```
+  FAIL  test_injected_markdown_cannot_start_a_line_in_the_report
+141/142 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nimport copy, json\nfrom pathlib import Path\nfrom artifact_triage.cli import render\nfrom artifact_triage.solution.criteria import assess\nfrom artifact_triage.solution.verify import verify\nfx = copy.deepcopy(json.loads(sorted(Path('data/fixtures').glob('*.json'))[0].read_text()))\nfx['readme_referenced_paths'] = ['x\\n\\n## Injected Heading\\n\\n.py']\nev = verify(fx)\nout = render(fx, ev, None, None, None, None, None, assess(ev))\nfor l in out.splitlines():\n    if 'Injected' in l: print(repr(l))\"", "description": "Locate the surviving injection"}
+```
+
+**Tool response**
+
+```
+'| `x  ## Injected Heading  .py` | **no** | &mdash; nothing similar |'
+'## Injected Heading'
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -nE \"L\\.append\\(f\\\"- |L\\.append\\(f\\\"  - |for e in c.evidence|broken_paths|suggestions\" src/artifact_triage/cli.py | head -12", "description": "Find all untrusted-path render sites"}
+```
+
+**Tool response**
+
+```
+179:    if ev.broken_paths:
+182:        for p in ev.broken_paths[:20]:
+183:            hint = ev.suggestions.get(p)
+186:        if len(ev.broken_paths) > 20:
+187:            L.append(f"\n…and {len(ev.broken_paths) - 20} more.")
+267:        L.append(f"- **Suggested tier**: `{model.get('tier')}`")
+268:        L.append(f"- **Confidence**: {model.get('confidence')}")
+279:                L.append(f"  - {r}")
+301:            for e in c.evidence:
+302:                L.append(f"- {e}")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/cli.py'; s=open(p).read()\n# criteria evidence lines carry the same untrusted paths (\"missing: x\")\ns = s.replace('''            for e in c.evidence:\n                L.append(f\"- {e}\")''',\n'''            for e in c.evidence:\n                # These carry the same untrusted paths (\"missing: <path>\"),\n                # so they need the same treatment as the table cells. Escaping\n                # only the table left the injection alive one section lower -\n                # a reminder that untrusted data has to be tracked to EVERY\n                # sink, not the first one you notice.\n                L.append(f\"- {cell(e)}\")''')\ns = s.replace('''            for r in model.get(\"escalation_reasons\", []):\n                L.append(f\"  - {r}\")''',\n'''            for r in model.get(\"escalation_reasons\", []):\n                L.append(f\"  - {cell(r)}\")''')\nopen(p,'w').write(s)\nPY\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3", "description": "Escape every untrusted sink"}
+```
+
+**Tool response**
+
+```
+142/142 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.cli zhangxiaosa/LPR --no-links 2>/dev/null | sed -n '/### Complete/,/Reviewer:/p' | head -14", "description": "Verify normal report output is unharmed"}
+```
+
+**Tool response**
+
+```
+### Complete — **CONCERNS**
+
+> *To the extent possible, all components relevant to the paper in question are included.*
+
+- 15 of 17 documented paths are absent from the repository
+- missing: perses_deploy.jar
+- missing: script/summarize_perses_or_vulcan.py
+- missing: scripts/analyze_and_draw.sh
+- missing: scripts/keep_running.sh
+- missing: scripts/run_creduce.py
+- missing: scripts/run_lpr.py
+- missing: scripts/run_perses.py
+- missing: scripts/run_vulcan.py
+- no dependency manifest - the environment is not included in any recreatable form
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|All 2|STALE|carry NO\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 105 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 106 | Followed the same \"what would a hostile input do here\" reading into the **report renderer**, which prints strings from other people's READMEs into markdown tables. | A path containing `\\\\|` breaks the table; one containing a **newline injects arbitrary markdown** - a fabricated heading in the report. **Neither is reachable today**: `_PATHLIKE` anchors on `^[\\\\w./\\\\-]+\\\\.(ext)$`, so the extractor cannot emit either character, and claiming a vulnerability here would be the overclaim this project keeps correcting. | But the safety was an **undeclared coupling** - the report is safe only because a regex three modules away is strict, and `verify()` reads a *stored* field a hand-edited fixture could bypass. Both ends are now pinned by tests, and cells are escaped so the report no longer depends on a distant module staying strict. **Escaping the table a
+```
+
+**Tool response**
+
+```
+  All 27 documented numbers match the results files.
+  STALE  falsified_llama      produced at commit 489d100 by different code (fingerprint 
+  1 result(s) carry NO provenance and cannot be
+0a49ceb Untrusted paths reached every sink, not just the one I escaped first
+```
+
+## Human checkpoint 33
+
+> raise the cap and run
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json\nfor f in ('adversarial','falsified_llama'):\n    d=json.load(open(f'results/{f}.json'))\n    print(f\\\"  {f:<18} recorded cost: \\${d.get('usd') or d.get('total_usd')}  model={d.get('model','?')}\\\")\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|REMAINING|BUDGET\"\ngrep -n \"BUDGET_USD = \" src/artifact_triage/common/ledger.py", "description": "Estimate cost of the two remaining runs"}
+```
+
+**Tool response**
+
+```
+  adversarial        recorded cost: $0.1416  model=us.amazon.nova-pro-v1:0
+  falsified_llama    recorded cost: $0.1032  model=us.meta.llama3-3-70b-instruct-v1:0
+  TOTAL                      $ 4.9204  1591 calls
+  BUDGET                     $   5.00
+  REMAINING                  $ 0.0796  (98.4% used)
+26:BUDGET_USD = 5.00
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\n# 1) make the cap configurable so the guard and the reporting agree\np='src/artifact_triage/common/ledger.py'; s=open(p).read()\ns = s.replace('''BUDGET_USD = 5.00''',\n'''# The ceiling, and the SAME value the runtime guard enforces\n# (`common/budget.GUARD_USD`). These were two independent constants; if they\n# disagreed, the report would draw a line the guard did not enforce. Raised\n# deliberately and visibly rather than edited in place - see CHANGELOG.\nBUDGET_USD = float(os.environ.get(\"ARTIFACT_TRIAGE_BUDGET_USD\", \"5.00\"))''')\nopen(p,'w').write(s)\n\n# 2) checkpoint each adversarial artifact as it completes\np='src/artifact_triage/eval/adversarial.py'; s=open(p).read()\ns = s.replace('''        rows.append(row)''',\n'''        rows.append(row)\n        # Written after EVERY artifact, not once at the end. This experiment\n        # costs real tokens and previously wrote nothing until the final line,\n        # so any late failure discarded every call already paid for - exactly\n        # what a NameError did to a completed falsified trial.\n        CKPT.parent
+```
+
+**Tool response**
+
+```
+20:import json
+21:import os
+SYNTAX OK
+  ledger cap 5.5   guard 5.5   spent 4.9204
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -rn \"falsified_llama\" Makefile src scripts 2>/dev/null | head -5\ngrep -n \"OUT = \\|ARTIFACT_TRIAGE_OUT\" src/artifact_triage/eval/falsified_run.py | head -3", "description": "Find how the Llama run is produced"}
+```
+
+**Tool response**
+
+```
+scripts/check_claims.py:55:        for fname in ("results/falsified_run.json", "results/falsified_llama.json"):
+scripts/check_claims.py:67:                        "falsified_run.json + falsified_llama.json"))
+scripts/check_claims.py:70:                        "falsified_run.json + falsified_llama.json"))
+scripts/check_claims.py:206:                 "falsified_llama", "prevalence", "comparison", "subtle_control",
+37:OUT = Path("results/falsified_run.json")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"^falsified:\" -A3 Makefile", "description": "Read the falsified target"}
+```
+
+**Tool response**
+
+```
+94:falsified:  ## The primary experiment (set ARTIFACT_TRIAGE_TRIALS=3)
+95-	$(PY) -m artifact_triage.eval.falsified_run
+96-
+97-repro:  ## The one command judges run
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\ns = s.replace('''falsified:  ## The primary experiment (set ARTIFACT_TRIAGE_TRIALS=3)\n\t$(PY) -m artifact_triage.eval.falsified_run\n''',\n'''falsified:  ## The primary experiment (set ARTIFACT_TRIAGE_TRIALS=3)\n\t$(PY) -m artifact_triage.eval.falsified_run\n\nfalsified-llama:  ## Same experiment on a second model family (cross-model check)\n\t@# This was previously a manual run-and-rename, which meant the\n\t@# cross-model result could not be reproduced from any documented command.\n\tARTIFACT_TRIAGE_PROVIDER=bedrock \\\\\n\tARTIFACT_TRIAGE_MODEL=us.meta.llama3-3-70b-instruct-v1:0 \\\\\n\t$(PY) -m artifact_triage.eval.falsified_run\n\tcp results/falsified_run.json results/falsified_llama.json\n\t@echo \"NOTE: results/falsified_run.json now holds the LLAMA run.\"\n\t@echo \"      Re-run 'make falsified' to restore the Nova result.\"\n''')\nopen(p,'w').write(s)\nPY\ngrep -n \"falsified-llama\" -A9 Makefile | head -12\nsed -i '' 's/^        discover prevalence pinning portability links report validate \\\\/        discover prevalence pinni
+```
+
+**Tool response**
+
+```
+97:falsified-llama:  ## Same experiment on a second model family (cross-model check)
+98-	@# This was previously a manual run-and-rename, which meant the
+99-	@# cross-model result could not be reproduced from any documented command.
+100-	ARTIFACT_TRIAGE_PROVIDER=bedrock \
+101-	ARTIFACT_TRIAGE_MODEL=us.meta.llama3-3-70b-instruct-v1:0 \
+102-	$(PY) -m artifact_triage.eval.falsified_run
+103-	cp results/falsified_run.json results/falsified_llama.json
+104-	@echo "NOTE: results/falsified_run.json now holds the LLAMA run."
+105-	@echo "      Re-run 'make falsified' to restore the Nova result."
+106-
+10:        discover prevalence pinning portability links report validate falsified-llama \
+97:falsified-llama:  ## Same experiment on a second model family (cross-model check)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\ns = s.replace('''\tARTIFACT_TRIAGE_PROVIDER=bedrock \\\\\n\tARTIFACT_TRIAGE_MODEL=us.meta.llama3-3-70b-instruct-v1:0 \\\\\n\t$(PY) -m artifact_triage.eval.falsified_run\n\tcp results/falsified_run.json results/falsified_llama.json\n\t@echo \"NOTE: results/falsified_run.json now holds the LLAMA run.\"\n\t@echo \"      Re-run 'make falsified' to restore the Nova result.\"''',\n'''\t@# falsified_run.py writes one fixed path, so the primary result is saved\n\t@# and restored around this run. Without that, the cross-model check\n\t@# silently destroys the Nova result and restoring it costs another paid\n\t@# run - a footgun of exactly the kind `make discover` had.\n\t@cp results/falsified_run.json results/.falsified_primary.bak 2>/dev/null || true\n\tARTIFACT_TRIAGE_PROVIDER=bedrock \\\\\n\tARTIFACT_TRIAGE_MODEL=us.meta.llama3-3-70b-instruct-v1:0 \\\\\n\t$(PY) -m artifact_triage.eval.falsified_run\n\tcp results/falsified_run.json results/falsified_llama.json\n\t@cp results/.falsified_primary.bak results/falsified_run.json 2>/dev/null || true\n
+```
+
+**Tool response**
+
+```
+adversarial exit=0
+    A baseline explicitly told to hunt for internal inconsistency,
+    given the same falsified README:
+      detected 1/13 (8%)
+
+  OBJECTION 2 - 'the solution reads the README, not the evidence'
+    Falsified README + PLACEBO evidence claiming everything resolves:
+      detected 0/12 (0%)
+    Reported solution detection with REAL evidence: 93%.
+------------------------------------------------------------------------
+  The placebo collapses detection -> the EVIDENCE is doing the
+  work, not the README's wording. The causal claim holds.
+  cost: $0.1415   model: us.amazon.nova-pro-v1:0
+========================================================================
+-> results/adversarial.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/adversarial.py'; s=open(p).read()\ns = s.replace('''    print(f\"    Reported solution detection with REAL evidence: 93%.\")''',\n'''    # Was hardcoded at 93%, and the figure had moved to 100%. A comparison\n    # printed beside a live number must not quote a remembered one.\n    try:\n        fr = json.loads(Path(\"results/falsified_run.json\").read_text())\n        sr = fr.get(\"solution_rates\") or []\n        ref = f\"{sum(sr) / len(sr):.0%}\" if sr else \"see falsified_run.json\"\n    except Exception:\n        ref = \"see falsified_run.json\"\n    print(f\"    Solution detection with REAL evidence, same corpus: {ref}.\")''')\nopen(p,'w').write(s)\nPY\ngrep -n \"REAL evidence\" src/artifact_triage/eval/adversarial.py\npython3 -c \"\nimport json; d=json.load(open('results/adversarial.json'))\nprint({k:v for k,v in d.items() if not isinstance(v,(list,dict))})\"\ngrep -n \"0/13\\|0/11\\|Explicitly told to hunt\" README.md | head", "description": "Fix the hardcoded figure and locate README claims"}
+```
+
+**Tool response**
+
+```
+165:    print(f"    Solution detection with REAL evidence, same corpus: {ref}.")
+{'model': 'us.amazon.nova-pro-v1:0', 'n': 15, 'strong_baseline_detected': 1, 'strong_baseline_eligible': 13, 'placebo_detected': 0, 'placebo_eligible': 12, 'usd': 0.1415}
+319:| **Explicitly told to hunt for internal contradictions** | **0/13 (0%)** |
+335:| Falsified README + placebo evidence | **0/11 (0%)** |
+712:The figures they support — the strong-baseline and placebo controls (0/13 and
+713:0/11) and the Llama cross-model check — should be read as measured under
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nrm -f results/adversarial_rows.jsonl\nARTIFACT_TRIAGE_BUDGET_USD=5.50 PYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.adversarial > $SP/adv2.log 2>&1\necho \"adversarial exit=$?\"; grep -E \"detected|REAL evidence|cost:\" $SP/adv2.log | tail -5\necho \"=== now the cross-model run ===\"\nARTIFACT_TRIAGE_BUDGET_USD=5.50 ARTIFACT_TRIAGE_TRIALS=1 make falsified-llama > $SP/llama.log 2>&1\necho \"llama exit=$?\"; grep -AE6 \"AGGREGATE\" $SP/llama.log 2>/dev/null | tail -8 || tail -6 $SP/llama.log", "description": "Re-run adversarial and the cross-model check", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+adversarial exit=0
+      detected 1/13 (8%)
+      detected 0/11 (0%)
+    Solution detection with REAL evidence, same corpus: 100%.
+  cost: $0.1417   model: us.amazon.nova-pro-v1:0
+=== now the cross-model run ===
+llama exit=0
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ngrep -A6 \"AGGREGATE\" $SP/llama.log | tail -7\necho \"--- primary Nova result restored? ---\"\npython3 -c \"\nimport json,hashlib\na=open('results/falsified_run.json','rb').read(); b=open('$SP/nova_safety_copy.json','rb').read()\nprint('  falsified_run.json identical to pre-run Nova copy:', hashlib.sha256(a).hexdigest()==hashlib.sha256(b).hexdigest())\nd=json.load(open('results/falsified_llama.json'))\nprint('  llama model:', d['model'], ' solution:', d['solution_rates'], ' baseline:', d['baseline_rates'])\"", "description": "Verify llama run and Nova restoration"}
+```
+
+**Tool response**
+
+```
+AGGREGATE OVER 1 TRIAL(S)   model=us.meta.llama3-3-70b-instruct-v1:0
+########################################################################
+  baseline detection : mean 0%   range 0%-0%   [0.0]
+  solution detection : mean 88%   range 88%-88%   [0.875]
+  verifier (deterministic) : {1.0} - identical every trial
+  total cost: $0.1033
+########################################################################
+--- primary Nova result restored? ---
+  falsified_run.json identical to pre-run Nova copy: True
+  llama model: us.meta.llama3-3-70b-instruct-v1:0  solution: [0.875]  baseline: [0.0]
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json\na=json.load(open('results/adversarial.json'))\nprint('adversarial:', {k:v for k,v in a.items() if not isinstance(v,(list,dict))})\ntb=ts=tn=0\nfor f in ('results/falsified_run.json','results/falsified_llama.json'):\n    d=json.load(open(f))\n    for t in d['per_trial']:\n        for r in t['per_artifact']:\n            tn+=1; tb+=bool(r['systems']['baseline']['mentions_absence']); ts+=bool(r['systems']['solution']['mentions_absence'])\nprint(f'floor-free combined: baseline {tb}/{tn}  solution {ts}/{tn}')\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|should read|STALE|carry NO|All 2\"", "description": "Gather final figures"}
+```
+
+**Tool response**
+
+```
+adversarial: {'model': 'us.amazon.nova-pro-v1:0', 'n': 15, 'strong_baseline_detected': 1, 'strong_baseline_eligible': 13, 'placebo_detected': 0, 'placebo_eligible': 11, 'usd': 0.1417}
+floor-free combined: baseline 1/60  solution 58/60
+  All 27 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '/### Does it generalise/,/### A harder control/p' README.md | head -20", "description": "Read the cross-model section"}
+```
+
+**Tool response**
+
+```
+### Does it generalise beyond one model?
+
+Every headline number is measured on `us.amazon.nova-pro-v1:0`. A reviewer should
+ask whether the result is a property of that model. It was re-run on an unrelated
+family, Llama 3.3 70B:
+
+| | Nova Pro | Llama 3.3 70B |
+|---|---|---|
+| Baseline detection | **0%** | **0%** |
+| Solution detection | **100%** | **100%** |
+| Deterministic verifier | 100% | 100% |
+
+The improvement transfers, and the baseline's blindness is structural on both —
+which is what the causal claim predicts.
+
+> **This nearly went the other way.** The first Llama run showed 9% detection,
+> and I had the story ready: *the improvement is model-dependent*. It was my
+> parser. Llama emits the JSON schema before its answer, and a greedy `{.*}`
+> match spanned both objects, so 7 of 15 valid answers were recorded as
+> failures. Reading the raw bytes rather than accepting a plausible negative
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\ns = s.replace(\"\"\"| Solution detection | **100%** | **100%** |\"\"\",\n              \"\"\"| Solution detection | **100%** | **88%** |\"\"\")\ns = s.replace(\"\"\"The improvement transfers, and the baseline's blindness is structural on both \u2014\nwhich is what the causal claim predicts.\"\"\",\n\"\"\"The improvement transfers \u2014 88% on a model family that shares no lineage with\nNova \u2014 and the baseline scores zero on both, which is what the causal claim\npredicts. The gap between 100% and 88% is one artifact in a single Llama trial;\nit is not evidence that Nova is better, only that one run of one model missed\none case.\"\"\")\ns = s.replace(\"\"\"| **Explicitly told to hunt for internal contradictions** | **0/13 (0%)** |\"\"\",\n              \"\"\"| **Explicitly told to hunt for internal contradictions** | **1/13 (8%)** |\"\"\")\n\nold = \"\"\"**Two results cannot currently be certified, and `make check-claims` says so\nrather than hiding it.** `adversarial.json` carries no provenance stamp \u2014 the\nstamp was added aft
+```
+
+**Tool response**
+
+```
+319:| **Explicitly told to hunt for internal contradictions** | **1/13 (8%)** |
+335:| Falsified README + placebo evidence | **0/11 (0%)** |
+352:| Solution detection | **100%** | **88%** |
+355:The improvement transfers — 88% on a model family that shares no lineage with
+357:predicts. The gap between 100% and 88% is one artifact in a single Llama trial;
+713:- the strong baseline went **0/13 → 1/13**, so "a baseline told to hunt for
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('''    nc = load(\"results/negative_control.json\")''',\n'''    adv = load(\"results/adversarial.json\")\n    if adv:\n        out.append((\"README.md\",\n                    f\"**{adv['strong_baseline_detected']}/\"\n                    f\"{adv['strong_baseline_eligible']} \"\n                    f\"({adv['strong_baseline_detected']/adv['strong_baseline_eligible']:.0%})**\",\n                    \"adversarial: strong baseline\", \"adversarial.json\"))\n        out.append((\"README.md\",\n                    f\"**{adv['placebo_detected']}/{adv['placebo_eligible']} \"\n                    f\"({adv['placebo_detected']/adv['placebo_eligible']:.0%})**\",\n                    \"adversarial: placebo control\", \"adversarial.json\"))\n\n    ll = load(\"results/falsified_llama.json\")\n    if ll and ll.get(\"solution_rates\"):\n        r = ll[\"solution_rates\"]\n        out.append((\"README.md\",\n                    f\"| **100%** | **{sum(r)/len(r):.0%}** |\",\n                    \"cross-model: llama detection\", \
+```
+
+**Tool response**
+
+```
+  OK    README.md            adversarial: strong baseline                    **1/13 (8%)**  L319           <- adversarial.json
+  OK    README.md            adversarial: placebo control                    **0/11 (0%)**  L335           <- adversarial.json
+  OK    README.md            cross-model: llama detection           | **100%** | **88%** |  L352           <- falsified_llama.json
+  All 30 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p'\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|REMAINING|BUDGET\"", "description": "Check provenance and final spend"}
+```
+
+**Tool response**
+
+```
+RESULT PROVENANCE
+--------------------------------------------------------------------------
+  ok     negative_control     current
+  ok     baseline             current
+  ok     solution             current
+  ok     falsified_run        current
+  ok     falsified_llama      current
+  ok     prevalence           current
+  ok     comparison           current
+  ok     subtle_control       current
+  ok     ablation             current
+  ok     adversarial          current
+  ok     issue_validation     current
+--------------------------------------------------------------------------
+  Every result was produced by the current code.
+==========================================================================
+  TOTAL                      $ 5.3069  1771 calls
+  BUDGET                     $   5.00
+  REMAINING                  $-0.3069  (106.1% used)
+  *** BUDGET ALERT: $5 threshold reached ($5.3069 spent) ***
+  *** BUDGET EXHAUSTED - no further model calls ***
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/common/ledger.py'; s=open(p).read()\ns = s.replace('''BUDGET_USD = float(os.environ.get(\"ARTIFACT_TRIAGE_BUDGET_USD\", \"5.00\"))''',\n'''# $5.00 for the whole project, raised once to $5.50 with explicit authorisation\n# to re-run the last two uncertified results (`adversarial`, `falsified_llama`).\n# Recorded as the real ceiling rather than left at 5.00, which would have shown\n# an authorised decision as a breach - a report that misstates its own limit is\n# no better than a number that has drifted.\nBUDGET_USD = float(os.environ.get(\"ARTIFACT_TRIAGE_BUDGET_USD\", \"5.50\"))''')\nopen(p,'w').write(s)\np='src/artifact_triage/common/budget.py'; s=open(p).read()\ns = s.replace('''GUARD_USD = float(os.environ.get(\"ARTIFACT_TRIAGE_BUDGET_USD\", \"5.0\"))''',\n'''GUARD_USD = float(os.environ.get(\"ARTIFACT_TRIAGE_BUDGET_USD\", \"5.50\"))''')\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|REMAINING|BUDGET|ALERT\"\nNEW=$(python3 -c \"import json;print(f\\\"\\${json.load(open('results/sp
+```
+
+**Tool response**
+
+```
+  TOTAL                      $ 5.3069  1771 calls
+  BUDGET                     $   5.00
+  REMAINING                  $-0.3069  (106.1% used)
+  *** BUDGET EXHAUSTED - no further model calls ***
+documenting spend: $5.31
+  OK    README.md            total model spend                                       $5.31  L307           <- spend.json
+  OK    AGENTS.md            total model spend                                       $5.31  L108           <- spend.json
+  All 30 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"BUDGET\\|5\\.00\\|5\\.0\" src/artifact_triage/eval/spend.py | head -6", "description": "Find the duplicated budget constant"}
+```
+
+**Tool response**
+
+```
+18:BUDGET_USD = 5.00
+19:THRESHOLDS = [1.0, 2.0, 3.0, 4.0, 5.0]
+127:    print(f"  {'BUDGET':<26} ${BUDGET_USD:>7.2f}")
+128:    print(f"  {'REMAINING':<26} ${BUDGET_USD - total:>7.4f}  "
+129:          f"({100 * total / BUDGET_USD:.1f}% used)")
+133:    filled = int(bar_w * min(total / BUDGET_USD, 1.0))
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/spend.py'; s=open(p).read()\ns = s.replace('''BUDGET_USD = 5.00\nTHRESHOLDS = [1.0, 2.0, 3.0, 4.0, 5.0]''',\n'''# Imported, not redeclared. Three copies of the ceiling existed - here, in\n# ledger.py and in budget.py - so raising it in one place left the report\n# drawing a line the guard no longer enforced, and showing an authorised\n# decision as a 106%-of-budget breach.\nfrom artifact_triage.common.ledger import BUDGET_USD, THRESHOLDS  # noqa: E402''')\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|REMAINING|BUDGET|ALERT\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 107 - the ceiling was declared in three places\n#\n# `ledger.BUDGET_USD`, `budget.GUARD_USD` and `spend.BUDGET_USD` were three\n# independent constants for one number. Raising the cap in one left the spend\n# report drawing a line the guard no longer enforced, and reporting an\n# authorise
+```
+
+**Tool response**
+
+```
+  TOTAL                      $ 5.3069  1771 calls
+  BUDGET                     $   5.50
+  REMAINING                  $ 0.1931  (96.5% used)
+144/144 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|All 3|Every result|STALE|carry NO\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 106 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 107 | Cap raised **$5.00 \u2192 $5.50** with explicit authorisation, to re-run the two results that could not be certified. | Both moved, and **both moved against the write-up**. The strong baseline went **0/13 \u2192 1/13**: \"a baseline explicitly told to hunt for contradictions finds none\" was an absolute that a fourth run did not support. Llama detection went **100% \u2192 88%**. The placebo control did **not** move (0/11), so the causal claim - the evidence does the work, not the prose - stands. | This is the argument for spending the money rather than explaining the staleness away. **All 11 results are now certified current.** Also found `adversarial.py` printing a **hardcoded \"93%\"** beside a live figure that had become 100%, and the ceiling declared in **three** independent constants - so raising it in one showed an authorised decision as
+```
+
+**Tool response**
+
+```
+  All 30 documented numbers match the results files.
+  Every result was produced by the current code.
+12215c7 Raise the cap to 5.50 and certify the last two results
+```
+
+## Human checkpoint 34
+
+> Go ahead clean the defects and also complete anything which is left and run it
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== prose asserting the strong baseline finds nothing ===\"\ngrep -n \"still scores 0%\\|structural rather than\\|finds none\\|strawman\" README.md src/artifact_triage/eval/adversarial.py | head\necho\nsed -n '310,330p' README.md", "description": "Find prose invalidated by the new numbers"}
+```
+
+**Tool response**
+
+```
+=== prose asserting the strong baseline finds nothing ===
+src/artifact_triage/eval/adversarial.py:7:OBJECTION 1 - "your baseline is a strawman."
+src/artifact_triage/eval/adversarial.py:11:    still scores 0%, the limitation is structural rather than a prompting
+src/artifact_triage/eval/adversarial.py:147:    print(f"  OBJECTION 1 - 'the baseline is a strawman'")
+README.md:314:**"Your baseline is a strawman — you never asked it to check consistency."**
+README.md:714:  contradictions finds none" was an absolute that a fourth run did not support;
+
+
+A sceptical reviewer has two obvious objections. Both were tested, and both could
+have falsified the central claim rather than merely qualified it.
+
+**"Your baseline is a strawman — you never asked it to check consistency."**
+
+| Baseline variant | Detection |
+|---|---|
+| Plain (judge the artifact) | 0% |
+| **Explicitly told to hunt for internal contradictions** | **1/13 (8%)** |
+
+Given the same falsified README and an instruction to look specifically for
+instructions referencing files that appear nowhere else, it detects nothing.
+**Reading prose cannot find a fabricated path however hard you ask it to.**
+
+**"The solution is reading the READ
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nold = \"\"\"Given the same falsified README and an instruction to look specifically for\ninstructions referencing files that appear nowhere else, it detects nothing.\n**Reading prose cannot find a fabricated path however hard you ask it to.**\"\"\"\nnew = \"\"\"Given the same falsified README and an instruction to look specifically for\ninstructions referencing files that appear nowhere else, it finds **one of\nthirteen**.\n\nThe falsification condition was pre-registered in\n[`adversarial.py`](src/artifact_triage/eval/adversarial.py): *\"if it still\nscores 0%, the limitation is structural rather than a prompting artefact.\"*\n**It did not score 0%.** That docstring is left exactly as written \u2014 editing a\npre-registration after seeing the result would be worse than the result itself.\n\nSo the honest reading is weaker than the one first published here, which said it\n\"detects nothing\": **prompting alone recovers almost none of the gap \u2014 8% against\nthe solution's 100% \u2014 but \"almost none\" is not \"none\".** Three runs 
+```
+
+**Tool response**
+
+```
+322:instructions referencing files that appear nowhere else, it finds **one of
+325:The falsification condition was pre-registered in
+332:"detects nothing": **prompting alone recovers almost none of the gap — 8% against
+435:> run recorded above is one of them. The model is not deterministic even at
+  All 30 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== regenerating every derived artifact ===\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard 2>&1 | tail -1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset 2>&1 | tail -2\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_trajectories 2>&1 | tail -2\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -3", "description": "Regenerate dashboard, dataset and trajectories", "timeout": 600000}
+```
+
+**Tool response**
+
+```
+=== regenerating every derived artifact ===
+wrote results/dashboard.html  (8,087 bytes, self-contained)
+
+  742 artifacts, 6,840 claims measured
+  wrote trajectories/product-agent__THU-WingTecher__DeepConstr.md  (7,710 chars)
+  wrote trajectories/README.md
+source: [REDACTED]  (2,251 events)
+wrote trajectories/build-agent.md  (487,562 chars, 12 human checkpoints)
+redactions: {'aws_secret': 23, 'env_assignment': 53}
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"jsonl\\|glob\\|sort\\|max(\\|latest\\|source\" scripts/export_build_trajectory.py | head -12", "description": "Inspect transcript selection"}
+```
+
+**Tool response**
+
+```
+61:def latest_transcript() -> Path:
+62:    files = sorted(TRANSCRIPT_DIR.rglob("*.jsonl"),
+82:    src = latest_transcript()
+84:    print(f"source: {src.name}  ({len(lines):,} events)")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '58,90p' scripts/export_build_trajectory.py\nls -S [REDACTED] 2>/dev/null | head -5 | xargs -I{} sh -c 'echo \"  $(wc -l < \"{}\") events  $(basename {})\"'", "description": "Read selection logic and available transcripts"}
+```
+
+**Tool response**
+
+```
+Exit code 1
+        raise SystemExit(f"REFUSING TO WRITE: secrets survived redaction: {hits}")
+
+
+def latest_transcript() -> Path:
+    files = sorted(TRANSCRIPT_DIR.rglob("*.jsonl"),
+                   key=[REDACTED] p: p.stat().st_mtime, reverse=True)
+    if not files:
+        raise SystemExit(f"no transcript found under {TRANSCRIPT_DIR}")
+    return files[0]
+
+
+def text_of(content) -> str:
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        out = []
+        for b in content:
+            if isinstance(b, dict) and b.get("type") == "text":
+                out.append(b.get("text", ""))
+        return "\n".join(out)
+    return ""
+
+
+def main() -> None:
+    src = latest_transcript()
+    lines = src.read_text(errors="replace").splitlines()
+    print(f"source: {src.name}  ({len(lines):,} events)")
+
+    md: list[str] = [
+        "# Build Agent Trajectory\n",
+        "The coding agent that wrote this repository: **Claude Code (Opus)**.\n",
+        f"Session `{src.stem[:8]}` — {len(lines):,} recorded events.\n",
+        "Every line below passed through the redactor in "
+xargs: command line cannot be assembled, too long
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nfor f in \"$D\"/*.jsonl; do printf \"  %6s events  %s\\n\" \"$(wc -l < \"$f\")\" \"$(basename \"$f\")\"; done | sort -rn -k1 | head -6", "description": "List transcripts by size"}
+```
+
+**Tool response**
+
+```
+      6798 events  b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"TRANSCRIPT_DIR\" scripts/export_build_trajectory.py | head -3\nsed -n \"$(grep -n 'TRANSCRIPT_DIR = ' scripts/export_build_trajectory.py | cut -d: -f1),+4p\" scripts/export_build_trajectory.py\necho \"=== whose session did it export? ===\"\nhead -3 trajectories/build-agent.md\nfind ~/.claude/projects -name \"1a0b3114*.jsonl\" 2>/dev/null | head -2", "description": "Determine the transcript search scope"}
+```
+
+**Tool response**
+
+```
+20:TRANSCRIPT_DIR = Path.home() / ".claude/projects"
+62:    files = sorted(TRANSCRIPT_DIR.rglob("*.jsonl"),
+65:        raise SystemExit(f"no transcript found under {TRANSCRIPT_DIR}")
+TRANSCRIPT_DIR = Path.home() / ".claude/projects"
+OUT = Path("trajectories/build-agent.md")
+MAX_CHARS = 1200  # per tool result, so the document stays readable
+
+# Ordered most-specific first. Each pattern is a distinct way a secret leaks.
+=== whose session did it export? ===
+# Build Agent Trajectory
+
+The coding agent that wrote this repository: **Claude Code (Opus)**.
+[REDACTED]
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\ns = s.replace('''def latest_transcript() -> Path:\n    files = sorted(TRANSCRIPT_DIR.rglob(\"*.jsonl\"),\n                   key=[REDACTED] p: p.stat().st_mtime, reverse=True)\n    if not files:\n        raise SystemExit(f\"no transcript found under {TRANSCRIPT_DIR}\")\n    return files[0]''',\n'''def project_transcript_dir() -> Path:\n    \"\"\"The transcript directory for THIS repository, and only this one.\n\n    Claude Code encodes the working directory into the folder name by replacing\n    every non-alphanumeric character with a hyphen.\n    \"\"\"\n    slug = \"\".join(c if c.isalnum() else \"-\" for c in str(Path.cwd()))\n    return TRANSCRIPT_DIR / slug\n\n\ndef latest_transcript() -> Path:\n    \"\"\"The most complete transcript OF THIS PROJECT.\n\n    This searched `~/.claude/projects` - every project on the machine - and took\n    the most recently modified file. Working on any other repository afterwards\n    made that file another project's session, and this script would have written\n    it into `traje
+```
+
+**Tool response**
+
+```
+source: b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl  (6,817 events)
+wrote trajectories/build-agent.md  (1,048,138 chars, 34 human checkpoints)
+redactions: {'aws_secret': 7, 'env_assignment': 47}
+--- verify it is THIS project ---
+575
+1
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -in \"[REDACTED]\" trajectories/build-agent.md | head -3\necho \"--- any foreign transcript markers? ---\"\ngrep -c \"1a0b3114\" trajectories/build-agent.md || echo \"  0 (no foreign session id)\"", "description": "Verify no foreign project data leaked"}
+```
+
+**Tool response**
+
+```
+[REDACTED]
+--- any foreign transcript markers? ---
+3
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n \"$(grep -n '^PATTERNS\\|^REDACTIONS\\|Ordered most-specific' scripts/export_build_trajectory.py | head -1 | cut -d: -f1),+14p\" scripts/export_build_trajectory.py", "description": "Read the redaction patterns"}
+```
+
+**Tool response**
+
+```
+# Ordered most-specific first. Each pattern is a distinct way a secret leaks.
+REDACTIONS: list[tuple[str, re.Pattern]] = [
+    ("aws_access_key_id", re.compile(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b")),
+    ("aws_secret", re.compile(r"\b[A-Za-z0-9/+=]{40}\b")),
+    ("anthropic_key", re.compile(r"\bsk-ant-[A-Za-z0-9_\-]{20,}")),
+    ("openai_key", re.compile(r"\bsk-[A-Za-z0-9]{32,}")),
+    ("google_key", re.compile(r"\bAIza[0-9A-Za-z_\-]{35}\b")),
+    ("xai_key", re.compile(r"\bxai-[A-Za-z0-9]{20,}")),
+    ("github_token", re.compile(r"\bgh[pousr]_[A-Za-z0-9]{16,}")),
+    ("bearer", re.compile(r"(?i)\b(?:bearer|authorization:)\s+[A-Za-z0-9._\-]{20,}")),
+    # The negative lookahead stops this matching its own replacement:
+    # without it, `KEY=[REDACTED]` re-matches on the verification pass and the
+    # exporter refuses to write a document that is already clean. Same bug class
+    # the README scrubber hit - a redactor must not be able to redact itself.
+    ("env_assignment", re.compile(
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\ns = s.replace('''    (\"aws_access_key_id\", re.compile(r\"\\\\b(?:AKIA|ASIA)[0-9A-Z]{16}\\\\b\")),''',\n'''    # Paths to OTHER projects' transcripts. Not a credential, but this document\n    # is published, and the name of an unrelated repository on the author's\n    # machine is not the submission's to disclose. Found when a diagnostic\n    # command printed one such path into this very transcript.\n    (\"foreign_project_path\", re.compile(\n        r\"[^\\\\s\\\\\"']*\\\\.claude/projects/(?!\" + re.escape(\n            \"\".join(c if c.isalnum() else \"-\" for c in str(Path.cwd()))\n        ) + r\")[^\\\\s\\\\\"'\\\\\\\\]*\")),\n    (\"aws_access_key_id\", re.compile(r\"\\\\b(?:AKIA|ASIA)[0-9A-Z]{16}\\\\b\")),''')\nopen(p,'w').write(s)\nPY\n.venv/bin/python -c \"import ast;ast.parse(open('scripts/export_build_trajectory.py').read());print('SYNTAX OK')\"\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -3\necho \"--- foreign project references remaining ---\"\ngrep -ci \"[REDACTED]\" trajectorie
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+source: b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl  (6,836 events)
+wrote trajectories/build-agent.md  (1,051,389 chars, 34 human checkpoints)
+redactions: {'aws_secret': 7, 'env_assignment': 47, 'foreign_project_path': 3}
+--- foreign project references remaining ---
+2
+3
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\nold_start = s.index('    # Paths to OTHER projects\\' transcripts.')\nold_end = s.index('    (\"aws_access_key_id\"')\nnew = '''    # Identifiers of OTHER projects on this machine. Not credentials, but this\n    # document is published, and the name of an unrelated repository - or the\n    # id of a session belonging to one - is not the submission's to disclose.\n    #\n    # Found when the exporter itself picked another project's transcript and a\n    # diagnostic printed the path here. Paths were redacted first; the NAMES\n    # still appeared in prose, because a redactor that only handles the shape it\n    # first noticed misses the same secret written a different way.\n    (\"foreign_project\", re.compile(_foreign_pattern())),\n'''\ns = s[:old_start] + new + s[old_end:]\n\ns = s.replace('''# Ordered most-specific first. Each pattern is a distinct way a secret leaks.''',\n'''def _foreign_pattern() -> str:\n    \"\"\"Match any identifier belonging to a DIFFERENT project's transcripts.\n\n    Built from what is 
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+source: b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl  (6,848 events)
+wrote trajectories/build-agent.md  (1,012,253 chars, 34 human checkpoints)
+redactions: {'foreign_project': 1059, 'aws_secret': 7, 'env_assignment': 47}
+--- foreign references remaining ---
+  [REDACTED]     2
+  1a0b3114     2
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nimport sys; sys.path.insert(0,'scripts')\nfrom pathlib import Path\nmine = ''.join(c if c.isalnum() else '-' for c in str(Path.cwd()))\nroot = Path.home()/'.claude/projects'\ntoks=set()\nfor d in root.iterdir():\n    if not d.is_dir() or d.name==mine: continue\n    tail=d.name.rstrip('-').split('-')[-1]\n    if len(tail)>=4: toks.add(tail)\nprint('short tails that become match tokens:', sorted(toks)[:20])\nprint('count:', len(toks))\"\ngrep -in \"[REDACTED]\" trajectories/build-agent.md | head -2 | cut -c1-140", "description": "Diagnose the over-matching tokens"}
+```
+
+**Tool response**
+
+```
+short tails that become match tokens: ['[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', '[REDACTED]', 'Vayu', 'adarsh', '[REDACTED]', '[REDACTED]']
+count: 17
+16471:{"command": "cd \"[REDACTED] Frontier Engineering Challenge 2026\"\ngrep -in \"[REDACTED]\" trajectories/build-agent.md | head -3\necho 
+16511:{"command": "cd \"[REDACTED] Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\nold = s[s.index('def _foreign_pattern() -> str:'):s.index('# Ordered most-specific first.')]\nnew = '''def _foreign_pattern() -> str:\n    \"\"\"Match identifiers belonging to a DIFFERENT project's transcripts.\n\n    Built from what is on disk, not a hardcoded name: each sibling directory\n    under ~/.claude/projects, the session ids inside it, and the repository name\n    at the end of the directory slug.\n\n    A first attempt took every trailing segment, which included `adarsh` - the\n    home-directory segment shared by every absolute path in the transcript. It\n    fired 1,059 times and rewrote `cd \"/Users/adarsh/...\"` into\n    `cd \"[REDACTED] ...\"`, destroying the document to hide nothing.\n    \n    So any token that also appears in THIS project's own path is excluded: a\n    redactor that mangles the thing it is protecting has failed twice.\n    \"\"\"\n    mine = \"\".join(c if c.isalnum() else \"-\" for c in str(Path.cwd()))\n    lower_mine = mine.lower()\n    toks: set[str] = set()\n    root = P
+```
+
+**Tool response**
+
+```
+source: b0c00099-ee4c-4b92-8782-f5e379e360ef.jsonl  (6,862 events)
+wrote trajectories/build-agent.md  (1,038,923 chars, 34 human checkpoints)
+redactions: {'foreign_project': 151, 'aws_secret': 7, 'env_assignment': 47}
+--- integrity check ---
+0
+  0 mangled cd commands
+  [REDACTED]       5
+  1a0b3114       3
+  Users/adarsh   798
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\ns = s.replace('''    (\"foreign_project\", re.compile(_foreign_pattern())),''',\n'''    # Case-insensitive: the name also appeared lower-cased inside shell\n    # commands. Safe here because tokens shared with this project's own path\n    # are already excluded, so widening cannot re-mangle our own paths.\n    (\"foreign_project\", re.compile(_foreign_pattern(), re.I)),''')\nopen(p,'w').write(s)\nPY\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -2\necho \"--- final integrity ---\"\nfor t in [REDACTED] 1a0b3114; do printf \"  %-12s %s\\n\" \"$t\" \"$(grep -ci \"$t\" trajectories/build-agent.md || echo 0)\"; done\nprintf \"  own paths kept: %s\\n\" \"$(grep -c 'Users/adarsh' trajectories/build-agent.md)\"\nprintf \"  mangled cd:     %s\\n\" \"$(grep -c 'cd \\\"\\[REDACTED\\]' trajectories/build-agent.md || echo 0)\"", "description": "Catch lowercase forms without over-redacting", "timeout": 300000}
+```
+
+
+---
+
+Redactions applied: `{'foreign_project': 165, 'aws_secret': 7, 'env_assignment': 47}`
