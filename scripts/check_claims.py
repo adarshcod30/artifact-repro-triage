@@ -68,8 +68,9 @@ def claims() -> list[tuple[str, str, str, str]]:
 
     sp = load("results/spend.json")
     if sp:
-        out.append(("README.md", f"${sp['total_usd']:.2f}",
-                    "total model spend", "spend.json"))
+        for doc in ("README.md", "AGENTS.md"):
+            out.append((doc, f"${sp['total_usd']:.2f}",
+                        "total model spend", "spend.json"))
 
     return out
 

@@ -85,7 +85,7 @@ def free_components() -> list[str]:
         "deterministic claim verifier (verify.py)",
         "negative control - 75 injected claims (negative_control.py)",
         "link-rot checking (links.py)",
-        "prevalence sweep across 376 artifacts (prevalence.py)",
+        "prevalence sweep across the discovered corpus (prevalence.py)",
         "GitHub issue validation (issue_validation.py)",
         "corpus build from cached fixtures (corpus/*)",
         "CLI default mode (cli.py, no --model)",
