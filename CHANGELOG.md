@@ -88,6 +88,24 @@ Reported alongside the negative finding it replaced: a constant predictor
 (`always "Functional"`, MAE 0.667) beats both the baseline (0.733) and the
 solution (1.000) on badge agreement. Both results are in the README.
 
+## Extension - from a classifier to a measurement instrument
+
+Once the falsified experiment settled the comparison, the remaining weaknesses were
+scope: n=15, one venue, and only one class of defect checked. Each was addressed
+with evidence rather than assertion.
+
+| Stage | What I tried and why | Evidence | Decision / Learning |
+|---|---|---|---|
+| Iteration 27 | Searched the literature for whether this problem is actually documented, rather than continuing to assert it. | Over 40% of "functional" artifacts from 2024-25 fail within months; 62.6% break at least once; only 56.4% reachable at published links; link rot averages 9.4%. | **Reframed the negative result.** The badge comparison did not fail because the metric was broken - it was measuring **artifact decay**, which is the documented phenomenon. The gap between a 2024 badge and today's repository *is* the finding. |
+| Iteration 28 | Added link-rot checking, since the stated failure mode was "only checks file paths". | 10 dead of 85 URLs (11.8%); 4 of 15 artifacts (27%) carry a dead link. | Kept. That figure sits inside the published 9.4% average and 1.8-29.8% range - **an independent implementation reproducing a known measurement**, which is evidence the tool measures something real. |
+| Iteration 29 | Scaled the corpus. The verifier needs no labels and no model, so it can be pointed at everything. | Harvested **398** distinct artifact repositories from Zenodo across venues and "replication/reproduction package" phrasing. | The tool becomes a measurement instrument, not only a classifier. |
+| Iteration 30 | The harvester silently returned zero results. | HTTP **400**, not 429 - Zenodo rejects page sizes above 25 as a validation error. My handler printed only the exception type, hiding the status code. | Surface the status code. A "rate limit" that is actually a malformed request wastes the entire debugging budget on backoff tuning. |
+| Iteration 31 | Added dependency-pinning analysis - the most-cited cause of decay in the literature. | 53% of the corpus has **no dependency manifest at all**; of those that do, 29% carry a floating requirement. | Kept, and wired into the reviewer report so it names the specific packages that will drift. |
+| Iteration 32 | Inspected the pinning output rather than trusting it. | A basename lookup selected `FF_AFL++/frida_mode/ts/package-lock.json` - vendored third-party code six levels deep - as an artifact's own manifest. | Depth-limited selection. The headline numbers moved substantially and more honestly: mean pinned ratio 56% -> 85%, "no manifest" 40% -> 53%. |
+| Iteration 33 | Added portability scanning for hard-coded machine-specific values ("incomplete environments" in the literature). | 27% affected. `upbeat` - **badged Functional** - hard-codes 12 paths into `/root/upbeat/`. `inconsistencies-in-tex` reads `/Users/jovyntan/Desktop/2122cmp.csv`. | Kept. An artifact that passed Functional review cannot run outside its author's container. Deliberately narrow patterns: over-reporting trains reviewers to ignore output. |
+| Iteration 34 | Wrote 25 regression tests, one per bug this changelog claims to have fixed. | The suite immediately found that `Makefile.am` was not recognised as a path (autotools build files silently skipped), then that the RFC1918 pattern **could never fire** - it demanded three octets after `192.168`, which is already two. | Kept. A changelog entry is a claim; a test is a guarantee. **Both bugs were the same failure class as the truncated file trees and the self-matching scrubber: silent under-reporting.** A check that quietly never fires is indistinguishable from a clean result. |
+| Iteration 35 | Built the CLI and the results dashboard, because a measurement nobody can read is not a deliverable. | `artifact-triage owner/repo` runs deterministically in ~5s with no credentials; the dashboard is 8KB with zero external references. | Kept. Every report ends with a *Not checked* section: a reviewer who cannot see a tool's limits cannot responsibly use its output. |
+
 ## Experiments removed
 
 - **Shallow cloning** (Iteration 9). Filled the disk to 100% on a 15-artifact corpus. Taught me that repo *size at HEAD* and *clone size* differ by more than an order of magnitude, and that the fact I needed (path existence) never justified transferring bytes at all.
