@@ -49,7 +49,15 @@ Produced by [artifact-repro-triage](https://github.com/adarshcod30/artifact-repr
 2. For each, the complete recursive file tree and the README were read through
    the GitHub API, pinned to an explicit commit. **No repository was cloned and
    no code was executed.**
-3. Every file path referenced in the README was checked for existence.
+3. Every file path referenced in the README was checked for existence. URLs are
+   stripped first, so links to other projects are not counted as this
+   repository's claims.
+
+**Derived values are never cached.** The per-repository cache stores only what
+was fetched - the raw README and the file tree - and everything computed from
+them is recomputed on load. An earlier version cached the extracted path list,
+so fixing the extractor silently could not change any cached artifact while the
+provenance stamp still reported the output as current.
 
 All measurement code is deterministic. Re-running it on the same commits produces
 byte-identical output.
@@ -86,6 +94,12 @@ byte-identical output.
 - **`broken` can include legitimate references to other projects.** A README
   discussing another repository's files will have them counted. Measured on this
   project's own README, where all six flagged paths were quotations.
+  **Links are no longer among them.** External URLs used to be extracted as
+  repository paths - the token pattern cannot contain `:`, so
+  `https://github.com/other/repo/blob/main/x.py` degraded to a path that by
+  construction can never exist here. That was **126 of 1,190 reported-broken
+  paths (10.6%)**, now zero. Prose references to another project's files can
+  still be counted; URLs cannot.
 
 ## Licence
 

@@ -1288,6 +1288,148 @@ def test_a_changed_corpus_marks_results_stale():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 87 - external URLs were counted as broken repo paths
+#
+# The token pattern cannot contain ":", so
+# "https://github.com/other/repo/blob/main/tool.py" degraded to
+# "//github.com/.../tool.py" and survived `_is_path` as a claimed repository
+# file - one that by construction can never exist here, and was therefore
+# counted as a broken claim.
+#
+# Measured on the 732-artifact sweep: 126 of 1,190 broken paths (10.6%) were
+# links to OTHER projects' files - github.com/..., conda.io/docs/...,
+# pandoc.org/MANUAL.html. A README linking to another project's source is not
+# claiming that source lives in this repository.
+#
+# The datasheet already warned this could happen. Nobody had measured it, and
+# an unquantified caveat next to a headline percentage is not a disclosure.
+# --------------------------------------------------------------------------
+def test_external_urls_are_not_claimed_repository_paths():
+    from artifact_triage.corpus.fetch import referenced_paths
+    for text in (
+        "See https://example.com/docs/setup.py for details",
+        "Based on https://github.com/other/repo/blob/main/tool.py",
+        "Docs at www.pandoc.org/MANUAL.html",
+        "Installer: https://repo.anaconda.com/archive/Anaconda3-2024.06-1.sh",
+        "ftp://mirror.org/pub/data.csv",
+    ):
+        assert referenced_paths(text) == [], f"{text!r} -> {referenced_paths(text)}"
+
+
+def test_stripping_urls_does_not_lose_genuine_relative_paths():
+    from artifact_triage.corpus.fetch import referenced_paths
+    got = referenced_paths(
+        "Clone https://github.com/me/mine.git then run setup.py and "
+        "scripts/go.sh; see [docs](docs/guide.md)")
+    assert set(got) == {"setup.py", "scripts/go.sh", "docs/guide.md"}, got
+
+
+def test_a_path_inside_a_url_is_not_resurrected_by_the_inline_scan():
+    """Backticked URLs must be stripped too, not just prose ones."""
+    from artifact_triage.corpus.fetch import referenced_paths
+    assert referenced_paths("Run `https://x.org/a/b/run.py` now") == []
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 88 - the cache stored a conclusion instead of an input
+#
+# The prevalence cache stored `readme_referenced_paths`, a DERIVED value. When
+# the extractor was fixed to stop counting external URLs as repository files,
+# re-running the sweep reproduced the old numbers exactly: the fix could not
+# reach any cached artifact.
+#
+# Worse, the provenance stamp on that output said "current". It hashed the NEW
+# extractor while the numbers came from values the OLD one produced - a
+# staleness detector certifying stale numbers, which is the failure mode this
+# project argues is worse than having no detector.
+#
+# Recomputing must use the RAW README, not the stored one: the stored copy is
+# truncated to 20,000 characters and 45 cached entries sit exactly at that cap,
+# so re-extracting from it would silently undercount.
+# --------------------------------------------------------------------------
+def test_cached_profiles_recompute_derived_values():
+    import inspect
+    from artifact_triage.eval import prevalence
+    src = inspect.getsource(prevalence.profile)
+    assert "_rederive" in src, \
+        "a cached derived value cannot be corrected by fixing the code"
+
+
+def test_rederivation_reads_the_full_readme_not_the_truncated_copy():
+    import inspect
+    from artifact_triage.eval import prevalence
+    src = inspect.getsource(prevalence._rederive)
+    i, j = src.index("readme(slug)"), src.index('fx.get("readme")')
+    assert i < j, "the raw README must be preferred over the truncated copy"
+
+
+def test_no_external_url_survives_as_a_broken_claim_in_prevalence():
+    """The published rate must not count other projects' files as missing."""
+    import json as _json
+    import re as _re
+    p = Path("results/prevalence.json")
+    if not p.exists():
+        return
+    dom = _re.compile(
+        r"^(?:www\.)?[\w-]+\.(?:com|org|net|io|edu|gov|de|uk|cn|ai|dev|me|co)"
+        r"(?:/|$)", _re.I)
+    offenders = [pp for r in _json.loads(p.read_text())["per_artifact"]
+                 for pp in r.get("broken_paths", []) if dom.match(pp)]
+    assert not offenders, f"{len(offenders)} URL(s) counted as broken: {offenders[:5]}"
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 90 - the anti-cry-wolf mechanism cried wolf
+#
+# The corpus fingerprint was added so that changes to scrubbing/extraction mark
+# the CORPUS stale without falsely invalidating results. It was then applied to
+# every result kind - so rebuilding `data/fixtures` marked `prevalence` stale
+# for data prevalence never reads. The fix for cry-wolf, itself crying wolf.
+#
+# The rule that keeps recurring: a fingerprint must cover EXACTLY what a result
+# consumed. Too little certifies stale numbers; too much trains you to ignore
+# the alarm.
+# --------------------------------------------------------------------------
+def test_corpus_fingerprint_applies_only_to_fixture_consumers():
+    from artifact_triage.common.provenance import (FIXTURE_KINDS, stamp)
+    assert "prevalence" not in FIXTURE_KINDS
+    assert "corpus_fingerprint" not in stamp("prevalence")
+    assert "corpus_fingerprint" in stamp("solution")
+
+
+def test_a_recorded_corpus_hash_is_ignored_for_non_fixture_kinds():
+    """prevalence.json still carries an old hash; it must not go stale on it."""
+    from artifact_triage.common.provenance import fingerprint, is_stale
+    payload = {"_provenance": {"kind": "prevalence", "commit": "abc",
+                               "code_fingerprint": fingerprint("prevalence"),
+                               "corpus_fingerprint": "staleaaaaaaa"}}
+    stale, why = is_stale(payload)
+    assert not stale, why
+
+
+# --------------------------------------------------------------------------
+# Iteration 91 - "verified" numbers that verified nothing
+#
+# check_claims matches a literal anywhere in the document. Printing WHERE each
+# match landed exposed two checks that proved nothing:
+#   - trial count matched the bare string "3", on 56 lines
+#   - solution MAE matched "0.700" on the anti-calibrated-CONFIDENCE sentence,
+#     not the MAE table - a coincidence reported as a pass
+# An unaudited green check is exactly what this project argues against.
+# --------------------------------------------------------------------------
+def test_claim_literals_are_distinctive_enough_to_verify_something():
+    import subprocess
+    out = subprocess.run([sys.executable, "scripts/check_claims.py"],
+                         capture_output=True, text=True,
+                         cwd=str(Path(__file__).resolve().parents[1]))
+    assert "TOO LOOSE" not in out.stdout, out.stdout[-900:]
+    assert "FAIL" not in out.stdout, out.stdout[-900:]
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

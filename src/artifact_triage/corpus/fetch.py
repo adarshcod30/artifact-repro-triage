@@ -114,6 +114,9 @@ def _is_dir_ref(tok: str) -> bool:
     return bool(segs) and all(len(x) >= 2 for x in segs)
 
 
+_URL_IN_TEXT = re.compile(r"(?:https?|ftp)://\S+|\bwww\.\S+", re.I)
+
+
 def referenced_paths(text: str) -> list[str]:
     """Paths the README claims exist - raw material for claim verification.
 
@@ -125,6 +128,22 @@ def referenced_paths(text: str) -> list[str]:
     whole-document scan does not add false claims (verified: 0 false positives
     across the corpus).
     """
+    # Strip URLs BEFORE extracting. The token pattern cannot contain ":", so
+    # "https://github.com/other/repo/blob/main/x.py" degraded to
+    # "//github.com/.../x.py" and survived as a claimed repo path - a file that
+    # by construction can never exist here, counted as a broken claim.
+    #
+    # Measured on the 732-artifact sweep: 126 of 1,190 broken paths (10.6%) were
+    # links to OTHER projects' files - github.com/..., conda.io/docs/...,
+    # pandoc.org/MANUAL.html. A README linking to another project's source is
+    # not claiming that source is in this repository. The datasheet already
+    # warned this could happen; nobody had measured it.
+    #
+    # Link rot is still checked - links.py extracts URLs from the raw README
+    # independently, which is why the two concerns were kept in separate
+    # modules.
+    text = _URL_IN_TEXT.sub(" ", text)
+
     found: set[str] = set()
     for tok in re.findall(r"[\w./\-]+\.[A-Za-z0-9]{1,10}", text):
         if _is_path(tok):

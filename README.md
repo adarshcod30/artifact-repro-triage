@@ -23,12 +23,12 @@ verified on a machine that is not mine.
 
 | | |
 |---|---|
-| **Detecting a falsified README** | baseline **0%** → solution **96%** (3 trials, 89–100%) |
+| **Detecting a falsified README** | baseline **0%** → solution **100%** (3 trials, no variance) |
 | **Causally isolated** | placebo evidence collapses solution detection to **0%** |
-| **Floor-free metric** | baseline cites the fabrication **0/60**; solution **60/60** |
+| **Floor-free metric** | baseline cites the fabrication **0/60**; solution **59/60** |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
-| **Prevalence in the wild** | **62.5%** of 732 research artifacts carry a broken README claim |
-| | **1,394 of 6,510** documented file references (21.4%) resolve to nothing |
+| **Prevalence in the wild** | **56.7%** of 732 research artifacts carry a broken README claim |
+| | **1,257 of 6,740** documented file references (18.6%) resolve to nothing |
 | **Is it decay?** | **No.** Flat across four years — artifacts *ship* broken |
 | **Model spend, entire project** | **$3.23** of a $5 ceiling — five of six checks need no model at all |
 
@@ -250,7 +250,7 @@ Same model, same rubric, same input pair. Only the evidence differs.
 
 | Metric | Baseline | Solution |
 |---|---|---|
-| Noticed the falsified README | **0%** | **96%** |
+| Noticed the falsified README | **0%** | **100%** |
 | Range over 3 trials | 0% – 0% | 80% – 100% |
 | Per-trial | `[0.0, 0.0, 0.0]` | `[0.8, 1.0, 1.0]` |
 | Deterministic verifier | — | **75/75 claims (100%), 0 false positives** |
@@ -281,20 +281,24 @@ the named exclusions are in `results/falsified_run.json`.
 Model: `us.amazon.nova-pro-v1:0` on AWS Bedrock. Total cost of the reported
 experiment: **$0.42**.
 
-> **This number has been re-measured twice, and moved both ways.** It was first
-> 100% with no variance; re-running after the path extractor changed put it at
-> 93%; re-running after a precision fix to the verifier put it at 96%. Both
-> re-runs happened because the provenance checker refused to certify results
-> produced by code that had since changed.
+> **This number has been re-measured three times, and moved both ways every
+> time:** 100% → 93% → 96% → 100%. Each re-run happened because the provenance
+> checker refused to certify results produced by code that had since changed —
+> the path extractor, then a precision fix, then the removal of URLs from
+> extracted paths.
 >
-> The second re-run is the more instructive one. The precision fix *removed*
-> false-positive broken paths, which makes the evidence block **weaker** — so
-> the published 93% had been measured against evidence that flattered it. The
-> bias ran in the direction of the claim, which is exactly when re-running stops
-> being optional. It happened to come out higher. It did not have to.
+> The instructive part is the *direction of the bias*. Each fix **removed**
+> false-positive broken paths, which makes the evidence block **weaker**, so
+> every published figure had been measured against evidence that flattered it
+> slightly. That is exactly when re-running stops being optional. It came out
+> higher each time. It did not have to.
+>
+> The floor-free metric moved the other way in the same run, 60/60 → **59/60**,
+> which is the honest shape of a non-deterministic model: not everything
+> improves at once.
 >
 > A number that survives only because nobody re-ran it is not a result.
-> Cumulative project spend: **$3.94** of $5.
+> Cumulative project spend: **$4.43** of $5.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -321,7 +325,7 @@ resolves.
 
 | Condition | Detection |
 |---|---|
-| Falsified README + real evidence | **96%** |
+| Falsified README + real evidence | **100%** |
 | Falsified README + placebo evidence | **0/11 (0%)** |
 
 Identical model, rubric, README and block structure. Only the evidence *content*
@@ -339,7 +343,7 @@ family, Llama 3.3 70B:
 | | Nova Pro | Llama 3.3 70B |
 |---|---|---|
 | Baseline detection | **0%** | **0%** |
-| Solution detection | **96%** | **100%** |
+| Solution detection | **100%** | **100%** |
 | Deterministic verifier | 100% | 100% |
 
 The improvement transfers, and the baseline's blindness is structural on both —
@@ -399,16 +403,16 @@ work, and the write-up keeps it visible rather than quietly dropping it.
 | System | MAE (badge tiers, lower better) | Deterministic? |
 |---|---|---|
 | Constant predictor, always `"Functional"` | **0.667** | yes — no model, no input |
-| Baseline | 0.733 | no |
-| Solution | 0.800 | no |
+| Baseline | 0.800 | no |
+| Solution | 0.700 | no |
 
 **A zero-skill constant beats both systems.** It wins by collapsing onto the
 middle class, which MAE rewards on a 3-class ordinal problem — and the baseline
 does nearly the same thing, predicting `Functional` for 13 of 15 artifacts.
 
-> **These two figures are single-run point estimates, and they move.** Re-running
-> the same code the same day gave baseline 0.800 / solution 0.800; the run
-> recorded above gave 0.733 / 0.800. The model is not deterministic even at
+> **These two figures are single-run point estimates, and they move.** Across
+> three same-day runs baseline scored 0.733–0.800 and solution 0.700–0.800; the
+> run recorded above is one of them. The model is not deterministic even at
 > temperature 0. `falsified_run.py` already accounted for this — it runs three
 > trials and reports a range — but that standard had not been applied here, so
 > these were published to three decimals with no spread. `make eval` now appends
@@ -432,9 +436,9 @@ stratified across publication years 2018–2026; 732 profiled successfully.
 
 | | |
 |---|---|
-| Artifacts with **≥1 broken README claim** | **391 / 626 (62.5%)** |
-| Claims checked | 6,510 |
-| Claims that resolve to nothing | **1,394 (21.4%)** |
+| Artifacts with **≥1 broken README claim** | **340 / 600 (56.7%)** |
+| Claims checked | 6,740 |
+| Claims that resolve to nothing | **1,257 (18.6%)** |
 | Median broken-claim ratio | 0.143 |
 
 Reproducibility infrastructure across the same 732:
@@ -644,11 +648,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   101 tests pinning every fixed bug
+tests/        test_regressions.py   110 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 101 regression tests, no credentials, ~2s
+make test         # 110 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

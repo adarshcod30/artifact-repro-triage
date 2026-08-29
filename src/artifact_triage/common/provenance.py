@@ -96,6 +96,18 @@ def fingerprint(kind: str) -> str:
 CORPUS_INPUTS = ["src/artifact_triage/corpus/scrub.py",
                  "src/artifact_triage/corpus/fetch.py"]
 
+# Only these read `data/fixtures`. `prevalence` has its own cache and recomputes
+# everything derived on load, so its inputs cannot drift from its code - the
+# code fingerprint alone covers it.
+#
+# Applying one global corpus hash to every kind was itself a cry-wolf bug,
+# introduced in the very mechanism added to stop cry-wolf: rebuilding the
+# fixtures marked `prevalence` stale for data it never reads. A fingerprint must
+# cover exactly what a result consumed. Too little certifies stale numbers; too
+# much trains you to ignore it.
+FIXTURE_KINDS = {"verify", "baseline", "solution", "falsified",
+                 "negative_control", "subtle", "ablation", "adversarial"}
+
 
 def corpus_fingerprint() -> str:
     h = hashlib.sha256()
@@ -111,9 +123,11 @@ def corpus_fingerprint() -> str:
 
 def stamp(kind: str) -> dict:
     """Attach to any results payload as `_provenance`."""
-    return {"kind": kind, "commit": commit(),
-            "code_fingerprint": fingerprint(kind),
-            "corpus_fingerprint": corpus_fingerprint()}
+    out = {"kind": kind, "commit": commit(),
+           "code_fingerprint": fingerprint(kind)}
+    if kind in FIXTURE_KINDS:
+        out["corpus_fingerprint"] = corpus_fingerprint()
+    return out
 
 
 def is_stale(payload: dict) -> tuple[bool, str]:
@@ -130,6 +144,8 @@ def is_stale(payload: dict) -> tuple[bool, str]:
     # Absent on results recorded before corpus fingerprinting existed. That is
     # "not recorded", not "stale" - claiming otherwise would be inventing a
     # failure, which is the same dishonesty as hiding one.
+    if kind not in FIXTURE_KINDS:
+        return False, "current"          # does not consume the fixtures at all
     recorded = prov.get("corpus_fingerprint")
     if recorded is None:
         return False, "current (corpus fingerprint predates this check)"

@@ -36,12 +36,17 @@ def claims() -> list[tuple[str, str, str, str]]:
     if fr:
         sr = fr.get("solution_rates") or []
         br = fr.get("baseline_rates") or []
+        # Anchored to the headline row. Bare "100%" matched 11 lines and bare
+        # "0%" matched 21 - a pass proved only that the digits exist somewhere.
+        if sr and br:
+            out.append(("README.md",
+                        f"baseline **{sum(br)/len(br):.0%}** → "
+                        f"solution **{sum(sr)/len(sr):.0%}**",
+                        "detection, baseline vs solution", "falsified_run.json"))
         if sr:
-            out.append(("README.md", f"{sum(sr)/len(sr):.0%}",
-                        "solution detection mean", "falsified_run.json"))
-        if br:
-            out.append(("README.md", f"{sum(br)/len(br):.0%}",
-                        "baseline detection mean", "falsified_run.json"))
+            out.append(("README.md", f"| **0%** | **{sum(sr)/len(sr):.0%}** |",
+                        "solution detection (results table)",
+                        "falsified_run.json"))
         # Derive the floor-free figure from the per-artifact records of EVERY
         # model run, rather than a top-level key. The key did not exist, so
         # this claim was being silently skipped - a claim checker that quietly
@@ -64,7 +69,9 @@ def claims() -> list[tuple[str, str, str, str]]:
                         "floor-free: baseline cites absence",
                         "falsified_run.json + falsified_llama.json"))
         if fr.get("trials"):
-            out.append(("README.md", str(fr["trials"]), "trial count",
+            # Was `str(fr["trials"])` - a bare "3", which matched 56 lines and
+            # verified nothing at all.
+            out.append(("README.md", f"{fr['trials']} trials", "trial count",
                         "falsified_run.json"))
 
     # The negative result is a documented claim too, and it drifted: the table
@@ -76,10 +83,16 @@ def claims() -> list[tuple[str, str, str, str]]:
             if cp.get(sysname):
                 # The video script quotes these too. A spoken number is still a
                 # claim, and it had drifted there as well.
-                for doc in ("README.md", "docs/VIDEO_SCRIPT.md"):
-                    out.append((doc, f"{cp[sysname]['mae']:.3f}",
-                                f"{sysname} MAE (badge agreement)",
-                                "comparison.json"))
+                # Anchored to the table row in the README: a bare "0.700"
+                # also matches the anti-calibrated-confidence sentence, which
+                # is a coincidence, not a verification.
+                out.append(("README.md",
+                            f"| {sysname.capitalize()} | "
+                            f"{cp[sysname]['mae']:.3f} |",
+                            f"{sysname} MAE (badge agreement)",
+                            "comparison.json"))
+                out.append(("docs/VIDEO_SCRIPT.md", f"{cp[sysname]['mae']:.3f}",
+                            f"{sysname} MAE (spoken)", "comparison.json"))
         best = next((c for c in cp.get("controls", [])
                      if c["system"] == cp.get("best_control")), None)
         if best:
@@ -148,7 +161,8 @@ def main() -> int:
         return 0
 
     cache: dict[str, str] = {}
-    failures = []
+    failures: list = []
+    weak_checks: list = []
     print("=" * 74)
     print("CHECKING DOCUMENTED NUMBERS AGAINST results/*.json")
     print("=" * 74)
@@ -156,9 +170,25 @@ def main() -> int:
         if doc not in cache:
             p = ROOT / doc
             cache[doc] = p.read_text() if p.exists() else ""
-        present = literal in cache[doc]
-        print(f"  {'OK  ' if present else 'FAIL'}  {doc:<14} "
-              f"{what:<32} {literal:>10}   <- {src}")
+        # Substring matching means a value can pass against a COINCIDENTAL
+        # occurrence elsewhere in the document - "100%" appears in several
+        # unrelated sentences. The check cannot tell those apart, so it reports
+        # where it matched and how often, making a false pass auditable instead
+        # of invisible. An unaudited green check is the thing this project is
+        # about.
+        lines = [i for i, ln in enumerate(cache[doc].splitlines(), 1)
+                 if literal in ln]
+        present = bool(lines)
+        where = (f"L{lines[0]}" + (f" +{len(lines) - 1} more" if len(lines) > 1
+                                   else "")) if lines else "-"
+        # A literal matching many lines is not evidence the right sentence is
+        # correct - it is evidence the check is too loose to mean anything.
+        weak = len(lines) > 8
+        if weak:
+            weak_checks.append((doc, what, literal, len(lines)))
+        status = "FAIL" if not present else ("WEAK" if weak else "OK  ")
+        print(f"  {status}  {doc:<20} "
+              f"{what:<34} {literal[:26]:>26}  {where:<14} <- {src}")
         if not present:
             failures.append((doc, what, literal, src))
 
@@ -171,6 +201,13 @@ def main() -> int:
         print("  this project detects, in this project's own documentation.")
         return 1
     print(f"  All {len(rows)} documented numbers match the results files.")
+    print("  (matched by substring - line numbers shown so a coincidental")
+    print("   match can be audited rather than trusted.)")
+    if weak_checks:
+        print(f"\n  {len(weak_checks)} check(s) are TOO LOOSE to prove anything;")
+        print("  the literal appears on many lines, so a pass may be coincidence:")
+        for doc, what, literal, n in weak_checks:
+            print(f"    {doc}: {what} - {literal!r} matches {n} lines")
 
     stale = check_staleness()
     print("-" * 74)

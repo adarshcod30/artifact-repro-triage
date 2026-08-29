@@ -1,9 +1,9 @@
 {
  "_provenance": {
   "kind": "negative_control",
-  "commit": "f7e5e0e",
-  "code_fingerprint": "dda75109f074",
-  "corpus_fingerprint": "a17fd58d042b"
+  "commit": "7363401",
+  "code_fingerprint": "7757b71bad47",
+  "corpus_fingerprint": "1aa98ede4d07"
  },
  "injected": 75,
  "detected": 75,
@@ -227,8 +227,8 @@
     "configs/experiment_grid.json"
    ],
    "false_positives": [],
-   "broken_before": 6,
-   "broken_after": 11
+   "broken_before": 5,
+   "broken_after": 10
   },
   {
    "artifact_id": "nhuhuan/sba",

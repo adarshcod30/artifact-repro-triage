@@ -1,8 +1,9 @@
 {
  "_provenance": {
   "kind": "solution",
-  "commit": "600c6a2",
-  "code_fingerprint": "e4f8f7692c6e"
+  "commit": "7363401",
+  "code_fingerprint": "3b2e1605b9a2",
+  "corpus_fingerprint": "1aa98ede4d07"
  },
  "report": {
   "system": "solution",
@@ -10,22 +11,22 @@
   "n_scored": 10,
   "n_escalated": 5,
   "n_failed": 0,
-  "mae": 0.8,
-  "exact_accuracy": 0.2,
+  "mae": 0.7,
+  "exact_accuracy": 0.3,
   "adjacent_accuracy": 1.0,
-  "overclaim_rate": 0.4,
+  "overclaim_rate": 0.3,
   "escalation_rate": 0.333,
   "human_minutes": 305.0,
   "human_minutes_saved": 370.0,
-  "input_tokens": 37649,
-  "output_tokens": 1912,
-  "usd": 0.0362,
+  "input_tokens": 37607,
+  "output_tokens": 1945,
+  "usd": 0.0363,
   "per_item": [
    {
     "artifact_id": "DueForce/DueForce",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.8,
+    "confidence": 0.7,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -59,17 +60,17 @@
    {
     "artifact_id": "THU-WingTecher/DeepConstr",
     "truth": "Available",
-    "predicted": "Functional",
+    "predicted": "Available",
     "confidence": 0.7,
     "escalated": false,
-    "rank_error": 1,
-    "outcome": "overclaim"
+    "rank_error": 0,
+    "outcome": "correct"
    },
    {
     "artifact_id": "asub0/fonnx",
     "truth": "Functional",
     "predicted": "Available",
-    "confidence": 0.8,
+    "confidence": 0.7,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -77,7 +78,7 @@
     "artifact_id": "dserfe/FlakyDoctor",
     "truth": "Functional",
     "predicted": "Available",
-    "confidence": 0.8,
+    "confidence": 0.85,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -103,7 +104,7 @@
     "artifact_id": "logpai/loghub-2.0",
     "truth": "Reusable",
     "predicted": "Functional",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": -1,
     "outcome": "underclaim"
@@ -147,7 +148,7 @@
     "artifact_id": "zhangxiaosa/LPR",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.9,
+    "confidence": 0.8,
     "escalated": true,
     "outcome": "escalated"
    }
@@ -157,18 +158,18 @@
   {
    "artifact_id": "DueForce/DueForce",
    "tier": "Available",
-   "confidence": 0.8,
+   "confidence": 0.7,
    "escalated": true,
    "escalation_reasons": [
     "README makes no checkable file references, so no claim could be verified either way"
    ],
    "reasons": [
-    "The artifact is placed in a public repository, fulfilling the 'Available' tier requirement.",
-    "The README is minimal and does not provide detailed instructions or references to existing files, making it difficult to assess higher tiers.",
-    "No dependency manifest or Dockerfile is present, which are crucial for reproducibility and functionality.",
-    "The README references a pre-compiled Docker image but does not provide direct access or instructions to use it within the repository.",
-    "The documentation is inconsistent with the actual files present in the repository, as the README references non-existent file paths.",
-    "Despite the presence of CI configuration and tests, the lack of detailed documentation and dependency information prevents a higher tier assignment."
+    "The artifact is placed in a public archival repository (Zenodo).",
+    "The README is minimal and does not provide detailed instructions or references to checkable file paths.",
+    "No dependency manifest or Dockerfile is present, making environment reproducibility uncertain.",
+    "The presence of CI configuration and tests suggests some level of verification, but this is not sufficient for higher tiers.",
+    "The README references an external artifact on Zenodo, but the local repository lacks detailed documentation.",
+    "The small size and lack of detail in the README reduce confidence in higher tiers."
    ],
    "verified": {
     "artifact_id": "DueForce/DueForce",
@@ -198,12 +199,12 @@
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "The README is comprehensive and references all existing file paths.",
-    "The repository includes a Dockerfile with pinned base images, enhancing reproducibility.",
-    "No machine-specific values were found, indicating good portability.",
-    "All external links are valid.",
-    "The README provides clear instructions on how to build and run the artifact."
+    "The artifact is placed in a public archival repository, fulfilling the 'Available' criteria.",
+    "The README is comprehensive and references all existing file paths, indicating good documentation consistency.",
+    "The repository includes a Dockerfile with pinned base images, enhancing environment reproducibility.",
+    "No machine-specific values were found, suggesting good portability.",
+    "All external links were checked and found to be valid.",
+    "However, there is no dependency manifest, and no tests are present, which slightly reduces confidence in the 'Functional' tier."
    ],
    "verified": {
     "artifact_id": "HexHive/FishFuzz",
@@ -277,9 +278,9 @@
     "The artifact is placed in a public archival repository.",
     "No dependency manifest found, making reproducibility uncertain.",
     "Multiple hard-coded values that resolve only on the author's machine, impacting portability.",
-    "No CI configuration or tests present, reducing confidence in functionality.",
-    "Dead external link in the README, reducing trust in provided resources.",
-    "README is minimal and lacks detailed documentation for consistent, complete, and exercisable use."
+    "Dead external link in the README for the Docker image.",
+    "Lack of CI configuration and tests reduces confidence in functionality.",
+    "README is minimal and does not provide comprehensive documentation."
    ],
    "verified": {
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
@@ -331,11 +332,11 @@
    "escalation_reasons": [],
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README is detailed and provides step-by-step instructions for both reproduction and replication studies.",
+    "The README is detailed and provides step-by-step instructions for reproducing the studies.",
     "All referenced paths in the README exist in the repository, indicating documentation consistency.",
-    "All dependencies are pinned, ensuring environment reproducibility.",
+    "Dependencies are mostly pinned, ensuring environment reproducibility.",
     "A Docker image is provided, though with one unpinned base image, which slightly reduces reproducibility confidence.",
-    "The artifact includes a demonstration with instructions to verify functionality."
+    "A demonstration is provided, showing that the artifact can be exercised to some extent."
    ],
    "verified": {
     "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
@@ -376,17 +377,16 @@
   },
   {
    "artifact_id": "THU-WingTecher/DeepConstr",
-   "tier": "Functional",
+   "tier": "Available",
    "confidence": 0.7,
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public archival repository, fulfilling the 'Available' tier.",
-    "The README provides detailed setup and usage instructions, suggesting a level of documentation.",
-    "The presence of tests indicates some level of verification.",
-    "However, several file paths referenced in the README do not exist, indicating documentation inconsistency.",
+    "The artifact is placed in a public archival repository.",
+    "The README is extensive but contains references to non-existent files, indicating a lack of consistency.",
     "Dependencies are not pinned, which may affect reproducibility.",
-    "The artifact appears to be exercisable based on the provided commands, but the missing files and unpinned dependencies reduce confidence in its full functionality."
+    "No Dockerfile is present, further complicating environment reproducibility.",
+    "The artifact includes tests and a license, but the documentation issues and dependency management reduce confidence in higher tiers."
    ],
    "verified": {
     "artifact_id": "THU-WingTecher/DeepConstr",
@@ -558,17 +558,18 @@
   {
    "artifact_id": "asub0/fonnx",
    "tier": "Available",
-   "confidence": 0.8,
+   "confidence": 0.7,
    "escalated": true,
    "escalation_reasons": [
     "README makes no checkable file references, so no claim could be verified either way"
    ],
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "No dependency manifest, Dockerfile, CI configuration, or tests were found, indicating a lack of setup for functional evaluation.",
-    "The README is minimal and does not provide checkable instructions or references to existing files.",
-    "No evidence of verification and validation processes.",
-    "The documentation is insufficient for a functional or reusable evaluation."
+    "No dependency manifest or Dockerfile is present, making environment reproducibility uncertain.",
+    "No tests or CI configuration are present, indicating a lack of verification and validation evidence.",
+    "The README is very small and does not reference any checkable file paths, making documented instructions unverifiable.",
+    "The artifact lacks comprehensive documentation and evidence of functionality, preventing a higher tier assignment.",
+    "The presence of a license suggests some level of consideration for reuse, but this is not sufficient for the Reusable tier."
    ],
    "verified": {
     "artifact_id": "asub0/fonnx",
@@ -594,17 +595,18 @@
   {
    "artifact_id": "dserfe/FlakyDoctor",
    "tier": "Available",
-   "confidence": 0.8,
+   "confidence": 0.85,
    "escalated": true,
    "escalation_reasons": [
     "neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human"
    ],
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README contains detailed instructions for setup and usage, but there are inconsistencies and missing files as per the verified facts.",
-    "No dependency manifest or container configuration is present, making environment reproducibility challenging.",
-    "There are hard-coded values that resolve only on the author's machine, reducing portability.",
-    "Some external links are dead, which may affect the usability of the artifact."
+    "The README provides detailed instructions for setup and usage.",
+    "However, there are inconsistencies between the README and the actual repository contents (missing files).",
+    "There are no dependency manifests, container configurations, or CI configurations present.",
+    "The artifact contains hard-coded values that resolve only on the author's machine.",
+    "Some external links in the README are dead."
    ],
    "verified": {
     "artifact_id": "dserfe/FlakyDoctor",
@@ -699,12 +701,12 @@
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public repository and has a README with instructions.",
-    "All dependencies are pinned, indicating careful environment management.",
-    "CI configuration and tests are present, suggesting some level of automated verification.",
-    "The README provides clear instructions on how to use the main functionalities of the tool.",
-    "There are hard-coded values that reduce portability, but the overall setup seems designed for functionality.",
-    "The absence of a Dockerfile and the need for manual patching slightly reduce the ease of setup, but the provided instructions are detailed enough for a determined user to follow."
+    "The artifact is placed in a public repository, satisfying the 'Available' tier.",
+    "The README is present and provides instructions on how to set up and use the tool.",
+    "All dependencies are pinned, and tests and a license are present, indicating a level of care in the artifact's creation.",
+    "The README references all existing file paths, showing consistency between documentation and the actual repository content.",
+    "There are some hard-coded values that may affect portability, but the overall setup instructions are clear.",
+    "The presence of CI configuration and tests suggests an effort towards maintaining the artifact's functionality."
    ],
    "verified": {
     "artifact_id": "emocat/VioHawk",
@@ -794,8 +796,8 @@
     "All dependencies are pinned, ensuring reproducibility.",
     "The README provides clear instructions on how to set up and run the scripts.",
     "The artifact includes a license, which is a good practice for reuse.",
-    "There are some hard-coded values that reduce portability.",
-    "No Dockerfile or CI configuration is present, which slightly reduces the ease of setup and testing."
+    "There is a hard-coded value that reduces portability, but the overall setup seems functional.",
+    "No CI configuration or tests are present, which slightly reduces confidence in the 'Reusable' tier."
    ],
    "verified": {
     "artifact_id": "jovyntls/inconsistencies-in-tex",
@@ -872,15 +874,16 @@
   {
    "artifact_id": "logpai/loghub-2.0",
    "tier": "Functional",
-   "confidence": 0.7,
+   "confidence": 0.8,
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is documented and the documentation is consistent with the repository contents.",
-    "The repository includes a requirements.txt file with mostly pinned dependencies, suggesting a level of environment reproducibility.",
-    "Scripts for running benchmarks are provided, indicating the artifact is exercisable.",
-    "The README provides clear instructions for reproducing results, which suggests the artifact includes evidence of verification.",
-    "The absence of a Dockerfile, CI configuration, and tests slightly reduces confidence in the tier, but the provided scripts and documentation still support a Functional rating."
+    "The artifact is placed in a public repository and is documented.",
+    "All referenced paths in the README exist in the repository, indicating documentation consistency.",
+    "The repository includes a requirements.txt file with mostly pinned dependencies, aiding in environment reproducibility.",
+    "The README provides clear instructions for downloading datasets, setting up the environment, and running the benchmark.",
+    "The repository includes scripts for running and evaluating log parsers, suggesting it is exercisable.",
+    "The lack of a Dockerfile, CI configuration, and tests slightly reduces confidence in the tier, but the overall setup appears functional."
    ],
    "verified": {
     "artifact_id": "logpai/loghub-2.0",
@@ -963,23 +966,22 @@
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is documented and provides detailed instructions for setup and usage.",
+    "The artifact is documented and provides clear instructions for setup and usage.",
     "All dependencies are pinned, ensuring reproducibility.",
     "The README provides steps to collect data and evaluate TCP techniques.",
-    "Missing files referenced in the README reduce confidence in the artifact's completeness.",
-    "No CI configuration or tests are present, which slightly lowers the confidence in its reusability.",
+    "Missing files referenced in the README reduce confidence in documentation consistency.",
+    "No CI configuration or tests are present, which slightly lowers the confidence in reusability.",
     "The artifact appears to be exercisable and includes scripts for data collection and evaluation."
    ],
    "verified": {
     "artifact_id": "lrtsuser/LRTS",
-    "claims_total": 29,
-    "claims_broken": 6,
+    "claims_total": 28,
+    "claims_broken": 5,
     "broken_paths": [
      "historical.csv",
      "history",
      "prdata",
      "processed_test_result",
-     "repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh",
      "shadata"
     ],
     "case_mismatches": [],
@@ -988,7 +990,7 @@
       "artifact/get_sha_data.py"
      ]
     },
-    "broken_ratio": 0.207,
+    "broken_ratio": 0.179,
     "has_dependency_manifest": true,
     "has_container": true,
     "has_ci": false,
@@ -1115,11 +1117,6 @@
       "matched_as": null
      },
      {
-      "path": "repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh",
-      "exists": false,
-      "matched_as": null
-     },
-     {
       "path": "requirements.txt",
       "exists": true,
       "matched_as": "exact"
@@ -1158,11 +1155,11 @@
    ],
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "Lack of a dependency manifest and Dockerfile makes it difficult to reproduce the environment.",
-    "No CI configuration or tests are present, which are crucial for verifying functionality.",
-    "The README references a file path that does not exist in the repository, indicating inconsistency.",
-    "The documentation, while present, does not provide enough detail to confidently assign a higher tier.",
-    "The absence of a license might pose issues for reuse, though this is less critical for the tier assignment."
+    "The README provides installation and build instructions, suggesting some level of documentation.",
+    "Missing dependency manifest and Dockerfile reduce confidence in reproducibility.",
+    "README references non-existent file paths, indicating inconsistency.",
+    "No CI configuration or tests present, lowering confidence in functionality.",
+    "The artifact does not meet the criteria for 'Functional' or 'Reusable' tiers due to the issues mentioned."
    ],
    "verified": {
     "artifact_id": "nhuhuan/sba",
@@ -1205,11 +1202,11 @@
    "escalation_reasons": [],
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README provides detailed instructions for setting up the environment and reproducing the results.",
-    "All dependencies are pinned in requirements.txt.",
+    "The documentation is detailed and provides steps to reproduce the results.",
+    "All dependencies are pinned and can be installed from requirements.txt.",
     "Tests are present, indicating some level of verification.",
-    "Discrepancies in the README regarding file paths suggest potential issues with documentation consistency.",
-    "Lack of a Dockerfile and license may impact reusability."
+    "The README provides clear instructions for running the experiments.",
+    "Some file references in the README do not match the actual files in the repository, indicating a lack of complete consistency."
    ],
    "verified": {
     "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
@@ -1332,11 +1329,11 @@
    "escalation_reasons": [],
    "reasons": [
     "The artifact is placed in a public archival repository and includes a Docker image for reproducibility.",
-    "The README provides detailed instructions for installation and usage, though some referenced files are missing.",
-    "The Docker image pins base images, ensuring some level of environment reproducibility.",
-    "The artifact includes a license, contributing to its usability.",
-    "The README describes the structure and content of the Docker image, aiding in understanding and use.",
-    "Some external links are dead, which may impact the completeness of the artifact."
+    "The README provides detailed instructions for setting up and running the experiments.",
+    "The Docker image has pinned base images, enhancing reproducibility.",
+    "The README references external repositories for additional information, though some links are dead.",
+    "The README has inconsistencies with the actual file structure, which may confuse users.",
+    "There is no dependency manifest, CI configuration, or tests present, which slightly lowers the confidence in the tier."
    ],
    "verified": {
     "artifact_id": "trustdnn/issta2024",
@@ -1431,7 +1428,7 @@
   {
    "artifact_id": "zhangxiaosa/LPR",
    "tier": "Available",
-   "confidence": 0.9,
+   "confidence": 0.8,
    "escalated": true,
    "escalation_reasons": [
     "neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human"
@@ -1439,9 +1436,10 @@
    "reasons": [
     "The artifact is placed in a public archival repository.",
     "The documentation is inconsistent with the actual files present in the repository.",
-    "There are no dependency manifests, container configurations, tests, or license present.",
-    "Many scripts and tools referenced in the README are missing.",
-    "The environment reproducibility is not ensured due to the lack of a Dockerfile and dependency manifest."
+    "There are no dependency manifests, Dockerfile, CI configuration, or tests present.",
+    "The README references many file paths that do not exist in the repository.",
+    "The environment reproducibility is lacking due to missing dependencies and configuration files.",
+    "The artifact does not meet the criteria for Functional or Reusable tiers due to the above issues."
    ],
    "verified": {
     "artifact_id": "zhangxiaosa/LPR",

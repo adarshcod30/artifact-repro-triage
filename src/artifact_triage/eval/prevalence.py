@@ -38,12 +38,43 @@ OUT = Path("results/prevalence.json")
 CACHE = Path("data/cache/prevalence")
 
 
+def _rederive(slug: str, fx: dict) -> dict:
+    """Recompute everything DERIVED, keeping only what was actually fetched.
+
+    The cache stored `readme_referenced_paths`, a derived value. So when the
+    path extractor was fixed to stop treating external URLs as repository
+    files, re-running the sweep reproduced the OLD numbers exactly - the fix
+    could not reach cached artifacts.
+
+    Worse, the provenance stamp said "current": it hashed the NEW extractor
+    while the numbers came from values the OLD one had produced. A staleness
+    detector that certifies stale numbers is the failure this project keeps
+    finding, here caused by caching a conclusion instead of an input.
+
+    Recomputing from the RAW README matters: the stored `readme` is truncated
+    to 20,000 characters for size, and 45 cached entries sit at that cap, so
+    re-extracting from the stored copy would silently undercount. The raw
+    response is cached separately and is complete.
+    """
+    try:
+        raw = readme(slug)
+    except Exception:
+        raw = fx.get("readme") or ""        # truncated, but better than nothing
+    if not raw:
+        return fx
+    rep = scrub(raw)
+    fx["readme"] = rep.text[:20000]
+    fx["readme_scrub"] = {"leaked": rep.leaked, "hits": rep.hits}
+    fx["readme_referenced_paths"] = referenced_paths(rep.text)
+    return fx
+
+
 def profile(slug: str) -> dict | None:
     """Build the minimum fact sheet the verifier needs, plus a last-push date."""
     CACHE.mkdir(parents=True, exist_ok=True)
     cached = CACHE / f"{slug.replace('/', '__')}.json"
     if cached.exists():
-        return json.loads(cached.read_text())
+        return _rederive(slug, json.loads(cached.read_text()))
     try:
         meta = _get(f"{API}/repos/{slug}", "repo-" + slug.replace("/", "__"))
         _, sha = default_branch_sha(slug)
