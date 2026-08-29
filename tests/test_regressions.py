@@ -1572,8 +1572,12 @@ def test_documented_clone_size_matches_the_tracked_tree():
     import subprocess
     root = Path(__file__).resolve().parents[1]
     doc = (root / "REPRODUCTION.md").read_text()
-    m = re.search(r"shallow clone \*\*(\d+) MB", doc)
-    assert m, "REPRODUCTION.md no longer states a clone size"
+    # Compare against TRACKED bytes, which is what this test can compute. The
+    # earlier version matched the clone-size figure instead - a number that
+    # includes git objects and so could never be checked here. A test that
+    # measures something other than what the claim says is not a check.
+    m = re.search(r"\*\*(\d+) MB is tracked files\*\*", doc)
+    assert m, "REPRODUCTION.md no longer states a tracked-files size"
     claimed = int(m.group(1))
     try:
         files = subprocess.run(["git", "ls-files"], cwd=root, capture_output=True,
@@ -1590,8 +1594,9 @@ def test_documented_clone_size_matches_the_tracked_tree():
     mb = total / 1e6
     # Tracked bytes plus git object overhead. Allow generous slack, and fail
     # only when the claim is off by enough to mislead someone sizing a disk.
-    assert abs(mb - claimed) <= 15, (
-        f"REPRODUCTION.md claims {claimed} MB; tracked files total {mb:.0f} MB")
+    assert abs(mb - claimed) <= 3, (
+        f"REPRODUCTION.md claims {claimed} MB of tracked files; "
+        f"they total {mb:.0f} MB")
 
 
 
@@ -2033,13 +2038,33 @@ def test_trajectory_export_fails_closed_across_projects():
 
 
 def test_foreign_redaction_never_matches_our_own_paths():
-    """The `adarsh` disaster: hiding nothing while destroying everything."""
+    """The `adarsh` disaster: hiding nothing while destroying everything.
+
+    Hermetic on purpose. Reading the real ~/.claude/projects made the outcome
+    depend on the machine, and this test duly failed in a clean checkout whose
+    path happened to contain another project's slug - testing the environment
+    rather than the code.
+    """
     import re as _re
+    import tempfile
     m = _traj_module()
-    pat = _re.compile(m._foreign_pattern(), _re.I)
-    for safe in (str(Path.cwd()),
-                 f'cd "{Path.cwd()}"',
-                 str(Path.cwd() / "src/artifact_triage/cli.py")):
+    mine = "-home-dev-myproject"
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        # a sibling project sharing the home segment "dev" - the shape that
+        # caused every absolute path in the transcript to be redacted
+        (root / "-home-dev-otherproject").mkdir()
+        (root / "-home-dev-otherproject" / "aaaa-bbbb.jsonl").write_text("{}")
+        toks = m._foreign_tokens(root=root, mine=mine)
+    assert "-home-dev-otherproject" in toks and "aaaa-bbbb" in toks
+    assert "otherproject" in toks
+    assert "dev" not in toks and "home" not in toks, \
+        "a segment shared with our own path must never become a token"
+    body = "|".join(_re.escape(t) for t in sorted(toks, key=len, reverse=True))
+    pat = _re.compile(rf"[^\s\"']*(?:{body})[^\s\"'\\]*", _re.I)
+    for safe in ("/home/dev/myproject",
+                 'cd "/home/dev/myproject"',
+                 "/home/dev/myproject/src/artifact_triage/cli.py"):
         assert not pat.search(safe), f"would redact our own path: {safe!r}"
 
 

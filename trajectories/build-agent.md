@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 6,874 recorded events.
+Session `b0c00099` — 6,917 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -16582,7 +16582,119 @@ redactions: {'foreign_project': 151, 'aws_secret': 7, 'env_assignment': 47}
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\ns = s.replace('''    (\"foreign_project\", re.compile(_foreign_pattern())),''',\n'''    # Case-insensitive: the name also appeared lower-cased inside shell\n    # commands. Safe here because tokens shared with this project's own path\n    # are already excluded, so widening cannot re-mangle our own paths.\n    (\"foreign_project\", re.compile(_foreign_pattern(), re.I)),''')\nopen(p,'w').write(s)\nPY\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -2\necho \"--- final integrity ---\"\nfor t in [REDACTED] 1a0b3114; do printf \"  %-12s %s\\n\" \"$t\" \"$(grep -ci \"$t\" trajectories/build-agent.md || echo 0)\"; done\nprintf \"  own paths kept: %s\\n\" \"$(grep -c 'Users/adarsh' trajectories/build-agent.md)\"\nprintf \"  mangled cd:     %s\\n\" \"$(grep -c 'cd \\\"\\[REDACTED\\]' trajectories/build-agent.md || echo 0)\"", "description": "Catch lowercase forms without over-redacting", "timeout": 300000}
 ```
 
+**Tool response**
+
+```
+wrote trajectories/build-agent.md  (1,040,262 chars, 34 human checkpoints)
+redactions: {'foreign_project': 165, 'aws_secret': 7, 'env_assignment': 47}
+--- final integrity ---
+  [REDACTED]     0
+0
+  1a0b3114     5
+  own paths kept: 800
+  mangled cd:     0
+0
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 108 - the trajectory exporter published another project's session\n#\n# `TRANSCRIPT_DIR` was `~/.claude/projects` - EVERY project on the machine -\n# and the exporter took the most recently modified transcript. Work on any\n# other repository in between, and \"the build agent trajectory\" became a\n# different project's session, written into a submission deliverable bound for\n# a public repository. It did exactly that: a 2,251-event session from an\n# unrelated repo replaced the 6,800-event build history.\n#\n# That is a privacy leak, not a wrong-file inconvenience, and it was caught\n# only because the event count dropped in the output.\n#\n# The first fix then over-corrected: redacting every foreign directory's\n# trailing segment pulled in `adarsh`, the home-directory segment shared by\n# every absolute path in the transcript. It fired 1,059 times and rewrote\n# `cd \"/Users/adarsh/...\"` into `cd \"[REDACTED] ...\"`
+```
+
+**Tool response**
+
+```
+148/148 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== every documented target ===\"\n.venv/bin/python scripts/verify_targets.py 2>&1 | tail -3\necho\necho \"=== claims + provenance ===\"\n.venv/bin/python scripts/check_claims.py 2>&1 | tail -6\necho\necho \"=== deterministic core ===\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.negative_control 2>&1 | grep -E \"detected by|false positives\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|BUDGET|REMAINING\"", "description": "Run the full credential-free pipeline", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+=== every documented target ===
+        make setup          creates the venv
+========================================================================
+  All 12 credential-free targets run.
+
+=== claims + provenance ===
+  ok     ablation             current
+  ok     adversarial          current
+  ok     issue_validation     current
+--------------------------------------------------------------------------
+  Every result was produced by the current code.
+==========================================================================
+
+=== deterministic core ===
+detected by verifier   : 75   (100.0%)
+false positives        : 0
+  TOTAL                      $ 5.3069  1771 calls
+  BUDGET                     $   5.50
+  REMAINING                  $ 0.1931  (96.5% used)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 107 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 108 | Regenerated every deliverable after the final runs, and the build-agent trajectory came back **2,251 events instead of 6,800**. | `TRANSCRIPT_DIR` was `~/.claude/projects` - **every project on the machine** - and the exporter took the most recently *modified* transcript. Working on any other repository in between made \"the build agent trajectory\" **a different project's session**, written into a submission deliverable bound for a public repo. It had already done so. **That is a privacy leak, not a wrong-file inconvenience**, and it was visible only because the event count dropped. | Scoped to this repository's own transcript directory and made to **fail closed** - it now stops rather than falling back to whatever is newest on disk - and it takes the *largest* transcript, since the build history is the point. Foreign project slugs and session ids are redacted from the output. |\n| Iteration 109 | The first redaction fix over-corrected. | Re
+```
+
+**Tool response**
+
+```
+f407459 The trajectory exporter published another projects session
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nrm -rf final && mkdir final && cd final\ngit clone -q --depth 1 https://github.com/adarshcod30/artifact-repro-triage.git r\ncd r && (uv venv -q && uv pip install -q -e .) 2>&1 | tail -2\necho \"clone: $(du -sh . | cut -f1)\"\nfor t in test verify control subtle ablation pinning portability dataset dashboard check-claims; do\n  make $t >/dev/null 2>&1 && echo \"  PASS  make $t\" || echo \"  FAIL  make $t\"\ndone", "description": "Clean-room verification of the published repo", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+clone:  88M
+  FAIL  make test
+  PASS  make verify
+  PASS  make control
+  PASS  make subtle
+  PASS  make ablation
+  PASS  make pinning
+  PASS  make portability
+  PASS  make dataset
+  PASS  make dashboard
+  PASS  make check-claims
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nmake test 2>&1 | grep -E \"FAIL|AssertionError|Error\" | head -6", "description": "Diagnose the clean-room test failure", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+AssertionError: would redact our own path: '[REDACTED]'
+  FAIL  test_foreign_redaction_never_matches_our_own_paths
+make: *** [test] Error 1
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\ns = s.replace('''def _foreign_pattern() -> str:''',\n'''def _foreign_tokens(root: Path | None = None, mine: str | None = None) -> set:\n    \"\"\"Identifiers of other projects. Injectable so tests need no real $HOME.\n\n    Reading `~/.claude/projects` directly made the caller's result depend on\n    machine state outside the repository - a test built on it failed in a clean\n    checkout for reasons unrelated to the code.\n    \"\"\"\n    mine = mine or \"\".join(c if c.isalnum() else \"-\" for c in str(Path.cwd()))\n    lower_mine = mine.lower()\n    root = root or (Path.home() / \".claude/projects\")\n    toks: set = set()\n    if not root.is_dir():\n        return toks\n    for d in root.iterdir():\n        if not d.is_dir() or d.name == mine:\n            continue\n        toks.add(d.name)\n        for f in d.glob(\"*.jsonl\"):\n            toks.add(f.stem)\n        tail = d.name.rstrip(\"-\").split(\"-\")[-1]\n        if len(tail) >= 6 and tail.lower() not in lower_mine:\n            toks.add(tail)\n    ret
+```
+
 
 ---
 
-Redactions applied: `{'foreign_project': 165, 'aws_secret': 7, 'env_assignment': 47}`
+Redactions applied: `{'foreign_project': 169, 'aws_secret': 7, 'env_assignment': 47}`

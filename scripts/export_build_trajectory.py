@@ -21,6 +21,31 @@ TRANSCRIPT_DIR = Path.home() / ".claude/projects"
 OUT = Path("trajectories/build-agent.md")
 MAX_CHARS = 1200  # per tool result, so the document stays readable
 
+def _foreign_tokens(root: Path | None = None, mine: str | None = None) -> set:
+    """Identifiers of other projects. Injectable so tests need no real $HOME.
+
+    Reading `~/.claude/projects` directly made the caller's result depend on
+    machine state outside the repository - a test built on it failed in a clean
+    checkout for reasons unrelated to the code.
+    """
+    mine = mine or "".join(c if c.isalnum() else "-" for c in str(Path.cwd()))
+    lower_mine = mine.lower()
+    root = root or (Path.home() / ".claude/projects")
+    toks: set = set()
+    if not root.is_dir():
+        return toks
+    for d in root.iterdir():
+        if not d.is_dir() or d.name == mine:
+            continue
+        toks.add(d.name)
+        for f in d.glob("*.jsonl"):
+            toks.add(f.stem)
+        tail = d.name.rstrip("-").split("-")[-1]
+        if len(tail) >= 6 and tail.lower() not in lower_mine:
+            toks.add(tail)
+    return toks
+
+
 def _foreign_pattern() -> str:
     """Match identifiers belonging to a DIFFERENT project's transcripts.
 
@@ -36,20 +61,7 @@ def _foreign_pattern() -> str:
     So any token that also appears in THIS project's own path is excluded: a
     redactor that mangles the thing it is protecting has failed twice.
     """
-    mine = "".join(c if c.isalnum() else "-" for c in str(Path.cwd()))
-    lower_mine = mine.lower()
-    toks: set[str] = set()
-    root = Path.home() / ".claude/projects"
-    if root.is_dir():
-        for d in root.iterdir():
-            if not d.is_dir() or d.name == mine:
-                continue
-            toks.add(d.name)                       # the full slug: unambiguous
-            for f in d.glob("*.jsonl"):
-                toks.add(f.stem)                   # session ids: unambiguous
-            tail = d.name.rstrip("-").split("-")[-1]
-            if len(tail) >= 6 and tail.lower() not in lower_mine:
-                toks.add(tail)
+    toks = _foreign_tokens()
     if not toks:
         return r"(?!x)x"                           # matches nothing
     body = "|".join(re.escape(t) for t in sorted(toks, key=len, reverse=True))

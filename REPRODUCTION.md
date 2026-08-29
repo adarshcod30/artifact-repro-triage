@@ -10,7 +10,7 @@ Written for someone starting from a clean machine with nothing installed.
 |---|---|
 | OS | macOS or Linux (developed on macOS 15, Apple Silicon) |
 | Python | 3.11 or newer |
-| Disk | ~130 MB (46 MB clone + venv; no repositories are cloned) |
+| Disk | ~180 MB (88 MB clone + venv; no repositories are cloned) |
 | Network | Only for the model calls. Corpus rebuild is optional and cached. |
 | Credentials | One model provider (see step 3) |
 
@@ -27,8 +27,8 @@ uv venv
 uv pip install -e .
 ```
 
-**Use `--depth 1`.** Measured on a clean machine: shallow clone **46 MB in 3
-seconds**. The history carries API-cache files
+**Use `--depth 1`.** Measured on a clean machine: shallow clone **88 MB in 3
+seconds**, of which **35 MB is tracked files** and the rest git objects. The history carries API-cache files
 that were later removed, and nothing needs them.
 
 Install takes roughly 30 seconds (`boto3`, `botocore[crt]`, `certifi`).
