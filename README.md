@@ -86,6 +86,29 @@ obvious to a checker. In this corpus, one Reusable-badged artifact references
 This is also the failure mode the whole challenge is about — output that is
 convincing rather than correct.
 
+### Prior art — what already existed
+
+**This project did not invent the idea of checking documentation against a
+repository.** Two published systems do exactly that:
+
+- **[READU](https://arxiv.org/abs/2607.15780)** (Baek, Krampf & Pradel, 2026)
+  detects "inconsistencies between documentation and another source of truth"
+  and **automatically repairs them** — 75% precision over 6,000 commits from
+  Linux, Spring Boot and others, with 44 confirmed real-world fixes.
+- **[Tan, Wagner & Treude](https://doi.org/10.1007/s10664-023-10397-6)** (EMSE
+  2023) detect outdated code-element references across 3,000+ GitHub projects.
+
+Both predate this work, both target general open-source software, and READU is
+more capable than this project on the shared task — it repairs, and it was
+evaluated at larger scale.
+
+**What remains after removing what they established** is measurement and framing,
+not the detector: prevalence *in research artifacts* at population scale, the
+finding that the defect does **not** accumulate with age, variation across
+ecosystems, and a causal demonstration that an LLM reading the README cannot
+substitute for the check. Full accounting, including where our numbers are *not*
+comparable to theirs, in **[RELATED_WORK.md](RELATED_WORK.md)**.
+
 ### This is a documented problem, not an assumed one
 
 Published measurements of research-artifact quality, independent of this project:
@@ -97,8 +120,19 @@ Published measurements of research-artifact quality, independent of this project
 | Only **56.4% of artifacts were reachable** at the links their papers gave | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |
 | **Link rot averages 9.4%**, reaching 29.8% in some years | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |
 | README quality averaged **49.8%** across 2017–2022 | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |
+| Only **39.70%** of 106 research artifacts were completely accessible; "most are incomplete" | Guevara-Vega et al., [JSS 2024](https://doi.org/10.1016/j.jss.2024.112187) |
+| **71.1%** of 2,702 Python builds unreproducible from dependency errors | Mukherjee et al., [ISSTA 2021](https://doi.org/10.1145/3460319.3464797) |
+| Across ~750 papers: **no significant change in artifact availability** after AECs were introduced, though AE-passed artifacts work at a higher rate | Olszewski et al., [CCS 2023](https://doi.org/10.1145/3576915.3623130) |
+| "Most projects contain at least one outdated code element reference" (3,000+ projects) | Tan et al., [EMSE 2023](https://doi.org/10.1007/s10664-023-10397-6) |
 
-Two consequences shape this project.
+Two findings above deserve emphasis, because they independently motivate the
+design. Arvan et al. recommend that conferences **"provide a venue to evaluate
+such artifacts at the time of publication"** — the exact moment this tool targets.
+And Olszewski et al. find that Artifact Evaluation improves the artifacts that go
+through it but has **not** shifted availability overall, which locates the
+bottleneck in reviewer capacity rather than policy.
+
+Two further consequences shape this project.
 
 **First, the failure is temporal.** An artifact badged `Functional` in 2024 may not
 be functional now. That is not label noise — it is the phenomenon. It also
