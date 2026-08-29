@@ -2,14 +2,47 @@
 
 **Does this research artifact actually do what its README says?**
 
-A coding-agent workflow that reads a research software artifact, checks the
-repository's own claims against its real file tree, and produces an
-evidence-backed reproducibility assessment — with the uncertain cases routed to a
-human instead of guessed at.
+A coding-agent workflow that checks a research repository's own claims against
+its real file tree, and routes what it cannot settle to a human. Built for the
+micro1 Frontier Engineering Challenge 2026.
 
-Built for the micro1 Frontier Engineering Challenge 2026 (Agentic Workflows).
+```bash
+artifact-triage owner/repo     # ~5 seconds, no API key, no cost
+```
 
 ---
+
+## Results at a glance
+
+| | |
+|---|---|
+| **Detecting a falsified README** | baseline **0%** → solution **97%** (3 trials, 90–100%) |
+| **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
+| **Prevalence in the wild** | **65.3%** of 376 research artifacts carry a broken README claim |
+| | **829 of 4,261** documented file references (19.5%) resolve to nothing |
+| **Is it decay?** | **No.** Flat with age — artifacts *ship* broken |
+| **Model spend, entire project** | **$0.49** — five of six checks need no model at all |
+
+Two results are reported that do **not** flatter the project, because omitting
+them would make everything else less trustworthy:
+
+- A **zero-skill constant predictor beats both systems** on ACM badge agreement.
+  Badge agreement is uninformative here, and the write-up says so.
+- The **external validation returned null.** Repositories we flag are no more
+  likely to carry a user complaint than ones we do not.
+
+---
+
+## Contents
+
+- [Who has this problem](#1-who-has-this-problem)
+- [What bottleneck makes it worth solving](#2-what-bottleneck-makes-it-worth-solving) · [published evidence](#this-is-a-documented-problem-not-an-assumed-one)
+- [Does the agent solve it well](#3-does-the-agent-solve-it-well) · [measured result](#measured-result) · [honest negative result](#honest-negative-result)
+- [Prevalence across 376 artifacts](#prevalence-in-the-wild-across-376-artifacts) · [is it decay?](#the-defect-is-not-decay-artifacts-ship-broken)
+- [Reproducing this](#4-can-another-person-reproduce-the-result)
+- [Try it on your own repository](#try-it-on-your-own-repository)
+- [Known limitations](#known-limitations-found-by-running-the-tool-on-itself)
+- [Main failure mode](#main-failure-mode) · [Hot take](#hot-take)
 
 ## 1. Who has this problem?
 
@@ -149,7 +182,7 @@ normal. The verifier is behaving correctly and being penalised for it — `LPR`
 genuinely has 15 of 17 README paths missing, the solution correctly downgrades
 it, and its badge says `Reusable`.
 
-### Prevalence in the wild — 376 artifacts
+### Prevalence in the wild across 376 artifacts
 
 The verifier needs no labels and no model, so it can be pointed at every artifact
 we could find. Harvested 398 research-artifact repositories from Zenodo across
@@ -172,7 +205,7 @@ Reproducibility infrastructure across the same 376:
 | Tests | 37% |
 | Container definition | 27% |
 
-### The defect is not decay — artifacts ship broken
+### The defect is not decay: artifacts ship broken
 
 The literature attributes artifact failure to *drift*: dependencies moving under
 a project over months. That predicts older artifacts should carry more broken

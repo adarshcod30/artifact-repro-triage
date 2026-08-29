@@ -383,6 +383,37 @@ def test_report_never_contradicts_its_own_evidence():
 
 
 # --------------------------------------------------------------------------
+# Our own documentation must not reference things that do not exist. The
+# README's table of contents shipped two anchors that resolved to nothing -
+# the same defect class the tool detects, in the tool's own README.
+# --------------------------------------------------------------------------
+def test_readme_toc_anchors_all_resolve():
+    import re
+    src = Path(__file__).resolve().parents[1] / "README.md"
+    if not src.exists():
+        return
+    text = src.read_text()
+    body = re.sub(r"```.*?```", "", text, flags=re.S)  # ignore example output
+
+    def slug(h: str) -> str:
+        h = re.sub(r"[^\w\s-]", "", h.lower())
+        return re.sub(r"\s", "-", h.strip())
+
+    have = {slug(h) for h in re.findall(r"^#{1,4} (.+)$", body, re.M)}
+    bad = [a for a in re.findall(r"\]\(#([^)]+)\)", text) if a not in have]
+    assert not bad, f"README links to non-existent anchors: {bad}"
+
+
+def test_readme_relative_links_point_at_real_files():
+    import re
+    root = Path(__file__).resolve().parents[1]
+    text = (root / "README.md").read_text()
+    targets = re.findall(r"\]\((?!https?://|#)([^)\s]+)\)", text)
+    missing = [t for t in targets if not (root / t.split("#")[0]).exists()]
+    assert not missing, f"README links to missing files: {missing}"
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():
