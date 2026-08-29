@@ -276,6 +276,37 @@ def test_multistage_build_aliases_are_stripped():
 
 
 # --------------------------------------------------------------------------
+# Suggestions - a report that only says "wrong" leaves the author hunting.
+# Most broken claims are near-misses, so the fix is one path away.
+# --------------------------------------------------------------------------
+_TREE = ["src/train_model.py", "scripts/run_experiment.sh",
+         "configs/base.yaml", "README.md"]
+
+
+def test_moved_file_is_suggested_by_basename():
+    from artifact_triage.solution.verify import suggest
+    assert suggest("train_model.py", _TREE) == ["src/train_model.py"]
+
+
+def test_pluralisation_typo_is_suggested():
+    from artifact_triage.solution.verify import suggest
+    assert suggest("scripts/run_experiments.sh", _TREE)[0] == \
+        "scripts/run_experiment.sh"
+    assert suggest("config/base.yaml", _TREE)[0] == "configs/base.yaml"
+
+
+def test_unrelated_path_gets_no_suggestion():
+    from artifact_triage.solution.verify import suggest
+    assert suggest("totally/unrelated.py", _TREE) == []
+
+
+def test_extension_mismatch_is_not_suggested():
+    from artifact_triage.solution.verify import suggest
+    # A .py claim must not be answered by a same-stemmed .md file.
+    assert suggest("base.py", ["configs/base.yaml", "docs/base.md"]) == []
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

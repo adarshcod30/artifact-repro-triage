@@ -110,10 +110,12 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
     L.append(f"`{ev.claims_total}` file path(s) referenced, checked against "
              f"`{fx['n_files']:,}` files at the pinned commit.\n")
     if ev.broken_paths:
-        L.append("| Referenced in README | Present in repository |")
-        L.append("|---|---|")
+        L.append("| Referenced in README | Present? | Closest real file |")
+        L.append("|---|---|---|")
         for p in ev.broken_paths[:20]:
-            L.append(f"| `{p}` | **no** |")
+            hint = ev.suggestions.get(p)
+            fix = f"`{hint[0]}`" if hint else "&mdash; nothing similar"
+            L.append(f"| `{p}` | **no** | {fix} |")
         if len(ev.broken_paths) > 20:
             L.append(f"\n…and {len(ev.broken_paths) - 20} more.")
         L.append("\n> Each row is a documented instruction a user would follow "

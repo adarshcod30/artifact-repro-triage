@@ -26,6 +26,44 @@ IGNORE_SUFFIX = (".png", ".jpg", ".jpeg", ".gif", ".svg", ".pdf", ".log", ".out"
 IGNORE_TOKENS = ("http://", "https://", "e.g.", "i.e.", "*.")
 
 
+def suggest(path: str, file_tree: list[str], limit: int = 3) -> list[str]:
+    """Find the most plausible real file for a broken claim.
+
+    A report that only says "this is wrong" leaves the author to go hunting. Most
+    broken claims are near-misses - a renamed directory, a moved script, a
+    pluralised folder - so the fix is usually one path away and can be found
+    deterministically.
+
+    Ranked by basename match first (a moved file keeps its name), then by
+    sequence similarity on the full path.
+    """
+    from difflib import SequenceMatcher
+
+    target = path.strip().lstrip("./")
+    base = target.rsplit("/", 1)[-1]
+    stem = base.rsplit(".", 1)[0].lower()
+    ext = base.rsplit(".", 1)[-1].lower() if "." in base else ""
+
+    scored: list[tuple[float, str]] = []
+    for cand in file_tree:
+        cbase = cand.rsplit("/", 1)[-1]
+        # Same filename elsewhere in the tree is almost always the answer.
+        if cbase == base:
+            scored.append((1.0, cand))
+            continue
+        cstem = cbase.rsplit(".", 1)[0].lower()
+        cext = cbase.rsplit(".", 1)[-1].lower() if "." in cbase else ""
+        if ext and cext != ext:
+            continue  # a .py claim is not answered by a .md file
+        ratio = SequenceMatcher(None, stem, cstem).ratio()
+        if ratio >= 0.72:
+            # Break ties toward files at a similar depth.
+            depth_penalty = abs(cand.count("/") - target.count("/")) * 0.01
+            scored.append((ratio - depth_penalty, cand))
+    scored.sort(key=lambda x: (-x[0], len(x[1])))
+    return [c for _, c in scored[:limit]]
+
+
 @dataclass
 class Claim:
     path: str
@@ -39,6 +77,7 @@ class Evidence:
     claims_total: int
     claims_broken: int
     broken_paths: list[str]
+    suggestions: dict[str, list[str]]
     broken_ratio: float
     has_dependency_manifest: bool
     has_container: bool
@@ -71,7 +110,12 @@ class Evidence:
         ]
         if self.broken_paths:
             lines.append("Paths the README references that do not exist:")
-            lines += [f"  - {p}" for p in self.broken_paths[:15]]
+            for p in self.broken_paths[:15]:
+                hint = self.suggestions.get(p)
+                if hint:
+                    lines.append(f"  - {p}   (closest real file: {hint[0]})")
+                else:
+                    lines.append(f"  - {p}   (nothing similar in the repository)")
         elif self.claims_total:
             lines.append("Every path the README references was found.")
         else:
@@ -128,11 +172,15 @@ def verify(fixture: dict) -> Evidence:
     claims = [check_claim(p, exact, basenames, dirs) for p in raw]
     broken = [c.path for c in claims if not c.exists]
     sig = fixture.get("signals", {})
+    # Only compute suggestions for the paths we will actually show.
+    hints = {p: suggest(p, tree) for p in broken[:15]}
+    hints = {k: v for k, v in hints.items() if v}
     return Evidence(
         artifact_id=fixture["artifact_id"],
         claims_total=len(claims),
         claims_broken=len(broken),
         broken_paths=broken,
+        suggestions=hints,
         broken_ratio=round(len(broken) / len(claims), 3) if claims else 0.0,
         has_dependency_manifest=bool(sig.get("dependency_manifest")),
         has_container=bool(sig.get("container")),
