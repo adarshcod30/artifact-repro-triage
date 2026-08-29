@@ -570,6 +570,22 @@ def test_url_and_git_suffix_forms_parse_to_the_same_slug():
 
 
 # --------------------------------------------------------------------------
+# A mermaid block with unbalanced brackets renders as a raw error box on
+# GitHub - a broken figure in the document that argues for checking figures.
+# --------------------------------------------------------------------------
+def test_mermaid_diagrams_are_well_formed():
+    import re
+    src = Path(__file__).resolve().parents[1] / "README.md"
+    if not src.exists():
+        return
+    for block in re.findall(r"```mermaid\n(.*?)```", src.read_text(), re.S):
+        assert block.count("subgraph") == len(
+            re.findall(r"^\s*end\s*$", block, re.M)), "unclosed subgraph"
+        for o, c in (("[", "]"), ("(", ")"), ("{", "}")):
+            assert block.count(o) == block.count(c), f"unbalanced {o}{c}"
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

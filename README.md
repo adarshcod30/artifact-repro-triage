@@ -111,6 +111,49 @@ measures something real.
 
 ## 3. Does the agent solve it well?
 
+```mermaid
+flowchart TB
+    R[("Artifact repository<br/>pinned commit")]
+
+    R --> SCRUB["Scrub badge self-disclosure<br/><i>27% of READMEs leak their own tier</i>"]
+
+    SCRUB --> B["<b>BASELINE</b><br/>README only"]
+    SCRUB --> CHECKS
+
+    subgraph CHECKS["Deterministic checks — no model, no cost, cannot hallucinate"]
+        direction LR
+        C1["paths<br/>resolve?"]
+        C2["URLs<br/>alive?"]
+        C3["deps<br/>pinned?"]
+        C4["base image<br/>pinned?"]
+        C5["machine-specific<br/>values?"]
+    end
+
+    CHECKS --> EV["Evidence block<br/><i>facts, never verdicts</i>"]
+    EV --> S["<b>SOLUTION</b><br/>README + verified facts"]
+
+    B --> SCORE
+    S --> ESC{"Evidence<br/>sufficient?"}
+
+    ESC -->|no| HUMAN["Human reviewer<br/><i>33% of artifacts</i>"]
+    ESC -->|yes| SCORE["One shared scorer"]
+
+    SCORE --> OUT["Report + tier"]
+    HUMAN --> OUT
+
+    style CHECKS fill:#eef4ff,stroke:#5b7fb5
+    style HUMAN fill:#fff4e6,stroke:#c8912a
+    style B fill:#f6f6f4,stroke:#999
+    style S fill:#eaf6ee,stroke:#4a9068
+```
+
+Both systems receive the identical scrubbed README and the identical rubric, and
+are scored by one shared scorer. The **only** difference is the evidence block —
+which is what makes the measured gap attributable to evidence rather than to
+anything else.
+
+
+
 ### The baseline (a fair one)
 
 One direct prompt: the scrubbed README plus the ACM badge rubric, asked for a
