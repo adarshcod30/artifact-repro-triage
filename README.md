@@ -10,6 +10,13 @@ micro1 Frontier Engineering Challenge 2026.
 artifact-triage owner/repo     # ~5 seconds, no API key, no cost
 ```
 
+[![checks](https://github.com/adarshcod30/artifact-repro-triage/actions/workflows/checks.yml/badge.svg)](https://github.com/adarshcod30/artifact-repro-triage/actions/workflows/checks.yml)
+
+CI runs the regression suite, the deterministic verifier, and the negative
+control on a clean Ubuntu runner with **no credentials**, asserting the control
+still reports 75/75 with 0 false positives. The core claims are therefore
+verified on a machine that is not mine.
+
 ---
 
 ## Results at a glance

@@ -36,3 +36,4 @@ discovered artifacts: 769
   [520/769] profiled 494
   [540/769] profiled 514
     ! features/actions: HTTPError
+    ! JetBrains-Research/authorship-detection.: HTTPError
