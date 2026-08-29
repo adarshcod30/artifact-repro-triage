@@ -6,3 +6,20 @@ __pycache__/
 # working clones are regenerated; never committed
 data/clones/
 results/*.local.*
+
+# ---------------------------------------------------------------------------
+# Regenerable API caches. Excluded to keep a judge's clone small.
+#
+# KEPT (small, and the credential-free checks read them):
+#   data/fixtures/          the 15-artifact labelled corpus - the headline result
+#   data/cache/github/content-*, readme-*, repo-*   pinning + portability
+#   data/cache/zenodo/, data/cache/links/           tiny
+#   results/, dataset/                              every reported number
+#
+# DROPPED (regenerable; `make prevalence` / `make corpus` refetch them):
+data/cache/github/tree-*
+data/cache/github/head-*
+data/cache/github/issues-*
+data/cache/prevalence/
+data/cache/discover/
+data/negative_control/

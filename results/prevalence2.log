@@ -32,3 +32,22 @@ discovered artifacts: 769
     ! mathandley/POPL-20-ARTIFACT: HTTPError
   [460/769] profiled 436
   [480/769] profiled 456
+  [500/769] profiled 474
+  [520/769] profiled 494
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/prevalence.py", line 242, in <module>
+    main()
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/prevalence.py", line 95, in main
+    fx = profile(item["repo"])
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/src/artifact_triage/eval/prevalence.py", line 73, in profile
+    cached.write_text(json.dumps(fx))
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/pathlib.py", line 1078, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/cache/prevalence/facebookresearch__CompilerGym.json'
