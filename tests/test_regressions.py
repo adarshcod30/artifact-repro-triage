@@ -611,6 +611,30 @@ def test_directory_without_trailing_slash_is_not_assumed():
 
 
 # --------------------------------------------------------------------------
+# A staleness detector with a blind spot is worse than none: it certifies the
+# thing it cannot see. fetch.py decides which claims exist at all, so it
+# influences every result.
+# --------------------------------------------------------------------------
+def test_every_result_kind_tracks_the_extractor():
+    from artifact_triage.common.provenance import INFLUENCERS
+    for kind, files in INFLUENCERS.items():
+        assert "src/artifact_triage/corpus/fetch.py" in files, (
+            f"'{kind}' does not track fetch.py, so a change to the extractor "
+            f"would leave its results looking current")
+
+
+def test_fingerprint_changes_when_influencing_code_changes():
+    from artifact_triage.common import provenance
+    before = provenance.fingerprint("verify")
+    orig = provenance.INFLUENCERS["verify"]
+    try:
+        provenance.INFLUENCERS["verify"] = orig + ["README.md"]
+        assert provenance.fingerprint("verify") != before
+    finally:
+        provenance.INFLUENCERS["verify"] = orig
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

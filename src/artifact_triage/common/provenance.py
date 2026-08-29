@@ -27,22 +27,33 @@ INFLUENCERS = {
     "verify": ["src/artifact_triage/solution/verify.py",
                "src/artifact_triage/corpus/fetch.py"],
     "baseline": ["src/artifact_triage/baseline/run.py",
+                 "src/artifact_triage/corpus/fetch.py",
                  "src/artifact_triage/common/rubric.py",
                  "src/artifact_triage/common/llm.py"],
     "solution": ["src/artifact_triage/solution/run.py",
                  "src/artifact_triage/solution/verify.py",
                  "src/artifact_triage/solution/evidence.py",
+                 "src/artifact_triage/corpus/fetch.py",
                  "src/artifact_triage/common/rubric.py",
                  "src/artifact_triage/common/llm.py"],
+    # fetch.py belongs in every one of these: it decides which claims exist at
+    # all. Omitting it meant a change to the extractor invalidated `baseline`
+    # and `solution` but silently left `falsified` looking current - a
+    # staleness detector with a blind spot is worse than none, because it
+    # certifies the thing it cannot see.
     "falsified": ["src/artifact_triage/eval/falsified_run.py",
                   "src/artifact_triage/solution/run.py",
                   "src/artifact_triage/solution/evidence.py",
+                  "src/artifact_triage/solution/verify.py",
+                  "src/artifact_triage/corpus/fetch.py",
                   "src/artifact_triage/baseline/run.py",
                   "src/artifact_triage/eval/negative_control.py"],
     "negative_control": ["src/artifact_triage/eval/negative_control.py",
-                         "src/artifact_triage/solution/verify.py"],
+                         "src/artifact_triage/solution/verify.py",
+                         "src/artifact_triage/corpus/fetch.py"],
     "prevalence": ["src/artifact_triage/eval/prevalence.py",
-                   "src/artifact_triage/solution/verify.py"],
+                   "src/artifact_triage/solution/verify.py",
+                   "src/artifact_triage/corpus/fetch.py"],
 }
 
 
