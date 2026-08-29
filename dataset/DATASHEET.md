@@ -12,8 +12,8 @@ Produced by [artifact-repro-triage](https://github.com/adarshcod30/artifact-repr
 
 1. Harvested software deposits from the public Zenodo API using venue names and
    the phrases "replication package" / "reproduction package" / "artifact
-   evaluation". 398 distinct GitHub repositories were found; 732 profiled
-   successfully.
+   evaluation", **stratified across publication years 2018-2026**. 769
+   distinct GitHub repositories were found; 732 profiled successfully.
 2. For each, the complete recursive file tree and the README were read through
    the GitHub API, pinned to an explicit commit. **No repository was cloned and
    no code was executed.**

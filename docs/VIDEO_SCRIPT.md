@@ -14,14 +14,15 @@ This script covers all six. Timings are cumulative.
 > `requirements.txt`. Run `scripts/run_experiments.sh`. See
 > `configs/default.yaml`. Nothing checks whether those files exist.
 >
-> I checked. Across 376 research artifacts harvested from Zenodo — four thousand
-> two hundred documented file references — **nineteen and a half percent point at
-> nothing at all**. Sixty-five percent of artifacts have at least one.
+> I checked. Across seven hundred and thirty-two research artifacts harvested
+> from Zenodo — six thousand six hundred documented file references — **almost
+> twenty-two percent point at nothing at all**. Sixty-four percent of artifacts
+> have at least one.
 >
 > And here is the part I didn't expect. The literature says artifacts *decay* —
 > dependencies drift, environments rot. So older artifacts should be worse. They
-> aren't. The rate is flat with age: point two-four at three months, point
-> two-five at two years.
+> aren't. The rate is flat across four years: point two-six under three months,
+> point two-five for artifacts last touched almost four years ago.
 >
 > **These artifacts shipped broken.** A reviewer could have caught every one of
 > them on day one, in about five seconds, for free. Nobody did, because nobody

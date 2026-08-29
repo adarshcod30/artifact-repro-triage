@@ -52,7 +52,7 @@ because it targets a failure mode with published evidence behind it.
 
 | Module | Checks | Evidence it targets |
 |---|---|---|
-| `solution/verify.py` | README file paths resolve | 65.3% of 376 artifacts fail this |
+| `solution/verify.py` | README file paths resolve | 63.8% of 732 artifacts fail this |
 | `solution/links.py` | README URLs resolve | link rot 9.4% avg, up to 29.8% |
 | `solution/pinning.py` | dependency versions pinned; container base image pinned | unpinned versions are the most-cited decay cause |
 | `solution/portability.py` | hard-coded machine-specific paths and hosts | "incomplete environments" |
@@ -104,7 +104,7 @@ without touching the failure mode being addressed.
 
 The same principle set the boundary of what the model is used for at all. Of the
 project's six checks, five need no model — and those five produced the prevalence
-study across 376 artifacts, the link-rot replication, and the negative control.
+study across 732 artifacts, the link-rot replication, and the negative control.
 Total model spend is **$2.39** against a $5 ceiling, verified against AWS billing. Pushing work *out* of the model made the system
 cheaper, faster, fully reproducible, and impossible to hallucinate — and left the
 model doing only the one thing it is genuinely better at than code: weighing

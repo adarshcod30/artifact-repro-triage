@@ -45,7 +45,7 @@ them would make everything else less trustworthy:
 - [Who has this problem](#1-who-has-this-problem)
 - [What bottleneck makes it worth solving](#2-what-bottleneck-makes-it-worth-solving) · [published evidence](#this-is-a-documented-problem-not-an-assumed-one)
 - [Does the agent solve it well](#3-does-the-agent-solve-it-well) · [measured result](#measured-result) · [honest negative result](#honest-negative-result)
-- [Prevalence across 376 artifacts](#prevalence-in-the-wild-across-732-artifacts) · [is it decay?](#the-defect-is-not-decay-artifacts-ship-broken)
+- [Prevalence across 732 artifacts](#prevalence-in-the-wild-across-732-artifacts) · [is it decay?](#the-defect-is-not-decay-artifacts-ship-broken)
 - [Reproducing this](#4-can-another-person-reproduce-the-result)
 - [Try it on your own repository](#try-it-on-your-own-repository)
 - [Known limitations](#known-limitations-found-by-running-the-tool-on-itself)
@@ -437,7 +437,7 @@ src/artifact_triage/
   cli.py                    artifact-triage <owner/repo> — the user-facing tool
   corpus/     sources.py    scrape expert badge labels
               zenodo.py     resolve artifacts to their deposits
-              discover.py   harvest 398 artifact repos at scale
+              discover.py   harvest artifact repos, stratified by year
               github.py     repo metadata
               fetch.py      scrubbed fact sheets (tree API, zero disk)
               scrub.py      redact badge self-disclosure
@@ -485,7 +485,7 @@ example output; `configs/default.yaml` comes from the negative-control injection
 list. The checker cannot tell a claim about *this* repository from a quotation
 about another one.
 
-This is **meta-documentation**, and no artifact in the 376-repository corpus
+This is **meta-documentation**, and no artifact in the 732-repository corpus
 exhibits it — every one of them describes only itself. Only pointing the tool at
 itself could surface it.
 

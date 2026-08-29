@@ -107,7 +107,7 @@ Everything that needs **no credentials and costs nothing**:
 ```bash
 make test          # 29 regression tests, ~2s
 make report REPO=owner/name   # reviewer report for any repository
-make prevalence    # broken-claim prevalence across 376 artifacts
+make prevalence    # broken-claim prevalence across the harvested corpus
 make links         # link-rot scan
 make pinning       # dependency + container pinning
 make portability   # hard-coded machine-specific values

@@ -1,6 +1,6 @@
 """Publish the measurements as a dataset others can reuse.
 
-The prevalence sweep produced a per-artifact record for 376 research
+The prevalence sweep produced a per-artifact record for hundreds of research
 repositories: how many file paths their README references, how many resolve,
 what reproducibility infrastructure is present, and when the repository was last
 touched. That is a research dataset in its own right, and it is more durable than
@@ -44,8 +44,8 @@ Produced by [artifact-repro-triage](https://github.com/adarshcod30/artifact-repr
 
 1. Harvested software deposits from the public Zenodo API using venue names and
    the phrases "replication package" / "reproduction package" / "artifact
-   evaluation". 398 distinct GitHub repositories were found; {n} profiled
-   successfully.
+   evaluation", **stratified across publication years 2018-2026**. {discovered}
+   distinct GitHub repositories were found; {n} profiled successfully.
 2. For each, the complete recursive file tree and the README were read through
    the GitHub API, pinned to an explicit commit. **No repository was cloned and
    no code was executed.**
@@ -118,8 +118,10 @@ def main() -> None:
 
     fresh = sum(1 for r in rows
                 if r.get("stale_days") is not None and r["stale_days"] < 90)
+    discovered = sum(1 for _ in open("data/discovered.jsonl")) \
+        if Path("data/discovered.jsonl").exists() else len(rows)
     (OUT_DIR / "DATASHEET.md").write_text(
-        DATASHEET.format(n=len(rows), fresh=fresh))
+        DATASHEET.format(n=len(rows), fresh=fresh, discovered=discovered))
 
     print(f"  {csv_path}    {csv_path.stat().st_size:,} bytes")
     print(f"  {jsonl_path}  {jsonl_path.stat().st_size:,} bytes")
