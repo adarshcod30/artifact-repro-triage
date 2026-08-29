@@ -44,6 +44,38 @@ obvious to a checker. In this corpus, one Reusable-badged artifact references
 This is also the failure mode the whole challenge is about — output that is
 convincing rather than correct.
 
+### This is a documented problem, not an assumed one
+
+Published measurements of research-artifact quality, independent of this project:
+
+| Finding | Source |
+|---|---|
+| **Over 40% of "functional" artifacts from 2024–2025 fail within months** — drifting dependencies, unpinned versions, incomplete environments | [arXiv 2512.00651](https://arxiv.org/html/2512.00651v1) |
+| **62.6% of artifacts break at least once** during study | [ICSE'23, Zhu et al.](https://web.cs.ucdavis.edu/~rubio/includes/icse23.pdf) |
+| Only **56.4% of artifacts were reachable** at the links their papers gave | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |
+| **Link rot averages 9.4%**, reaching 29.8% in some years | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |
+| README quality averaged **49.8%** across 2017–2022 | [arXiv 2404.06852](https://arxiv.org/pdf/2404.06852) |
+
+Two consequences shape this project.
+
+**First, the failure is temporal.** An artifact badged `Functional` in 2024 may not
+be functional now. That is not label noise — it is the phenomenon. It also
+explains the badge-comparison result below, and it is why the project measures
+*current* consistency rather than trying to recover a past verdict.
+
+**Second, nothing above measures whether an artifact's README is consistent with
+its own repository.** The literature measures availability, link rot, and
+documentation presence. Whether the instructions *point at files that exist* is
+the gap this tool fills.
+
+### Independent replication
+
+Running our link checker over the labelled corpus found **10 dead URLs out of 85
+checked (11.8%)**, with **4 of 15 artifacts (27%) carrying at least one dead
+link** — inside the published 9.4% average and 1.8–29.8% range. Reproducing a
+known measurement with an independent implementation is evidence the tool
+measures something real.
+
 ## 3. Does the agent solve it well?
 
 ### The baseline (a fair one)

@@ -5,3 +5,6 @@
   artifact ESEC                                +0    (total 80)
   artifact MSR                                 +0    (total 80)
   artifact ISSRE                               +1    (total 81)
+  "replication package"                        +44   (total 125)
+  "reproduction package"                       +62   (total 187)
+  "artifact evaluation"                        +65   (total 252)
