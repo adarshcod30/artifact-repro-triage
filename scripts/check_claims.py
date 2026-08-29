@@ -137,7 +137,7 @@ def check_staleness() -> list[str]:
     authoritative - the project's own subject, applied to itself.
     """
     sys.path.insert(0, str(ROOT / "src"))
-    from artifact_triage.common.provenance import is_stale
+    from artifact_triage.common.provenance import changed_functions, is_stale
 
     stale = []
     print("\nRESULT PROVENANCE")
@@ -151,6 +151,20 @@ def check_staleness() -> list[str]:
         print(f"  {'STALE' if bad else 'ok   '}  {name:<20} {why[:58]}")
         if bad:
             stale.append(name)
+            # Say WHAT changed, not merely that something did. A file-level
+            # fingerprint trips on a comment as readily as on a rewrite, and
+            # "stale" with no detail invites either a needless paid re-run or a
+            # shrug. The reader can then judge whether the change could reach
+            # this result at all.
+            prov = payload.get("_provenance") or {}
+            since = (prov.get("commit") or "").replace("-dirty", "")
+            fns = changed_functions(prov.get("kind", ""), since) if since else []
+            if fns:
+                print(f"           functions changed since {since}: "
+                      f"{', '.join(fns[:6])}")
+                if prov.get("commit", "").endswith("-dirty"):
+                    print("           (that commit was recorded from a DIRTY "
+                          "tree, so this diff is approximate)")
     return stale
 
 

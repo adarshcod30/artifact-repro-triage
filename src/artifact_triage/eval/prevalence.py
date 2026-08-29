@@ -105,14 +105,23 @@ def profile(slug: str) -> dict | None:
     return fx
 
 
-def age_days(iso: str | None) -> float | None:
+# Measured against a single reference time captured once per run, not against
+# `now` at each call. The datasheet claimed "re-running produces byte-identical
+# output"; `stale_days` made that false, because every row was timed against a
+# slightly later clock. Recording the reference makes the field reproducible
+# GIVEN the reference, and makes the remaining non-determinism explicit rather
+# than an unstated exception to a determinism claim.
+MEASURED_AT = datetime.now(timezone.utc)
+
+
+def age_days(iso: str | None, ref: datetime | None = None) -> float | None:
     if not iso:
         return None
     try:
         d = datetime.fromisoformat(iso.replace("Z", "+00:00"))
     except ValueError:
         return None
-    return (datetime.now(timezone.utc) - d).total_seconds() / 86400
+    return ((ref or MEASURED_AT) - d).total_seconds() / 86400
 
 
 def main() -> None:
@@ -140,7 +149,8 @@ def main() -> None:
             "has_licence": ev.has_licence,
             "has_tests": ev.has_tests,
             "readme_bytes": ev.readme_bytes,
-            "stale_days": age_days(fx.get("pushed_at")),
+            "stale_days": round(age_days(fx.get("pushed_at")) or 0.0, 3)
+            if fx.get("pushed_at") else None,
             "stars": fx.get("stars", 0),
             "archived": fx.get("archived", False),
             "scrub_hits": fx["readme_scrub"]["hits"],
@@ -308,6 +318,10 @@ def main() -> None:
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps({
         "_provenance": stamp("prevalence"),
+        # The reference clock for every `stale_days` value below, so an age can
+        # be recomputed exactly rather than being silently relative to whenever
+        # the run happened.
+        "measured_at": MEASURED_AT.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "n_profiled": len(rows), "n_checkable": len(checkable),
         "n_with_broken": len(with_broken),
         "prevalence": round(len(with_broken) / len(checkable), 4) if checkable else None,

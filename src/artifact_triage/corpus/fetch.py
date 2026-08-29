@@ -21,7 +21,7 @@ import re
 from pathlib import Path
 
 from artifact_triage.corpus.github import API, _get
-from artifact_triage.corpus.scrub import scrub
+from artifact_triage.corpus.scrub import assert_clean, scrub
 
 FIXTURES = Path("data/fixtures")
 
@@ -183,6 +183,19 @@ def build(record: dict) -> dict | None:
     paths = [e["path"] for e in entries]
     raw = readme(slug)
     rep = scrub(raw)
+    # The post-condition `assert_clean`'s own docstring claimed it already had.
+    # It did not: its only caller was the trajectory exporter, so the corpus
+    # build - the one place badge leakage would actually contaminate a result -
+    # had no check at all. Scrubbing is idempotent (the redaction token contains
+    # no matchable keyword), so a second pass finding anything means the first
+    # pass missed it.
+    #
+    # A second pass alone would NOT have caught the British-spelling leak -
+    # "[REDACTED] Evaluated - Reusable" matches no pattern, which is why it
+    # survived. Verified, rather than assumed. `assert_clean` therefore also
+    # checks for a tier word orphaned beside a redaction, which is that bug's
+    # actual signature.
+    assert_clean(rep.text)
     total_bytes = sum(e["size"] for e in entries)
     return {
         "artifact_id": slug,

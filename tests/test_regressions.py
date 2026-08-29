@@ -1564,6 +1564,141 @@ def test_documented_clone_size_matches_the_tracked_tree():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 95 - a post-condition whose docstring claimed it was wired in
+#
+# `assert_clean`'s docstring read "Used as a post-condition in the corpus
+# build." It was not: the only caller was the trajectory exporter. The corpus
+# build - the one place badge leakage would actually contaminate a result - had
+# no check at all, while the code asserted it did. A documented guarantee the
+# repository does not contain is precisely the defect this project detects in
+# other people's READMEs.
+#
+# Wiring it in was not enough. I first wrote that this check "is exactly how
+# the British-spelling leak survived", then TESTED that claim and it was false:
+# "[REDACTED] Evaluated - Reusable" matches no pattern, so a second scrubbing
+# pass sees nothing. The comment was corrected rather than left flattering.
+#
+# So a second post-condition catches that bug's actual signature - the label
+# redacted, the tier orphaned beside the hole - which is detectable by SHAPE
+# even when the phrasing matches nothing.
+# --------------------------------------------------------------------------
+def test_corpus_build_actually_runs_the_leakage_post_condition():
+    import inspect
+    from artifact_triage.corpus import fetch
+    assert "assert_clean" in inspect.getsource(fetch.build), \
+        "the corpus build must run the check its docstring promised"
+
+
+def test_orphaned_tier_beside_a_redaction_is_caught():
+    from artifact_triage.corpus.scrub import assert_clean
+    for leak in ("[REDACTED] Evaluated - Reusable",
+                 "[REDACTED] (Reusable)",
+                 "[REDACTED]/Functional",
+                 "[REDACTED]_reusable"):
+        try:
+            assert_clean(leak)
+        except AssertionError:
+            continue
+        raise AssertionError(f"orphaned tier not caught: {leak!r}")
+
+
+def test_orphan_check_does_not_fire_on_ordinary_prose():
+    """A false positive here breaks the corpus build, so it must be narrow."""
+    from artifact_triage.corpus.scrub import assert_clean
+    for ok in ("[REDACTED] and the code is reusable in other projects",
+               "[REDACTED]\n\nThe functional tests live in tests/",
+               "A functional programming approach was used.",
+               "[REDACTED] available at the DOI above"):
+        assert_clean(ok)
+
+
+def test_every_stored_fixture_passes_the_post_condition():
+    import json as _json
+    from artifact_triage.corpus.scrub import assert_clean
+    for p in sorted(Path("data/fixtures").glob("*.json")):
+        assert_clean(_json.loads(p.read_text()).get("readme") or "")
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 96 - the datasheet promised byte-identical re-runs, and was wrong
+#
+# "All measurement code is deterministic. Re-running it on the same commits
+# produces byte-identical output." Two consecutive runs disagreed - on exactly
+# one field. `stale_days` is an AGE, computed against `datetime.now()` at each
+# call, so every row was timed against a slightly later clock and the
+# determinism claim was false.
+#
+# Small, but it is the headline promise of the reproducibility section, and it
+# is the same defect the dataset exists to measure.
+# --------------------------------------------------------------------------
+def test_age_is_measured_against_a_recorded_reference_not_now():
+    from datetime import datetime, timezone
+    from artifact_triage.eval import prevalence
+    ref = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    a = prevalence.age_days("2025-12-25T00:00:00Z", ref=ref)
+    b = prevalence.age_days("2025-12-25T00:00:00Z", ref=ref)
+    assert a == b == 7.0, (a, b)
+
+
+def test_prevalence_records_the_reference_clock():
+    import json as _json
+    p = Path("results/prevalence.json")
+    if not p.exists():
+        return
+    assert _json.loads(p.read_text()).get("measured_at"), \
+        "an age is meaningless without the clock it was measured against"
+
+
+def test_datasheet_does_not_overclaim_byte_identical_reruns():
+    for p in (Path("dataset/DATASHEET.md"),
+              Path("src/artifact_triage/eval/export_dataset.py")):
+        if not p.exists():
+            continue
+        t = p.read_text()
+        if "byte-identical" in t:
+            assert "stale_days" in t, (
+                f"{p} promises byte-identical output without naming the one "
+                f"field that cannot be")
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 97 - the commit field in a provenance stamp could lie
+#
+# `stamp()` recorded `git rev-parse HEAD` with no check for uncommitted
+# changes. Results produced from a modified tree were labelled with a commit
+# whose code never produced them - a hash that looks authoritative and cannot
+# recover what actually ran.
+#
+# It bit here: results stamped `7363401` were produced by code that landed two
+# commits later, so diffing against that commit gave a misleading answer until
+# the discrepancy was spotted by hand.
+# --------------------------------------------------------------------------
+def test_commit_stamp_marks_a_dirty_working_tree():
+    import inspect
+    from artifact_triage.common import provenance
+    src = inspect.getsource(provenance.commit)
+    assert "status" in src and "-dirty" in src, \
+        "a stamp from a modified tree must not look like a clean commit"
+
+
+def test_staleness_reports_which_functions_changed():
+    """'Stale' with no detail invites a needless paid re-run, or a shrug."""
+    from artifact_triage.common.provenance import changed_functions
+    out = changed_functions("falsified", "HEAD")
+    assert isinstance(out, list)
+    for entry in out:
+        assert ":" in entry, entry
+
+
+def test_changed_functions_is_safe_on_a_bad_reference():
+    from artifact_triage.common.provenance import changed_functions
+    assert changed_functions("falsified", "not-a-real-commit-ref") == []
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

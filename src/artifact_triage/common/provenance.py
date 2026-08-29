@@ -58,12 +58,60 @@ INFLUENCERS = {
 
 
 def commit() -> str:
+    """The commit, marked `-dirty` when the tree had uncommitted changes.
+
+    Without the mark this field quietly lies. A result produced from a modified
+    working tree was labelled with a commit whose code never produced it - the
+    hash looks authoritative and cannot recover what actually ran. That happened
+    here: results stamped `7363401` were produced by code that only landed two
+    commits later, and comparing against that commit gave a misleading answer
+    until the discrepancy was noticed by hand.
+    """
     try:
         out = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
                              capture_output=True, text=True, cwd=ROOT, timeout=10)
-        return out.stdout.strip() or "unknown"
+        sha = out.stdout.strip() or "unknown"
+        st = subprocess.run(["git", "status", "--porcelain",
+                             "src", "data/fixtures"],
+                            capture_output=True, text=True, cwd=ROOT, timeout=15)
+        if st.stdout.strip():
+            sha += "-dirty"
+        return sha
     except Exception:
         return "unknown"
+
+
+def changed_functions(kind: str, since: str) -> list[str]:
+    """Which influencing FUNCTIONS differ from a recorded commit, by AST.
+
+    A file-level fingerprint says a result is stale without saying why, and a
+    comment or an unrelated helper is enough to trip it. Comparing the parsed
+    functions tells the reader whether the change could possibly matter - e.g.
+    "only fetch.build changed", which experiments reading committed fixtures
+    never call.
+
+    Best effort: returns [] if the commit is unavailable or unparseable.
+    """
+    import ast
+    out: list[str] = []
+    for rel in sorted(INFLUENCERS.get(kind, [])):
+        try:
+            old = subprocess.run(["git", "show", f"{since}:{rel}"],
+                                 capture_output=True, text=True, cwd=ROOT,
+                                 timeout=15).stdout
+            if not old:
+                continue
+            def fns(src):
+                t = ast.parse(src)
+                return {n.name: ast.dump(n) for n in ast.walk(t)
+                        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
+            o, n = fns(old), fns((ROOT / rel).read_text())
+            for name in sorted(set(o) | set(n)):
+                if o.get(name) != n.get(name):
+                    out.append(f"{Path(rel).name}:{name}")
+        except Exception:
+            continue
+    return out
 
 
 def fingerprint(kind: str) -> str:

@@ -111,11 +111,56 @@ def scrub(text: str) -> ScrubReport:
     return ScrubReport(text, hits)
 
 
+# A redaction immediately followed by a bare tier word is the SIGNATURE of the
+# British-spelling bug: the label was removed and the answer was left sitting
+# next to the hole. Pattern-matching the phrasing cannot catch that - the
+# surviving text matches nothing - but the shape is unmistakable, which is why
+# this generalises to phrasings nobody anticipated.
+# Deliberately narrow: only SEPARATORS and the structural words "evaluated" /
+# "available" may sit between the redaction and the tier. A 40-character window
+# was tried first and flagged innocent prose - "[REDACTED] and the code is
+# reusable" - which would break the build on a false alarm. The signature is
+# "redacted label + separator + tier", not "tier word somewhere nearby".
+#
+# `available` is deliberately NOT in the tier group. It is an extremely common
+# English word - "[REDACTED] available at ..." is ordinary prose - and it is the
+# FLOOR tier, so learning an artifact is merely `Available` is the least
+# informative leak there is. Including it would trade frequent false build
+# failures for almost no protection. `functional` and `reusable` are the two
+# tiers that actually carry information, and both are rarer in prose.
+_ORPHAN_TIER = re.compile(
+    re.escape(REDACTION)
+    + r"[\s\-\u2013\u2014:/_()\[\]]*(?:evaluated|available)?"
+    # NOT \b before the tier: "_" is a word character, so there is no word
+    # boundary in "[REDACTED]_reusable" and \b silently failed on one of the
+    # very separator forms this check exists to catch.
+    + r"[\s\-\u2013\u2014:/_()\[\]]*(?<![A-Za-z])(functional|reusable)"
+      r"(?![A-Za-z])", re.I)
+
+
+def assert_no_orphan_tier(text: str) -> None:
+    """Catch 'redacted the label, kept the tier'."""
+    m = _ORPHAN_TIER.search(text)
+    if m:
+        raise AssertionError(
+            f"a tier word survives beside a redaction: {m.group(0)!r} - "
+            f"scrubbing removed the container and left the answer")
+
+
 def assert_clean(text: str) -> None:
-    """Fail loudly if anything survived. Used as a post-condition in the corpus build."""
+    """Fail loudly if anything survived scrubbing.
+
+    Called as a post-condition by the corpus build and the trajectory export.
+    This docstring used to say it was "used as a post-condition in the corpus
+    build" while nothing in the corpus build called it - a documented guarantee
+    the repository did not contain, which is precisely the defect this project
+    detects in other people's READMEs. It is wired in now, so the sentence is
+    true.
+    """
     leftover = scrub(text)
     if leftover.leaked:
         raise AssertionError(f"badge leakage survived scrubbing: {leftover.hits}")
+    assert_no_orphan_tier(text)
 
 
 if __name__ == "__main__":

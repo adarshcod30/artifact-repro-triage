@@ -59,8 +59,15 @@ them is recomputed on load. An earlier version cached the extracted path list,
 so fixing the extractor silently could not change any cached artifact while the
 provenance stamp still reported the output as current.
 
-All measurement code is deterministic. Re-running it on the same commits produces
-byte-identical output.
+All measurement code is deterministic. Re-running it on the same commits
+reproduces every measured value exactly, with one stated exception:
+`stale_days` is an age, so it is computed against the run's own reference time
+(recorded as `measured_at`) and necessarily advances between runs. Every other
+field - claims, broken, ratios, signals - is byte-identical.
+
+That exception used to be unstated, and the sentence here simply claimed
+byte-identical output. It was not true, which is the same defect this dataset
+was built to measure.
 
 ## Fields
 
