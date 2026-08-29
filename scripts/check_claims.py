@@ -112,6 +112,23 @@ def claims() -> list[tuple[str, str, str, str]]:
             out.append(("README.md", f"`Functional` for {top[1]} of {len(tiers)}",
                         "baseline collapse onto one class", "baseline.json"))
 
+    # The issue-validation table was hand-written and had drifted on every
+    # figure - including in a way that reversed the direction of the point
+    # estimate. A negative result kept visible for honesty is worthless if its
+    # numbers rot.
+    iv = load("results/issue_validation.json")
+    if iv:
+        f, cl = iv.get("flagged_summary"), iv.get("clean_summary")
+        if f and cl:
+            out.append(("README.md", f"{f['share_with_a_complaint']:.1%}",
+                        "complaint share, flagged", "issue_validation.json"))
+            out.append(("README.md", f"{cl['share_with_a_complaint']:.1%}",
+                        "complaint share, clean", "issue_validation.json"))
+            n = f["n_repos"] + cl["n_repos"]
+            withi = f["n_repos_with_issues"] + cl["n_repos_with_issues"]
+            out.append(("README.md", f"only {withi} of {n} repositories",
+                        "repositories with any issues", "issue_validation.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",

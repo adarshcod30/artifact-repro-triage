@@ -38,7 +38,9 @@ them would make everything else less trustworthy:
 - A **zero-skill constant predictor beats both systems** on ACM badge agreement.
   Badge agreement is uninformative here, and the write-up says so.
 - The **external validation returned null.** Repositories we flag are no more
-  likely to carry a user complaint than ones we do not.
+  likely to carry a user complaint than ones we do not — and on the latest
+  sample the point estimate runs the *other* way. Only 29% of repositories have
+  any issues at all, so the instrument cannot resolve it in either direction.
 
 ---
 
@@ -513,12 +515,17 @@ falsification condition was written down **before** the measurement.
 
 | | Flagged | Clean |
 |---|---|---|
-| Share with a reproduction complaint | 37.1% | 37.5% |
-| Median issue count | 24 | 20 |
+| Share with a reproduction complaint | 26.1% | 41.7% |
+| Repositories with any issues at all | 23 / 60 | 12 / 60 |
+| Median issue count | 9 | 4 |
 
-**Indistinguishable.** The hypothesis is not supported.
+**The hypothesis is not supported, and the point estimate now runs against it** —
+flagged repositories carry *fewer* complaints than clean ones. I do not believe
+that reversal either: it rests on 6 complaints out of 23 versus 5 out of 12.
+With numbers that small the honest reading is that this instrument cannot
+resolve the question in either direction.
 
-The reason is visible in the sample: **only 43 of 120 repositories (36%) have any
+The reason is visible in the sample: **only 35 of 120 repositories (29%) have any
 issues at all**. A GitHub issue requires someone to try the artifact, hit the
 problem, and take the time to write it up. Most research artifacts are published
 and never exercised — so silence is not evidence that they work, and user

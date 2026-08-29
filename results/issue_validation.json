@@ -1,31 +1,22 @@
 {
  "flagged_summary": {
   "n_repos": 60,
-  "n_repos_with_issues": 35,
-  "repos_with_a_complaint": 13,
-  "share_with_a_complaint": 0.371,
-  "median_issues": 24,
-  "mean_complaint_rate": 0.0499
+  "n_repos_with_issues": 23,
+  "repos_with_a_complaint": 6,
+  "share_with_a_complaint": 0.261,
+  "median_issues": 9,
+  "mean_complaint_rate": 0.084
  },
  "clean_summary": {
   "n_repos": 60,
-  "n_repos_with_issues": 8,
-  "repos_with_a_complaint": 3,
-  "share_with_a_complaint": 0.375,
-  "median_issues": 20.0,
-  "mean_complaint_rate": 0.0531
+  "n_repos_with_issues": 12,
+  "repos_with_a_complaint": 5,
+  "share_with_a_complaint": 0.417,
+  "median_issues": 4.0,
+  "mean_complaint_rate": 0.1212
  },
  "detail": {
   "flagged": [
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "xdslproject/inconspiquous",
-    "broken": 1,
-    "claims": 1
-   },
    {
     "n_issues": 0,
     "n_complaints": 0,
@@ -69,29 +60,11 @@
     "claims": 8
    },
    {
-    "n_issues": 25,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "model-checking/kani",
-    "broken": 7,
-    "claims": 7
-   },
-   {
     "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
     "artifact_id": "alpha-unito/xffl",
-    "broken": 1,
-    "claims": 1
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "autosard/atlas-re",
     "broken": 1,
     "claims": 1
    },
@@ -114,40 +87,35 @@
     "claims": 5
    },
    {
-    "n_issues": 49,
+    "n_issues": 9,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "ctsit/rcc.billing",
-    "broken": 19,
-    "claims": 19
+    "artifact_id": "dogusariturk/akaitools",
+    "broken": 3,
+    "claims": 3
    },
    {
-    "n_issues": 37,
-    "n_complaints": 2,
-    "complaint_rate": 0.054,
+    "n_issues": 55,
+    "n_complaints": 1,
+    "complaint_rate": 0.018,
     "examples": [
      {
-      "number": 747,
-      "title": "zenodo download",
-      "matched": "no such file"
-     },
-     {
-      "number": 733,
-      "title": "Errors related to climate scenario data, running on HPC cluster Seawulf at Stony Brook U",
-      "matched": "missing directory"
+      "number": 68,
+      "title": "Slot 'all.genes' does not exist in obj@misc.",
+      "matched": "does not exist"
      }
     ],
-    "artifact_id": "PyPSA/pypsa-usa",
-    "broken": 2,
-    "claims": 2
+    "artifact_id": "vertesy/Seurat.utils",
+    "broken": 1,
+    "claims": 1
    },
    {
-    "n_issues": 34,
+    "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "GEB-model/GEB",
+    "artifact_id": "JWMichalski/oscarplus",
     "broken": 1,
     "claims": 1
    },
@@ -161,102 +129,22 @@
     "claims": 2
    },
    {
-    "n_issues": 8,
-    "n_complaints": 1,
-    "complaint_rate": 0.125,
-    "examples": [
-     {
-      "number": 1009,
-      "title": "Invalid `click_extra` version for release v8.1.2",
-      "matched": "importerror"
-     }
-    ],
-    "artifact_id": "kdeldycke/mail-deduplicate",
-    "broken": 6,
-    "claims": 6
-   },
-   {
-    "n_issues": 24,
-    "n_complaints": 3,
-    "complaint_rate": 0.125,
-    "examples": [
-     {
-      "number": 49,
-      "title": "`conda install -c acoular spectacoular` installs an outdated and unusable package",
-      "matched": "importerror"
-     },
-     {
-      "number": 5,
-      "title": "UMA16SamplesGenerator not found in project",
-      "matched": "no module named"
-     },
-     {
-      "number": 4,
-      "title": "About an application bug",
-      "matched": "does not exist"
-     }
-    ],
-    "artifact_id": "acoular/spectacoular",
-    "broken": 1,
-    "claims": 1
-   },
-   {
-    "n_issues": 25,
-    "n_complaints": 2,
-    "complaint_rate": 0.08,
-    "examples": [
-     {
-      "number": 236,
-      "title": "Sagittal registration",
-      "matched": "cannot find"
-     },
-     {
-      "number": 205,
-      "title": "[BUG] Installation via metapackage doesn't come with appropriate libpng on Silicon Mac",
-      "matched": "no such file"
-     }
-    ],
-    "artifact_id": "brainglobe/brainreg",
-    "broken": 4,
-    "claims": 4
-   },
-   {
-    "n_issues": 5,
+    "n_issues": 34,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "kurtlindberg/leafwaxtools",
+    "artifact_id": "cirKITers/qml-essentials",
     "broken": 1,
     "claims": 1
    },
    {
-    "n_issues": 26,
+    "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "geomar-od-lagrange/lcs_parcels",
-    "broken": 9,
-    "claims": 9
-   },
-   {
-    "n_issues": 4,
-    "n_complaints": 2,
-    "complaint_rate": 0.5,
-    "examples": [
-     {
-      "number": 199,
-      "title": "\"globato gui\" missing dependencies, and a file-permissions bug.",
-      "matched": "no module named"
-     },
-     {
-      "number": 131,
-      "title": "Drop the fiona dependency in favor of pyogrio/geopandas",
-      "matched": "no such file"
-     }
-    ],
-    "artifact_id": "continuous-dems/globato",
-    "broken": 1,
-    "claims": 1
+    "artifact_id": "jaspervrugt/SAGEhydrology",
+    "broken": 3,
+    "claims": 3
    },
    {
     "n_issues": 24,
@@ -289,37 +177,120 @@
     "claims": 1
    },
    {
-    "n_issues": 33,
-    "n_complaints": 1,
-    "complaint_rate": 0.03,
-    "examples": [
-     {
-      "number": 1127,
-      "title": "fgbio ClipBam 3.1.x fails in conda with `libc.musl-x86_64.so.1` missing",
-      "matched": "no such file"
-     }
-    ],
-    "artifact_id": "fulcrumgenomics/fgbio",
-    "broken": 33,
-    "claims": 34
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "hollina/elections_and_insurance",
+    "broken": 2,
+    "claims": 2
    },
    {
     "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "Khalid-S-Alalawi/xai-ids-explanation-consistency",
-    "broken": 19,
-    "claims": 22
+    "artifact_id": "oliver-krauss/Replication_GI_Division_Free_Division",
+    "broken": 7,
+    "claims": 7
    },
    {
-    "n_issues": 10,
+    "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "hkust-taco/mlscript",
-    "broken": 6,
+    "artifact_id": "Kubix20/challenges_with_docker",
+    "broken": 1,
+    "claims": 1
+   },
+   {
+    "n_issues": 1,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "ankushdas/Nomos",
+    "broken": 7,
     "claims": 7
+   },
+   {
+    "n_issues": 9,
+    "n_complaints": 2,
+    "complaint_rate": 0.222,
+    "examples": [
+     {
+      "number": 714,
+      "title": "llvm-config-22 not found",
+      "matched": "no such file"
+     },
+     {
+      "number": 650,
+      "title": "cargo-afl 0.15.21 packaging regression: AFLplusplus directory missing",
+      "matched": "no such file"
+     }
+    ],
+    "artifact_id": "rust-fuzz/afl.rs",
+    "broken": 2,
+    "claims": 2
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "avanhatt/asplos24-ae-crocus",
+    "broken": 9,
+    "claims": 9
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "CIPM-tools/CIPM",
+    "broken": 1,
+    "claims": 1
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "jonathanvdc/foresight-cc26-artifact",
+    "broken": 7,
+    "claims": 7
+   },
+   {
+    "n_issues": 18,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "tpde2/tpde",
+    "broken": 1,
+    "claims": 1
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "tudo-aqua/paper-reproduction-package-ase2021",
+    "broken": 14,
+    "claims": 15
+   },
+   {
+    "n_issues": 1,
+    "n_complaints": 1,
+    "complaint_rate": 1.0,
+    "examples": [
+     {
+      "number": 1,
+      "title": "Where is the data?",
+      "matched": "where is the"
+     }
+    ],
+    "artifact_id": "defreez-ucd/func2vec-fse2018-artifact",
+    "broken": 18,
+    "claims": 20
    },
    {
     "n_issues": 53,
@@ -327,8 +298,8 @@
     "complaint_rate": 0.0,
     "examples": [],
     "artifact_id": "SciML/DifferentialEquations.jl",
-    "broken": 12,
-    "claims": 14
+    "broken": 8,
+    "claims": 9
    },
    {
     "n_issues": 0,
@@ -336,6 +307,69 @@
     "complaint_rate": 0.0,
     "examples": [],
     "artifact_id": "cragkhit/Matcha",
+    "broken": 7,
+    "claims": 8
+   },
+   {
+    "n_issues": 3,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "kbolton-lab/ArCH",
+    "broken": 6,
+    "claims": 7
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "Khalid-S-Alalawi/xai-ids-explanation-consistency",
+    "broken": 18,
+    "claims": 21
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "RipperJ/FADO",
+    "broken": 5,
+    "claims": 6
+   },
+   {
+    "n_issues": 1,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "STAMP-project/Cling-application",
+    "broken": 24,
+    "claims": 29
+   },
+   {
+    "n_issues": 1,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "astewartau/QSM.rs",
+    "broken": 9,
+    "claims": 11
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "lfd/RL_for_JO",
+    "broken": 9,
+    "claims": 11
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "huanghc/cFinder",
     "broken": 9,
     "claims": 11
    },
@@ -345,53 +379,17 @@
     "complaint_rate": 0.0,
     "examples": [],
     "artifact_id": "bcube-project/Bcube.jl",
-    "broken": 9,
-    "claims": 11
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "thlaurentino/arit",
     "broken": 4,
     "claims": 5
    },
    {
-    "n_issues": 1,
+    "n_issues": 34,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "astewartau/QSM.rs",
-    "broken": 16,
-    "claims": 20
-   },
-   {
-    "n_issues": 18,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "cdk/cdk",
+    "artifact_id": "sosy-lab/sv-benchmarks",
     "broken": 4,
     "claims": 5
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "lfd/RL_for_JO",
-    "broken": 4,
-    "claims": 5
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "calyxir/calyx-profiler-eval",
-    "broken": 17,
-    "claims": 22
    },
    {
     "n_issues": 0,
@@ -403,31 +401,76 @@
     "claims": 4
    },
    {
-    "n_issues": 23,
+    "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "jolars/SLOPE",
+    "artifact_id": "ErikOSorensen/luck-and-choice",
     "broken": 3,
     "claims": 4
    },
    {
-    "n_issues": 7,
+    "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "gerlero/foamlib",
-    "broken": 5,
-    "claims": 7
+    "artifact_id": "two-heart/dumpling-artifact-evaluation",
+    "broken": 3,
+    "claims": 4
    },
    {
-    "n_issues": 17,
+    "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "broadinstitute/gatk",
-    "broken": 18,
-    "claims": 26
+    "artifact_id": "calyxir/calyx-profiler-eval",
+    "broken": 14,
+    "claims": 19
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "SoftwareDefinedChipTHU/Ariadne-artifact",
+    "broken": 8,
+    "claims": 11
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "anthonywray/lifetime-consequences-child-health",
+    "broken": 10,
+    "claims": 14
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "Meghanatedla/LLM-ComponentGen",
+    "broken": 40,
+    "claims": 58
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "thlaurentino/arit",
+    "broken": 4,
+    "claims": 6
+   },
+   {
+    "n_issues": 10,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "hkust-taco/mlscript",
+    "broken": 6,
+    "claims": 9
    },
    {
     "n_issues": 42,
@@ -441,17 +484,8 @@
      }
     ],
     "artifact_id": "staticafi/symbiotic",
-    "broken": 9,
-    "claims": 13
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "joechen0420/lc-off",
-    "broken": 2,
-    "claims": 3
+    "broken": 10,
+    "claims": 15
    },
    {
     "n_issues": 0,
@@ -476,42 +510,7 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "AKKamath/InvariantBitPacking",
-    "broken": 4,
-    "claims": 6
-   },
-   {
-    "n_issues": 55,
-    "n_complaints": 1,
-    "complaint_rate": 0.018,
-    "examples": [
-     {
-      "number": 68,
-      "title": "Slot 'all.genes' does not exist in obj@misc.",
-      "matched": "does not exist"
-     }
-    ],
-    "artifact_id": "vertesy/Seurat.utils",
-    "broken": 2,
-    "claims": 3
-   },
-   {
-    "n_issues": 36,
-    "n_complaints": 2,
-    "complaint_rate": 0.056,
-    "examples": [
-     {
-      "number": 2480,
-      "title": "'hip/hip_fp16.h' file not found",
-      "matched": "file not found"
-     },
-     {
-      "number": 2435,
-      "title": "running tests on windows - results & failed tests",
-      "matched": "could not find"
-     }
-    ],
-    "artifact_id": "diku-dk/futhark",
+    "artifact_id": "SCPTeam/pests",
     "broken": 2,
     "claims": 3
    },
@@ -520,9 +519,54 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "multifacet/ZRay-IISWC26-artifact",
-    "broken": 12,
-    "claims": 19
+    "artifact_id": "VTLeeLab/LinguaFranca-FSE19",
+    "broken": 6,
+    "claims": 9
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "SaswatPadhi/2019_CAV_Artifact_100",
+    "broken": 2,
+    "claims": 3
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "burtscher/FPcompress",
+    "broken": 2,
+    "claims": 3
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "anvil-verifier/anvil",
+    "broken": 13,
+    "claims": 20
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "HUJIAN0000/sgl-sn-anisotropy",
+    "broken": 7,
+    "claims": 11
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "lsrcz/grisette-popl23-artifact",
+    "broken": 7,
+    "claims": 11
    },
    {
     "n_issues": 0,
@@ -534,28 +578,13 @@
     "claims": 8
    },
    {
-    "n_issues": 0,
+    "n_issues": 1,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "SoftwareDefinedChipTHU/Ariadne-artifact",
-    "broken": 5,
-    "claims": 8
-   },
-   {
-    "n_issues": 49,
-    "n_complaints": 1,
-    "complaint_rate": 0.02,
-    "examples": [
-     {
-      "number": 24,
-      "title": "Cannot remove models after added",
-      "matched": "cannot find"
-     }
-    ],
-    "artifact_id": "ULTIMATE-YORK/ULTIMATE",
-    "broken": 5,
-    "claims": 8
+    "artifact_id": "drzchen/movec",
+    "broken": 10,
+    "claims": 16
    },
    {
     "n_issues": 3,
@@ -567,123 +596,22 @@
     "claims": 8
    },
    {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "amirdeljouyi/TOSEM-2025-replication-package",
+    "broken": 8,
+    "claims": 13
+   },
+   {
     "n_issues": 8,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
     "artifact_id": "sourcemeta/jsonschema",
-    "broken": 5,
-    "claims": 8
-   },
-   {
-    "n_issues": 1,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "drzchen/movec",
-    "broken": 11,
-    "claims": 18
-   },
-   {
-    "n_issues": 3,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "kbolton-lab/ArCH",
-    "broken": 9,
-    "claims": 15
-   },
-   {
-    "n_issues": 42,
-    "n_complaints": 2,
-    "complaint_rate": 0.048,
-    "examples": [
-     {
-      "number": 45,
-      "title": "Suggestion: highlight the importance of correct path to pdflatex in the documentation",
-      "matched": "unable to locate"
-     },
-     {
-      "number": 23,
-      "title": "Trouble using Matex on windows 10 professional, Mathematica 11.3 64 bit. Unable to find Ghostscript",
-      "matched": "can't find"
-     }
-    ],
-    "artifact_id": "szhorvat/MaTeX",
     "broken": 3,
     "claims": 5
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "cameronabrams/pestifer",
-    "broken": 3,
-    "claims": 5
-   },
-   {
-    "n_issues": 24,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "afuetterer/oaipmh-scythe",
-    "broken": 3,
-    "claims": 5
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "NanoBiostructuresRG/melite",
-    "broken": 7,
-    "claims": 12
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "DETerrey/SeCAT",
-    "broken": 6,
-    "claims": 11
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "ND-SaNDwichLAB/empirical-conversational-programming",
-    "broken": 8,
-    "claims": 15
-   },
-   {
-    "n_issues": 6,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "SPS-L/stepss-python-ui",
-    "broken": 2,
-    "claims": 4
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "nikojpapa/ethereum-quantum-bounty",
-    "broken": 4,
-    "claims": 8
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "uo-cmor/knee-injuries-in-nz",
-    "broken": 1,
-    "claims": 2
    }
   ],
   "clean": [
@@ -694,7 +622,7 @@
     "examples": [],
     "artifact_id": "BinhongDo-it/monetary-topology",
     "broken": 0,
-    "claims": 74
+    "claims": 78
    },
    {
     "n_issues": 0,
@@ -710,9 +638,9 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "STAR-RG/django-smells",
+    "artifact_id": "sumonbis/FairPreprocessing",
     "broken": 0,
-    "claims": 44
+    "claims": 38
    },
    {
     "n_issues": 0,
@@ -721,25 +649,7 @@
     "examples": [],
     "artifact_id": "AII-SDU/VERA",
     "broken": 0,
-    "claims": 29
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "akashdeepo/Memory_of_Money",
-    "broken": 0,
-    "claims": 27
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "ClaudiaMau/Water-demand-forecasting",
-    "broken": 0,
-    "claims": 24
+    "claims": 31
    },
    {
     "n_issues": 0,
@@ -748,7 +658,16 @@
     "examples": [],
     "artifact_id": "sebneu/cq-mutation-battery",
     "broken": 0,
-    "claims": 23
+    "claims": 29
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "ClaudiaMau/Water-demand-forecasting",
+    "broken": 0,
+    "claims": 26
    },
    {
     "n_issues": 0,
@@ -757,7 +676,67 @@
     "examples": [],
     "artifact_id": "VimaGupta345/sandhi-artifact",
     "broken": 0,
+    "claims": 24
+   },
+   {
+    "n_issues": 28,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "ORNL/SAGESim",
+    "broken": 0,
+    "claims": 24
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "dochabski/documentation-protocol",
+    "broken": 0,
+    "claims": 23
+   },
+   {
+    "n_issues": 2,
+    "n_complaints": 1,
+    "complaint_rate": 0.5,
+    "examples": [
+     {
+      "number": 2,
+      "title": "getting error While running scripts/plot-opo.py : FileNotFoundError: [Errno 2] No such file or directory: 'pdf",
+      "matched": "no such file"
+     }
+    ],
+    "artifact_id": "lukehsiao/lctes-p27",
+    "broken": 0,
+    "claims": 23
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "ece-fast-lab/MICRO-2026-ARC",
+    "broken": 0,
     "claims": 21
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "S2-group/icse-seip-2020-replication-package",
+    "broken": 0,
+    "claims": 21
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "05kimhr-cpu/emse-commit-faithfulness-replication",
+    "broken": 0,
+    "claims": 20
    },
    {
     "n_issues": 0,
@@ -769,11 +748,22 @@
     "claims": 20
    },
    {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "marcosFigueredo/simcosta-wave-qc",
+    "n_issues": 6,
+    "n_complaints": 2,
+    "complaint_rate": 0.333,
+    "examples": [
+     {
+      "number": 19,
+      "title": "Installation problem on Windows 11",
+      "matched": "importerror"
+     },
+     {
+      "number": 8,
+      "title": "Installation on Mac M1 fails",
+      "matched": "file not found"
+     }
+    ],
+    "artifact_id": "samuelleblanc/fp",
     "broken": 0,
     "claims": 19
    },
@@ -782,36 +772,39 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "ece-fast-lab/MICRO-2026-ARC",
+    "artifact_id": "ucsd-salad/python-pbt-eval",
     "broken": 0,
     "claims": 18
    },
    {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "05kimhr-cpu/emse-commit-faithfulness-replication",
+    "n_issues": 59,
+    "n_complaints": 4,
+    "complaint_rate": 0.068,
+    "examples": [
+     {
+      "number": 834,
+      "title": "m1 install error",
+      "matched": "could not find"
+     },
+     {
+      "number": 815,
+      "title": "Where to find source code of all the datasets?",
+      "matched": "can't find"
+     },
+     {
+      "number": 813,
+      "title": "compiler_gym.errors.service_errors.ServiceError",
+      "matched": "no such file"
+     },
+     {
+      "number": 798,
+      "title": "compiler arm  version",
+      "matched": "could not find"
+     }
+    ],
+    "artifact_id": "facebookresearch/CompilerGym",
     "broken": 0,
-    "claims": 17
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "dochabski/documentation-protocol",
-    "broken": 0,
-    "claims": 17
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "ishikawa-group/ase-calculator-kit",
-    "broken": 0,
-    "claims": 16
+    "claims": 18
    },
    {
     "n_issues": 0,
@@ -827,7 +820,16 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "ucsd-salad/python-pbt-eval",
+    "artifact_id": "mitch-thornton/renesis-low-energy-circuit-synthesis",
+    "broken": 0,
+    "claims": 16
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "k-grosser/requirementsclassification",
     "broken": 0,
     "claims": 16
    },
@@ -845,15 +847,6 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "mitch-thornton/renesis-low-energy-circuit-synthesis",
-    "broken": 0,
-    "claims": 15
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
     "artifact_id": "modavis-project/vao-blender",
     "broken": 0,
     "claims": 15
@@ -863,72 +856,72 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "muratalan-math/galois-ring-irreducible-counting",
-    "broken": 0,
-    "claims": 13
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "mikenguyen13/p-hacking-publication-bias-information-systems",
-    "broken": 0,
-    "claims": 13
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "arieIIopez/eva",
-    "broken": 0,
-    "claims": 12
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "thiago-vg/SAMBBA-data-analysis",
-    "broken": 0,
-    "claims": 12
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "TELOS-syslab/Threadlet-AE",
-    "broken": 0,
-    "claims": 11
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "fanwei110/computable-classroom-benchmark",
-    "broken": 0,
-    "claims": 11
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
     "artifact_id": "DCY1117/CLUSTERS",
     "broken": 0,
-    "claims": 11
+    "claims": 15
    },
    {
     "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "bpf-fault/bpf-fault",
+    "artifact_id": "CMUSTRUDEL/oss-donations",
     "broken": 0,
-    "claims": 10
+    "claims": 15
+   },
+   {
+    "n_issues": 1,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "ultralytics/assets",
+    "broken": 0,
+    "claims": 15
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "iain-staffell/stabilisation-wedges-2025",
+    "broken": 0,
+    "claims": 15
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "NahidaNahida/mstcs",
+    "broken": 0,
+    "claims": 15
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "stephenmell/quasar-colm2026-artifact",
+    "broken": 0,
+    "claims": 14
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "joe4dev/serverless-crossfit",
+    "broken": 0,
+    "claims": 14
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "IvoSteimanis/payments_democracy",
+    "broken": 0,
+    "claims": 13
    },
    {
     "n_issues": 0,
@@ -937,16 +930,103 @@
     "examples": [],
     "artifact_id": "SuwonLee-KMU/svcvv-identifiability-reproduction",
     "broken": 0,
-    "claims": 10
+    "claims": 13
    },
    {
     "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "minlno/MICRO-2026-AMG",
+    "artifact_id": "fanwei110/computable-classroom-benchmark",
     "broken": 0,
-    "claims": 10
+    "claims": 12
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "Victor-Alen/UnionSparse",
+    "broken": 0,
+    "claims": 12
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "anonymous-rflego-ae/mobicom26_ae",
+    "broken": 0,
+    "claims": 12
+   },
+   {
+    "n_issues": 28,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "Mgarrizor/MoBILE",
+    "broken": 0,
+    "claims": 12
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "OmniCrawl/OmniCrawl",
+    "broken": 0,
+    "claims": 12
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "Practical-Formal-Methods/pi-fuzz",
+    "broken": 0,
+    "claims": 12
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "y553546436/Omen-Artifact",
+    "broken": 0,
+    "claims": 12
+   },
+   {
+    "n_issues": 2,
+    "n_complaints": 1,
+    "complaint_rate": 0.5,
+    "examples": [
+     {
+      "number": 2,
+      "title": "Missing License",
+      "matched": "could not find"
+     }
+    ],
+    "artifact_id": "eth-sri/type-constrained-code-generation",
+    "broken": 0,
+    "claims": 12
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "bpf-fault/bpf-fault",
+    "broken": 0,
+    "claims": 11
+   },
+   {
+    "n_issues": 1,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "fsgeek/ai-honesty",
+    "broken": 0,
+    "claims": 11
    },
    {
     "n_issues": 0,
@@ -955,6 +1035,42 @@
     "examples": [],
     "artifact_id": "ldu-nvidia/Trace2Skill-Verifier-Guided-Skill-Evolution-for-Long-Context-EDA-Agents",
     "broken": 0,
+    "claims": 11
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "fikovnik/ISSTA18-artifact",
+    "broken": 0,
+    "claims": 11
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "Yann-Brault/splc-artifact",
+    "broken": 0,
+    "claims": 11
+   },
+   {
+    "n_issues": 1,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "Yuuoniy/APISpecGen",
+    "broken": 0,
+    "claims": 11
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "alvarocoutinho/renovabio-art1-spatial",
+    "broken": 0,
     "claims": 10
    },
    {
@@ -962,7 +1078,91 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "IvoSteimanis/payments_democracy",
+    "artifact_id": "jylee-sunlab/Overcurved-Rings",
+    "broken": 0,
+    "claims": 10
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "thiago-vg/SAMBBA-data-analysis",
+    "broken": 0,
+    "claims": 10
+   },
+   {
+    "n_issues": 76,
+    "n_complaints": 4,
+    "complaint_rate": 0.053,
+    "examples": [
+     {
+      "number": 342,
+      "title": "run cpa_sample_code :  could not find SSL section in any config files",
+      "matched": "could not find"
+     },
+     {
+      "number": 341,
+      "title": "QAT 2.0 Ioctl failed",
+      "matched": "could not find"
+     },
+     {
+      "number": 314,
+      "title": "fail to compile QAT_Engine-1.6.0(cannot find -lqat)?",
+      "matched": "cannot find"
+     },
+     {
+      "number": 286,
+      "title": "Engine using legacy names requires re - ./configure with cflags_qat_hw_intree",
+      "matched": "cannot find"
+     }
+    ],
+    "artifact_id": "intel/QAT_Engine",
+    "broken": 0,
+    "claims": 10
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "sdbs-uni-p/schema-inference-repro",
+    "broken": 0,
+    "claims": 10
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "jimmy66688/DiagConfig",
+    "broken": 0,
+    "claims": 10
+   },
+   {
+    "n_issues": 1,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "unknown123489/Scale-MIA",
+    "broken": 0,
+    "claims": 10
+   },
+   {
+    "n_issues": 6,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "CRPsimenti/GB_Reproductive_Monopolization_2025",
+    "broken": 0,
+    "claims": 9
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "Doria-5/linux-ofp-replication-package",
     "broken": 0,
     "claims": 9
    },
@@ -980,7 +1180,7 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "anonymous-rflego-ae/mobicom26_ae",
+    "artifact_id": "sdbs-uni-p/vldb-dbms-live-patching",
     "broken": 0,
     "claims": 9
    },
@@ -989,7 +1189,7 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "jylee-sunlab/Overcurved-Rings",
+    "artifact_id": "sjtu-epcc/arena",
     "broken": 0,
     "claims": 9
    },
@@ -1007,108 +1207,9 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "vafekt/DS-Lite",
+    "artifact_id": "uw-unsat/leanette-popl22-artifact",
     "broken": 0,
-    "claims": 8
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "cesar-andress/artifact-lifecycle-lab",
-    "broken": 0,
-    "claims": 8
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "brunoroccia/DDCM---Thermal-Dynamic-Transformers",
-    "broken": 0,
-    "claims": 8
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "jwons/embracing-emergence_replication-and-reproducibility-package",
-    "broken": 0,
-    "claims": 8
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "sjtu-epcc/arena",
-    "broken": 0,
-    "claims": 8
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "carrotProgrammer/llmveriopt-AE",
-    "broken": 0,
-    "claims": 8
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "GinesGarcia/5gshark-submission-artifacts",
-    "broken": 0,
-    "claims": 7
-   },
-   {
-    "n_issues": 1,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "VariantSync/patching-with-matching-eval",
-    "broken": 0,
-    "claims": 7
-   },
-   {
-    "n_issues": 20,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "lfd/spectral_gap_nhep",
-    "broken": 0,
-    "claims": 7
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "uw-syfi/TeleRAG",
-    "broken": 0,
-    "claims": 7
-   },
-   {
-    "n_issues": 28,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "Mgarrizor/MoBILE",
-    "broken": 0,
-    "claims": 7
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "binkma-v/xDit-intel",
-    "broken": 0,
-    "claims": 6
+    "claims": 9
    },
    {
     "n_issues": 0,
@@ -1117,158 +1218,7 @@
     "examples": [],
     "artifact_id": "IntelLabs/ReLATE-Sparse",
     "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "sunshineluyao/ViRel-Budget",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "gamal-zayed/autonomous-dynamic-risk",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "alvarocoutinho/renovabio-art1-spatial",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "ukshinrexhepi-cloud/SPARC-Frozen-Validation-Reproduction",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 26,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "dimstav23/GDPRuler",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "anvil-verifier/anvil",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 20,
-    "n_complaints": 4,
-    "complaint_rate": 0.2,
-    "examples": [
-     {
-      "number": 419,
-      "title": "Build Error: common/hash/FurcHash.h: No such file or directory",
-      "matched": "no such file"
-     },
-     {
-      "number": 413,
-      "title": "glog linker issue while running cachebench",
-      "matched": "no such file"
-     },
-     {
-      "number": 381,
-      "title": "cachelib -build fail",
-      "matched": "no such file"
-     },
-     {
-      "number": 374,
-      "title": "build error when trying to use RocksCacheLibWrapper code example",
-      "matched": "no such file"
-     }
-    ],
-    "artifact_id": "facebook/CacheLib",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "QuantumGrasshopper/grasshopper2d",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "minuuva/meshlens",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 16,
-    "n_complaints": 3,
-    "complaint_rate": 0.188,
-    "examples": [
-     {
-      "number": 223,
-      "title": "[Bug]: `ImportError: cannot import name 'QRMIService' from 'qrmi' (.../qrmi/python/qrmi/__init__.py)`",
-      "matched": "importerror"
-     },
-     {
-      "number": 180,
-      "title": "[Bug]: qrmi.primitives.runtime_job_v2 imports from non-existent qiskit_ibm_runtime.decoders subpackage",
-      "matched": "no module named"
-     },
-     {
-      "number": 165,
-      "title": "QRMIService in Rust",
-      "matched": "doesn't exist"
-     }
-    ],
-    "artifact_id": "qiskit-community/qrmi",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 27,
-    "n_complaints": 1,
-    "complaint_rate": 0.037,
-    "examples": [
-     {
-      "number": 53,
-      "title": "Add `tables` dependency",
-      "matched": "no module named"
-     }
-    ],
-    "artifact_id": "continuous-dems/ivert",
-    "broken": 0,
-    "claims": 6
-   },
-   {
-    "n_issues": 9,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "CU-Quantum/stabilizer-code-generic-ftqc",
-    "broken": 0,
-    "claims": 6
+    "claims": 8
    }
   ]
  }
