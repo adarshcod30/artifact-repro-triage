@@ -1,61 +1,99 @@
-.PHONY: help setup corpus baseline solution eval repro clean
-help:
-	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
+# Every target below is verified to run. See `make verify-targets`.
+#
+# PYTHONPATH=src is used consistently rather than relying on an editable
+# install, so the commands work in a fresh clone before `pip install -e .`
+# has been run - which is exactly the situation a judge starts from.
 
-setup:    ## Create venv and install pinned deps
-	uv sync
+PY := PYTHONPATH=src .venv/bin/python
 
-dashboard: ## Render all results into one self-contained HTML page
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard
+.PHONY: help setup test preflight corpus baseline solution eval repro \
+        discover prevalence pinning portability links report validate \
+        trajectories dashboard spend verify-targets selfcheck clean
 
-spend:     ## Cumulative model spend against the $5 budget
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend
+help:  ## Show this help
+	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-14s %s\n", $$1, $$2}'
 
-test:      ## Regression tests pinning every bug the changelog claims to have fixed
+# ---------------------------------------------------------------- setup ----
+setup:  ## Create the venv and install dependencies
+	uv venv
+	uv pip install -e .
+
+# ------------------------------------------------- free: no credentials ----
+test:  ## Regression tests pinning every bug the changelog claims to have fixed
 	.venv/bin/python tests/test_regressions.py
 
-preflight: ## Verify credentials and model access before spending tokens
-	.venv/bin/python scripts/preflight.py
+corpus:  ## Rebuild artifact fact sheets from cached API responses
+	$(PY) -m artifact_triage.corpus.fetch
 
-corpus:   ## Build the labeled artifact corpus (scrubbed) from cached fixtures
-	uv run python -m artifact_triage.corpus.build
+verify:  ## Deterministic claim verification over the labelled corpus
+	$(PY) -m artifact_triage.solution.verify
 
-baseline: ## Run the single-prompt baseline over the corpus
-	uv run python -m artifact_triage.baseline.run
+control:  ## Negative control - 75 injected false claims
+	$(PY) -m artifact_triage.eval.negative_control
 
-solution: ## Run the claim-verification agent over the corpus
-	uv run python -m artifact_triage.solution.run
+links:  ## Check README URLs for link rot
+	$(PY) -m artifact_triage.solution.links
 
-eval:     ## Score baseline + solution against expert badge labels
-	uv run python -m artifact_triage.eval.score
+pinning:  ## Dependency and container base-image pinning
+	$(PY) -m artifact_triage.solution.pinning
 
-repro:    ## The one command judges run: corpus -> baseline -> solution -> eval
-	$(MAKE) corpus && $(MAKE) baseline && $(MAKE) solution && $(MAKE) eval
+portability:  ## Hard-coded machine-specific paths and hosts
+	$(PY) -m artifact_triage.solution.portability
 
-discover:  ## Harvest research-artifact repos at scale from Zenodo
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.corpus.discover
+discover:  ## Harvest research-artifact repositories from Zenodo
+	$(PY) -m artifact_triage.corpus.discover
 
-prevalence: ## Measure how widespread broken README claims are (no model needed)
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.prevalence
+prevalence:  ## How widespread are broken README claims (376 artifacts)
+	$(PY) -m artifact_triage.eval.prevalence
 
-pinning:  ## Dependency pinning analysis
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.solution.pinning
+validate:  ## Do real users complain about what the verifier flags
+	$(PY) -m artifact_triage.eval.issue_validation
 
-portability:## Scan for hard-coded machine-specific values
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.solution.portability
+report:  ## Reviewer report for one repo: make report REPO=owner/name
+	@test -n "$(REPO)" || (echo "usage: make report REPO=owner/name" && exit 1)
+	$(PY) -m artifact_triage.cli $(REPO)
 
-links:     ## Check README URLs for link rot
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.solution.links
+selfcheck:  ## Run the tool on THIS repository (dogfooding)
+	$(PY) -m artifact_triage.cli adarshcod30/artifact-repro-triage
 
-report:    ## Reviewer report for one repo: make report REPO=owner/name
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.cli $(REPO)
+dashboard:  ## Render every result into one self-contained HTML page
+	$(PY) -m artifact_triage.eval.dashboard
 
-validate:  ## Do real users complain about what the verifier detects?
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.issue_validation
+spend:  ## Cumulative model spend against the $5 budget
+	$(PY) -m artifact_triage.eval.spend
 
-trajectories: ## Export agent trajectories (product agents + build agent)
-	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_trajectories
+trajectories:  ## Export agent trajectories (product agents + build agent)
+	$(PY) -m artifact_triage.eval.export_trajectories
 	.venv/bin/python scripts/export_build_trajectory.py
 
+# ------------------------------------------- needs a model provider --------
+preflight:  ## Verify credentials and model access before spending tokens
+	.venv/bin/python scripts/preflight.py
+
+baseline:  ## One direct prompt over the README
+	$(PY) -m artifact_triage.baseline.run
+
+solution:  ## Verified facts plus the README
+	$(PY) -m artifact_triage.solution.run
+
+eval:  ## Score baseline and solution with the shared scorer
+	$(PY) -m artifact_triage.eval.compare
+
+falsified:  ## The primary experiment (set ARTIFACT_TRIAGE_TRIALS=3)
+	$(PY) -m artifact_triage.eval.falsified_run
+
+repro:  ## The one command judges run
+	$(MAKE) test
+	$(MAKE) corpus
+	$(MAKE) control
+	$(MAKE) baseline
+	$(MAKE) solution
+	$(MAKE) eval
+	$(MAKE) dashboard
+
+# --------------------------------------------------------------- checks ----
+verify-targets:  ## Prove every credential-free target actually runs
+	.venv/bin/python scripts/verify_targets.py
+
 clean:
-	rm -rf data/clones results/*.json
+	rm -rf data/clones results/*.local.*

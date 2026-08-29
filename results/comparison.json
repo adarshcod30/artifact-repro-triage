@@ -1,0 +1,779 @@
+{
+ "baseline": {
+  "system": "baseline",
+  "n": 15,
+  "n_scored": 15,
+  "n_escalated": 0,
+  "n_failed": 0,
+  "mae": 0.733,
+  "exact_accuracy": 0.333,
+  "adjacent_accuracy": 0.933,
+  "overclaim_rate": 0.267,
+  "escalation_rate": 0.0,
+  "human_minutes": 120.0,
+  "human_minutes_saved": 555.0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "usd": 0.0,
+  "per_item": [
+   {
+    "artifact_id": "DueForce/DueForce",
+    "truth": "Reusable",
+    "predicted": "Available",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -2,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "HexHive/FishFuzz",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "THU-WingTecher/DeepConstr",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "asub0/fonnx",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "dserfe/FlakyDoctor",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "emocat/VioHawk",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "jovyntls/inconsistencies-in-tex",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "logpai/loghub-2.0",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "lrtsuser/LRTS",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "nhuhuan/sba",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "trustdnn/issta2024",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "zhangxiaosa/LPR",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   }
+  ]
+ },
+ "solution": {
+  "system": "solution",
+  "n": 15,
+  "n_scored": 15,
+  "n_escalated": 0,
+  "n_failed": 0,
+  "mae": 1.0,
+  "exact_accuracy": 0.2,
+  "adjacent_accuracy": 0.8,
+  "overclaim_rate": 0.267,
+  "escalation_rate": 0.0,
+  "human_minutes": 120.0,
+  "human_minutes_saved": 555.0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "usd": 0.0,
+  "per_item": [
+   {
+    "artifact_id": "DueForce/DueForce",
+    "truth": "Reusable",
+    "predicted": "Available",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -2,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "HexHive/FishFuzz",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "THU-WingTecher/DeepConstr",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "asub0/fonnx",
+    "truth": "Functional",
+    "predicted": "Available",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "dserfe/FlakyDoctor",
+    "truth": "Functional",
+    "predicted": "Available",
+    "confidence": 0.8,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "emocat/VioHawk",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "jovyntls/inconsistencies-in-tex",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "logpai/loghub-2.0",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "lrtsuser/LRTS",
+    "truth": "Functional",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 0,
+    "outcome": "correct"
+   },
+   {
+    "artifact_id": "nhuhuan/sba",
+    "truth": "Reusable",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": -1,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+    "truth": "Reusable",
+    "predicted": "Available",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": -2,
+    "outcome": "underclaim"
+   },
+   {
+    "artifact_id": "trustdnn/issta2024",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
+    "artifact_id": "zhangxiaosa/LPR",
+    "truth": "Reusable",
+    "predicted": "Available",
+    "confidence": 0.9,
+    "escalated": false,
+    "rank_error": -2,
+    "outcome": "underclaim"
+   }
+  ]
+ },
+ "controls": [
+  {
+   "system": "always-Available",
+   "n": 15,
+   "n_scored": 15,
+   "n_escalated": 0,
+   "n_failed": 0,
+   "mae": 1.133,
+   "exact_accuracy": 0.267,
+   "adjacent_accuracy": 0.6,
+   "overclaim_rate": 0.0,
+   "escalation_rate": 0.0,
+   "human_minutes": 120.0,
+   "human_minutes_saved": 555.0,
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "usd": 0.0,
+   "per_item": [
+    {
+     "artifact_id": "trustdnn/issta2024",
+     "truth": "Available",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "dserfe/FlakyDoctor",
+     "truth": "Functional",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "emocat/VioHawk",
+     "truth": "Functional",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "DueForce/DueForce",
+     "truth": "Reusable",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -2,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "THU-WingTecher/DeepConstr",
+     "truth": "Available",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "jovyntls/inconsistencies-in-tex",
+     "truth": "Available",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "HexHive/FishFuzz",
+     "truth": "Available",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+     "truth": "Reusable",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -2,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+     "truth": "Reusable",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -2,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "logpai/loghub-2.0",
+     "truth": "Reusable",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -2,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "lrtsuser/LRTS",
+     "truth": "Functional",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "asub0/fonnx",
+     "truth": "Functional",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+     "truth": "Functional",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "nhuhuan/sba",
+     "truth": "Reusable",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -2,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "zhangxiaosa/LPR",
+     "truth": "Reusable",
+     "predicted": "Available",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -2,
+     "outcome": "underclaim"
+    }
+   ]
+  },
+  {
+   "system": "always-Functional",
+   "n": 15,
+   "n_scored": 15,
+   "n_escalated": 0,
+   "n_failed": 0,
+   "mae": 0.667,
+   "exact_accuracy": 0.333,
+   "adjacent_accuracy": 1.0,
+   "overclaim_rate": 0.267,
+   "escalation_rate": 0.0,
+   "human_minutes": 120.0,
+   "human_minutes_saved": 555.0,
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "usd": 0.0,
+   "per_item": [
+    {
+     "artifact_id": "trustdnn/issta2024",
+     "truth": "Available",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "dserfe/FlakyDoctor",
+     "truth": "Functional",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "emocat/VioHawk",
+     "truth": "Functional",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "DueForce/DueForce",
+     "truth": "Reusable",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "THU-WingTecher/DeepConstr",
+     "truth": "Available",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "jovyntls/inconsistencies-in-tex",
+     "truth": "Available",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "HexHive/FishFuzz",
+     "truth": "Available",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+     "truth": "Reusable",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+     "truth": "Reusable",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "logpai/loghub-2.0",
+     "truth": "Reusable",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "lrtsuser/LRTS",
+     "truth": "Functional",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "asub0/fonnx",
+     "truth": "Functional",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+     "truth": "Functional",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "nhuhuan/sba",
+     "truth": "Reusable",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    },
+    {
+     "artifact_id": "zhangxiaosa/LPR",
+     "truth": "Reusable",
+     "predicted": "Functional",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": -1,
+     "outcome": "underclaim"
+    }
+   ]
+  },
+  {
+   "system": "always-Reusable",
+   "n": 15,
+   "n_scored": 15,
+   "n_escalated": 0,
+   "n_failed": 0,
+   "mae": 0.867,
+   "exact_accuracy": 0.4,
+   "adjacent_accuracy": 0.733,
+   "overclaim_rate": 0.6,
+   "escalation_rate": 0.0,
+   "human_minutes": 120.0,
+   "human_minutes_saved": 555.0,
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "usd": 0.0,
+   "per_item": [
+    {
+     "artifact_id": "trustdnn/issta2024",
+     "truth": "Available",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 2,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "dserfe/FlakyDoctor",
+     "truth": "Functional",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "emocat/VioHawk",
+     "truth": "Functional",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "DueForce/DueForce",
+     "truth": "Reusable",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "THU-WingTecher/DeepConstr",
+     "truth": "Available",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 2,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "jovyntls/inconsistencies-in-tex",
+     "truth": "Available",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 2,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "HexHive/FishFuzz",
+     "truth": "Available",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 2,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+     "truth": "Reusable",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+     "truth": "Reusable",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "logpai/loghub-2.0",
+     "truth": "Reusable",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "lrtsuser/LRTS",
+     "truth": "Functional",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "asub0/fonnx",
+     "truth": "Functional",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+     "truth": "Functional",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 1,
+     "outcome": "overclaim"
+    },
+    {
+     "artifact_id": "nhuhuan/sba",
+     "truth": "Reusable",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    },
+    {
+     "artifact_id": "zhangxiaosa/LPR",
+     "truth": "Reusable",
+     "predicted": "Reusable",
+     "confidence": 1.0,
+     "escalated": false,
+     "rank_error": 0,
+     "outcome": "correct"
+    }
+   ]
+  }
+ ],
+ "best_control": "always-Functional",
+ "systems_beaten_by_control": [
+  "baseline",
+  "solution"
+ ]
+}
