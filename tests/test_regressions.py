@@ -669,6 +669,41 @@ def test_case_mismatch_is_reported_separately_from_missing():
 
 
 # --------------------------------------------------------------------------
+# Response parsing. A greedy brace match spans from the first { to the last,
+# which is invalid whenever a model emits more than one object. Llama 3.3
+# echoes the JSON schema before its answer; every such response was recorded
+# as an unparseable failure, making the model look 10x worse than it is.
+# --------------------------------------------------------------------------
+def test_schema_echoed_before_answer_is_parsed():
+    from artifact_triage.common.llm import _parse
+    raw = ('{"type": "object", "properties": {"tier": {"type": "string"}}}\n\n'
+           '{"tier": "Functional", "confidence": 0.8, "reasons": ["a"]}')
+    a = _parse(raw, 0, 0)
+    assert a.tier == "Functional" and a.confidence == 0.8, \
+        "the schema must not be mistaken for the answer"
+
+
+def test_plain_and_fenced_objects_still_parse():
+    from artifact_triage.common.llm import _parse
+    assert _parse('{"tier":"Reusable","confidence":0.9,"reasons":[]}', 0, 0).tier \
+        == "Reusable"
+    assert _parse('```json\n{"tier":"Available","confidence":0.5,"reasons":[]}\n```',
+                  0, 0).tier == "Available"
+
+
+def test_braces_inside_strings_do_not_break_scanning():
+    from artifact_triage.common.llm import _parse
+    raw = '{"tier":"Functional","confidence":0.7,"reasons":["uses {placeholder}"]}'
+    assert _parse(raw, 0, 0).tier == "Functional"
+
+
+def test_genuinely_unparseable_output_is_reported_as_such():
+    from artifact_triage.common.llm import _parse
+    a = _parse("I think this artifact is probably functional.", 0, 0)
+    assert a.tier is None and a.error == "unparseable response"
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

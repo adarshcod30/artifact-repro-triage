@@ -29,7 +29,7 @@ verified on a machine that is not mine.
 | **Prevalence in the wild** | **62.5%** of 732 research artifacts carry a broken README claim |
 | | **1,394 of 6,510** documented file references (21.4%) resolve to nothing |
 | **Is it decay?** | **No.** Flat across four years — artifacts *ship* broken |
-| **Model spend, entire project** | **$3.03** of a $5 ceiling — five of six checks need no model at all |
+| **Model spend, entire project** | **$3.23** of a $5 ceiling — five of six checks need no model at all |
 
 Two results are reported that do **not** flatter the project, because omitting
 them would make everything else less trustworthy:
@@ -218,7 +218,7 @@ experiment: **$0.42**.
 > The provenance check flagged the old numbers as stale and they were
 > re-measured rather than carried forward. **The reported figure went down as a
 > result, which is the point:** a number that survives only because nobody
-> re-ran it is not a result. Cumulative project spend: **$3.03** of $5.
+> re-ran it is not a result. Cumulative project spend: **$3.23** of $5.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -253,6 +253,28 @@ changed, and detection collapsed to zero. When the facts say clean, the solution
 says clean — while looking at a README it has every textual cue to distrust.
 
 That is a causal result, not a correlation: **the evidence is doing the work.**
+
+### Does it generalise beyond one model?
+
+Every headline number is measured on `us.amazon.nova-pro-v1:0`. A reviewer should
+ask whether the result is a property of that model. It was re-run on an unrelated
+family, Llama 3.3 70B:
+
+| | Nova Pro | Llama 3.3 70B |
+|---|---|---|
+| Baseline detection | **0%** | **0%** |
+| Solution detection | **93%** | **100%** |
+| Deterministic verifier | 100% | 100% |
+
+The improvement transfers, and the baseline's blindness is structural on both —
+which is what the causal claim predicts.
+
+> **This nearly went the other way.** The first Llama run showed 9% detection,
+> and I had the story ready: *the improvement is model-dependent*. It was my
+> parser. Llama emits the JSON schema before its answer, and a greedy `{.*}`
+> match spanned both objects, so 7 of 15 valid answers were recorded as
+> failures. Reading the raw bytes rather than accepting a plausible negative
+> result is the only reason that claim is not in this README.
 
 ### A harder control: near-misses, not inventions
 

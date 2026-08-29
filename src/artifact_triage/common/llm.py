@@ -106,6 +106,61 @@ class Answer:
     error: str | None = None
 
 
+def _scan_json_objects(raw: str):
+    """Yield every balanced top-level {...} block, in order.
+
+    A greedy `\{.*\}` spans from the first brace to the last, which is invalid
+    whenever a response contains more than one object - and some models emit the
+    schema before the answer.
+    """
+    depth, start, in_str, esc = 0, None, False, False
+    for i, ch in enumerate(raw):
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and start is not None:
+                yield raw[start:i + 1]
+                start = None
+
+
+def _first_answer_object(raw: str):
+    """The first object that actually looks like an answer, not a schema.
+
+    Llama 3.3 echoes the JSON schema before its answer. Taking the first brace
+    match returned the schema - which has no `tier` value - and the run was
+    recorded as an unparseable failure. That made a model look 10x worse than it
+    is, and I nearly published it as a cross-model limitation.
+    """
+    try:
+        whole = json.loads(raw)
+        if isinstance(whole, dict) and "tier" in whole:
+            return whole
+    except json.JSONDecodeError:
+        pass
+    for block in _scan_json_objects(raw):
+        try:
+            obj = json.loads(block)
+        except json.JSONDecodeError:
+            continue
+        # A schema has "properties"/"type"; an answer has a tier value.
+        if isinstance(obj, dict) and isinstance(obj.get("tier"), str):
+            return obj
+    return None
+
+
 def _parse(text: str, tin: int, tout: int) -> Answer:
     """Providers vary in how cleanly they emit JSON; recover the object if wrapped."""
     if not text:
@@ -113,16 +168,9 @@ def _parse(text: str, tin: int, tout: int) -> Answer:
     raw = text.strip()
     if raw.startswith("```"):
         raw = re.sub(r"^```[a-zA-Z]*\n?|```$", "", raw).strip()
-    try:
-        data = json.loads(raw)
-    except json.JSONDecodeError:
-        m = re.search(r"\{.*\}", raw, re.S)
-        if not m:
-            return Answer(None, 0.0, [], tin, tout, "unparseable response")
-        try:
-            data = json.loads(m.group(0))
-        except json.JSONDecodeError:
-            return Answer(None, 0.0, [], tin, tout, "unparseable response")
+    data = _first_answer_object(raw)
+    if data is None:
+        return Answer(None, 0.0, [], tin, tout, "unparseable response")
     tier = data.get("tier")
     if tier not in TIERS:
         tier = next((t for t in TIERS if str(tier).lower() == t.lower()), None)
