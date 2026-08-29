@@ -39,10 +39,11 @@ byte-identical output.
 
 ## Limitations — read these before drawing conclusions
 
-- **Sampling is not random.** Zenodo's search is keyword-based and its default
-  sort favours recent deposits. The corpus skews heavily toward artifacts pushed
-  within the last three months (355 of 732). Do not treat it as
-  representative of all research software.
+- **Sampling is not random.** Zenodo's search is keyword-based. The corpus was
+  harvested stratified across publication years 2018-2026 specifically to avoid
+  the recency skew an earlier version had, but it remains a keyword sample of
+  Zenodo software deposits, not a random sample of research software. 355 of
+  732 repositories were pushed within the last three months.
 - **Only GitHub-mirrored artifacts appear.** Deposits without a GitHub link are
   absent, and those may differ systematically.
 - **Path extraction is conservative.** It requires a recognised source or config
