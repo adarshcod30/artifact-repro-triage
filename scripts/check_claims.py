@@ -55,16 +55,16 @@ def claims() -> list[tuple[str, str, str, str]]:
 
     pv = load("results/prevalence.json")
     if pv:
-        if pv.get("prevalence") is not None:
-            out.append(("README.md", f"{pv['prevalence']:.1%}",
-                        "prevalence of broken claims", "prevalence.json"))
-        if pv.get("broken_claim_rate") is not None:
-            out.append(("README.md", f"{pv['broken_claim_rate']:.1%}",
-                        "broken claim rate", "prevalence.json"))
-        out.append(("README.md", f"{pv['total_claims']:,}",
-                    "total claims checked", "prevalence.json"))
-        out.append(("README.md", str(pv["n_profiled"]),
-                    "artifacts profiled", "prevalence.json"))
+        # Prefer the display strings the producer wrote, so the checker and the
+        # producer can never disagree about rounding.
+        disp = pv.get("display") or {}
+        for key, label in (("prevalence", "prevalence of broken claims"),
+                           ("broken_claim_rate", "broken claim rate"),
+                           ("total_claims", "total claims checked"),
+                           ("n_profiled", "artifacts profiled")):
+            val = disp.get(key)
+            if val:
+                out.append(("README.md", val, label, "prevalence.json"))
 
     sp = load("results/spend.json")
     if sp:

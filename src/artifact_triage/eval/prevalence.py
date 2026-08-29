@@ -231,6 +231,17 @@ def main() -> None:
         "n_profiled": len(rows), "n_checkable": len(checkable),
         "n_with_broken": len(with_broken),
         "prevalence": round(len(with_broken) / len(checkable), 4) if checkable else None,
+        # ONE source of truth for how each headline number is displayed.
+        # prevalence.py printed 63.8% (from the raw ratio) while check_claims
+        # printed 63.7% (from the stored value, rounded to 4dp first). Two code
+        # paths formatting the same number differently means the prose cannot
+        # satisfy both, and whichever one you write looks wrong to the other.
+        "display": {
+            "prevalence": f"{len(with_broken) / len(checkable):.1%}" if checkable else None,
+            "broken_claim_rate": f"{total_broken / total_claims:.1%}" if total_claims else None,
+            "n_profiled": str(len(rows)),
+            "total_claims": f"{total_claims:,}",
+        },
         "total_claims": total_claims, "total_broken": total_broken,
         "broken_claim_rate": round(total_broken / total_claims, 4) if total_claims else None,
         "decay": decay, "per_artifact": rows,

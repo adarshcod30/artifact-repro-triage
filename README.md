@@ -25,7 +25,7 @@ verified on a machine that is not mine.
 |---|---|
 | **Detecting a falsified README** | baseline **0%** → solution **100%** (3 trials, 100–100%) |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
-| **Prevalence in the wild** | **63.7%** of 732 research artifacts carry a broken README claim |
+| **Prevalence in the wild** | **63.8%** of 732 research artifacts carry a broken README claim |
 | | **1,459 of 6,687** documented file references (21.8%) resolve to nothing |
 | **Is it decay?** | **No.** Flat across four years — artifacts *ship* broken |
 | **Model spend, entire project** | **$2.39** of a $5 ceiling (AWS actual) — five of six checks need no model at all |
@@ -279,7 +279,7 @@ stratified across publication years 2018–2026; 732 profiled successfully.
 
 | | |
 |---|---|
-| Artifacts with **≥1 broken README claim** | **401 / 629 (63.7%)** |
+| Artifacts with **≥1 broken README claim** | **401 / 629 (63.8%)** |
 | Claims checked | 6,687 |
 | Claims that resolve to nothing | **1,459 (21.8%)** |
 | Median broken-claim ratio | 0.143 |
