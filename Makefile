@@ -23,6 +23,18 @@ eval:     ## Score baseline + solution against expert badge labels
 repro:    ## The one command judges run: corpus -> baseline -> solution -> eval
 	$(MAKE) corpus && $(MAKE) baseline && $(MAKE) solution && $(MAKE) eval
 
+discover:  ## Harvest research-artifact repos at scale from Zenodo
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.corpus.discover
+
+prevalence: ## Measure how widespread broken README claims are (no model needed)
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.prevalence
+
+links:     ## Check README URLs for link rot
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.solution.links
+
+report:    ## Reviewer report for one repo: make report REPO=owner/name
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.cli $(REPO)
+
 trajectories: ## Export agent trajectories (product agents + build agent)
 	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_trajectories
 	.venv/bin/python scripts/export_build_trajectory.py

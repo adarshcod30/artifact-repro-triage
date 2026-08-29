@@ -13,5 +13,8 @@ dependencies = [
 # Only needed if running against these providers instead of Bedrock.
 direct = ["anthropic>=0.40.0", "google-genai>=1.0.0", "openai>=1.40.0"]
 
+[project.scripts]
+artifact-triage = "artifact_triage.cli:main"
+
 [tool.uv]
 package = false

@@ -8,3 +8,8 @@
   "replication package"                        +44   (total 125)
   "reproduction package"                       +62   (total 187)
   "artifact evaluation"                        +65   (total 252)
+  "research artifact" software                 +123  (total 375)
+  "supplementary material" software repository +23   (total 398)
+
+discovered 398 distinct artifact repositories
+-> data/discovered.jsonl
