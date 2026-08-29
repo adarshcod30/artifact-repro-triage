@@ -18,3 +18,7 @@ discovered artifacts: 398
   [200/398] profiled 185
     ! gonzalohernandez/nocq.: HTTPError
   [220/398] profiled 204
+  [240/398] profiled 224
+    ! user-attachments/assets: HTTPError
+  [260/398] profiled 243
+  [280/398] profiled 263

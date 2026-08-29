@@ -68,7 +68,7 @@ def build_factsheet(slug: str) -> dict:
 
 
 def render(fx: dict, ev, links: dict | None, model: dict | None,
-           pins=None) -> str:
+           pins=None, port=None) -> str:
     L: list[str] = []
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     L.append(f"# Artifact reproducibility report — `{fx['artifact_id']}`\n")
@@ -90,6 +90,8 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
                             f"{'y' if pins.floating == 1 else 'ies'} that will drift")
     elif not ev.has_dependency_manifest:
         problems.append("no dependency manifest")
+    if port is not None and port.n:
+        problems.append(f"{port.n} hard-coded machine-specific value(s)")
 
     if problems:
         L.append(f"## Verdict: **{len(problems)} issue(s) need attention**\n")
@@ -160,6 +162,19 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
                  "decay: over 40% of 2024–25 \"functional\" artifacts fail "
                  "within months.\n")
 
+    # ---- portability -------------------------------------------------------
+    if port is not None:
+        L.append("## Portability\n")
+        L.append(f"{port.summary()}\n")
+        if port.findings:
+            L.append("| File | Line | Value |")
+            L.append("|---|---|---|")
+            for f in port.findings[:12]:
+                L.append(f"| `{f.file}` | {f.line} | `{f.excerpt[:70]}` |")
+            L.append("\n> These resolve only on the machine the artifact was "
+                     "written on. A reader following the documented steps will "
+                     "hit them regardless of what the README says.\n")
+
     # ---- model assessment --------------------------------------------------
     if model:
         L.append("## Assessment\n")
@@ -211,6 +226,10 @@ def main(argv: list[str] | None = None) -> int:
     from artifact_triage.solution.pinning import analyse as analyse_pins
     pins = analyse_pins(slug, fx["file_tree"])
 
+    from artifact_triage.solution.portability import inspect as inspect_port
+    print("scanning for environment leakage …", file=sys.stderr)
+    port = inspect_port(slug, fx["file_tree"])
+
     links = None
     if not args.no_links:
         from artifact_triage.solution.links import for_artifact
@@ -228,7 +247,7 @@ def main(argv: list[str] | None = None) -> int:
                  "reasons": a.reasons,
                  "escalated": a.tier is None or a.confidence < ESCALATE_BELOW}
 
-    report = render(fx, ev, links, model, pins)
+    report = render(fx, ev, links, model, pins, port)
     if args.out:
         Path(args.out).write_text(report)
         print(f"-> {args.out}", file=sys.stderr)

@@ -35,6 +35,12 @@ discover:  ## Harvest research-artifact repos at scale from Zenodo
 prevalence: ## Measure how widespread broken README claims are (no model needed)
 	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.prevalence
 
+pinning:  ## Dependency pinning analysis
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.solution.pinning
+
+portability:## Scan for hard-coded machine-specific values
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.solution.portability
+
 links:     ## Check README URLs for link rot
 	PYTHONPATH=src .venv/bin/python -m artifact_triage.solution.links
 

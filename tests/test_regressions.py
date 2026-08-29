@@ -209,6 +209,33 @@ def test_pinned_and_floating_are_classified_correctly():
 
 
 # --------------------------------------------------------------------------
+# Portability - only near-certainly non-portable values are reported.
+# Over-reporting would train a reviewer to ignore the output.
+# --------------------------------------------------------------------------
+def test_conventional_paths_are_not_flagged():
+    from artifact_triage.solution.portability import scan_text
+    text = "import os\npath = '/usr/bin/python'\ntmp = '/tmp/scratch'\n"
+    assert scan_text(text, "a.py") == []
+
+
+def test_user_home_paths_are_flagged():
+    from artifact_triage.solution.portability import scan_text
+    found = scan_text("data = '/home/alice/project/train.csv'", "a.py")
+    assert len(found) == 1 and found[0].kind == "absolute_home_path"
+
+
+def test_private_network_addresses_are_flagged():
+    from artifact_triage.solution.portability import scan_text
+    found = scan_text("HOST = '192.168.1.42'", "conf.py")
+    assert found and found[0].kind == "private_host"
+
+
+def test_public_ip_like_versions_are_not_flagged():
+    from artifact_triage.solution.portability import scan_text
+    assert scan_text("version = '8.8.8.8'", "a.py") == []
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():
