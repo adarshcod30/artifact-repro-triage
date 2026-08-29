@@ -1,9 +1,9 @@
 {
  "mutations": 44,
- "detected": 40,
- "detection_rate": 0.9091,
- "correctly_suggested": 32,
- "suggestion_rate": 0.7273,
+ "detected": 39,
+ "detection_rate": 0.8864,
+ "correctly_suggested": 31,
+ "suggestion_rate": 0.7045,
  "per_artifact": [
   {
    "artifact_id": "HexHive/FishFuzz",
@@ -87,17 +87,15 @@
     },
     {
      "original": "result_script.py",
-     "mutated": "result_script_old.py",
-     "kind": "renamed _old"
+     "mutated": "result.py",
+     "kind": "suffix dropped"
     }
    ],
    "detected": [
     "my.py",
-    "result_script_old.py"
+    "result.py"
    ],
-   "correctly_suggested": [
-    "result_script.py"
-   ]
+   "correctly_suggested": []
   },
   {
    "artifact_id": "THU-WingTecher/DeepConstr",
@@ -170,36 +168,35 @@
    "artifact_id": "emocat/VioHawk",
    "applied": [
     {
+     "original": "mutator.py",
+     "mutated": "mutator_v2.py",
+     "kind": "renamed _v2"
+    },
+    {
      "original": "fuzzer.py",
      "mutated": "fuzzer_v2.py",
      "kind": "renamed _v2"
     },
     {
-     "original": "mutator.py",
-     "mutated": "mutator_old.py",
-     "kind": "renamed _old"
-    },
-    {
      "original": "run_vse.py",
-     "mutated": "run_vse_old.py",
-     "kind": "renamed _old"
+     "mutated": "run.py",
+     "kind": "suffix dropped"
     },
     {
      "original": "requirements.txt",
-     "mutated": "requirements_old.txt",
-     "kind": "renamed _old"
+     "mutated": "requirements_v2.txt",
+     "kind": "renamed _v2"
     }
    ],
    "detected": [
+    "mutator_v2.py",
     "fuzzer_v2.py",
-    "mutator_old.py",
-    "run_vse_old.py",
-    "requirements_old.txt"
+    "run.py",
+    "requirements_v2.txt"
    ],
    "correctly_suggested": [
-    "fuzzer.py",
     "mutator.py",
-    "run_vse.py",
+    "fuzzer.py",
     "requirements.txt"
    ]
   },
@@ -207,34 +204,35 @@
    "artifact_id": "jovyntls/inconsistencies-in-tex",
    "applied": [
     {
-     "original": "run_analysis.py",
-     "mutated": "run.py",
-     "kind": "suffix dropped"
+     "original": "main.py",
+     "mutated": "main_v2.py",
+     "kind": "renamed _v2"
     },
     {
-     "original": "run_compile_only.py",
-     "mutated": "run_compile_only_v2.py",
-     "kind": "renamed _v2"
+     "original": "run_diff_highlight.py",
+     "mutated": "run_diff_highlight_old.py",
+     "kind": "renamed _old"
     },
     {
      "original": "run_img_comparison.py",
-     "mutated": "run_img_comparison_v2.py",
-     "kind": "renamed _v2"
+     "mutated": "run_img_comparison_old.py",
+     "kind": "renamed _old"
     },
     {
      "original": "requirements.txt",
-     "mutated": "requirements_old.txt",
-     "kind": "renamed _old"
+     "mutated": "requirements_v2.txt",
+     "kind": "renamed _v2"
     }
    ],
    "detected": [
-    "run.py",
-    "run_compile_only_v2.py",
-    "run_img_comparison_v2.py",
-    "requirements_old.txt"
+    "main_v2.py",
+    "run_diff_highlight_old.py",
+    "run_img_comparison_old.py",
+    "requirements_v2.txt"
    ],
    "correctly_suggested": [
-    "run_compile_only.py",
+    "main.py",
+    "run_diff_highlight.py",
     "run_img_comparison.py",
     "requirements.txt"
    ]
@@ -248,9 +246,9 @@
      "kind": "renamed _old"
     },
     {
-     "original": "benchmark/UniParser/README.md",
-     "mutated": "benchmark/UniParser/README_old.md",
-     "kind": "renamed _old"
+     "original": "run_statistic_2k.sh",
+     "mutated": "run_statistic.sh",
+     "kind": "suffix dropped"
     },
     {
      "original": "post_process.py",
@@ -258,34 +256,28 @@
      "kind": "renamed _old"
     },
     {
-     "original": "run_statistic_2k.sh",
-     "mutated": "run_statistic_2k_v2.sh",
-     "kind": "renamed _v2"
+     "original": "benchmark/UniParser/README.md",
+     "mutated": "benchmark/UniParsers/README.md",
+     "kind": "dir pluralised"
     }
    ],
    "detected": [
     "RQs_experiments/README_old.md",
-    "benchmark/UniParser/README_old.md",
-    "post_process_old.py",
-    "run_statistic_2k_v2.sh"
+    "run_statistic.sh",
+    "post_process_old.py"
    ],
    "correctly_suggested": [
     "RQs_experiments/README.md",
-    "post_process.py",
-    "run_statistic_2k.sh"
+    "run_statistic_2k.sh",
+    "post_process.py"
    ]
   },
   {
    "artifact_id": "lrtsuser/LRTS",
    "applied": [
     {
-     "original": "collect_builds.sh",
-     "mutated": "collect_builds_v2.sh",
-     "kind": "renamed _v2"
-    },
-    {
-     "original": "plot_eval_outcome.py",
-     "mutated": "plot_eval_outcome_v2.py",
+     "original": "build_dataset.py",
+     "mutated": "build_dataset_v2.py",
      "kind": "renamed _v2"
     },
     {
@@ -294,22 +286,27 @@
      "kind": "renamed _v2"
     },
     {
-     "original": "extract_ir_body.py",
-     "mutated": "extract_ir_body_v2.py",
+     "original": "eval_main.py",
+     "mutated": "eval_main_old.py",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "metadata/dataset_init.csv",
+     "mutated": "metadata/dataset_init_v2.csv",
      "kind": "renamed _v2"
     }
    ],
    "detected": [
-    "collect_builds_v2.sh",
-    "plot_eval_outcome_v2.py",
+    "build_dataset_v2.py",
     "extract_filtered_test_result_v2.py",
-    "extract_ir_body_v2.py"
+    "eval_main_old.py",
+    "metadata/dataset_init_v2.csv"
    ],
    "correctly_suggested": [
-    "collect_builds.sh",
-    "plot_eval_outcome.py",
+    "build_dataset.py",
     "extract_filtered_test_result.py",
-    "extract_ir_body.py"
+    "eval_main.py",
+    "metadata/dataset_init.csv"
    ]
   },
   {

@@ -1204,6 +1204,8 @@
  },
  "readme_referenced_paths": [
   "my_simulate.py",
+  "replication",
+  "reproduction",
   "result_script.py"
  ],
  "_label": {

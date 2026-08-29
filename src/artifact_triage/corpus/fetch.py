@@ -97,6 +97,23 @@ def readme(slug: str) -> str:
         return ""
 
 
+# A directory reference is a claim too: "see `reproduction/`" promises that
+# directory exists. Only an EXPLICIT trailing slash counts - without it,
+# `CC/CXX` and `ff-all-in-one/++` get swept in, and a checker that reports
+# variable names as missing directories will be switched off.
+_DIRREF = re.compile(r"^[\w.\-]+(?:/[\w.\-]+)*/$")
+
+
+def _is_dir_ref(tok: str) -> bool:
+    if not tok.endswith("/") or tok.startswith(("http", "-", "$", "/")):
+        return False
+    if not _DIRREF.match(tok):
+        return False
+    segs = [x for x in tok.rstrip("/").split("/") if x]
+    # Reject single-letter segments and anything shell-ish.
+    return bool(segs) and all(len(x) >= 2 for x in segs)
+
+
 def referenced_paths(text: str) -> list[str]:
     """Paths the README claims exist - raw material for claim verification.
 
@@ -116,6 +133,8 @@ def referenced_paths(text: str) -> list[str]:
         tok = tok.strip().lstrip("./")
         if _is_path(tok):
             found.add(tok)
+        elif _is_dir_ref(tok):
+            found.add(tok.rstrip("/"))
     return sorted(found)[:80]
 
 

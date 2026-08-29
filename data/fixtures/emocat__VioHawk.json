@@ -4044,12 +4044,21 @@
   ]
  },
  "readme_referenced_paths": [
+  "config",
+  "corpus",
+  "dataparser",
   "fuzzer.py",
+  "logger",
+  "map",
+  "mutator",
   "mutator.py",
+  "out",
   "path/to/site-packages/commonroad_reach/data_structure/configuration.py",
   "path/to/site-packages/commonroad_reach/utility/coordinate_system.py",
   "requirements.txt",
-  "run_vse.py"
+  "run_vse.py",
+  "scripts",
+  "utils"
  ],
  "_label": {
   "badge": "Functional",

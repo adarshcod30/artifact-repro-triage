@@ -37,3 +37,6 @@ discovered artifacts: 769
   [540/769] profiled 514
     ! features/actions: HTTPError
     ! JetBrains-Research/authorship-detection.: HTTPError
+    ! johnmyleswhite/BanditsBook.: HTTPError
+  [560/769] profiled 531
+    ! rutgers-apl/cgo23-: HTTPError

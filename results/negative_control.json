@@ -1,7 +1,7 @@
 {
  "_provenance": {
   "kind": "negative_control",
-  "commit": "ddd14e9",
+  "commit": "6a9232d",
   "code_fingerprint": "a2afe5e8d906"
  },
  "injected": 75,
@@ -106,8 +106,8 @@
     "bin/reproduce_table3.sh"
    ],
    "false_positives": [],
-   "broken_before": 5,
-   "broken_after": 10
+   "broken_before": 6,
+   "broken_after": 11
   },
   {
    "artifact_id": "asub0/fonnx",
@@ -166,8 +166,8 @@
     "experiments/rq2_analysis.py"
    ],
    "false_positives": [],
-   "broken_before": 1,
-   "broken_after": 6
+   "broken_before": 3,
+   "broken_after": 8
   },
   {
    "artifact_id": "jovyntls/inconsistencies-in-tex",
@@ -186,8 +186,8 @@
     "src/train_model.py"
    ],
    "false_positives": [],
-   "broken_before": 0,
-   "broken_after": 5
+   "broken_before": 2,
+   "broken_after": 7
   },
   {
    "artifact_id": "logpai/loghub-2.0",
@@ -206,8 +206,8 @@
     "setup/install_deps.sh"
    ],
    "false_positives": [],
-   "broken_before": 1,
-   "broken_after": 6
+   "broken_before": 2,
+   "broken_after": 7
   },
   {
    "artifact_id": "lrtsuser/LRTS",
@@ -226,8 +226,8 @@
     "configs/experiment_grid.json"
    ],
    "false_positives": [],
-   "broken_before": 2,
-   "broken_after": 7
+   "broken_before": 8,
+   "broken_after": 13
   },
   {
    "artifact_id": "nhuhuan/sba",
@@ -246,8 +246,8 @@
     "data/prepare_dataset.py"
    ],
    "false_positives": [],
-   "broken_before": 0,
-   "broken_after": 5
+   "broken_before": 1,
+   "broken_after": 6
   },
   {
    "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
@@ -286,8 +286,8 @@
     "docker/build_image.sh"
    ],
    "false_positives": [],
-   "broken_before": 2,
-   "broken_after": 7
+   "broken_before": 3,
+   "broken_after": 8
   },
   {
    "artifact_id": "zhangxiaosa/LPR",

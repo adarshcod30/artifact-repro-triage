@@ -1628,6 +1628,7 @@
   "experiments/replication/effectiveness.csv",
   "replicate.sh",
   "replication.sh",
+  "trustbench/models",
   "workdir/effectiveness.csv",
   "workdir/efficiency.csv"
  ],

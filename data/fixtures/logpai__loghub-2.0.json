@@ -547,8 +547,10 @@
   "benchmark/LogPPT/README.md",
   "benchmark/UniParser/README.md",
   "demo.sh",
+  "full_dataset",
   "post_process.py",
   "requirements.txt",
+  "result",
   "run_statistic_2k.sh",
   "run_statistic_full.sh"
  ],

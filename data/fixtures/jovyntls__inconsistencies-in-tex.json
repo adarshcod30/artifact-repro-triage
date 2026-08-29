@@ -118,15 +118,18 @@
   "tests": []
  },
  "readme_referenced_paths": [
+  "bin",
   "config.py",
   "count_latexmk_runs.py",
+  "logs",
   "main.py",
   "requirements.txt",
   "run_analysis.py",
   "run_compile_only.py",
   "run_diff_highlight.py",
   "run_img_comparison.py",
-  "run_text_based_comparison.py"
+  "run_text_based_comparison.py",
+  "version_cmp"
  ],
  "_label": {
   "badge": "Available",

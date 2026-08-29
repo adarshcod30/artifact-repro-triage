@@ -586,6 +586,31 @@ def test_mermaid_diagrams_are_well_formed():
 
 
 # --------------------------------------------------------------------------
+# Directory references are claims too. Found by auditing for FALSE NEGATIVES -
+# 64 backtick-quoted directory paths were being silently skipped. A missed
+# claim is invisible by definition, so nothing had ever checked for them.
+# --------------------------------------------------------------------------
+def test_explicit_directory_references_are_claims():
+    from artifact_triage.corpus.fetch import _is_dir_ref
+    for tok in ("reproduction/", "replication/", "src/main/", "docs/api/v2/"):
+        assert _is_dir_ref(tok), tok
+
+
+def test_shell_and_variable_tokens_are_not_directory_claims():
+    from artifact_triage.corpus.fetch import _is_dir_ref
+    # A checker that reports variable names as missing directories gets ignored.
+    for tok in ("CC/CXX", "ff-all-in-one/++", "$(pwd)/bugs/", "http://x/",
+                "a/", "/etc/", "-flag/"):
+        assert not _is_dir_ref(tok), tok
+
+
+def test_directory_without_trailing_slash_is_not_assumed():
+    from artifact_triage.corpus.fetch import _is_dir_ref
+    assert not _is_dir_ref("some/path"), \
+        "without an explicit slash this is ambiguous with a file"
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():
