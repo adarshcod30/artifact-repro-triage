@@ -337,6 +337,29 @@ Reproducibility infrastructure across the same 732:
 | Container definition | 29% |
 | Tests | 28% |
 
+### Is it only a Python problem?
+
+No. The corpus is 55% non-Python, and the defect appears in every ecosystem
+measured — though not uniformly.
+
+| Ecosystem | n | Broken-claim ratio | % affected |
+|---|---|---|---|
+| Notebook | 20 | 0.104 | 30% |
+| Python | 278 | 0.192 | 58% |
+| C/C++ | 96 | 0.261 | 66% |
+| R | 30 | 0.264 | 63% |
+| JS/TS | 36 | 0.292 | 67% |
+| Shell | 47 | 0.308 | 64% |
+| Java | 59 | 0.340 | 78% |
+| Rust | 19 | 0.364 | 74% |
+
+**Java and Rust artifacts are roughly twice as bad as Python.** A plausible
+reading is directory depth: `src/main/java/com/org/Thing.java` gives a README far
+more path to get wrong than `train.py` does. Notebooks fare best, likely because
+they embed their code rather than referencing it.
+
+The finding is not an artefact of one language community.
+
 ### The defect is not decay: artifacts ship broken
 
 The literature attributes artifact failure to *drift* — dependencies moving under

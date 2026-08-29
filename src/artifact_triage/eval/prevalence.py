@@ -223,6 +223,55 @@ def main() -> None:
                  "trend": trend,
                  "age_span_days": round(max(r["stale_days"] for r in dated) -
                                         min(r["stale_days"] for r in dated))}
+    # --- by ecosystem --------------------------------------------------------
+    # "Is this just a Python problem?" is the obvious objection to a corpus
+    # harvested from research software, so it is answered rather than assumed.
+    EXT = {"py": "Python", "java": "Java", "scala": "Java",
+           "c": "C/C++", "cpp": "C/C++", "cc": "C/C++", "h": "C/C++",
+           "rs": "Rust", "go": "Go", "js": "JS/TS", "ts": "JS/TS",
+           "r": "R", "jl": "Julia", "rb": "Ruby", "m": "MATLAB",
+           "sh": "Shell", "ipynb": "Notebook"}
+    from collections import Counter, defaultdict
+    import glob as _glob
+    by_lang = defaultdict(list)
+    for f in _glob.glob(str(CACHE / "*.json")):
+        try:
+            fx = json.loads(Path(f).read_text())
+        except Exception:
+            continue
+        if not fx.get("readme_present"):
+            continue
+        c = Counter()
+        for path in fx.get("file_tree", []):
+            base = path.rsplit("/", 1)[-1]
+            e = base.rsplit(".", 1)[-1].lower() if "." in base else ""
+            if e in EXT:
+                c[EXT[e]] += 1
+        if not c:
+            continue
+        e2 = verify(fx)
+        if e2.claims_total:
+            by_lang[c.most_common(1)[0][0]].append(e2)
+
+    lang_rows = []
+    for lang, evs in sorted(by_lang.items(), key=lambda x: -len(x[1])):
+        if len(evs) < 12:
+            continue
+        lang_rows.append({
+            "language": lang, "n": len(evs),
+            "mean_broken_ratio": round(
+                statistics.mean(e.broken_ratio for e in evs), 4),
+            "share_with_broken": round(
+                sum(1 for e in evs if e.claims_broken) / len(evs), 3)})
+    if lang_rows:
+        print("\n  BY ECOSYSTEM (is this only a Python problem?)")
+        print(f"    {'language':<12}{'n':>5}{'broken ratio':>15}{'% affected':>13}")
+        for r in lang_rows:
+            print(f"    {r['language']:<12}{r['n']:>5}"
+                  f"{r['mean_broken_ratio']:>15.3f}{r['share_with_broken']:>12.0%}")
+        lo = min(r["mean_broken_ratio"] for r in lang_rows)
+        hi = max(r["mean_broken_ratio"] for r in lang_rows)
+        print(f"    -> present in EVERY ecosystem; spread {lo:.3f}-{hi:.3f}")
     print("=" * 68)
 
     OUT.parent.mkdir(exist_ok=True)
@@ -244,7 +293,7 @@ def main() -> None:
         },
         "total_claims": total_claims, "total_broken": total_broken,
         "broken_claim_rate": round(total_broken / total_claims, 4) if total_claims else None,
-        "decay": decay, "per_artifact": rows,
+        "decay": decay, "by_language": lang_rows, "per_artifact": rows,
     }, indent=1))
     print(f"-> {OUT}")
 
