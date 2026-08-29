@@ -957,6 +957,156 @@ def test_report_always_states_the_reviewers_irreducible_role():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 80 - the budget guard that no test had ever entered
+#
+# A coverage sweep (which functions are never entered by the tests or a full
+# CLI run?) found `budget_check` among them. The guard protecting a hard $5
+# ceiling had never once executed under test.
+#
+# Reading it revealed the real defect: `budget_check()` is called from
+# `client()`, which runs ONCE per run. `ask()` meters every call but re-checks
+# nothing. A run starting at $4.95 passed the check and could then make
+# hundreds of billed calls with nothing watching - the ceiling was enforced at
+# run granularity, not spend granularity, which is no ceiling at all for any
+# run large enough to matter.
+#
+# Same family as the RFC1918 pattern that could not fire and the `_report`
+# path that had never executed: code that looks like a safeguard and isn't.
+# --------------------------------------------------------------------------
+def _isolated_ledger(tmp, entries_usd):
+    """Point the ledger at a temp file so tests never touch real spend data."""
+    import json
+    from artifact_triage.common import ledger
+    p = Path(tmp) / "ledger.jsonl"
+    p.write_text("".join(json.dumps({"kind": "call", "usd": u, "calls": 1}) + "\n"
+                         for u in entries_usd))
+    ledger.LEDGER = p
+    return p
+
+
+def test_budget_check_refuses_to_start_past_the_ceiling():
+    import tempfile
+    from artifact_triage.common import ledger, llm
+    old_ledger, old_guard = ledger.LEDGER, llm.BUDGET_GUARD
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            _isolated_ledger(tmp, [4.0, 1.5])      # $5.50 spent
+            llm.BUDGET_GUARD = 5.0
+            llm._BASE_USD, llm._SESSION_USD = None, 0.0
+            raised = False
+            try:
+                llm.budget_check()
+            except SystemExit:
+                raised = True
+            assert raised, "budget_check must raise, not warn"
+    finally:
+        ledger.LEDGER, llm.BUDGET_GUARD = old_ledger, old_guard
+        llm._BASE_USD, llm._SESSION_USD = None, 0.0
+
+
+def test_budget_guard_can_be_disabled_explicitly():
+    import tempfile
+    from artifact_triage.common import ledger, llm
+    old_ledger, old_guard = ledger.LEDGER, llm.BUDGET_GUARD
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            _isolated_ledger(tmp, [99.0])
+            llm.BUDGET_GUARD = 0.0
+            llm._BASE_USD, llm._SESSION_USD = None, 0.0
+            llm.budget_check()                      # must not raise
+    finally:
+        ledger.LEDGER, llm.BUDGET_GUARD = old_ledger, old_guard
+        llm._BASE_USD, llm._SESSION_USD = None, 0.0
+
+
+def test_a_long_run_is_stopped_the_moment_it_crosses_the_ceiling():
+    """The defect: the ceiling was checked once, then hundreds of calls ran."""
+    import tempfile
+    from artifact_triage.common import ledger, llm
+    old_ledger, old_guard = ledger.LEDGER, llm.BUDGET_GUARD
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            _isolated_ledger(tmp, [4.90])           # just under the ceiling
+            llm.BUDGET_GUARD = 5.0
+            llm._BASE_USD, llm._SESSION_USD = None, 0.0
+            llm.budget_check()                      # start of run: passes
+
+            # Now bill calls one at a time, as a real run does.
+            calls = 0
+            stopped = False
+            try:
+                for _ in range(500):
+                    calls += 1
+                    llm._meter(llm.Answer(None, 0.0, [], 20000, 2000), 0)
+            except SystemExit:
+                stopped = True
+            assert stopped, "the run was never stopped - the ceiling is not a ceiling"
+            assert calls < 500, "stopped only after every call had already run"
+    finally:
+        ledger.LEDGER, llm.BUDGET_GUARD = old_ledger, old_guard
+        llm._BASE_USD, llm._SESSION_USD = None, 0.0
+
+
+def test_the_ceiling_is_enforced_per_call_not_only_at_client_creation():
+    import inspect
+    from artifact_triage.common import llm
+    assert "BUDGET_GUARD" in inspect.getsource(llm._meter), \
+        "metering every call is useless if none of them checks the ceiling"
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 81 - a serialisation layer for an output mode that did not exist
+#
+# The coverage sweep found `to_dict` unused on CriterionFinding, DockerReport,
+# PinReport and PortabilityReport. Four dataclasses carried serialisers that
+# nothing called, because the CLI emitted markdown only.
+#
+# That was not stray code - it pointed at a product gap. The whole thesis is
+# reviewer CAPACITY: a chair triaging a venue's worth of artifacts needs a
+# sortable record per repository, not prose read one repo at a time. `--json`
+# is the missing mode, and it makes the existing serialisers live.
+# --------------------------------------------------------------------------
+def test_json_mode_emits_every_check_not_just_the_prose():
+    import json as _json
+    from artifact_triage.solution.criteria import assess, summary
+    from artifact_triage.solution.verify import verify
+    fixtures = sorted(Path("data/fixtures").glob("*.json"))
+    if not fixtures:
+        return
+    fx = _json.loads(fixtures[0].read_text())
+    ev = verify(fx)
+    crit = assess(ev)
+    payload = {"verified": ev.to_dict(),
+               "acm_functional": [c.to_dict() for c in crit],
+               "acm_summary": summary(crit)}
+    # must round-trip through JSON - a report a machine cannot read is markdown
+    round_tripped = _json.loads(_json.dumps(payload))
+    assert len(round_tripped["acm_functional"]) == 4
+    for c in round_tripped["acm_functional"]:
+        assert {"criterion", "definition", "verdict", "mechanical",
+                "evidence", "needs_human"} <= set(c)
+
+
+def test_criteria_summary_never_claims_consistency_was_settled():
+    from artifact_triage.solution.criteria import assess, summary
+    clean = summary(assess(_fake_evidence()))
+    dirty = summary(assess(_fake_evidence(claims_broken=9,
+                                          broken_paths=["x.py"] * 9)))
+    for txt in (clean, dirty):
+        assert "onsistency" in txt or "onsistent" in txt
+
+
+def test_cli_exposes_a_machine_readable_mode():
+    import inspect
+    from artifact_triage import cli
+    src = inspect.getsource(cli.main)
+    assert '"--json"' in src
+    assert "acm_functional" in src
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

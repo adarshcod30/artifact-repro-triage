@@ -252,6 +252,8 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
     # ---- ACM criteria ------------------------------------------------------
     if criteria:
         L.append("## ACM Functional criteria — pre-filled\n")
+        from artifact_triage.solution.criteria import summary as _csum
+        L.append(f"**{_csum(criteria)}**\n")
         L.append("Each finding above is evidence for or against a *named* ACM "
                  "criterion, quoted verbatim. This is the decision you have to "
                  "make anyway.\n")
@@ -289,6 +291,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="also produce a tier assessment (needs credentials)")
     ap.add_argument("--no-links", action="store_true",
                     help="skip URL checking (offline)")
+    ap.add_argument("--json", action="store_true",
+                    help="emit machine-readable findings instead of the report")
     ap.add_argument("-o", "--out", help="write the report to a file")
     args = ap.parse_args(argv)
 
@@ -332,7 +336,35 @@ def main(argv: list[str] | None = None) -> int:
                  "escalation_reasons": d.reasons}
 
     from artifact_triage.solution.criteria import assess
+    from artifact_triage.solution.criteria import summary as criteria_summary
     criteria = assess(ev, pins=pins, docker=docker, port=port, links=links)
+
+    # Machine-readable output exists because the product thesis is reviewer
+    # CAPACITY. A chair triaging a venue's worth of artifacts needs a sortable
+    # record per repository, not prose to read one at a time. Every report
+    # dataclass already had a `to_dict`; nothing consumed them, because the
+    # output mode they were written for had never been built.
+    if args.json:
+        payload = {
+            "artifact_id": fx["artifact_id"],
+            "commit": fx.get("commit"),
+            "readme_present": fx["readme_present"],
+            "verified": ev.to_dict(),
+            "pinning": pins.to_dict() if pins else None,
+            "container": docker.to_dict() if docker else None,
+            "portability": port.to_dict() if port else None,
+            "links": links,
+            "model": model,
+            "acm_functional": [c.to_dict() for c in criteria],
+            "acm_summary": criteria_summary(criteria),
+        }
+        text = json.dumps(payload, indent=1)
+        if args.out:
+            Path(args.out).write_text(text)
+            print(f"-> {args.out}", file=sys.stderr)
+        else:
+            print(text)
+        return 0
 
     report = render(fx, ev, links, model, pins, port, docker, criteria)
     if args.out:

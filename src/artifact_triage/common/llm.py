@@ -282,6 +282,23 @@ _BACKENDS = {"bedrock": _Bedrock, "anthropic": _Anthropic,
 BUDGET_GUARD = float(os.environ.get("ARTIFACT_TRIAGE_BUDGET_USD", "5.0"))
 
 
+# Spend already on the ledger when this process started, plus what this
+# process has added. Tracked so the per-call guard costs no file I/O.
+_BASE_USD: float | None = None
+_SESSION_USD = 0.0
+
+
+def _spent_now() -> float:
+    global _BASE_USD
+    if _BASE_USD is None:
+        try:
+            from artifact_triage.common.ledger import total
+            _BASE_USD = total()
+        except Exception:
+            _BASE_USD = 0.0
+    return _BASE_USD + _SESSION_USD
+
+
 def budget_check(need_usd: float = 0.0) -> None:
     """Refuse to start a run that would exceed the ceiling.
 
@@ -290,9 +307,11 @@ def budget_check(need_usd: float = 0.0) -> None:
     """
     if BUDGET_GUARD <= 0:
         return
+    global _BASE_USD
     try:
         from artifact_triage.common.ledger import total
-        spent = total()
+        _BASE_USD = total()
+        spent = _BASE_USD
     except Exception:
         return
     if spent + need_usd >= BUDGET_GUARD:
@@ -328,7 +347,26 @@ def _meter(answer: "Answer", attempt: int, failed: bool = False) -> None:
         record("call" if not failed else "call-failed", usd, 1, MODEL,
                f"attempt {attempt + 1}")
     except Exception:
+        usd = 0.0
         pass  # metering must never break a run
+
+    # Enforce the ceiling PER CALL, not once per run.
+    #
+    # budget_check() runs inside client(), which is called once. A run that
+    # starts at $4.95 passed the check and then made 420 more calls with
+    # nothing watching - the cap was enforced at run granularity, not spend
+    # granularity, which is no cap at all for any run large enough to matter.
+    #
+    # SystemExit is not an Exception, so the swallow above cannot eat it. This
+    # is safe to raise mid-run because every long experiment checkpoints its
+    # completed work before continuing.
+    global _SESSION_USD
+    _SESSION_USD += usd
+    if BUDGET_GUARD > 0 and _spent_now() >= BUDGET_GUARD:
+        raise SystemExit(
+            f"BUDGET STOP mid-run: ${_spent_now():.2f} of ${BUDGET_GUARD:.2f} "
+            f"spent. Completed work is already checkpointed; nothing paid for "
+            f"is lost. Everything deterministic still runs for free.")
 
 
 def ask(cl, system: str, user: str, retries: int = 5) -> Answer:

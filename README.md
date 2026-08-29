@@ -294,7 +294,7 @@ experiment: **$0.42**.
 > being optional. It happened to come out higher. It did not have to.
 >
 > A number that survives only because nobody re-ran it is not a result.
-> Cumulative project spend: **$3.80** of $5.
+> Cumulative project spend: **$3.87** of $5.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -567,8 +567,15 @@ artifact-triage <owner>/<repo>
 
 Point it at any research artifact — including your own — and it reports which of
 the README's file references actually resolve, which URLs are dead, and what
-reproducibility infrastructure is present. Add `--model` for a tier assessment
-and an escalation recommendation.
+reproducibility infrastructure is present, mapped onto the ACM `Functional`
+criteria. Add `--model` for a tier assessment and an escalation recommendation.
+
+For triaging a whole venue rather than one repository at a time — which is the
+capacity problem this targets — `--json` emits a sortable record per artifact:
+
+```bash
+artifact-triage <owner>/<repo> --json | jq '.acm_summary, .verified.claims_broken'
+```
 
 Real output, abridged:
 
@@ -615,11 +622,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   82 tests pinning every fixed bug
+tests/        test_regressions.py   89 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 82 regression tests, no credentials, ~2s
+make test         # 89 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan
