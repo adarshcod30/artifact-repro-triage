@@ -929,6 +929,34 @@ def test_paid_trials_are_checkpointed_before_reporting():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 79 - the report must not contradict itself about human review
+#
+# `Decision.explain()` said "handled automatically - evidence was sufficient",
+# and the CLI printed nothing about review when no rule fired. Two sections
+# later the same report stated that `Consistent` can never be settled by a
+# machine. A report that claims autonomy in one section and disclaims it in
+# the next is the identical defect to the earlier "5 missing paths / all paths
+# were found" bug - and it is the defect this whole project detects.
+# --------------------------------------------------------------------------
+def test_no_escalation_does_not_claim_full_automation():
+    from artifact_triage.solution.escalate import Decision
+    txt = Decision(False, []).explain()
+    assert "automatic" not in txt.lower()
+    assert "Consistent" in txt
+
+
+def test_report_always_states_the_reviewers_irreducible_role():
+    import inspect
+    from artifact_triage import cli
+    src = inspect.getsource(cli.render)
+    assert "Always required of a reviewer" in src
+    i = src.index("Always required of a reviewer")
+    j = src.index('if model.get("escalated")', i)
+    assert i < j, "the always-required note must not be inside the escalated branch"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

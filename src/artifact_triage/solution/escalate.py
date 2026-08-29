@@ -31,8 +31,15 @@ class Decision:
     reasons: list[str]
 
     def explain(self) -> str:
+        # NOT "handled automatically". Two of ACM's four Functional criteria
+        # cannot be settled mechanically at all - `Consistent` needs the paper,
+        # `Exercisable` needs execution - so no artifact is ever fully
+        # auto-dispositioned. Claiming otherwise here while `criteria.py` says
+        # the opposite in the same report is the self-contradiction this
+        # project exists to catch, committed by this project.
         if not self.escalate:
-            return "handled automatically - evidence was sufficient"
+            return ("no additional escalation triggered - a reviewer must still "
+                    "rule on Consistent and must run the artifact")
         return "routed to a human reviewer: " + "; ".join(self.reasons)
 
 

@@ -231,10 +231,19 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
         L.append("## Assessment\n")
         L.append(f"- **Suggested tier**: `{model.get('tier')}`")
         L.append(f"- **Confidence**: {model.get('confidence')}")
+        # Always state the human's role, not only when a rule fires. Silence
+        # here read as "handled automatically" while the criteria block below
+        # says a reviewer is always required for Consistent - the report
+        # contradicting itself.
+        L.append("- **Always required of a reviewer**, whatever the rules say:")
+        L.append("  - rule on `Consistent` - it needs the paper, not the files")
+        L.append("  - run the artifact - no static check shows that it executes")
         if model.get("escalated"):
-            L.append("- **Recommendation: route to a human reviewer.**")
+            L.append("- **Additionally flagged for review:**")
             for r in model.get("escalation_reasons", []):
                 L.append(f"  - {r}")
+        else:
+            L.append("- No *additional* evidence-based rule fired.")
         if model.get("reasons"):
             L.append("\nReasoning:\n")
             L += [f"- {r}" for r in model["reasons"]]
