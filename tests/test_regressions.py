@@ -236,6 +236,46 @@ def test_public_ip_like_versions_are_not_flagged():
 
 
 # --------------------------------------------------------------------------
+# Container base images drift exactly like unpinned pip requirements.
+# --------------------------------------------------------------------------
+def _fake_docker(content):
+    return lambda slug, path: content
+
+
+def test_unpinned_base_image_is_flagged():
+    from artifact_triage.solution.pinning import analyse_docker
+    d = analyse_docker("o/r", ["Dockerfile"],
+                       fetch=_fake_docker("FROM python\nRUN pip install x\n"))
+    assert d.unpinned == ["python"]
+
+
+def test_latest_tag_is_unpinned():
+    from artifact_triage.solution.pinning import analyse_docker
+    d = analyse_docker("o/r", ["Dockerfile"],
+                       fetch=_fake_docker("FROM ubuntu:latest\n"))
+    assert d.unpinned == ["ubuntu:latest"]
+
+
+def test_version_tag_and_digest_count_as_pinned():
+    from artifact_triage.solution.pinning import analyse_docker
+    d = analyse_docker("o/r", ["Dockerfile"],
+                       fetch=_fake_docker("FROM python:3.9.18\n"))
+    assert d.unpinned == []
+    d2 = analyse_docker("o/r", ["Dockerfile"],
+                        fetch=_fake_docker("FROM python@sha256:abc123\n"))
+    assert d2.unpinned == []
+
+
+def test_multistage_build_aliases_are_stripped():
+    from artifact_triage.solution.pinning import analyse_docker
+    d = analyse_docker("o/r", ["Dockerfile"],
+                       fetch=_fake_docker("FROM python:3.11 AS builder\n"
+                                          "FROM debian:12 AS runtime\n"))
+    assert d.base_images == ["python:3.11", "debian:12"]
+    assert d.unpinned == []
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

@@ -39,6 +39,59 @@ _COMMENT = re.compile(r"^\s*(#|$)")
 _OPTION = re.compile(r"^\s*-")
 
 
+# A container is only reproducible if its base image is pinned. `FROM python`
+# or `FROM python:latest` resolves to a different image every month - the same
+# drift problem as an unpinned pip requirement, one layer down.
+_FROM = re.compile(r"^\s*FROM\s+(\S+)", re.I | re.M)
+
+
+@dataclass
+class DockerReport:
+    dockerfile: str | None
+    base_images: list[str]
+    unpinned: list[str]
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    def summary(self) -> str:
+        if self.dockerfile is None:
+            return "no Dockerfile"
+        if not self.base_images:
+            return f"{self.dockerfile}: no FROM directive found"
+        if not self.unpinned:
+            return (f"{self.dockerfile}: all {len(self.base_images)} base "
+                    f"image(s) pinned")
+        return (f"{self.dockerfile}: {len(self.unpinned)} of "
+                f"{len(self.base_images)} base image(s) unpinned "
+                f"({', '.join(self.unpinned[:3])})")
+
+
+def analyse_docker(slug: str, file_tree: list[str], fetch=None) -> DockerReport:
+    """Is the container's base image pinned, or will it drift?"""
+    if fetch is None:
+        fetch = fetch_file
+    path = _shallowest(file_tree, {"Dockerfile", "dockerfile"})
+    if path is None:
+        return DockerReport(None, [], [])
+    text = fetch(slug, path)
+    if text is None:
+        return DockerReport(path, [], [])
+    images, unpinned = [], []
+    for raw in _FROM.findall(text):
+        img = raw.split(" AS ")[0].split(" as ")[0].strip()
+        if img.startswith("$"):           # ARG-parameterised, cannot judge
+            continue
+        images.append(img)
+        tag = img.rsplit(":", 1)[-1] if ":" in img.rsplit("/", 1)[-1] else ""
+        # A digest (@sha256:...) is the strongest possible pin.
+        if "@sha256:" in img:
+            continue
+        if not tag or tag in ("latest", "main", "master", "stable", "edge"):
+            unpinned.append(img)
+    return DockerReport(path, images, unpinned)
+
+
 @dataclass
 class PinReport:
     manifest: str | None

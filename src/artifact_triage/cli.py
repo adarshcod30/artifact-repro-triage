@@ -68,7 +68,7 @@ def build_factsheet(slug: str) -> dict:
 
 
 def render(fx: dict, ev, links: dict | None, model: dict | None,
-           pins=None, port=None) -> str:
+           pins=None, port=None, docker=None) -> str:
     L: list[str] = []
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     L.append(f"# Artifact reproducibility report — `{fx['artifact_id']}`\n")
@@ -92,6 +92,9 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
         problems.append("no dependency manifest")
     if port is not None and port.n:
         problems.append(f"{port.n} hard-coded machine-specific value(s)")
+    if docker is not None and docker.unpinned:
+        problems.append(f"unpinned container base image "
+                        f"({', '.join(docker.unpinned[:2])})")
 
     if problems:
         L.append(f"## Verdict: **{len(problems)} issue(s) need attention**\n")
@@ -162,6 +165,15 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
                  "decay: over 40% of 2024–25 \"functional\" artifacts fail "
                  "within months.\n")
 
+    if docker is not None and docker.dockerfile:
+        L.append("### Container\n")
+        L.append(f"{docker.summary()}\n")
+        if docker.unpinned:
+            L.append("> An unpinned base image resolves to different software "
+                     "over time — the same drift problem one layer down. "
+                     "`FROM python:3.9.18` is reproducible; `FROM python` is "
+                     "not.\n")
+
     # ---- portability -------------------------------------------------------
     if port is not None:
         L.append("## Portability\n")
@@ -226,6 +238,9 @@ def main(argv: list[str] | None = None) -> int:
     from artifact_triage.solution.pinning import analyse as analyse_pins
     pins = analyse_pins(slug, fx["file_tree"])
 
+    from artifact_triage.solution.pinning import analyse_docker
+    docker = analyse_docker(slug, fx["file_tree"])
+
     from artifact_triage.solution.portability import inspect as inspect_port
     print("scanning for environment leakage …", file=sys.stderr)
     port = inspect_port(slug, fx["file_tree"])
@@ -247,7 +262,7 @@ def main(argv: list[str] | None = None) -> int:
                  "reasons": a.reasons,
                  "escalated": a.tier is None or a.confidence < ESCALATE_BELOW}
 
-    report = render(fx, ev, links, model, pins, port)
+    report = render(fx, ev, links, model, pins, port, docker)
     if args.out:
         Path(args.out).write_text(report)
         print(f"-> {args.out}", file=sys.stderr)

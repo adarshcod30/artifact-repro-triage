@@ -24,3 +24,6 @@ discovered artifacts: 398
   [280/398] profiled 263
   [300/398] profiled 283
   [320/398] profiled 303
+  [360/398] profiled 342
+    ! genijalac11/CRYSTAL23-scripts-collection: HTTPError
+    ! apps/renovate: HTTPError
