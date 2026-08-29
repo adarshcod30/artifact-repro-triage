@@ -166,21 +166,36 @@ def build() -> str:
         A(card(pv["total_claims"], "claims checked"))
         A('</div>')
         d = pv.get("decay")
-        if d:
-            A('<h3>Decay hypothesis</h3>')
-            A('<div class="tw"><table><tr><th>Group</th><th>n</th>'
-              '<th>Median age</th><th>Broken-claim ratio</th><th></th></tr>')
-            for lbl, k in (("recently pushed", "fresh"), ("least recent", "stale")):
-                A(f'<tr><td>{lbl}</td><td class="num">{d[k+"_n"]}</td>'
-                  f'<td class="num">{d[k+"_median_days"]}d</td>'
-                  f'<td class="num">{d[k+"_broken_ratio"]:.3f}</td>'
-                  f'<td>{bar(d[k+"_broken_ratio"] * 4)}</td></tr>')
+        if d and d.get("buckets"):
+            A('<h3>Is the defect decay, or present from publication?</h3>')
+            A('<p>The literature attributes artifact failure to dependency '
+              'drift over time, which predicts older artifacts should be worse.</p>')
+            A('<div class="tw"><table><tr><th>Age bucket</th><th>n</th>'
+              '<th>Median age</th><th>Broken-claim ratio</th>'
+              '<th>% with a break</th><th></th></tr>')
+            for b in d["buckets"]:
+                A(f'<tr><td>{esc(b["label"])}</td>'
+                  f'<td class="num">{b["n"]}</td>'
+                  f'<td class="num">{b["median_days"]}d</td>'
+                  f'<td class="num">{b["mean_broken_ratio"]:.3f}</td>'
+                  f'<td class="num">{b["share_with_broken"]:.0%}</td>'
+                  f'<td>{bar(b["mean_broken_ratio"] * 3)}</td></tr>')
             A('</table></div>')
-            verdict = ("supports" if d["supports_decay"] else "does not support")
-            cls = "warn" if d["supports_decay"] else "muted"
-            A(f'<p class="note">Measured result <strong class="{cls}">{verdict}'
-              f'</strong> the hypothesis that older artifacts carry more broken '
-              f'claims.</p>')
+            trend = d.get("trend")
+            if trend == "flat":
+                A('<p class="note"><strong>Flat with age.</strong> Broken path '
+                  'claims are present at publication, not acquired over time. '
+                  'They are not explained by dependency drift &mdash; a reviewer '
+                  'could have caught every one of them on day one. That is what '
+                  'justifies a mechanical check <em>at review time</em>.</p>')
+            elif trend:
+                A(f'<p class="note">Broken-claim ratio is <strong>{esc(trend)}'
+                  f'</strong> with age.</p>')
+            small = [b["label"] for b in d["buckets"] if b["n"] < 15]
+            if small:
+                A(f'<p class="note">Caveat reported with the result: small n in '
+                  f'{esc(", ".join(small))}. Zenodo\'s recency sort skews the '
+                  f'corpus toward new deposits.</p>')
 
     # ---------- defect classes ----------
     A('<h2>Defect classes checked</h2>')
