@@ -25,6 +25,25 @@ from dataclasses import dataclass, asdict
 IGNORE_SUFFIX = (".png", ".jpg", ".jpeg", ".gif", ".svg", ".pdf", ".log", ".out")
 IGNORE_TOKENS = ("http://", "https://", "e.g.", "i.e.", "*.")
 
+# Explicit placeholders. A README that says `path/to/data.csv` is not claiming a
+# file exists - it is telling the reader to substitute their own. Reporting these
+# as defects is how a checker teaches reviewers to ignore it.
+PLACEHOLDER = re.compile(
+    r"(?i)(^|/)(path/to|your[_-]|my[_-]|<[^>]+>|\{[^}]+\}|\$\w+|"
+    r"[A-Z][A-Z0-9_]{2,}_(?:DIR|PATH|ROOT|HOME|FILE)|TMP_DIR|"
+    r"example|foo|bar|baz|xxx|yyy)")
+
+# Directories a tool CREATES when you run it. "Results go in `out/`" is a
+# statement about future output, not a promise that `out/` ships in the repo.
+# Measured: these were 14% of all reported-broken claims - the single largest
+# false-positive class, introduced by the directory-reference feature itself.
+RUNTIME_DIRS = {
+    "out", "output", "outputs", "result", "results", "logs", "log", "tmp",
+    "temp", "build", "dist", "cache", "testdata", "metadata", "corpus",
+    "figures", "figs", "plots", "checkpoints", "ckpt", "runs", "artifacts",
+    "target", "bin", "obj", "venv", "env", "node_modules",
+}
+
 
 def suggest(path: str, file_tree: list[str], limit: int = 3) -> list[str]:
     """Find the most plausible real file for a broken claim.
@@ -77,6 +96,7 @@ class Evidence:
     claims_total: int
     claims_broken: int
     broken_paths: list[str]
+    case_mismatches: list[str]
     suggestions: dict[str, list[str]]
     broken_ratio: float
     has_dependency_manifest: bool
@@ -119,6 +139,11 @@ class Evidence:
                     lines.append(f"  - {p}   (nothing similar in the repository)")
         elif self.claims_total:
             lines.append("Every path the README references was found.")
+        if self.case_mismatches:
+            lines.append(f"CASE MISMATCH: {len(self.case_mismatches)} path(s) "
+                         f"exist under a different case - these work on macOS "
+                         f"and Windows but fail on Linux:")
+            lines += [f"  - {p}" for p in self.case_mismatches[:8]]
         if self.ignored:
             lines.append(f"({self.ignored} author-declared exception pattern(s) "
                          f"applied from .artifact-triage-ignore)")
@@ -149,6 +174,16 @@ def check_claim(path: str, exact: set[str], basenames: set[str],
         return Claim(path, True, "suffix")
     if base in basenames:
         return Claim(path, True, "basename")
+    # Case-only mismatch: the file exists under a different case. On a
+    # case-insensitive filesystem the instruction works; on Linux it does not.
+    # That is a real portability problem but NOT a missing file, and conflating
+    # them makes the report wrong in a way a reviewer will notice immediately.
+    lower_exact = {e.lower() for e in exact}
+    if p.lower() in lower_exact:
+        return Claim(path, True, "case-mismatch")
+    if base.lower() in {b.lower() for b in basenames}:
+        return Claim(path, True, "case-mismatch-basename")
+
     # A claimed *directory* is satisfied by that directory existing.
     if "." not in p.rsplit("/", 1)[-1] and p in dirs:
         return Claim(path, True, "directory")
@@ -195,6 +230,12 @@ def interesting(path: str) -> bool:
         return False
     if low.endswith(IGNORE_SUFFIX):
         return False
+    if PLACEHOLDER.search(path):
+        return False
+    # Only bare directory names are treated as runtime output; `results/x.csv`
+    # is still a concrete claim about a file.
+    if "." not in path.rsplit("/", 1)[-1] and low.split("/")[-1] in RUNTIME_DIRS:
+        return False
     return True
 
 
@@ -210,6 +251,11 @@ def verify(fixture: dict, ignores: list[str] | None = None) -> Evidence:
                if not any(fnmatch.fnmatch(p, g) for g in ignores)]
     claims = [check_claim(p, exact, basenames, dirs) for p in raw]
     broken = [c.path for c in claims if not c.exists]
+    # Exists, but under a different case. Works on macOS/Windows, fails on
+    # Linux - a real portability defect, reported separately so it is never
+    # confused with a missing file.
+    case_bad = [c.path for c in claims
+                if c.exists and (c.matched_as or "").startswith("case-mismatch")]
     sig = fixture.get("signals", {})
     # Only compute suggestions for the paths we will actually show.
     hints = {p: suggest(p, tree) for p in broken[:15]}
@@ -219,6 +265,7 @@ def verify(fixture: dict, ignores: list[str] | None = None) -> Evidence:
         claims_total=len(claims),
         claims_broken=len(broken),
         broken_paths=broken,
+        case_mismatches=case_bad,
         suggestions=hints,
         broken_ratio=round(len(broken) / len(claims), 3) if claims else 0.0,
         has_dependency_manifest=bool(sig.get("dependency_manifest")),

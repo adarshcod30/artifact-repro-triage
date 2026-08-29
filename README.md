@@ -25,8 +25,8 @@ verified on a machine that is not mine.
 |---|---|
 | **Detecting a falsified README** | baseline **0%** → solution **93%** (3 trials, 80–100%) |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
-| **Prevalence in the wild** | **63.8%** of 732 research artifacts carry a broken README claim |
-| | **1,459 of 6,687** documented file references (21.8%) resolve to nothing |
+| **Prevalence in the wild** | **62.5%** of 732 research artifacts carry a broken README claim |
+| | **1,394 of 6,510** documented file references (21.4%) resolve to nothing |
 | **Is it decay?** | **No.** Flat across four years — artifacts *ship* broken |
 | **Model spend, entire project** | **$2.88** of a $5 ceiling — five of six checks need no model at all |
 
@@ -287,9 +287,9 @@ stratified across publication years 2018–2026; 732 profiled successfully.
 
 | | |
 |---|---|
-| Artifacts with **≥1 broken README claim** | **401 / 629 (63.8%)** |
-| Claims checked | 6,687 |
-| Claims that resolve to nothing | **1,459 (21.8%)** |
+| Artifacts with **≥1 broken README claim** | **391 / 626 (62.5%)** |
+| Claims checked | 6,510 |
+| Claims that resolve to nothing | **1,394 (21.4%)** |
 | Median broken-claim ratio | 0.143 |
 
 Reproducibility infrastructure across the same 732:
@@ -312,12 +312,12 @@ They do not.
 
 | Age bucket | n | Median age | Broken-claim ratio | % with a break |
 |---|---|---|---|---|
-| under 3 months | 328 | 2d | 0.256 | 66% |
-| 3–12 months | 84 | 199d | 0.232 | 61% |
-| 1–2 years | 44 | 624d | 0.310 | 68% |
-| **over 2 years** | **173** | **1,423d** | **0.251** | 59% |
+| under 3 months | 324 | 2d | 0.257 | 65% |
+| 3-12 months | 85 | 198d | 0.232 | 60% |
+| 1-2 years | 44 | 624d | 0.305 | 68% |
+| **over 2 years** | **173** | **1,423d** | **0.234** | 57% |
 
-**Flat** — delta −0.005 across four years. The oldest bucket holds 173 artifacts
+**Flat** — delta -0.022 across four years. The oldest bucket holds 173 artifacts
 averaging nearly four years since their last push, so this is a measured null,
 not an absence of data. (An earlier version of this table had n=8 in its oldest
 bucket and was correctly reported as underpowered; the corpus was re-harvested

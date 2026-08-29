@@ -635,6 +635,40 @@ def test_fingerprint_changes_when_influencing_code_changes():
 
 
 # --------------------------------------------------------------------------
+# PRECISION AUDIT. Hand-checking reported findings against real repositories
+# showed precision was 78%, not the ~100% the negative control implied - the
+# control only ever tested claims we injected, which are perfect by
+# construction. Three false-positive classes were responsible.
+# --------------------------------------------------------------------------
+def test_placeholder_paths_are_not_claims():
+    from artifact_triage.solution.verify import interesting
+    for tok in ("path/to/data.csv", "TMP_DIR/funcid.csv", "YOUR_PATH/x.py",
+                "<name>/config.yaml", "$HOME/run.sh", "example/foo.py"):
+        assert not interesting(tok), f"{tok} is a placeholder, not a claim"
+
+
+def test_runtime_output_dirs_are_not_claims():
+    from artifact_triage.solution.verify import interesting
+    for tok in ("out", "logs", "results", "build", "testdata", "node_modules"):
+        assert not interesting(tok), f"{tok} is created by running the tool"
+
+
+def test_a_file_inside_an_output_dir_is_still_a_claim():
+    from artifact_triage.solution.verify import interesting
+    assert interesting("results/table3.csv"), \
+        "only BARE directory names are runtime output; concrete files are claims"
+
+
+def test_case_mismatch_is_reported_separately_from_missing():
+    fx = _fx(["README.md"], ["README.MD"])
+    ev = verify(fx)
+    assert ev.claims_broken == 0, "the file exists - it is not missing"
+    assert ev.case_mismatches == ["README.MD"], \
+        "but it fails on Linux, so it must still be reported"
+    assert "CASE MISMATCH" in ev.as_prompt_block()
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

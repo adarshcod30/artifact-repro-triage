@@ -1,8 +1,8 @@
 {
  "_provenance": {
   "kind": "negative_control",
-  "commit": "b150c37",
-  "code_fingerprint": "88001400381a"
+  "commit": "88c7473",
+  "code_fingerprint": "dda75109f074"
  },
  "injected": 75,
  "detected": 75,
@@ -46,8 +46,8 @@
     "configs/default.yaml"
    ],
    "false_positives": [],
-   "broken_before": 1,
-   "broken_after": 6
+   "broken_before": 0,
+   "broken_after": 5
   },
   {
    "artifact_id": "NWU-NISL-Fuzzing/upbeat",
@@ -106,8 +106,8 @@
     "bin/reproduce_table3.sh"
    ],
    "false_positives": [],
-   "broken_before": 6,
-   "broken_after": 11
+   "broken_before": 5,
+   "broken_after": 10
   },
   {
    "artifact_id": "asub0/fonnx",
@@ -166,8 +166,8 @@
     "experiments/rq2_analysis.py"
    ],
    "false_positives": [],
-   "broken_before": 3,
-   "broken_after": 8
+   "broken_before": 0,
+   "broken_after": 5
   },
   {
    "artifact_id": "jovyntls/inconsistencies-in-tex",
@@ -186,8 +186,8 @@
     "src/train_model.py"
    ],
    "false_positives": [],
-   "broken_before": 2,
-   "broken_after": 7
+   "broken_before": 0,
+   "broken_after": 5
   },
   {
    "artifact_id": "logpai/loghub-2.0",
@@ -206,8 +206,8 @@
     "setup/install_deps.sh"
    ],
    "false_positives": [],
-   "broken_before": 2,
-   "broken_after": 7
+   "broken_before": 0,
+   "broken_after": 5
   },
   {
    "artifact_id": "lrtsuser/LRTS",
@@ -226,8 +226,8 @@
     "configs/experiment_grid.json"
    ],
    "false_positives": [],
-   "broken_before": 8,
-   "broken_after": 13
+   "broken_before": 6,
+   "broken_after": 11
   },
   {
    "artifact_id": "nhuhuan/sba",
@@ -266,8 +266,8 @@
     "src/train_model.py"
    ],
    "false_positives": [],
-   "broken_before": 5,
-   "broken_after": 10
+   "broken_before": 4,
+   "broken_after": 9
   },
   {
    "artifact_id": "trustdnn/issta2024",

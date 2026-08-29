@@ -121,6 +121,9 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
         problems.append("no dependency manifest")
     if port is not None and port.n:
         problems.append(f"{port.n} hard-coded machine-specific value(s)")
+    if getattr(ev, "case_mismatches", None):
+        problems.append(f"{len(ev.case_mismatches)} path(s) with a case "
+                        f"mismatch (fail on Linux)")
     if docker is not None and docker.unpinned:
         problems.append(f"unpinned container base image "
                         f"({', '.join(docker.unpinned[:2])})")

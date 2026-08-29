@@ -139,6 +139,14 @@ with evidence rather than assertion.
 | Iteration 60 | Found the staleness detector had a blind spot. | Changing the extractor correctly invalidated `baseline` and `solution` but left `falsified_run` reporting *current*, because `fetch.py` was missing from its fingerprint. | Tracked everywhere, with a test asserting every result kind fingerprints the extractor. **A staleness detector with a blind spot is worse than none: it certifies the thing it cannot see.** |
 | Iteration 61 | `prevalence.py` printed 63.8% while `check_claims.py` printed 63.7%. | Two code paths formatting one number - the first from the raw ratio, the second after rounding to 4dp and storing. I had already "corrected" the README in the wrong direction because of it. | The producer now writes a `display` block and the checker reads it. Same string by construction rather than three independent roundings agreeing. |
 
+## Precision audit - the weakness the negative control could not see
+
+| Stage | What I tried and why | Evidence | Decision / Learning |
+|---|---|---|---|
+| Iteration 62 | Hand-audited a random sample of reported-broken claims against the real repositories. Until now nothing had checked whether real-corpus findings were *correct* - only that injected ones were caught. | **Precision was 78%, not the ~100% the negative control implied.** 22% of findings were noise across three classes: runtime output directories (14%), case-only mismatches (4%), explicit placeholders (4%). | **The negative control could never have found this.** It tests claims *we* injected, which are perfect by construction. A control validates the mechanism; only auditing real output validates the result. |
+| Iteration 63 | Fixed all three classes. | `path/to/x.csv` and `TMP_DIR/y` are placeholders, not promises. `out/`, `logs/`, `results/` are directories a tool *creates*, not files it ships - and that class was introduced by my own directory-reference feature two iterations earlier. Precision **78% -> 100%** on the labelled corpus. | Verified the filters do not over-correct: all 10 suppressed claims were hand-checked and none was a real defect. A filter that hides findings is worse than the false positives it removes. |
+| Iteration 64 | Case-only mismatches needed care: `README.MD` when the file is `README.md`. | It works on macOS and Windows and **fails on Linux**. Calling it "missing" is wrong; dropping it silently loses a real portability defect. | Reported as its own finding type. Prevalence moved 63.8% -> 62.5% and claims 6,687 -> 6,510 as the noise came out; the decay null survived unchanged. |
+
 ## Experiments removed
 
 - **Shallow cloning** (Iteration 9). Filled the disk to 100% on a 15-artifact corpus. Taught me that repo *size at HEAD* and *clone size* differ by more than an order of magnitude, and that the fact I needed (path existence) never justified transferring bytes at all.
