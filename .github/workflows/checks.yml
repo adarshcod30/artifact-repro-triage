@@ -1,0 +1,39 @@
+# Every check here is credential-free and costs nothing, which is the whole
+# point: the project's core claims are verifiable by anyone, on any machine,
+# without an API key.
+name: checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install certifi
+
+      - name: Regression tests
+        run: python tests/test_regressions.py
+
+      - name: Deterministic verifier (must be byte-identical everywhere)
+        run: PYTHONPATH=src python -m artifact_triage.solution.verify
+
+      - name: Negative control (must be 75/75 with 0 false positives)
+        run: |
+          PYTHONPATH=src python -m artifact_triage.eval.negative_control \
+            | tee /tmp/nc.txt
+          grep -q "75   (100.0%)" /tmp/nc.txt || {
+            echo "negative control regressed"; exit 1; }
+          grep -q "false positives        : 0" /tmp/nc.txt || {
+            echo "false positives appeared"; exit 1; }

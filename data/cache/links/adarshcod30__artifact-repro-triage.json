@@ -1,0 +1,32 @@
+{
+ "artifact_id": "adarshcod30/artifact-repro-triage",
+ "urls_found": 3,
+ "urls_checked": 3,
+ "urls_unverifiable": 0,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://arxiv.org/html/2512.00651v1",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://web.cs.ucdavis.edu/~rubio/includes/icse23.pdf",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://arxiv.org/pdf/2404.06852",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}
