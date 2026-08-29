@@ -129,10 +129,10 @@ However, the deviation should be trivial, and the results should still support t
   "reasons": [
     "The artifact is documented with clear instructions on how to set up and run the experiments.",
     "The artifact includes scripts and tools necessary to reproduce the results.",
-    "Precomputed results are provided to facilitate evaluation, acknowledging the time-consuming and LLM-dependent nature of the experiments.",
-    "The README provides detailed information on how to run different reducers and analyze the results.",
+    "The README provides detailed information on how to use the artifact, including how to handle the non-deterministic nature of LLMs.",
+    "Precomputed results are provided to facilitate evaluation, although rerunning the experiments is possible.",
     "The artifact includes benchmark suites and previous results to support the claims made in the paper.",
-    "The setup requires specific environment (Linux with Docker) and access to LLMs, which may limit reproducibility but is clearly documented."
+    "The setup requires specific environment (docker) and access to LLMs, which might pose challenges for some users."
   ],
   "escalated_to_human": false
 }
@@ -140,37 +140,39 @@ However, the deviation should be trivial, and the results should still support t
 
 ## Step 3 — SOLUTION agent
 
-**Prompt** (13,909 chars; README truncated here for readability):
+**Prompt** (13,856 chars; README truncated here for readability):
 
 ```
 Artifact repository: zhangxiaosa/LPR
 Paper: LPR: Large Language Models-Aided Program Reduction
 
-VERIFIED REPOSITORY FACTS (checked against the actual file tree):
-- files in repository: 31020
-- README size: 12082 bytes
-- dependency manifest present: False
-- container definition present: False
-- CI configuration present: False
-- build/install script present: False
-- test files present: False
-- licence present: False
+VERIFIED FACTS. Each line was established by running code against the repository, not by reading its documentation. Where these contradict the README, they are what actually holds.
 
-README PATH CLAIMS: 17 checked, 15 could NOT be found in the repository.
-Paths the README references that do not exist:
-  - perses_deploy.jar   (nothing similar in the repository)
-  - script/summarize_perses_or_vulcan.py   (nothing similar in the repository)
-  - scripts/analyze_and_draw.sh   (nothing similar in the repository)
-  - scripts/keep_running.sh   (nothing similar in the repository)
-  - scripts/run_creduce.py   (nothing similar in the repository)
-  - scripts/run_lpr.py   (nothing similar in the repository)
-  - scripts/run_perses.py   (nothing similar in the repository)
-  - scripts/run_vulcan.py   (nothing similar in the repository)
-  - scripts/summarize_lpr.py   (nothing similar in the repository)
-  - summarize_creduce.py   (nothing similar in the repository)
-  - summarize_perses_or_vulcan.py   (nothing similar in the repository)
-  - summarize_xxx.py   (nothing similar in the repository)
-  - tmp/LPR/tools/token_counter_deploy.jar   (nothing similar in the re
+== Documentation consistency ==
+Files in repository: 31020
+README size: 12082 bytes
+README references 17 file path(s); 15 do NOT exist in the repository.
+  - MISSING: perses_deploy.jar   (nothing similar exists)
+  - MISSING: script/summarize_perses_or_vulcan.py   (nothing similar exists)
+  - MISSING: scripts/analyze_and_draw.sh   (nothing similar exists)
+  - MISSING: scripts/keep_running.sh   (nothing similar exists)
+  - MISSING: scripts/run_creduce.py   (nothing similar exists)
+  - MISSING: scripts/run_lpr.py   (nothing similar exists)
+  - MISSING: scripts/run_perses.py   (nothing similar exists)
+  - MISSING: scripts/run_vulcan.py   (nothing similar exists)
+  - MISSING: scripts/summarize_lpr.py   (nothing similar exists)
+  - MISSING: summarize_creduce.py   (nothing similar exists)
+  - MISSING: summarize_perses_or_vulcan.py   (nothing similar exists)
+  - MISSING: summarize_xxx.py   (nothing similar exists)
+
+== Environment reproducibility ==
+Dependencies: no dependency manifest found
+Container: no Dockerfile present.
+CI configuration present: False
+Tests present: False
+Licence present: False
+
+== Portabilit
 … README continues …
 ```
 
@@ -179,18 +181,20 @@ Paths the README references that do not exist:
 ```json
 {
   "tier": "Available",
-  "confidence": 0.9,
+  "confidence": 0.85,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "Many files and scripts referenced in the README do not exist in the repository.",
-    "There is no dependency manifest, container definition, CI configuration, build/install script, test files, or license present.",
-    "The lack of essential files and scripts makes it impossible to evaluate the functionality or reusability of the artifact.",
-    "The README provides detailed instructions, but the actual files and scripts are missing, making the artifact incomplete.",
-    "The absence of critical components prevents a higher tier assignment."
+    "The README references many file paths that do not exist in the repository, indicating inconsistency.",
+    "There are no dependency manifests, Dockerfile, CI configuration, or tests present.",
+    "The documentation is extensive but contains inaccuracies and missing files, which hinders functional evaluation.",
+    "The environment setup and execution instructions are provided, but the missing files and lack of tests make functional evaluation uncertain."
   ],
-  "escalated_to_human": false
+  "escalated_to_human": true
 }
 ```
+
+> **Human checkpoint.** Confidence fell below the escalation threshold, so this artifact is routed to a qualified reviewer rather than recorded as a guess.
+
 
 ## Step 4 — Outcome
 

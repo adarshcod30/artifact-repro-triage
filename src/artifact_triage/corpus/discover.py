@@ -125,7 +125,61 @@ def harvest(pages: int = 6) -> list[Discovered]:
     return found
 
 
+def harvest_stratified(years=range(2018, 2027), per_year_pages: int = 3,
+                       seen_repo: set | None = None) -> list[Discovered]:
+    """Sample evenly across publication years.
+
+    The default harvest uses Zenodo's `mostrecent` sort, which returned a corpus
+    spanning about a month at the median - enough to measure prevalence, but far
+    too narrow to test whether broken claims accumulate with age. Querying each
+    year separately gives the temporal spread that test needs, and removes the
+    recency skew that the datasheet had to declare as a limitation.
+    """
+    seen_repo = seen_repo if seen_repo is not None else set()
+    found: list[Discovered] = []
+    base_queries = ['artifact', '"replication package"', '"reproduction package"']
+    for year in years:
+        before = len(found)
+        for bq in base_queries:
+            q = f'{bq} AND publication_date:[{year}-01-01 TO {year}-12-31]'
+            for page in range(1, per_year_pages + 1):
+                for hit in search(q, page):
+                    repos = github_repos(hit)
+                    if not repos:
+                        continue
+                    slug = repos[0]
+                    if slug.lower() in seen_repo:
+                        continue
+                    seen_repo.add(slug.lower())
+                    m = hit.get("metadata", {})
+                    found.append(Discovered(
+                        zenodo_id=hit.get("id"), doi=hit.get("doi"),
+                        title=(m.get("title") or "")[:180],
+                        publication_date=m.get("publication_date"),
+                        repo=slug, query=f"year:{year}"))
+        print(f"  {year}  +{len(found) - before:<4} (total {len(found)})")
+    return found
+
+
 if __name__ == "__main__":
+    import sys
+    if "--stratified" in sys.argv:
+        existing = set()
+        prior: list[Discovered] = []
+        if OUT.exists():
+            for line in OUT.read_text().splitlines():
+                if not line.strip():
+                    continue
+                d = json.loads(line)
+                prior.append(Discovered(**d))
+                existing.add(d["repo"].lower())
+        print(f"existing corpus: {len(prior)} repos")
+        extra = harvest_stratified(seen_repo=existing)
+        items = prior + extra
+        OUT.write_text("".join(json.dumps(asdict(d)) + "\n" for d in items))
+        print(f"\nadded {len(extra)}; corpus now {len(items)} repositories")
+        raise SystemExit(0)
+
     items = harvest()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("".join(json.dumps(asdict(d)) + "\n" for d in items))

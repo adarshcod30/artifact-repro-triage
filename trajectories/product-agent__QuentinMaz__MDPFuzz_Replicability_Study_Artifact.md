@@ -99,10 +99,10 @@ The studies consist in executing testing methods for Reinforcement Learning mode
   "reasons": [
     "The artifact is placed in a public archival repository.",
     "The README provides detailed instructions on how to set up and run the experiments.",
-    "There is a demonstration provided that shows how to run a small-scale experiment.",
-    "The artifact includes documentation for each case study and use case.",
-    "The artifact is designed to be exercisable, with provided Docker images and virtual environments.",
-    "The README mentions the inclusion of step-by-step instructions and a demonstration, indicating efforts towards verification and validation."
+    "A Docker image is provided to simplify the setup process.",
+    "Step-by-step instructions are given for both reproduction and replication studies.",
+    "A demonstration is included to show the functionality of the artifact.",
+    "The artifact includes evidence of verification and validation through the provided demonstration and results."
   ],
   "escalated_to_human": false
 }
@@ -110,25 +110,32 @@ The studies consist in executing testing methods for Reinforcement Learning mode
 
 ## Step 3 — SOLUTION agent
 
-**Prompt** (9,488 chars; README truncated here for readability):
+**Prompt** (9,808 chars; README truncated here for readability):
 
 ```
 Artifact repository: QuentinMaz/MDPFuzz_Replicability_Study_Artifact
 Paper: Policy Testing with MDPFuzz (Replicability Study)
 
-VERIFIED REPOSITORY FACTS (checked against the actual file tree):
-- files in repository: 1129
-- README size: 8638 bytes
-- dependency manifest present: True
-- container definition present: True
-- CI configuration present: False
-- build/install script present: False
-- test files present: False
-- licence present: True
+VERIFIED FACTS. Each line was established by running code against the repository, not by reading its documentation. Where these contradict the README, they are what actually holds.
 
-README PATH CLAIMS: 2 checked, 0 could NOT be found in the repository.
-Every path the README references was found.
-The README references no checkable file paths.
+== Documentation consistency ==
+Files in repository: 1129
+README size: 8638 bytes
+README references 2 file path(s); 0 do NOT exist in the repository.
+  All referenced paths were found.
+
+== Environment reproducibility ==
+Dependencies: replication/cart/requirements.txt: 23/23 pinned, 0 bounded, 0 floating (100% pinned)
+Container: Dockerfile: 1 of 1 base image(s) unpinned (continuumio/miniconda3)
+CI configuration present: False
+Tests present: False
+Licence present: True
+
+== Portability ==
+No machine-specific values found across 12 inspected file(s).
+
+== External links ==
+7 URL(s) checked, 0 dead (2 unverifiable).
 
 README (verbatim):
 ---
@@ -136,9 +143,7 @@ README (verbatim):
 
 This repository is the artifact of the paper *Policy Testing with MDPFuzz (Replicability Study)*.
 Its content consists of a <ins>reproduction</ins> study and a <ins>replication</ins> study of the paper [MDPFuzz: testing models solving Markov decision processes](https://dl.acm.org/doi/abs/10.1145/3533767.3534388).
-<!-- To that regard, the submission was already supported by two distinct code basis of the studies. -->
-This present artifact's structure reflects this, as it is composed of two main folders, namely: `reproduction/` and `replication/`.
-The very own nature of the work makes that it involves a tremendous amount of computations; yet we design the code such that the results should be similar
+<!-- To that regard, the submission was already supported by two distin
 … README continues …
 ```
 
@@ -149,12 +154,12 @@ The very own nature of the work makes that it involves a tremendous amount of co
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is placed in a public repository and includes a detailed README with step-by-step instructions.",
-    "A Docker image is provided, simplifying the setup process and ensuring consistency across different environments.",
-    "The README provides clear instructions on how to run the experiments, both inside and outside the Docker container.",
-    "A demonstration is included to show the functionality of the artifact, though it is small-scale due to the computational requirements.",
-    "The artifact includes a dependency manifest and a license, contributing to its usability and legal clarity.",
-    "The absence of CI configuration, build/install scripts, and test files slightly reduces confidence in the tier, but the provided Docker image and detailed instructions mitigate this."
+    "The artifact is placed in a public archival repository.",
+    "The README provides detailed instructions on how to set up and run the experiments.",
+    "All referenced paths in the README exist in the repository.",
+    "Dependencies are mostly pinned, though the base Docker image is unpinned.",
+    "The artifact includes a demonstration that can be followed to verify functionality.",
+    "The README provides step-by-step instructions for both reproduction and replication studies."
   ],
   "escalated_to_human": false
 }
