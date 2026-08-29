@@ -44,7 +44,7 @@ an artifact badged **Reusable**.
 > none of the claims have been checked."
 
 **On screen:** `make baseline` running. Point out that it answers `Functional`
-for 14 of 15 artifacts.
+for 13 of 15 artifacts.
 
 ---
 
@@ -74,13 +74,14 @@ through Steps 0 → 4.
 
 > "Here's where the project changed shape.
 >
-> I started by scoring both systems against real ACM badges. The baseline got MAE
-> 0.733. The solution got 1.000 — *worse*.
+> I started by scoring both systems against real ACM badges. Baseline MAE 0.800.
+> Solution 0.800. No separation at all.
 >
 > Before touching anything I added a control: a constant predictor that always
 > answers 'Functional', with no model and no input. It scored 0.667. **It beat
-> both systems.** The baseline only looked good because it collapsed onto the
-> middle class, which MAE rewards.
+> both systems.** It wins by collapsing onto the middle class, which MAE rewards
+> — and the baseline does nearly the same thing, answering 'Functional' 13 times
+> out of 15.
 >
 > The cause is a ground-truth mismatch. The committee badged the curated Zenodo
 > deposit; I'm analysing the living GitHub mirror, where README drift is normal.

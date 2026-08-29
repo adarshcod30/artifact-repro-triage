@@ -1,8 +1,8 @@
 {
- "total_usd": 3.2321,
+ "total_usd": 3.7974,
  "budget_usd": 5.0,
- "remaining_usd": 1.7679,
- "total_calls": 871,
+ "remaining_usd": 1.2026,
+ "total_calls": 1111,
  "thresholds_crossed": [
   1.0,
   2.0,
@@ -17,9 +17,9 @@
   },
   {
    "source": "call",
-   "usd": 0.842144,
-   "calls": 391,
-   "note": "391 run(s)"
+   "usd": 1.407389,
+   "calls": 631,
+   "note": "631 run(s)"
   },
   {
    "source": "falsified",

@@ -23,9 +23,9 @@ verified on a machine that is not mine.
 
 | | |
 |---|---|
-| **Detecting a falsified README** | baseline **0%** → solution **93%** (3 trials, 80–100%) |
+| **Detecting a falsified README** | baseline **0%** → solution **96%** (3 trials, 89–100%) |
 | **Causally isolated** | placebo evidence collapses solution detection to **0%** |
-| **Floor-free metric** | baseline cites the fabrication **0/60**; solution **59/60** |
+| **Floor-free metric** | baseline cites the fabrication **0/60**; solution **60/60** |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
 | **Prevalence in the wild** | **62.5%** of 732 research artifacts carry a broken README claim |
 | | **1,394 of 6,510** documented file references (21.4%) resolve to nothing |
@@ -250,7 +250,7 @@ Same model, same rubric, same input pair. Only the evidence differs.
 
 | Metric | Baseline | Solution |
 |---|---|---|
-| Noticed the falsified README | **0%** | **93%** |
+| Noticed the falsified README | **0%** | **96%** |
 | Range over 3 trials | 0% – 0% | 80% – 100% |
 | Per-trial | `[0.0, 0.0, 0.0]` | `[0.8, 1.0, 1.0]` |
 | Deterministic verifier | — | **75/75 claims (100%), 0 false positives** |
@@ -281,13 +281,20 @@ the named exclusions are in `results/falsified_run.json`.
 Model: `us.amazon.nova-pro-v1:0` on AWS Bedrock. Total cost of the reported
 experiment: **$0.42**.
 
-> An earlier run of this experiment reported 100% with no variance. It is 93%
-> here because the path extractor changed in between — directory references were
-> added, so the falsified twins carry more claims and the task is not identical.
-> The provenance check flagged the old numbers as stale and they were
-> re-measured rather than carried forward. **The reported figure went down as a
-> result, which is the point:** a number that survives only because nobody
-> re-ran it is not a result. Cumulative project spend: **$3.23** of $5.
+> **This number has been re-measured twice, and moved both ways.** It was first
+> 100% with no variance; re-running after the path extractor changed put it at
+> 93%; re-running after a precision fix to the verifier put it at 96%. Both
+> re-runs happened because the provenance checker refused to certify results
+> produced by code that had since changed.
+>
+> The second re-run is the more instructive one. The precision fix *removed*
+> false-positive broken paths, which makes the evidence block **weaker** — so
+> the published 93% had been measured against evidence that flattered it. The
+> bias ran in the direction of the claim, which is exactly when re-running stops
+> being optional. It happened to come out higher. It did not have to.
+>
+> A number that survives only because nobody re-ran it is not a result.
+> Cumulative project spend: **$3.80** of $5.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -314,7 +321,7 @@ resolves.
 
 | Condition | Detection |
 |---|---|
-| Falsified README + real evidence | **93%** |
+| Falsified README + real evidence | **96%** |
 | Falsified README + placebo evidence | **0/11 (0%)** |
 
 Identical model, rubric, README and block structure. Only the evidence *content*
@@ -332,7 +339,7 @@ family, Llama 3.3 70B:
 | | Nova Pro | Llama 3.3 70B |
 |---|---|---|
 | Baseline detection | **0%** | **0%** |
-| Solution detection | **93%** | **100%** |
+| Solution detection | **96%** | **100%** |
 | Deterministic verifier | 100% | 100% |
 
 The improvement transfers, and the baseline's blindness is structural on both —
@@ -392,12 +399,12 @@ work, and the write-up keeps it visible rather than quietly dropping it.
 | System | MAE (badge tiers, lower better) |
 |---|---|
 | Constant predictor, always `"Functional"` | **0.667** |
-| Baseline | 0.733 |
-| Solution | 1.000 |
+| Baseline | 0.800 |
+| Solution | 0.800 |
 
-**A zero-skill constant beats both systems.** The baseline only appeared better
-because it collapsed onto the middle class (14 of 15 predictions), which MAE
-rewards on a 3-class ordinal problem.
+**A zero-skill constant beats both systems.** It wins by collapsing onto the
+middle class, which MAE rewards on a 3-class ordinal problem — and the baseline
+does nearly the same thing, predicting `Functional` for 13 of 15 artifacts.
 
 The cause is a ground-truth mismatch: the committee badged the curated **Zenodo
 deposit**, while we analyse the living **GitHub mirror**, where README drift is

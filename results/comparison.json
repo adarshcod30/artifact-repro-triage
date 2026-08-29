@@ -5,8 +5,8 @@
   "n_scored": 15,
   "n_escalated": 0,
   "n_failed": 0,
-  "mae": 0.733,
-  "exact_accuracy": 0.333,
+  "mae": 0.8,
+  "exact_accuracy": 0.267,
   "adjacent_accuracy": 0.933,
   "overclaim_rate": 0.267,
   "escalation_rate": 0.0,
@@ -38,7 +38,7 @@
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
     "truth": "Functional",
     "predicted": "Functional",
-    "confidence": 0.8,
+    "confidence": 0.7,
     "escalated": false,
     "rank_error": 0,
     "outcome": "correct"
@@ -64,11 +64,11 @@
    {
     "artifact_id": "asub0/fonnx",
     "truth": "Functional",
-    "predicted": "Functional",
-    "confidence": 0.7,
+    "predicted": "Available",
+    "confidence": 0.8,
     "escalated": false,
-    "rank_error": 0,
-    "outcome": "correct"
+    "rank_error": -1,
+    "outcome": "underclaim"
    },
    {
     "artifact_id": "dserfe/FlakyDoctor",
@@ -83,7 +83,7 @@
     "artifact_id": "emocat/VioHawk",
     "truth": "Functional",
     "predicted": "Functional",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": 0,
     "outcome": "correct"
@@ -156,16 +156,16 @@
  "solution": {
   "system": "solution",
   "n": 15,
-  "n_scored": 15,
-  "n_escalated": 0,
+  "n_scored": 10,
+  "n_escalated": 5,
   "n_failed": 0,
-  "mae": 1.0,
+  "mae": 0.8,
   "exact_accuracy": 0.2,
-  "adjacent_accuracy": 0.8,
-  "overclaim_rate": 0.267,
-  "escalation_rate": 0.0,
-  "human_minutes": 120.0,
-  "human_minutes_saved": 555.0,
+  "adjacent_accuracy": 1.0,
+  "overclaim_rate": 0.4,
+  "escalation_rate": 0.333,
+  "human_minutes": 305.0,
+  "human_minutes_saved": 370.0,
   "input_tokens": 0,
   "output_tokens": 0,
   "usd": 0.0,
@@ -174,10 +174,9 @@
     "artifact_id": "DueForce/DueForce",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.8,
-    "escalated": false,
-    "rank_error": -2,
-    "outcome": "underclaim"
+    "confidence": 0.7,
+    "escalated": true,
+    "outcome": "escalated"
    },
    {
     "artifact_id": "HexHive/FishFuzz",
@@ -191,11 +190,11 @@
    {
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
     "truth": "Functional",
-    "predicted": "Functional",
-    "confidence": 0.7,
+    "predicted": "Available",
+    "confidence": 0.8,
     "escalated": false,
-    "rank_error": 0,
-    "outcome": "correct"
+    "rank_error": -1,
+    "outcome": "underclaim"
    },
    {
     "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
@@ -220,18 +219,16 @@
     "truth": "Functional",
     "predicted": "Available",
     "confidence": 0.8,
-    "escalated": false,
-    "rank_error": -1,
-    "outcome": "underclaim"
+    "escalated": true,
+    "outcome": "escalated"
    },
    {
     "artifact_id": "dserfe/FlakyDoctor",
     "truth": "Functional",
     "predicted": "Available",
     "confidence": 0.8,
-    "escalated": false,
-    "rank_error": -1,
-    "outcome": "underclaim"
+    "escalated": true,
+    "outcome": "escalated"
    },
    {
     "artifact_id": "emocat/VioHawk",
@@ -255,7 +252,7 @@
     "artifact_id": "logpai/loghub-2.0",
     "truth": "Reusable",
     "predicted": "Functional",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": -1,
     "outcome": "underclaim"
@@ -272,19 +269,18 @@
    {
     "artifact_id": "nhuhuan/sba",
     "truth": "Reusable",
-    "predicted": "Functional",
+    "predicted": "Available",
     "confidence": 0.7,
-    "escalated": false,
-    "rank_error": -1,
-    "outcome": "underclaim"
+    "escalated": true,
+    "outcome": "escalated"
    },
    {
     "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
     "truth": "Reusable",
-    "predicted": "Available",
+    "predicted": "Functional",
     "confidence": 0.7,
     "escalated": false,
-    "rank_error": -2,
+    "rank_error": -1,
     "outcome": "underclaim"
    },
    {
@@ -300,10 +296,9 @@
     "artifact_id": "zhangxiaosa/LPR",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.9,
-    "escalated": false,
-    "rank_error": -2,
-    "outcome": "underclaim"
+    "confidence": 0.85,
+    "escalated": true,
+    "outcome": "escalated"
    }
   ]
  },

@@ -1,8 +1,8 @@
 {
  "_provenance": {
   "kind": "falsified",
-  "commit": "40b448c",
-  "code_fingerprint": "e984975bf4c1"
+  "commit": "e4d0e70",
+  "code_fingerprint": "3633ac250b79"
  },
  "model": "us.amazon.nova-pro-v1:0",
  "provider": "bedrock",
@@ -13,7 +13,7 @@
   0.0
  ],
  "solution_rates": [
-  0.8,
+  0.8889,
   1.0,
   1.0
  ],
@@ -22,7 +22,7 @@
   1.0,
   1.0
  ],
- "total_usd": 0.4243,
+ "total_usd": 0.4241,
  "per_trial": [
   {
    "provider": "bedrock",
@@ -32,27 +32,26 @@
    "verifier_detected": 75,
    "verifier_detection_rate": 1.0,
    "baseline_noticed": 0,
-   "solution_noticed": 4,
-   "baseline_eligible": 14,
+   "solution_noticed": 8,
+   "baseline_mentions_absence": 0,
+   "solution_mentions_absence": 15,
+   "baseline_eligible": 13,
    "baseline_downgraded_eligible": 0,
    "baseline_at_floor": [
-    "DueForce/DueForce"
+    "DueForce/DueForce",
+    "asub0/fonnx"
    ],
-   "solution_eligible": 5,
-   "solution_downgraded_eligible": 4,
+   "solution_eligible": 9,
+   "solution_downgraded_eligible": 8,
    "solution_at_floor": [
     "DueForce/DueForce",
     "NWU-NISL-Fuzzing/upbeat",
-    "THU-WingTecher/DeepConstr",
     "asub0/fonnx",
     "dserfe/FlakyDoctor",
-    "emocat/VioHawk",
-    "jovyntls/inconsistencies-in-tex",
-    "lrtsuser/LRTS",
     "nhuhuan/sba",
     "zhangxiaosa/LPR"
    ],
-   "usd": 0.1414,
+   "usd": 0.1413,
    "per_artifact": [
     {
      "artifact_id": "DueForce/DueForce",
@@ -72,6 +71,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Available",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -83,27 +83,26 @@
         "The README provides clear instructions for setting up the environment and running the full pipeline, indicating it is exercisable.",
         "References to a paper for technical details suggest some level of documentation.",
         "The presence of scripts for individual stages (e.g., `src/baseline_runner.py`) indicates completeness.",
-        "The requirement to refer to the paper for technical details may limit the self-contained nature of the documentation.",
-        "There is no explicit mention of verification and validation evidence in the README."
-       ],
-       "mentions_absence": false
+        "The requirement to refer to the paper for technical details may limit the standalone understandability and reusability of the artifact.",
+        "No explicit evidence of verification and validation is provided in the README, though it is implied by the reference to the paper."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.9,
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
         "The README references several files that do not exist in the repository, indicating inconsistency.",
-        "No dependency manifest or Dockerfile is present, making it difficult to ensure environment reproducibility.",
+        "No dependency manifest or Dockerfile is present, making environment reproducibility uncertain.",
         "The documentation is minimal and appears to be out of date with the actual repository contents.",
-        "The presence of CI configuration and tests suggests some level of verification, but this is not enough to classify it as Functional or Reusable.",
-        "The significant discrepancies between the README and the actual repository contents lower confidence in higher tiers."
-       ],
-       "mentions_absence": true
+        "The presence of CI configuration and tests suggests some level of verification, but this is not sufficient for higher tiers given the documentation issues.",
+        "The artifact lacks the necessary files and clear documentation to be considered Functional or Reusable."
+       ]
       }
      }
     },
@@ -125,6 +124,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -133,15 +133,15 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README provides detailed documentation on how to build, compile, and run the FishFuzz tool.",
-        "Examples for both wrapper usage and manual compilation are provided.",
-        "The artifact includes a Dockerfile for building the tool, facilitating reproducibility.",
-        "The README outlines steps to reproduce the results presented in the paper.",
-        "There is evidence of verification and validation through the provided examples and the reproduction guide."
-       ],
-       "mentions_absence": false
+        "The README provides detailed documentation on how to build, compile, and run the artifact.",
+        "There are examples provided for both wrapper usage and manual compilation.",
+        "The artifact includes a Dockerfile for building the environment.",
+        "The README outlines steps for reproducing the results in the paper.",
+        "There is evidence of verification and validation through the provided examples and reproduction steps."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
@@ -151,11 +151,10 @@
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
         "The README references several file paths that do not exist in the repository, indicating a lack of documentation consistency.",
-        "There is no dependency manifest found, making environment reproducibility uncertain.",
+        "No dependency manifest was found, making environment reproducibility uncertain.",
         "No tests are present, which is a key component for higher tiers.",
-        "The documentation, while present, contains references to non-existent files, reducing its reliability."
-       ],
-       "mentions_absence": true
+        "The Dockerfile lacks a FROM directive, further complicating environment setup."
+       ]
       }
      }
     },
@@ -177,23 +176,24 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
+       "clean_conf": 0.7,
+       "dirty_conf": 0.7,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public GitHub repository, satisfying the 'Available' criterion.",
-        "Comprehensive installation instructions are provided, including a Docker image and local setup guidance.",
-        "A README file details the usage and points to additional documentation (AE.md) for exercising the artifact.",
-        "The repository includes a troubleshooting guide to assist users in resolving common issues.",
-        "Scripts for reproducing the results are provided, allowing a reviewer to follow the documentation and exercise the artifact.",
-        "The presence of a Jupyter notebook and Python scripts suggests the artifact is exercisable and includes some level of verification and validation."
-       ],
-       "mentions_absence": false
+        "The artifact is placed in a public archival repository, satisfying the 'Available' tier.",
+        "Comprehensive installation instructions are provided, including a Docker image and local setup guide.",
+        "A README file outlines the usage and points to additional documentation (AE.md) for detailed usage instructions.",
+        "Troubleshooting guide (CommonIssues.md) is available to assist users in resolving common issues.",
+        "Steps for reproducing the results are clearly documented, including script commands for installation and running the pipeline.",
+        "The presence of a Jupyter notebook (figure4.ipynb) and a Python script (prepare_dataset.py) suggests modular and exercisable components."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.8,
@@ -202,13 +202,11 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README references several files that do not exist in the repository, indicating inconsistency.",
-        "No dependency manifest or Dockerfile with a FROM directive was found, making environment reproducibility uncertain.",
-        "No CI configuration or tests were present, which are important for verifying functionality.",
-        "The provided Docker image link is dead, further complicating reproducibility.",
-        "The documentation is incomplete and references non-existent files, which prevents a functional or reusable evaluation."
-       ],
-       "mentions_absence": true
+        "Several files referenced in the README do not exist in the repository, indicating inconsistency.",
+        "No dependency manifest or container configuration was found, making environment reproducibility uncertain.",
+        "No tests or CI configuration are present, which are crucial for verifying functionality.",
+        "The documentation is incomplete and contains references to non-existent files."
+       ]
       }
      }
     },
@@ -230,6 +228,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -237,31 +236,29 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions on how to set up and run the experiments.",
-        "There is a demonstration provided to show the functionality of the artifact.",
-        "The artifact includes a Docker image to simplify the setup process.",
-        "The README mentions the requirements and dependencies needed to run the experiments.",
-        "The artifact includes step-by-step instructions to reproduce the results."
-       ],
-       "mentions_absence": false
+        "The artifact is placed in a public repository and includes detailed instructions for setup and execution.",
+        "It provides a Docker image with pre-installed dependencies, facilitating reproducibility.",
+        "Step-by-step instructions are available for both reproduction and replication studies.",
+        "A demonstration script is provided to show the functionality of the artifact.",
+        "The README file is comprehensive, explaining how to install dependencies and run experiments.",
+        "Despite some complexities (e.g., CARLA use case), the overall structure and documentation support functional evaluation."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.8,
-       "dirty_conf": 0.8,
+       "dirty_conf": 0.7,
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README file provides detailed instructions and context for the artifact.",
-        "The license is present, allowing for potential reuse.",
-        "Several referenced files in the README do not exist in the repository, indicating inconsistency.",
-        "No dependencies are listed in the requirements file, and no tests or CI configuration are present.",
-        "The Docker setup is incomplete, lacking a FROM directive and detailed instructions for building and running the container."
-       ],
-       "mentions_absence": true
+        "The README claims to provide a Docker image for reproducibility, but the Dockerfile lacks a FROM directive and the requirements.txt is empty.",
+        "Several files referenced in the README do not exist in the repository, indicating a lack of documentation consistency.",
+        "There are no CI configurations or tests present, which are important for verifying and validating the artifact.",
+        "The artifact does not meet the criteria for 'Functional' or 'Reusable' due to the issues with documentation consistency and lack of verification and validation evidence."
+       ]
       }
      }
     },
@@ -283,6 +280,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -290,30 +288,28 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is documented with a detailed README that explains the source code structure, setup instructions, and how to use the main scripts.",
+        "The artifact is documented with a detailed README that explains the source code structure, setup instructions, and how to run the main scripts.",
         "The artifact includes scripts for fuzzing, constraint extraction, and experiment reproduction, indicating it is exercisable.",
-        "There is evidence of verification and validation through the provided experiment reproduction scripts and bug finding evidence.",
+        "There is evidence of verification and validation through the experiment reproduction scripts and the ability to generate and test constraints.",
         "The README provides clear command usage and arguments for the main scripts, suggesting the artifact is consistent and complete.",
         "The documentation includes setup instructions and quick start guides for different deep learning frameworks, enhancing usability."
-       ],
-       "mentions_absence": false
+       ]
       },
       "solution": {
-       "clean_tier": "Available",
+       "mentions_absence": true,
+       "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
        "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 0,
+       "downgraded": true,
+       "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The documentation is inconsistent with the actual files present in the repository.",
-        "Several referenced files and paths in the README do not exist.",
-        "The requirements.txt file is present but lists no dependencies.",
-        "No Dockerfile is provided for environment reproducibility.",
-        "Despite the issues, the artifact is still available for review and potential use."
-       ],
-       "mentions_absence": true
+        "The README is extensive but contains references to files that do not exist in the repository, indicating inconsistency.",
+        "No dependencies are listed in the requirements.txt file, and there is no Dockerfile for environment reproducibility.",
+        "The artifact includes tests, but the environment setup and dependency management are not well-documented or complete.",
+        "The documentation provides detailed instructions but is undermined by the missing files and inconsistent references."
+       ]
       }
      }
     },
@@ -335,37 +331,36 @@
      ],
      "systems": {
       "baseline": {
-       "clean_tier": "Functional",
+       "mentions_absence": false,
+       "clean_tier": "Available",
        "dirty_tier": "Functional",
-       "clean_conf": 0.7,
+       "clean_conf": 0.8,
        "dirty_conf": 0.7,
        "downgraded": false,
-       "delta": 0,
+       "delta": 1,
        "dirty_reasons": [
-        "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
-        "The README provides clear instructions for installing the environment and running the full pipeline, suggesting the artifact is exercisable.",
-        "The presence of separate README files for different themes indicates a level of documentation.",
-        "The use of an external dataset (HFTorrent) and reference to an appendix in the paper suggests some level of verification and validation.",
-        "The artifact includes scripts for individual stages of the analysis, indicating a structured approach to reproducibility.",
-        "The confidence is not 1 due to the need for actual execution and validation of the provided instructions to confirm functionality."
-       ],
-       "mentions_absence": false
+        "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
+        "The README provides clear instructions for setting up the environment and running the pipeline, suggesting the artifact is documented and exercisable.",
+        "The presence of separate README files for different themes indicates a structured approach to the artifact.",
+        "The use of an external dataset (HFTorrent) and references to specific scripts and configuration files suggests completeness and consistency.",
+        "The requirement to install dependencies and run specific scripts implies that the artifact includes steps for verification and validation.",
+        "However, the level of documentation and structure, while sufficient for functionality, may not significantly exceed minimal functionality to warrant a 'Reusable' tier."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.8,
-       "dirty_conf": 0.8,
+       "dirty_conf": 0.9,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README file is present but lacks detailed documentation and references non-existent files.",
-        "No dependency manifest, Dockerfile, CI configuration, or tests are present.",
-        "The environment reproducibility is not ensured due to missing configuration and setup scripts.",
-        "The documentation is inconsistent with the actual repository contents."
-       ],
-       "mentions_absence": true
+        "The README references several files that do not exist in the repository, indicating inconsistency.",
+        "No dependency manifest, Dockerfile, CI configuration, or tests are present, suggesting lack of environment reproducibility and verification.",
+        "The documentation is minimal and appears to be out of sync with the actual repository contents."
+       ]
       }
      }
     },
@@ -387,6 +382,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -395,15 +391,15 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README provides clear instructions on how to set up and run the artifact.",
-        "The documentation includes details on the required environment and dependencies.",
-        "There are scripts provided to install dependencies and run the tool.",
-        "The README describes how to reproduce results and provides examples.",
-        "The artifact includes datasets, patches, results, and source code."
-       ],
-       "mentions_absence": false
+        "The README provides detailed instructions on how to set up and run the artifact.",
+        "The documentation includes environment requirements and steps to reproduce results.",
+        "The artifact includes scripts to install dependencies and run the main functionality.",
+        "The README mentions the need for an OpenAI key and local model checkpoints, indicating some level of setup is required but is clearly documented.",
+        "The results and outputs are described, allowing for verification of the artifact's functionality."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.8,
@@ -412,11 +408,12 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The documentation contains numerous references to files that do not exist in the repository, indicating inconsistency.",
-        "There is no dependency manifest, Dockerfile, CI configuration, or tests present, which are essential for higher tiers.",
-        "The environment setup and execution instructions are provided, but the lack of consistent documentation and missing files prevent a higher tier assignment."
-       ],
-       "mentions_absence": true
+        "The README contains detailed instructions for setup and usage.",
+        "Several files referenced in the README do not exist in the repository, indicating inconsistency.",
+        "No dependency manifest or Dockerfile is present, making environment reproducibility challenging.",
+        "No CI configuration, tests, or license are present.",
+        "Dead external links in the README reduce confidence in the artifact's completeness and validity."
+       ]
       }
      }
     },
@@ -438,38 +435,38 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
-       "dirty_conf": 0.8,
+       "dirty_conf": 0.7,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository and is documented.",
-        "The README provides clear instructions on how to set up and run the tool.",
-        "The structure of the project is well-organized with distinct modules for different functionalities.",
-        "The artifact includes scripts and examples for testing its functionalities.",
-        "The documentation describes how to reproduce the results from the paper.",
-        "However, the Docker environment lacks GPU support, limiting full functionality testing."
-       ],
-       "mentions_absence": false
+        "The artifact is placed in a public archival repository, satisfying the 'Available' tier.",
+        "The README provides detailed instructions on how to install and run the tool, indicating it is documented.",
+        "The structure of the project is clear, with distinct directories for different functionalities.",
+        "The provided commands for running the tool suggest it is exercisable.",
+        "The artifact includes a Docker environment and datasets for evaluation, though it notes limitations (no GPU environment for simulation-based testing).",
+        "The documentation could be improved for reusability, but it meets the minimal functionality requirements for the 'Functional' tier."
+       ]
       },
       "solution": {
-       "clean_tier": "Available",
+       "mentions_absence": true,
+       "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
        "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
+       "downgraded": true,
+       "delta": -1,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The documentation is inconsistent with the actual repository contents, with several referenced files missing.",
-        "No requirements.txt dependencies are listed, making environment setup unclear.",
-        "No Dockerfile is present, complicating environment reproducibility.",
-        "Critical files and scripts mentioned in the README do not exist in the repository.",
-        "The artifact lacks sufficient evidence of functionality and completeness."
-       ],
-       "mentions_absence": true
+        "The artifact is placed in a public archival repository (Zenodo).",
+        "The README file provides some documentation, but it references several non-existent files, indicating inconsistency.",
+        "No requirements.txt with actual dependencies or Dockerfile is present, making environment reproducibility challenging.",
+        "The CI configuration and tests are present, but the lack of clear dependency management and environment setup scripts lowers the functional tier potential.",
+        "The documentation, while present, does not align with the actual repository structure, reducing confidence in its usability.",
+        "The artifact does not provide enough evidence to be considered 'Functional' or 'Reusable' due to the significant inconsistencies and missing components."
+       ]
       }
      }
     },
@@ -491,38 +488,37 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository, satisfying the 'Available' criterion.",
-        "The README provides clear instructions on how to set up and run the scripts, indicating documentation.",
-        "The presence of a requirements.txt file and detailed setup instructions suggests the artifact is consistent and complete.",
-        "The main pipeline and analysis scripts can be executed as described, fulfilling the exercisable criterion.",
-        "The README mentions logs and results being saved, which could serve as evidence of verification and validation.",
-        "While the documentation is thorough, it does not explicitly exceed minimal functionality to the extent required for the 'Reusable' tier."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
        "clean_conf": 0.8,
        "dirty_conf": 0.8,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README contains detailed instructions, but many referenced files and directories are missing.",
-        "The requirements.txt file is present but does not list any dependencies.",
-        "No Dockerfile or container configuration is provided for environment reproducibility.",
+        "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
+        "The README provides clear instructions on how to set up and run the scripts, indicating it is documented.",
+        "The presence of configuration files and scripts suggests the artifact is consistent and complete.",
+        "The README describes how to run the main pipeline and analysis tools, showing the artifact is exercisable.",
+        "The documentation mentions steps for reproducing results, which implies some level of verification and validation.",
+        "While the documentation is thorough, it does not explicitly exceed minimal functionality to the extent required for the 'Reusable' tier."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is publicly available in a repository.",
+        "The README file is present but contains references to files that do not exist in the repository.",
+        "There are no listed dependencies in requirements.txt, and no Dockerfile is present for environment reproducibility.",
         "No CI configuration or tests are present.",
-        "Significant discrepancies between the README and the actual repository contents suggest poor maintenance and reliability."
-       ],
-       "mentions_absence": true
+        "The documentation is inconsistent with the actual files in the repository, indicating potential issues with setup and execution."
+       ]
       }
      }
     },
@@ -544,6 +540,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -552,30 +549,28 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README provides clear documentation on how to download, install, and run the benchmark.",
-        "Scripts are provided for running the benchmark and evaluating log parsers.",
-        "Requirements for running the benchmark are specified.",
-        "Demo scripts are provided for quick evaluation.",
-        "The artifact includes evidence of verification and validation through the provided evaluation scripts and results."
-       ],
-       "mentions_absence": false
+        "The README provides clear documentation on how to download and organize the datasets.",
+        "Scripts for running the benchmark and reproducing results are provided.",
+        "Requirements and installation instructions are detailed.",
+        "The artifact includes evidence of verification and validation through the provided benchmark and evaluation scripts.",
+        "The documentation is comprehensive enough for a reviewer to follow and exercise the artifact."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
-       "clean_conf": 0.7,
+       "clean_conf": 0.8,
        "dirty_conf": 0.7,
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README contains detailed information about the datasets and their characteristics.",
-        "The license is present, allowing for potential reuse.",
-        "Several referenced files in the README do not exist, indicating inconsistency.",
-        "No dependencies or container configuration is provided, making it hard to reproduce the environment.",
-        "No tests or CI configuration are present, which lowers the confidence in higher tiers."
-       ],
-       "mentions_absence": true
+        "The README references several files that do not exist in the repository, indicating inconsistency.",
+        "The requirements.txt file is present but lists no requirements, and there is no Dockerfile or CI configuration.",
+        "There are no tests present, which is a key component for higher tiers.",
+        "The documentation, while present, appears to be incomplete and inconsistent with the actual repository contents."
+       ]
       }
      }
     },
@@ -597,6 +592,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.85,
@@ -606,28 +602,27 @@
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
         "The README provides detailed instructions for environment setup, data collection, and running the TCP techniques.",
-        "The artifact includes scripts and code for reproducing the results presented in the paper.",
-        "The documentation appears to be consistent and complete, allowing a reviewer to follow the steps and exercise the artifact.",
-        "The artifact includes evidence of verification and validation through the provided evaluation scripts and outcome data.",
-        "The setup and usage instructions are clear and comprehensive."
-       ],
-       "mentions_absence": false
+        "The artifact includes scripts and code implementations for downloading builds, extracting features, and evaluating TCP techniques.",
+        "The documentation appears consistent and complete, allowing a reviewer to follow the steps and exercise the artifact.",
+        "The artifact includes evidence of verification and validation through the provided evaluation scripts and results.",
+        "The README mentions the availability of the full dataset and steps to reproduce the paper's results."
+       ]
       },
       "solution": {
-       "clean_tier": "Available",
+       "mentions_absence": true,
+       "clean_tier": "Functional",
        "dirty_tier": "Available",
-       "clean_conf": 0.85,
-       "dirty_conf": 0.85,
-       "downgraded": false,
-       "delta": 0,
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": true,
+       "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions for setup and usage.",
-        "However, the README references several files that do not exist in the repository, indicating inconsistency.",
-        "The requirements.txt file is present but lists no requirements, and there is no Dockerfile or CI configuration.",
-        "The artifact lacks tests and does not provide evidence of verification and validation."
-       ],
-       "mentions_absence": true
+        "The README file is extensive but contains references to non-existent files, indicating inconsistency.",
+        "The repository lacks a proper requirements.txt with dependencies, a Dockerfile with a FROM directive, and CI configuration.",
+        "There is no evidence of tests or verification/validation processes.",
+        "The documentation, while detailed, does not align with the actual files present in the repository."
+       ]
       }
      }
     },
@@ -649,6 +644,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.7,
@@ -656,31 +652,28 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository, satisfying the 'Available' criterion.",
-        "The README provides clear documentation on how to install dependencies, configure the environment, and build the artifact.",
-        "The README includes specific commands to run the jump table analysis, indicating the artifact is exercisable.",
-        "The presence of a script to reproduce results suggests some level of verification and validation.",
-        "The documentation, while thorough, does not explicitly mention extensive testing or validation beyond the provided scripts.",
-        "The artifact is marked as undergoing a significant overhaul, which introduces some uncertainty about its current stability and completeness."
-       ],
-       "mentions_absence": false
+        "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
+        "The README provides clear instructions for setting up the environment and building the artifact.",
+        "The documentation describes the architecture, capabilities, and applications of the framework.",
+        "There are commands provided for running specific analyses, suggesting the artifact is exercisable.",
+        "The presence of a script to reproduce results indicates some level of verification and validation.",
+        "However, the mention of the framework undergoing a significant overhaul introduces some uncertainty about its current stability and completeness."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
-       "dirty_conf": 0.8,
+       "dirty_conf": 0.7,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README references several files that do not exist in the repository, indicating inconsistency.",
-        "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are necessary for higher tiers.",
-        "The documentation is incomplete and inconsistent with the actual files present in the repository.",
-        "There is no evidence of verification and validation, which is required for the 'Functional' tier.",
-        "The structure and documentation do not exceed minimal functionality, which is required for the 'Reusable' tier."
-       ],
-       "mentions_absence": true
+        "Significant discrepancies between the README and the actual repository contents, such as missing files and paths, suggest that the artifact may not be functional as described.",
+        "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are critical for evaluating functionality and reusability.",
+        "The README provides installation and build instructions, but the absence of key files and scripts referenced in the README undermines confidence in the artifact's functionality and reusability."
+       ]
       }
      }
     },
@@ -702,6 +695,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -712,28 +706,26 @@
         "The artifact is placed in a public archival repository.",
         "The README provides detailed instructions on setting up the environment and reproducing the results.",
         "The repository includes scripts to automate the running of experiments.",
-        "Results are provided and can be overwritten by rerunning the experiments, indicating they are exercisable.",
-        "The documentation appears consistent and complete for reproducing the main study (Buggy UI Localization).",
-        "There is no explicit mention of additional quality measures or structures that would push it to the Reusable tier."
-       ],
-       "mentions_absence": false
+        "Results are provided and can be overwritten by rerunning the experiments, indicating they are reproducible.",
+        "The documentation appears to be consistent and complete, covering both studies presented in the paper.",
+        "The artifact includes evidence of verification through the provided results and the ability to rerun experiments."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
-       "dirty_conf": 0.85,
+       "dirty_conf": 0.8,
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README file contains detailed instructions for setting up the environment and reproducing the results.",
-        "There are discrepancies between the README and the actual files present in the repository, indicating a lack of documentation consistency.",
-        "The requirements.txt file lists no actual requirements, making it difficult to set up the environment correctly.",
-        "No Dockerfile is present, which would have made the environment more reproducible.",
-        "The artifact does not provide a high level of documentation and structure to be considered Reusable."
-       ],
-       "mentions_absence": false
+        "The README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
+        "The requirements.txt file lists no dependencies, making environment reproducibility uncertain.",
+        "No Dockerfile or CI configuration is present, further complicating environment reproducibility.",
+        "The artifact lacks a license, which is important for reuse and legal clarity."
+       ]
       }
      }
     },
@@ -755,6 +747,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -763,15 +756,15 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository (Docker Hub).",
-        "The README provides clear documentation on how to set up and run the experiments.",
-        "The Docker image includes all necessary code, datasets, models, configurations, and scripts.",
-        "The README includes commands to replicate the experiments and obtain results.",
-        "The artifact appears to be consistent, complete, and exercisable based on the provided documentation.",
-        "The documentation includes evidence of verification and validation through the replication and comparison scripts."
-       ],
-       "mentions_absence": false
+        "Comprehensive documentation is provided in the README.",
+        "The artifact includes a Docker image with all necessary code, datasets, models, and scripts.",
+        "Clear instructions are given for installation and execution of the artifact.",
+        "Evidence of verification and validation is provided through the replication and comparison scripts.",
+        "The artifact is exercisable by following the provided documentation."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.7,
@@ -780,13 +773,12 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository (Docker Hub).",
-        "The README provides detailed instructions for setting up and running the experiments using Docker.",
-        "The Docker image includes the code, datasets, models, configurations, and scripts necessary for replication.",
-        "The README references several files that do not exist in the repository, indicating some inconsistency in documentation.",
-        "There is no dependency manifest or CI configuration, which slightly reduces confidence in the reproducibility.",
-        "The external links to Kaggle datasets are dead, which could impact the ability to fully replicate the experiments."
-       ],
-       "mentions_absence": true
+        "The README provides detailed instructions for setting up and running the experiments.",
+        "The Docker image includes all necessary code, datasets, models, configurations, and scripts.",
+        "The README references scripts and files that, while some are missing, the core functionality seems to be covered by existing files (e.g., scripts/replicate.sh instead of replication.sh).",
+        "The artifact includes evidence of verification and validation through the provided results and CSV files.",
+        "Some documentation inconsistencies and missing files reduce confidence in a higher tier."
+       ]
       }
      }
     },
@@ -808,6 +800,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -817,27 +810,27 @@
        "dirty_reasons": [
         "The artifact is placed in a public GitHub repository.",
         "The README provides detailed instructions for setting up the environment and running the experiments.",
-        "The artifact includes scripts and tools necessary to reproduce the results.",
-        "Precomputed results are provided to facilitate evaluation, acknowledging the non-deterministic nature of LLMs.",
-        "The documentation explains how to handle the randomness and potential issues with LLMs.",
-        "The structure and documentation appear consistent and complete, allowing a reviewer to follow and exercise the artifact."
-       ],
-       "mentions_absence": false
+        "Precomputed results are provided to facilitate evaluation.",
+        "Scripts and commands are provided to reproduce the experiments and results.",
+        "The documentation explains the non-deterministic nature of LLMs and provides strategies to handle it."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
-       "clean_conf": 0.9,
-       "dirty_conf": 0.7,
+       "clean_conf": 0.85,
+       "dirty_conf": 0.9,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README is extensive but contains numerous references to files that do not exist in the repository.",
-        "There are no dependency manifests, container configurations, CI configurations, tests, or licenses present.",
-        "The documentation is inconsistent with the actual files present in the repository."
-       ],
-       "mentions_absence": true
+        "The documentation is inconsistent with the actual files present in the repository.",
+        "There is no dependency manifest, Dockerfile, CI configuration, or tests present.",
+        "The artifact does not provide a complete and functional environment for reproducibility.",
+        "Many referenced files and scripts are missing, making it impossible to fully evaluate the artifact.",
+        "The environment setup and execution instructions are unclear and may not work as described."
+       ]
       }
      }
     }
@@ -851,24 +844,838 @@
    "verifier_detected": 75,
    "verifier_detection_rate": 1.0,
    "baseline_noticed": 0,
-   "solution_noticed": 5,
-   "baseline_eligible": 14,
+   "solution_noticed": 9,
+   "baseline_mentions_absence": 0,
+   "solution_mentions_absence": 15,
+   "baseline_eligible": 13,
    "baseline_downgraded_eligible": 0,
    "baseline_at_floor": [
-    "DueForce/DueForce"
+    "DueForce/DueForce",
+    "asub0/fonnx"
    ],
-   "solution_eligible": 5,
-   "solution_downgraded_eligible": 5,
+   "solution_eligible": 9,
+   "solution_downgraded_eligible": 9,
    "solution_at_floor": [
     "DueForce/DueForce",
     "NWU-NISL-Fuzzing/upbeat",
-    "THU-WingTecher/DeepConstr",
     "asub0/fonnx",
     "dserfe/FlakyDoctor",
-    "emocat/VioHawk",
-    "jovyntls/inconsistencies-in-tex",
     "nhuhuan/sba",
-    "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+    "zhangxiaosa/LPR"
+   ],
+   "usd": 0.1417,
+   "per_artifact": [
+    {
+     "artifact_id": "DueForce/DueForce",
+     "injected": [
+      "configs/default.yaml",
+      "experiments/rq2_analysis.py",
+      "data/prepare_dataset.py",
+      "src/baseline_runner.py",
+      "setup/install_deps.sh"
+     ],
+     "detected_by_verifier": [
+      "configs/default.yaml",
+      "experiments/rq2_analysis.py",
+      "data/prepare_dataset.py",
+      "src/baseline_runner.py",
+      "setup/install_deps.sh"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Available",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.7,
+       "downgraded": false,
+       "delta": 1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository (Zenodo), satisfying the 'Available' tier.",
+        "The README provides clear instructions for setting up the environment and running the full pipeline, indicating it is documented and exercisable.",
+        "The presence of a pre-compiled Docker image suggests the artifact is intended to be consistent and complete.",
+        "The README references a paper for technical details, implying there is evidence of verification and validation.",
+        "The instructions for running individual stages suggest the artifact is structured in a way that allows for separate execution of components.",
+        "However, the quality of documentation and structure needed for the 'Reusable' tier is not explicitly demonstrated beyond basic functionality."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Available",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README references several files that do not exist in the repository, indicating inconsistency.",
+        "No dependency manifest or Dockerfile is present, making environment reproducibility uncertain.",
+        "The documentation is minimal and appears to be out of date with the actual repository contents.",
+        "The presence of CI configuration and tests suggests some level of verification, but this is undermined by the documentation issues.",
+        "The artifact lacks the necessary files and clear documentation to be considered Functional or Reusable."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "HexHive/FishFuzz",
+     "injected": [
+      "configs/experiment_grid.json",
+      "tools/evaluate_all.py",
+      "bin/reproduce_table3.sh",
+      "docker/build_image.sh",
+      "configs/default.yaml"
+     ],
+     "detected_by_verifier": [
+      "configs/experiment_grid.json",
+      "tools/evaluate_all.py",
+      "bin/reproduce_table3.sh",
+      "docker/build_image.sh",
+      "configs/default.yaml"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README provides detailed documentation on how to build, compile, and run the FishFuzz tool.",
+        "Examples for both wrapper usage and manual compilation are provided.",
+        "The repository includes a Dockerfile for building the tool, facilitating reproducibility.",
+        "The README outlines steps to reproduce the results presented in the paper."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README references several file paths that do not exist in the repository, indicating a lack of documentation consistency.",
+        "There is no dependency manifest found, which makes environment reproducibility uncertain.",
+        "No tests are present, which is a key component for the 'Functional' tier.",
+        "The documentation, while detailed, contains references to non-existent files, which undermines its reliability."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+     "injected": [
+      "setup/install_deps.sh",
+      "src/train_model.py",
+      "src/baseline_runner.py",
+      "notebooks/figure4.ipynb",
+      "data/prepare_dataset.py"
+     ],
+     "detected_by_verifier": [
+      "setup/install_deps.sh",
+      "src/train_model.py",
+      "src/baseline_runner.py",
+      "notebooks/figure4.ipynb",
+      "data/prepare_dataset.py"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public GitHub repository, satisfying the 'Available' criterion.",
+        "Comprehensive installation instructions are provided, including a Docker image and local setup guide.",
+        "A README file outlines the usage and points to additional documentation (AE.md) for exercising the artifact.",
+        "The repository includes scripts for installing dependencies and running the full pipeline, indicating it is exercisable.",
+        "There is a troubleshooting document to help users resolve common issues, enhancing the usability.",
+        "The presence of a notebook and script for analysis and figure generation suggests the artifact includes verification steps."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Available",
+       "dirty_tier": "Available",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
+        "No dependency manifest or container configuration was found, making environment reproducibility uncertain.",
+        "No tests or CI configuration are present, which are crucial for verifying and validating the artifact.",
+        "The provided Docker image link is dead, further complicating the setup process.",
+        "The lack of complete and consistent documentation prevents a higher tier assignment."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+     "injected": [
+      "bin/reproduce_table3.sh",
+      "scripts/run_experiments.sh",
+      "tools/evaluate_all.py",
+      "data/prepare_dataset.py",
+      "setup/install_deps.sh"
+     ],
+     "detected_by_verifier": [
+      "bin/reproduce_table3.sh",
+      "scripts/run_experiments.sh",
+      "tools/evaluate_all.py",
+      "data/prepare_dataset.py",
+      "setup/install_deps.sh"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
+        "The README provides detailed instructions on how to set up and run the experiments, indicating that the artifact is documented and exercisable.",
+        "The presence of a Docker image and detailed setup instructions suggests that the artifact is designed to be consistent and complete.",
+        "The inclusion of a demonstration with step-by-step instructions and expected outcomes indicates evidence of verification.",
+        "The artifact includes scripts for running experiments and processing results, which suggests it includes validation evidence.",
+        "While the documentation is comprehensive, it does not explicitly exceed minimal functionality to the extent that would warrant a 'Reusable' tier without further assessment."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README file provides detailed instructions and context for the artifact.",
+        "Several files referenced in the README do not exist in the repository, indicating a lack of documentation consistency.",
+        "The repository lacks a complete set of dependencies, a valid Dockerfile, and CI configuration, which are essential for reproducibility.",
+        "There is no evidence of tests or verification scripts to ensure the artifact's functionality.",
+        "The artifact does not meet the criteria for 'Functional' or 'Reusable' tiers due to the inconsistencies and missing components."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "THU-WingTecher/DeepConstr",
+     "injected": [
+      "experiments/rq2_analysis.py",
+      "data/prepare_dataset.py",
+      "notebooks/figure4.ipynb",
+      "configs/experiment_grid.json",
+      "bin/reproduce_table3.sh"
+     ],
+     "detected_by_verifier": [
+      "experiments/rq2_analysis.py",
+      "data/prepare_dataset.py",
+      "notebooks/figure4.ipynb",
+      "configs/experiment_grid.json",
+      "bin/reproduce_table3.sh"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is documented with a detailed README that explains the source code structure, setup instructions, and how to run the main scripts.",
+        "The artifact includes scripts for fuzzing, constraint extraction, and experiment reproduction, indicating it is exercisable.",
+        "There is evidence of verification and validation through the experiment reproduction scripts and the ability to generate and test constraints.",
+        "The README provides clear command usage and arguments for the main scripts, suggesting the artifact is consistent and complete.",
+        "The documentation includes setup instructions and quick start guides for different deep learning frameworks, enhancing usability."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.7,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README file is present and provides some documentation.",
+        "However, there are significant inconsistencies between the README and the actual repository contents, with many referenced files missing.",
+        "The requirements.txt file is present but lists no dependencies, and there is no Dockerfile for environment reproducibility.",
+        "The artifact lacks comprehensive documentation and verification evidence to be considered Functional or Reusable."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "asub0/fonnx",
+     "injected": [
+      "configs/default.yaml",
+      "notebooks/figure4.ipynb",
+      "src/baseline_runner.py",
+      "configs/experiment_grid.json",
+      "setup/install_deps.sh"
+     ],
+     "detected_by_verifier": [
+      "configs/default.yaml",
+      "notebooks/figure4.ipynb",
+      "src/baseline_runner.py",
+      "configs/experiment_grid.json",
+      "setup/install_deps.sh"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Available",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.7,
+       "downgraded": false,
+       "delta": 1,
+       "dirty_reasons": [
+        "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
+        "The README provides clear instructions for setting up the environment and running the pipeline, suggesting the artifact is documented and exercisable.",
+        "The presence of separate README files for different themes indicates a structured approach to the artifact.",
+        "The use of an external dataset (HFTorrent) and references to specific scripts and configuration files suggests completeness and consistency.",
+        "The requirement to install dependencies and run specific scripts implies that the artifact includes steps for verification and validation.",
+        "However, without testing the artifact myself, I cannot confirm the quality of documentation exceeds minimal functionality, hence not 'Reusable'."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Available",
+       "dirty_tier": "Available",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.9,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
+        "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are essential for higher tiers.",
+        "The instructions for reproducing the results reference non-existent files, making it impossible to follow the documentation and exercise the artifact.",
+        "The lack of complete and consistent documentation and verification evidence prevents it from reaching the Functional or Reusable tiers."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "dserfe/FlakyDoctor",
+     "injected": [
+      "configs/experiment_grid.json",
+      "notebooks/figure4.ipynb",
+      "experiments/rq2_analysis.py",
+      "docker/build_image.sh",
+      "src/train_model.py"
+     ],
+     "detected_by_verifier": [
+      "configs/experiment_grid.json",
+      "notebooks/figure4.ipynb",
+      "experiments/rq2_analysis.py",
+      "docker/build_image.sh",
+      "src/train_model.py"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README provides detailed instructions on how to set up and run the artifact.",
+        "The documentation includes environment requirements and steps to reproduce results.",
+        "The artifact includes scripts and datasets necessary for evaluation.",
+        "The results and patches generated by the artifact are available for inspection.",
+        "The non-determinism of LLMs is acknowledged, which is common for such artifacts."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Available",
+       "dirty_tier": "Available",
+       "clean_conf": 0.85,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README contains detailed instructions for setup and usage.",
+        "Several referenced files and dependencies are missing, impacting functionality.",
+        "No dependency manifest or container configuration is present.",
+        "Dead external links reduce the reliability of the artifact."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "emocat/VioHawk",
+     "injected": [
+      "docker/build_image.sh",
+      "notebooks/figure4.ipynb",
+      "configs/experiment_grid.json",
+      "src/train_model.py",
+      "experiments/rq2_analysis.py"
+     ],
+     "detected_by_verifier": [
+      "docker/build_image.sh",
+      "notebooks/figure4.ipynb",
+      "configs/experiment_grid.json",
+      "src/train_model.py",
+      "experiments/rq2_analysis.py"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.7,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository and includes a README with detailed instructions for setup and usage.",
+        "The documentation describes the structure and functionality of the tool, including how to perform simulation-based fuzzing, violation detection, scenario mutation, and visualization.",
+        "The README provides commands for installing dependencies and running the tool, indicating that the artifact is exercisable.",
+        "The artifact includes a Docker environment and datasets for evaluating specific functionalities, though it notes limitations (e.g., no GPU support for simulation-based testing).",
+        "The documentation could be improved to provide more comprehensive verification and validation evidence, which slightly reduces confidence in assigning the 'Reusable' tier."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.7,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository, fulfilling the 'Available' tier.",
+        "The README file contains numerous references to non-existent files, indicating a lack of documentation consistency.",
+        "The repository lacks a requirements.txt with actual dependencies and a Dockerfile, which are essential for environment reproducibility.",
+        "Critical files mentioned in the README for reproducing results are missing, such as configs/experiment_grid.json and experiments/rq2_analysis.py.",
+        "The absence of a complete and consistent documentation prevents the artifact from reaching the 'Functional' or 'Reusable' tiers."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "jovyntls/inconsistencies-in-tex",
+     "injected": [
+      "configs/experiment_grid.json",
+      "notebooks/figure4.ipynb",
+      "docker/build_image.sh",
+      "experiments/rq2_analysis.py",
+      "src/train_model.py"
+     ],
+     "detected_by_verifier": [
+      "configs/experiment_grid.json",
+      "notebooks/figure4.ipynb",
+      "docker/build_image.sh",
+      "experiments/rq2_analysis.py",
+      "src/train_model.py"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
+        "The README provides clear instructions on how to set up and run the scripts, indicating it is documented.",
+        "The presence of a configuration file (config.py) and detailed command-line options suggests the artifact is consistent and complete.",
+        "The artifact includes multiple scripts that can be executed to perform various tasks, demonstrating it is exercisable.",
+        "The README mentions logs and results being saved, which could serve as evidence of verification and validation.",
+        "While the documentation is thorough, it does not explicitly exceed minimal functionality to the extent that would warrant a 'Reusable' badge without further evidence of high-quality structure and documentation."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "Significant discrepancies between the README and the actual files present in the repository.",
+        "Missing critical files referenced in the README.",
+        "No dependencies listed in requirements.txt.",
+        "No Dockerfile or container configuration present.",
+        "No CI configuration or tests present."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "logpai/loghub-2.0",
+     "injected": [
+      "experiments/rq2_analysis.py",
+      "scripts/run_experiments.sh",
+      "configs/default.yaml",
+      "src/train_model.py",
+      "setup/install_deps.sh"
+     ],
+     "detected_by_verifier": [
+      "experiments/rq2_analysis.py",
+      "scripts/run_experiments.sh",
+      "configs/default.yaml",
+      "src/train_model.py",
+      "setup/install_deps.sh"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README provides clear documentation on how to download and organize the datasets.",
+        "Scripts for running the benchmark and reproducing results are provided.",
+        "Requirements and installation instructions are detailed.",
+        "The artifact includes evidence of verification and validation through the provided benchmark and evaluation scripts.",
+        "The documentation is comprehensive enough for a reviewer to follow and exercise the artifact."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.7,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README references several files that do not exist in the repository, indicating inconsistency.",
+        "The requirements.txt file is present but lists no requirements, and there is no Dockerfile for containerization.",
+        "There are no CI configurations or tests present.",
+        "The documentation is not sufficient to ensure the artifact is exercisable as-is due to missing files and unspecified dependencies.",
+        "The artifact does not meet the criteria for Functional or Reusable tiers due to the above issues."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "lrtsuser/LRTS",
+     "injected": [
+      "bin/reproduce_table3.sh",
+      "setup/install_deps.sh",
+      "src/train_model.py",
+      "notebooks/figure4.ipynb",
+      "configs/experiment_grid.json"
+     ],
+     "detected_by_verifier": [
+      "bin/reproduce_table3.sh",
+      "setup/install_deps.sh",
+      "src/train_model.py",
+      "notebooks/figure4.ipynb",
+      "configs/experiment_grid.json"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.85,
+       "dirty_conf": 0.85,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is documented with a detailed README that explains how to set up the environment and use the artifact.",
+        "The artifact includes scripts for collecting data, implementing TCP techniques, and evaluating their performance.",
+        "The README provides steps to reproduce the results from the paper, indicating completeness and exercisability.",
+        "The artifact requires a GitHub API token for data collection, which adds a layer of complexity but is clearly documented.",
+        "The artifact includes evidence of verification and validation through the provided evaluation scripts and outcome data.",
+        "The documentation is consistent and appears to cover all necessary steps to use the artifact."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README is extensive but contains references to files that do not exist in the repository.",
+        "The requirements.txt file is present but lists no requirements.",
+        "There is no Dockerfile with a FROM directive, making environment reproducibility uncertain.",
+        "No CI configuration or tests are present.",
+        "The documentation is inconsistent with the actual files in the repository."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "nhuhuan/sba",
+     "injected": [
+      "docker/build_image.sh",
+      "tools/evaluate_all.py",
+      "configs/default.yaml",
+      "src/baseline_runner.py",
+      "data/prepare_dataset.py"
+     ],
+     "detected_by_verifier": [
+      "docker/build_image.sh",
+      "tools/evaluate_all.py",
+      "configs/default.yaml",
+      "src/baseline_runner.py",
+      "data/prepare_dataset.py"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.7,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
+        "The README provides clear documentation on how to install dependencies, configure the environment, and build the framework.",
+        "The README includes specific commands to run the jump table analysis application, indicating the artifact is exercisable.",
+        "The presence of a script to reproduce results suggests some level of verification and validation.",
+        "The documentation, while thorough, does not explicitly provide evidence of extensive testing or validation beyond what is necessary for minimal functionality.",
+        "The ongoing overhaul and development status may imply that the artifact is not yet fully polished for reuse, slightly reducing confidence in the 'Reusable' tier."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Available",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "Several files referenced in the README do not exist in the repository, indicating documentation inconsistency.",
+        "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are essential for higher tiers.",
+        "The README provides installation and build instructions, but the absence of critical files and scripts lowers the likelihood of higher tiers.",
+        "The lack of verifiable environment reproducibility and testing further supports the 'Available' tier.",
+        "The artifact does not meet the criteria for 'Functional' or 'Reusable' due to the significant documentation and file discrepancies."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+     "injected": [
+      "src/baseline_runner.py",
+      "scripts/run_experiments.sh",
+      "tools/evaluate_all.py",
+      "configs/default.yaml",
+      "src/train_model.py"
+     ],
+     "detected_by_verifier": [
+      "src/baseline_runner.py",
+      "scripts/run_experiments.sh",
+      "tools/evaluate_all.py",
+      "configs/default.yaml",
+      "src/train_model.py"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README provides detailed instructions for setting up the environment and reproducing the results.",
+        "The repository includes scripts to automate the running of experiments.",
+        "Results are provided and can be overwritten by rerunning the experiments, indicating that the experiments are exercisable.",
+        "The documentation appears to be consistent and complete, covering both studies presented in the paper.",
+        "The artifact includes evidence of verification and validation through the provided results and the ability to reproduce them."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.85,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
+        "The requirements.txt file is present but lists no requirements, and there is no Dockerfile for environment reproducibility.",
+        "The artifact lacks a license and CI configuration, which are important for reuse and maintenance."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "trustdnn/issta2024",
+     "injected": [
+      "src/baseline_runner.py",
+      "data/prepare_dataset.py",
+      "tools/evaluate_all.py",
+      "bin/reproduce_table3.sh",
+      "docker/build_image.sh"
+     ],
+     "detected_by_verifier": [
+      "src/baseline_runner.py",
+      "data/prepare_dataset.py",
+      "tools/evaluate_all.py",
+      "bin/reproduce_table3.sh",
+      "docker/build_image.sh"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository (Docker Hub).",
+        "Comprehensive documentation is provided in the README.",
+        "The artifact includes a Docker image with all necessary code, datasets, models, and scripts.",
+        "Clear instructions are given for installation and running the experiments.",
+        "Evidence of verification and validation is provided through the replication and comparison scripts.",
+        "The artifact is exercisable by following the provided documentation."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.7,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The README provides instructions for setting up and running the experiments using Docker.",
+        "Several referenced files in the README do not exist in the repository, indicating documentation inconsistency.",
+        "No dependency manifest, container configuration, or tests were found, which are necessary for higher tiers.",
+        "Dead external links in the README reduce confidence in the artifact's completeness and functionality.",
+        "The lack of verification and validation evidence prevents assigning a higher tier."
+       ]
+      }
+     }
+    },
+    {
+     "artifact_id": "zhangxiaosa/LPR",
+     "injected": [
+      "src/baseline_runner.py",
+      "setup/install_deps.sh",
+      "configs/default.yaml",
+      "data/prepare_dataset.py",
+      "scripts/run_experiments.sh"
+     ],
+     "detected_by_verifier": [
+      "src/baseline_runner.py",
+      "setup/install_deps.sh",
+      "configs/default.yaml",
+      "data/prepare_dataset.py",
+      "scripts/run_experiments.sh"
+     ],
+     "systems": {
+      "baseline": {
+       "mentions_absence": false,
+       "clean_tier": "Functional",
+       "dirty_tier": "Functional",
+       "clean_conf": 0.8,
+       "dirty_conf": 0.8,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is documented with clear instructions on how to set up the environment and run the experiments.",
+        "The README provides detailed steps for reproducing the results, including running different reduction algorithms and analyzing the outputs.",
+        "Precomputed results are provided to facilitate evaluation, acknowledging the time-consuming and LLM-dependent nature of the experiments.",
+        "The folder structure is well-organized, with separate directories for scripts, prompts, benchmark suites, tools, and precomputed results.",
+        "The README notes the non-deterministic nature of LLM outputs and provides strategies for handling this, such as running experiments multiple times and restarting from intermediate results.",
+        "The artifact includes scripts for summarizing results and analyzing size changes, which are crucial for evaluating the effectiveness of the reduction techniques."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Available",
+       "dirty_tier": "Available",
+       "clean_conf": 0.85,
+       "dirty_conf": 0.85,
+       "downgraded": false,
+       "delta": 0,
+       "dirty_reasons": [
+        "The artifact is placed in a public archival repository.",
+        "The documentation is inconsistent with the actual files present in the repository.",
+        "There are no dependency manifests, container definitions, CI configurations, tests, or licenses present.",
+        "The README provides detailed instructions, but the actual files referenced do not exist.",
+        "The artifact does not meet the criteria for 'Functional' or 'Reusable' due to the significant documentation inconsistencies and missing files."
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "provider": "bedrock",
+   "model": "us.amazon.nova-pro-v1:0",
+   "n_artifacts": 15,
+   "injected_claims": 75,
+   "verifier_detected": 75,
+   "verifier_detection_rate": 1.0,
+   "baseline_noticed": 0,
+   "solution_noticed": 9,
+   "baseline_mentions_absence": 0,
+   "solution_mentions_absence": 15,
+   "baseline_eligible": 13,
+   "baseline_downgraded_eligible": 0,
+   "baseline_at_floor": [
+    "DueForce/DueForce",
+    "asub0/fonnx"
+   ],
+   "solution_eligible": 9,
+   "solution_downgraded_eligible": 9,
+   "solution_at_floor": [
+    "DueForce/DueForce",
+    "NWU-NISL-Fuzzing/upbeat",
+    "asub0/fonnx",
+    "dserfe/FlakyDoctor",
+    "nhuhuan/sba",
     "zhangxiaosa/LPR"
    ],
    "usd": 0.1411,
@@ -891,6 +1698,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Available",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -898,30 +1706,28 @@
        "downgraded": false,
        "delta": 1,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository (Zenodo).",
-        "The README provides clear instructions for setting up the environment and running the full pipeline.",
-        "Individual stages of the pipeline can be run separately, indicating a level of modularity and completeness.",
-        "The presence of a pre-compiled Docker image suggests ease of setup and execution.",
-        "The README references a paper for technical details, implying that the artifact is documented.",
-        "Some level of verification and validation is implied by the ability to reproduce results, though this is not explicitly stated."
-       ],
-       "mentions_absence": false
+        "The artifact is placed in a public archival repository (Zenodo), satisfying the 'Available' tier.",
+        "The README provides clear instructions for setting up the environment and running the full pipeline, indicating it is exercisable.",
+        "References to a paper for technical details suggest some level of documentation.",
+        "The presence of scripts for installing dependencies and running individual stages indicates the artifact is likely consistent and complete.",
+        "The confidence is not maximal due to the lack of explicit verification and validation evidence in the README.",
+        "The quality of documentation and structure for reusability is not clearly demonstrated beyond basic functionality."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
-       "clean_conf": 0.8,
+       "clean_conf": 0.7,
        "dirty_conf": 0.9,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
+        "The README references several files that do not exist in the repository, indicating inconsistency.",
         "No dependency manifest or Dockerfile is present, making environment reproducibility uncertain.",
-        "The README provides instructions that reference non-existent files, further undermining confidence in functionality.",
-        "The lack of complete and consistent documentation prevents a higher tier assignment."
-       ],
-       "mentions_absence": true
+        "The documentation is minimal and appears to be out of date with the actual repository contents."
+       ]
       }
      }
     },
@@ -943,6 +1749,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -952,29 +1759,28 @@
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
         "The README provides detailed documentation on how to build, compile, and run the artifact.",
-        "Examples for both wrapper usage and manual compilation are provided.",
-        "The artifact includes a dockerfile for building the tool, which simplifies the setup process.",
-        "The README addresses frequently asked questions and provides contact information for further support.",
-        "The artifact appears to be consistent, complete, and exercisable based on the provided documentation."
-       ],
-       "mentions_absence": false
+        "The README includes examples for both wrapper usage and manual compilation.",
+        "The artifact includes a Dockerfile for building the environment.",
+        "The README provides instructions on how to reproduce the results in the paper.",
+        "The artifact includes scripts and tools necessary for the full pipeline."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
-       "dirty_conf": 0.85,
+       "dirty_conf": 0.8,
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README is extensive but contains references to files that do not exist in the repository, indicating a lack of consistency.",
+        "The README references several file paths that do not exist in the repository, indicating a lack of documentation consistency.",
         "There is no dependency manifest found, which makes it difficult to ensure environment reproducibility.",
-        "No tests are present, which is a critical component for functional and reusable tiers.",
+        "No tests are present, which is a key component for verifying functionality.",
         "The Dockerfile lacks a FROM directive, further complicating environment setup.",
-        "The documentation, while detailed, does not fully align with the actual repository contents, impacting its reliability."
-       ],
-       "mentions_absence": true
+        "Despite these issues, the artifact is still available for review and potential use, meriting at least the 'Available' tier."
+       ]
       }
      }
     },
@@ -996,38 +1802,38 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
-       "clean_conf": 0.8,
+       "clean_conf": 0.7,
        "dirty_conf": 0.8,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public GitHub repository, satisfying the 'Available' criterion.",
-        "Comprehensive installation instructions are provided, including Docker and local setup options.",
+        "Comprehensive installation instructions are provided, including a Docker image and local setup guide.",
         "A README file outlines the usage and points to additional documentation (AE.md).",
-        "Steps for reproducing the results are clearly described, including script commands.",
-        "Troubleshooting documentation is available to assist users in resolving common issues.",
-        "The presence of a Dockerfile and detailed installation guide suggests the artifact is designed to be exercisable."
-       ],
-       "mentions_absence": false
+        "Steps for reproducing the results are clearly described in the README.",
+        "Troubleshooting guide is available to help users resolve common issues.",
+        "The documentation appears to be sufficient for a reviewer to follow and exercise the artifact."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.8,
-       "dirty_conf": 0.9,
+       "dirty_conf": 0.8,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "Several files referenced in the README do not exist in the repository, indicating inconsistency in documentation.",
-        "No dependency manifest or Dockerfile with a FROM directive is present, making environment reproducibility uncertain.",
-        "No CI configuration or tests are present, which are crucial for verifying and validating the artifact.",
-        "The provided Docker image link is dead, further complicating environment setup.",
-        "The documentation is incomplete and contains references to non-existent files, which prevents a functional or reusable evaluation."
-       ],
-       "mentions_absence": true
+        "The README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
+        "No dependency manifest or container configuration was found, making environment reproducibility uncertain.",
+        "No tests or CI configuration are present, which are essential for verifying functionality.",
+        "The provided Docker image link is dead, further complicating reproducibility.",
+        "The lack of complete and consistent documentation prevents a higher tier assignment."
+       ]
       }
      }
     },
@@ -1049,6 +1855,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -1056,16 +1863,16 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions on how to set up and run the experiments.",
-        "A Docker image is provided to simplify the setup process.",
-        "Step-by-step instructions are given for both reproduction and replication studies.",
-        "A demonstration is included to show the functionality of the artifact.",
-        "The artifact includes scripts to reproduce the results from the paper."
-       ],
-       "mentions_absence": false
+        "The artifact is placed in a public repository and includes detailed instructions for setup and execution.",
+        "It provides a Docker image to simplify the environment setup, though with noted exceptions.",
+        "Step-by-step instructions are provided for both reproduction and replication studies.",
+        "A demonstration is included to show the functionality of the artifact, though it is small-scale due to computational constraints.",
+        "The README file is comprehensive, covering requirements, setup, and execution details.",
+        "Despite the complexity and computational demands, the documentation appears sufficient for a reviewer to follow and exercise the artifact."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.8,
@@ -1074,12 +1881,12 @@
        "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README file contains detailed instructions and explanations, but there are inconsistencies between the README and the actual files in the repository.",
-        "The dependencies file is present but does not list any requirements, and the Dockerfile lacks a FROM directive.",
-        "There are no CI configuration or tests present, which are important for ensuring the artifact's functionality.",
-        "The artifact includes a demonstration, but the full reproducibility of the results is questionable due to the inconsistencies and missing files."
-       ],
-       "mentions_absence": true
+        "The README file contains detailed instructions and descriptions, but there are significant inconsistencies between the README and the actual files in the repository.",
+        "Critical files referenced in the README are missing, which undermines the functionality and reproducibility of the artifact.",
+        "The environment reproducibility is lacking, with no listed dependencies and an incomplete Dockerfile.",
+        "There are no CI configurations or tests present, which are important for verifying the artifact's functionality.",
+        "The demonstration provided is small-scale and may not fully represent the artifact's capabilities."
+       ]
       }
      }
     },
@@ -1101,6 +1908,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -1109,29 +1917,27 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README provides detailed documentation on how to set up and use the artifact.",
-        "The artifact includes scripts for fuzzing, constraint extraction, and experiment reproduction.",
-        "The documentation explains the structure of the source code and the purpose of each module.",
-        "The artifact includes test scripts for verifying functionality.",
-        "The README provides examples and commands for quick starts with both PyTorch and TensorFlow."
-       ],
-       "mentions_absence": false
+        "The README provides detailed documentation on how to set up and use the software.",
+        "The software includes scripts for conducting experiments and generating test cases.",
+        "The documentation explains how to extract constraints and reproduce experiments.",
+        "The artifact appears to be exercisable based on the provided commands and setup instructions."
+       ]
       },
       "solution": {
-       "clean_tier": "Available",
+       "mentions_absence": true,
+       "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
        "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 0,
+       "downgraded": true,
+       "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
         "The README file is present and provides some documentation.",
-        "However, the README references several file paths that do not exist in the repository, indicating a lack of consistency.",
-        "The requirements.txt file is present but lists no dependencies, and there is no Dockerfile for environment reproducibility.",
-        "Tests are present, but the overall documentation and setup instructions seem incomplete and inconsistent."
-       ],
-       "mentions_absence": true
+        "There are discrepancies between the README and the actual files in the repository, indicating a lack of consistency.",
+        "The environment reproducibility is poor due to missing dependencies and Docker configuration.",
+        "The artifact lacks comprehensive tests and a Dockerfile, which are essential for functional and reusable tiers."
+       ]
       }
      }
     },
@@ -1153,841 +1959,24 @@
      ],
      "systems": {
       "baseline": {
-       "clean_tier": "Functional",
+       "mentions_absence": false,
+       "clean_tier": "Available",
        "dirty_tier": "Functional",
-       "clean_conf": 0.7,
+       "clean_conf": 0.8,
        "dirty_conf": 0.7,
        "downgraded": false,
-       "delta": 0,
+       "delta": 1,
        "dirty_reasons": [
         "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
         "The README provides clear instructions for installing the environment and running the full pipeline, indicating it is exercisable.",
         "The presence of separate README files for different themes suggests a level of organization and documentation.",
-        "The use of an external dataset (HFTorrent) and clear instructions for its use suggests some level of completeness.",
-        "The mention of a configuration file and separate scripts for different stages indicates a structured approach to the artifact.",
-        "The lack of explicit mention of verification and validation processes slightly reduces confidence in the 'Functional' tier."
-       ],
-       "mentions_absence": false
+        "The use of an external dataset (HFTorrent) adds credibility to the reproducibility of the results.",
+        "The inclusion of a LaTex-rendered appendix and the first pages of the manuscript suggests a level of completeness.",
+        "However, the lack of detailed verification and validation evidence in the README prevents a 'Reusable' tier assignment."
+       ]
       },
       "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.9,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
-        "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are necessary for higher tiers.",
-        "The environment reproducibility is not ensured due to the absence of a clear setup process.",
-        "The documentation is insufficient for exercising the artifact as per Functional tier requirements."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "dserfe/FlakyDoctor",
-     "injected": [
-      "configs/experiment_grid.json",
-      "notebooks/figure4.ipynb",
-      "experiments/rq2_analysis.py",
-      "docker/build_image.sh",
-      "src/train_model.py"
-     ],
-     "detected_by_verifier": [
-      "configs/experiment_grid.json",
-      "notebooks/figure4.ipynb",
-      "experiments/rq2_analysis.py",
-      "docker/build_image.sh",
-      "src/train_model.py"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is documented with clear instructions on how to set up and run the software.",
-        "The README provides detailed steps to reproduce sample results and full results from scratch.",
-        "The environment requirements and dependencies are specified.",
-        "The artifact includes scripts to automate the setup and execution processes.",
-        "Results and logs are saved in specified directories, allowing verification of the process.",
-        "The non-determinism of LLMs is acknowledged, which is a reasonable limitation for this type of artifact."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The documentation contains numerous references to files that do not exist in the repository, indicating inconsistency.",
-        "There is no dependency manifest, Dockerfile, CI configuration, or tests present, which are essential for higher tiers.",
-        "The environment setup and execution instructions are provided, but the lack of consistent documentation and missing files prevent a higher tier assignment."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "emocat/VioHawk",
-     "injected": [
-      "docker/build_image.sh",
-      "notebooks/figure4.ipynb",
-      "configs/experiment_grid.json",
-      "src/train_model.py",
-      "experiments/rq2_analysis.py"
-     ],
-     "detected_by_verifier": [
-      "docker/build_image.sh",
-      "notebooks/figure4.ipynb",
-      "configs/experiment_grid.json",
-      "src/train_model.py",
-      "experiments/rq2_analysis.py"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository and includes a README with detailed instructions for setup and usage.",
-        "The documentation explains the structure and functionality of the project, including how to run different components.",
-        "The README provides commands for installing dependencies and running the tool, indicating it is exercisable.",
-        "There is evidence of verification and validation through the provided artifact on Zenodo, though GPU-dependent features are noted as untestable in the Docker environment.",
-        "The project includes scripts and utilities that suggest completeness and consistency.",
-        "The README mentions reproducibility of results with specific commands, enhancing confidence in its functional status."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README file contains instructions and descriptions, but many referenced files are missing.",
-        "No requirements.txt dependencies are listed, making environment setup unclear.",
-        "No Dockerfile is present, complicating container-based reproducibility.",
-        "Significant discrepancies between the README and the actual repository contents undermine claims of functionality and reusability.",
-        "The absence of key files and unclear documentation prevent a higher tier assignment."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "jovyntls/inconsistencies-in-tex",
-     "injected": [
-      "configs/experiment_grid.json",
-      "notebooks/figure4.ipynb",
-      "docker/build_image.sh",
-      "experiments/rq2_analysis.py",
-      "src/train_model.py"
-     ],
-     "detected_by_verifier": [
-      "configs/experiment_grid.json",
-      "notebooks/figure4.ipynb",
-      "docker/build_image.sh",
-      "experiments/rq2_analysis.py",
-      "src/train_model.py"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository, satisfying the 'Available' tier.",
-        "The README provides clear instructions on how to set up and run the scripts, indicating documentation.",
-        "The presence of a requirements.txt file and detailed steps for running the pipeline suggest the artifact is consistent and complete.",
-        "The artifact includes various scripts that can be executed, demonstrating it is exercisable.",
-        "The README mentions logs and results being saved, which could serve as evidence of verification and validation.",
-        "The level of documentation, while sufficient for functionality, does not significantly exceed minimal functionality to warrant 'Reusable' tier."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README contains numerous references to files that do not exist in the repository, indicating poor documentation consistency.",
-        "No requirements file with actual dependencies or Dockerfile is present, making environment reproducibility difficult.",
-        "No CI configuration or tests are present, which are crucial for verification and validation.",
-        "The documentation is inconsistent and appears to be out of date with the actual repository contents."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "logpai/loghub-2.0",
-     "injected": [
-      "experiments/rq2_analysis.py",
-      "scripts/run_experiments.sh",
-      "configs/default.yaml",
-      "src/train_model.py",
-      "setup/install_deps.sh"
-     ],
-     "detected_by_verifier": [
-      "experiments/rq2_analysis.py",
-      "scripts/run_experiments.sh",
-      "configs/default.yaml",
-      "src/train_model.py",
-      "setup/install_deps.sh"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository and is documented.",
-        "The README provides clear instructions on how to download, install, and run the benchmark.",
-        "Scripts for running the benchmark and reproducing results are provided.",
-        "The repository includes requirements and dependencies needed to run the artifact.",
-        "Demo scripts are available for quick testing of the artifact.",
-        "The documentation explains how to evaluate custom parsers using the provided framework."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Available",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.7,
-       "downgraded": true,
-       "delta": -1,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README file contains detailed information about the datasets and requirements.",
-        "Several referenced files in the README do not exist in the repository, indicating inconsistency.",
-        "No dependencies are listed in the requirements.txt file.",
-        "No Dockerfile or CI configuration is present.",
-        "No tests are included in the repository."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "lrtsuser/LRTS",
-     "injected": [
-      "bin/reproduce_table3.sh",
-      "setup/install_deps.sh",
-      "src/train_model.py",
-      "notebooks/figure4.ipynb",
-      "configs/experiment_grid.json"
-     ],
-     "detected_by_verifier": [
-      "bin/reproduce_table3.sh",
-      "setup/install_deps.sh",
-      "src/train_model.py",
-      "notebooks/figure4.ipynb",
-      "configs/experiment_grid.json"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.85,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions for environment setup, data collection, and running the TCP techniques.",
-        "The artifact includes scripts for collecting data, implementing TCP techniques, and evaluating their performance.",
-        "The documentation appears consistent and complete, allowing a reviewer to follow the steps and exercise the artifact.",
-        "The artifact includes evidence of verification and validation through the provided evaluation scripts and results.",
-        "The setup and usage instructions are clear and comprehensive."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Available",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.85,
-       "downgraded": true,
-       "delta": -1,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README file is present and provides some documentation.",
-        "However, the documentation is inconsistent with the actual files present in the repository.",
-        "Many referenced files and scripts do not exist, making it difficult to verify the functionality.",
-        "The requirements.txt file is present but lists no dependencies.",
-        "There is no Dockerfile or CI configuration to ensure environment reproducibility."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "nhuhuan/sba",
-     "injected": [
-      "docker/build_image.sh",
-      "tools/evaluate_all.py",
-      "configs/default.yaml",
-      "src/baseline_runner.py",
-      "data/prepare_dataset.py"
-     ],
-     "detected_by_verifier": [
-      "docker/build_image.sh",
-      "tools/evaluate_all.py",
-      "configs/default.yaml",
-      "src/baseline_runner.py",
-      "data/prepare_dataset.py"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public repository, satisfying the 'Available' tier.",
-        "The README provides clear documentation on how to install dependencies, configure the environment, and build the artifact.",
-        "The README includes specific commands to run the jump table analysis application, indicating that the artifact is exercisable.",
-        "The presence of a script to reproduce results suggests that there is evidence of verification and validation.",
-        "The documentation is comprehensive enough to allow a reviewer to follow the setup and execution process.",
-        "Some parts of the framework are still undergoing significant overhaul, which introduces uncertainty about the completeness and consistency of the current state."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README references several files that do not exist in the repository, indicating inconsistency.",
-        "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are necessary for higher tiers.",
-        "The documentation is incomplete and references non-existent files, which prevents functional or reusable evaluation.",
-        "The environment reproducibility is lacking due to missing dependencies and build scripts.",
-        "The artifact does not provide enough evidence to be considered functional or reusable."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
-     "injected": [
-      "src/baseline_runner.py",
-      "scripts/run_experiments.sh",
-      "tools/evaluate_all.py",
-      "configs/default.yaml",
-      "src/train_model.py"
-     ],
-     "detected_by_verifier": [
-      "src/baseline_runner.py",
-      "scripts/run_experiments.sh",
-      "tools/evaluate_all.py",
-      "configs/default.yaml",
-      "src/train_model.py"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions on setting up the environment and reproducing the results.",
-        "The repository includes scripts to automate the running of experiments.",
-        "Results are provided and can be overwritten by rerunning the experiments, indicating that the experiments are exercisable.",
-        "The documentation appears to be consistent and complete, covering both studies presented in the paper.",
-        "There is evidence of verification and validation through the provided results and the ability to reproduce them."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README file is present but contains references to files that do not exist in the repository.",
-        "The requirements.txt file is present but lists no requirements.",
-        "No Dockerfile is present for environment reproducibility.",
-        "No license is present.",
-        "The documentation is inconsistent with the actual file structure of the repository."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "trustdnn/issta2024",
-     "injected": [
-      "src/baseline_runner.py",
-      "data/prepare_dataset.py",
-      "tools/evaluate_all.py",
-      "bin/reproduce_table3.sh",
-      "docker/build_image.sh"
-     ],
-     "detected_by_verifier": [
-      "src/baseline_runner.py",
-      "data/prepare_dataset.py",
-      "tools/evaluate_all.py",
-      "bin/reproduce_table3.sh",
-      "docker/build_image.sh"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository (Docker Hub).",
-        "The README provides clear documentation on how to set up and run the experiments.",
-        "The Docker image includes all necessary code, datasets, models, configurations, and scripts.",
-        "The README includes commands to replicate the experiments and obtain results.",
-        "The artifact includes evidence of verification and validation through the provided results and figures.",
-        "The documentation is comprehensive enough for a reviewer to follow and exercise the artifact."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Available",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.7,
-       "downgraded": true,
-       "delta": -1,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository (Docker image).",
-        "The README provides instructions for obtaining and using the Docker image.",
-        "Several referenced files in the README do not exist in the repository, indicating inconsistency.",
-        "No dependency manifest, container configuration, or tests were found, which are necessary for higher tiers.",
-        "Dead external links reduce confidence in the artifact's completeness and functionality.",
-        "The documentation, while present, has significant issues with consistency and accuracy."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "zhangxiaosa/LPR",
-     "injected": [
-      "src/baseline_runner.py",
-      "setup/install_deps.sh",
-      "configs/default.yaml",
-      "data/prepare_dataset.py",
-      "scripts/run_experiments.sh"
-     ],
-     "detected_by_verifier": [
-      "src/baseline_runner.py",
-      "setup/install_deps.sh",
-      "configs/default.yaml",
-      "data/prepare_dataset.py",
-      "scripts/run_experiments.sh"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions on how to set up the environment and run the experiments.",
-        "The artifact includes scripts and programs to run the experiments and analyze the results.",
-        "Precomputed results are provided for convenience, though rerunning the experiments is possible.",
-        "The documentation explains the folder structure and the purpose of each component.",
-        "The artifact includes benchmark suites and tools necessary for evaluation."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.85,
-       "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The documentation is inconsistent with the actual files present in the repository.",
-        "There are no dependency manifests, container configurations, CI configurations, tests, or licenses present.",
-        "Many referenced scripts and configuration files are missing.",
-        "The environment reproducibility is not ensured due to the lack of a dependency manifest and container configuration.",
-        "The artifact does not meet the criteria for 'Functional' or 'Reusable' tiers due to the significant documentation and file consistency issues."
-       ],
-       "mentions_absence": true
-      }
-     }
-    }
-   ]
-  },
-  {
-   "provider": "bedrock",
-   "model": "us.amazon.nova-pro-v1:0",
-   "n_artifacts": 15,
-   "injected_claims": 75,
-   "verifier_detected": 75,
-   "verifier_detection_rate": 1.0,
-   "baseline_noticed": 0,
-   "solution_noticed": 6,
-   "baseline_eligible": 14,
-   "baseline_downgraded_eligible": 0,
-   "baseline_at_floor": [
-    "DueForce/DueForce"
-   ],
-   "solution_eligible": 6,
-   "solution_downgraded_eligible": 6,
-   "solution_at_floor": [
-    "DueForce/DueForce",
-    "NWU-NISL-Fuzzing/upbeat",
-    "THU-WingTecher/DeepConstr",
-    "asub0/fonnx",
-    "dserfe/FlakyDoctor",
-    "emocat/VioHawk",
-    "jovyntls/inconsistencies-in-tex",
-    "nhuhuan/sba",
-    "zhangxiaosa/LPR"
-   ],
-   "usd": 0.1418,
-   "per_artifact": [
-    {
-     "artifact_id": "DueForce/DueForce",
-     "injected": [
-      "configs/default.yaml",
-      "experiments/rq2_analysis.py",
-      "data/prepare_dataset.py",
-      "src/baseline_runner.py",
-      "setup/install_deps.sh"
-     ],
-     "detected_by_verifier": [
-      "configs/default.yaml",
-      "experiments/rq2_analysis.py",
-      "data/prepare_dataset.py",
-      "src/baseline_runner.py",
-      "setup/install_deps.sh"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Available",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 1,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository, satisfying the 'Available' tier.",
-        "The README provides clear instructions for setting up the environment and running the full pipeline, indicating documentation.",
-        "The presence of a pre-compiled Docker image suggests the artifact is exercisable.",
-        "References to individual stages and scripts (e.g., `src/baseline_runner.py`) imply completeness.",
-        "The requirement to refer to the paper for technical details might slightly hinder full verification and validation without additional context.",
-        "The artifact does not explicitly provide evidence of extensive verification and validation processes, which might prevent it from reaching the 'Reusable' tier."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.9,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README references several files that do not exist in the repository, indicating inconsistency.",
-        "No dependency manifest or Dockerfile is present, making it difficult to ensure environment reproducibility.",
-        "The documentation is minimal and appears to be out of date with the actual repository contents.",
-        "The presence of CI configuration and tests suggests some level of verification, but the overall documentation and file consistency issues prevent higher tier assignment.",
-        "The artifact does not meet the criteria for 'Functional' or 'Reusable' due to significant documentation and file consistency issues."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "HexHive/FishFuzz",
-     "injected": [
-      "configs/experiment_grid.json",
-      "tools/evaluate_all.py",
-      "bin/reproduce_table3.sh",
-      "docker/build_image.sh",
-      "configs/default.yaml"
-     ],
-     "detected_by_verifier": [
-      "configs/experiment_grid.json",
-      "tools/evaluate_all.py",
-      "bin/reproduce_table3.sh",
-      "docker/build_image.sh",
-      "configs/default.yaml"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README provides detailed documentation on how to build, compile, and run the artifact.",
-        "Examples for both wrapper usage and manual compilation are provided.",
-        "The artifact includes a dockerfile for building the tool, which simplifies the setup process.",
-        "The README addresses frequently asked questions and provides contact information for further inquiries.",
-        "The artifact appears to be consistent, complete, and exercisable based on the provided documentation."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Available",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.8,
-       "downgraded": true,
-       "delta": -1,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README contains detailed documentation, but it references several file paths that do not exist in the repository, indicating a lack of consistency.",
-        "There is no dependency manifest found, and the Dockerfile lacks a FROM directive, making environment reproducibility uncertain.",
-        "No tests are present, which is a critical component for functional or reusable tiers.",
-        "The documentation, while detailed, does not provide enough evidence of verification and validation to confidently assign a higher tier."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
-     "injected": [
-      "setup/install_deps.sh",
-      "src/train_model.py",
-      "src/baseline_runner.py",
-      "notebooks/figure4.ipynb",
-      "data/prepare_dataset.py"
-     ],
-     "detected_by_verifier": [
-      "setup/install_deps.sh",
-      "src/train_model.py",
-      "src/baseline_runner.py",
-      "notebooks/figure4.ipynb",
-      "data/prepare_dataset.py"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public GitHub repository, satisfying the 'Available' criterion.",
-        "Documentation is provided in the form of a README, INSTALL.md, AE.md, and CommonIssues.md.",
-        "A Docker image is available, which suggests ease of setup and use.",
-        "Installation instructions are clear and include necessary dependencies.",
-        "Usage instructions are provided, pointing to AE.md for detailed usage.",
-        "Steps for reproducing results are outlined, including script commands."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.9,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "Several files referenced in the README do not exist in the repository, indicating inconsistency.",
-        "No dependency manifest or Dockerfile with a FROM directive is present, making environment reproducibility uncertain.",
-        "No CI configuration or tests are present, which are crucial for verifying functionality.",
-        "The provided Docker image link is dead, further complicating environment setup.",
-        "The documentation is incomplete and contains references to non-existent files."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
-     "injected": [
-      "bin/reproduce_table3.sh",
-      "scripts/run_experiments.sh",
-      "tools/evaluate_all.py",
-      "data/prepare_dataset.py",
-      "setup/install_deps.sh"
-     ],
-     "detected_by_verifier": [
-      "bin/reproduce_table3.sh",
-      "scripts/run_experiments.sh",
-      "tools/evaluate_all.py",
-      "data/prepare_dataset.py",
-      "setup/install_deps.sh"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions on how to set up and run the experiments.",
-        "There is a demonstration provided to show the functionality of the artifact.",
-        "The artifact includes a Docker image to simplify the setup process.",
-        "The README mentions the inclusion of step-by-step instructions and Zenodo links to the data used in the original submission.",
-        "The artifact seems to be documented and includes evidence of verification through the demonstration."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Available",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": true,
-       "delta": -1,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README file contains detailed instructions and explanations, but there are inconsistencies between the README and the actual files in the repository.",
-        "The dependencies file is present but does not list any requirements, and the Dockerfile lacks a FROM directive.",
-        "There are no CI configurations or tests present, which are important for ensuring the artifact's functionality.",
-        "The artifact includes a demonstration, but the main scripts referenced in the README for reproducing the results are missing."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "THU-WingTecher/DeepConstr",
-     "injected": [
-      "experiments/rq2_analysis.py",
-      "data/prepare_dataset.py",
-      "notebooks/figure4.ipynb",
-      "configs/experiment_grid.json",
-      "bin/reproduce_table3.sh"
-     ],
-     "detected_by_verifier": [
-      "experiments/rq2_analysis.py",
-      "data/prepare_dataset.py",
-      "notebooks/figure4.ipynb",
-      "configs/experiment_grid.json",
-      "bin/reproduce_table3.sh"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.8,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions on how to set up and use the software, including dependencies, environment setup, and command-line options.",
-        "The documentation includes examples and quick starts for both PyTorch and TensorFlow, indicating that the artifact is exercisable.",
-        "The presence of test scripts and experiment reproduction instructions suggests that the artifact has been verified and validated.",
-        "The README mentions Docker support, which simplifies the setup process and ensures consistency across different environments.",
-        "The artifact includes scripts for fuzzing, constraint extraction, and experiment reproduction, covering a range of functionalities."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository.",
-        "The README file is present and provides some documentation.",
-        "Several referenced files and paths in the README do not exist in the repository, indicating inconsistency.",
-        "The repository lacks a requirements.txt with actual dependencies and a Dockerfile for environment reproducibility.",
-        "The presence of tests and a license suggests some level of completeness, but the missing files and inconsistent documentation lower the overall assessment."
-       ],
-       "mentions_absence": true
-      }
-     }
-    },
-    {
-     "artifact_id": "asub0/fonnx",
-     "injected": [
-      "configs/default.yaml",
-      "notebooks/figure4.ipynb",
-      "src/baseline_runner.py",
-      "configs/experiment_grid.json",
-      "setup/install_deps.sh"
-     ],
-     "detected_by_verifier": [
-      "configs/default.yaml",
-      "notebooks/figure4.ipynb",
-      "src/baseline_runner.py",
-      "configs/experiment_grid.json",
-      "setup/install_deps.sh"
-     ],
-     "systems": {
-      "baseline": {
-       "clean_tier": "Functional",
-       "dirty_tier": "Functional",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.7,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
-        "The README provides clear instructions for reproducing the results, suggesting the artifact is documented and exercisable.",
-        "The presence of separate folders for different themes and a detailed README for each suggests a level of organization and completeness.",
-        "The use of an external dataset and clear instructions for installation and execution indicate an attempt at verification and validation.",
-        "The confidence is not 1.0 due to the lack of explicit evidence of verification and validation within the artifact itself, which would be necessary for a 'Reusable' tier."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.8,
@@ -1998,9 +1987,8 @@
         "The artifact is placed in a public archival repository.",
         "The README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
         "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are essential for higher tiers.",
-        "The README provides instructions that cannot be followed due to missing files, preventing functional evaluation."
-       ],
-       "mentions_absence": true
+        "The lack of complete and consistent documentation prevents the artifact from being classified as Functional or Reusable."
+       ]
       }
      }
     },
@@ -2022,6 +2010,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -2031,29 +2020,28 @@
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
         "The README provides detailed instructions on how to set up and run the artifact.",
-        "The documentation includes environment requirements and steps to reproduce results.",
-        "There is evidence of verification and validation through the provided results and successful patches.",
-        "The artifact appears to be exercisable based on the given instructions.",
-        "The non-determinism of LLMs is acknowledged, which is a common issue in such artifacts."
-       ],
-       "mentions_absence": false
+        "The artifact includes datasets, patches, results, and source code.",
+        "The documentation explains the environment requirements and how to reproduce the results.",
+        "The artifact includes scripts to automate the setup and execution process.",
+        "The results are verifiable through the provided logs and summary files."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
-       "clean_conf": 0.8,
+       "clean_conf": 0.85,
        "dirty_conf": 0.8,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
         "The README contains detailed instructions for setup and usage.",
-        "Several referenced files and dependencies are missing, indicating inconsistency between documentation and actual repository contents.",
-        "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are essential for higher tiers.",
-        "The environment reproducibility is lacking due to missing dependencies and configuration files.",
-        "Dead external links in the README reduce confidence in the artifact's completeness and functionality."
-       ],
-       "mentions_absence": true
+        "Several referenced files and dependencies are missing or not present.",
+        "No dependency manifest or container configuration is provided.",
+        "The environment reproducibility is lacking due to missing components.",
+        "Dead external links reduce the reliability of the artifact."
+       ]
       }
      }
     },
@@ -2075,37 +2063,38 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
-       "clean_conf": 0.7,
+       "clean_conf": 0.8,
        "dirty_conf": 0.7,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository, fulfilling the 'Available' criteria.",
-        "The README provides clear documentation on how to set up and use the tool, including installation instructions and example commands.",
-        "The structure of the project is well-organized, with distinct directories for different components.",
-        "The artifact includes scripts and examples for exercising its main functionalities (fuzzing, violation detection, scenario mutation, and visualization).",
-        "The README mentions that the artifact has been tested under specific conditions, suggesting some level of verification.",
-        "However, the GPU requirement for full functionality and the lack of detailed validation evidence slightly reduce confidence in the 'Reusable' tier."
-       ],
-       "mentions_absence": false
+        "The README provides detailed instructions on how to set up and run the tool, indicating it is documented.",
+        "The structure of the project is clear, with distinct directories for different functionalities.",
+        "Commands are provided for running the main functionalities of the tool, suggesting it is exercisable.",
+        "The presence of a Docker environment and datasets for evaluation indicates some level of verification and validation.",
+        "However, the GPU requirement for full functionality and the note that the Docker environment does not include a GPU suggest some limitations in completeness for certain features."
+       ]
       },
       "solution": {
-       "clean_tier": "Available",
+       "mentions_absence": true,
+       "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
        "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
+       "downgraded": true,
+       "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README file is present but contains references to files that do not exist in the repository.",
-        "The requirements.txt file is present but lists no dependencies.",
-        "No Dockerfile is present for containerization.",
-        "The documentation is inconsistent with the actual files in the repository."
-       ],
-       "mentions_absence": true
+        "The README references several files that do not exist in the repository, indicating inconsistency.",
+        "The requirements.txt file lists no dependencies, making environment setup unclear.",
+        "No Dockerfile is present, complicating environment reproducibility.",
+        "Critical files mentioned in the README for running experiments are missing.",
+        "The documentation does not provide enough information to confidently evaluate higher tiers."
+       ]
       }
      }
     },
@@ -2127,38 +2116,38 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
-       "clean_conf": 0.7,
-       "dirty_conf": 0.8,
-       "downgraded": false,
-       "delta": 0,
-       "dirty_reasons": [
-        "The artifact is placed in a public archival repository, satisfying the 'Available' criterion.",
-        "The README provides clear instructions on how to set up and run the software, indicating it is documented.",
-        "The presence of a configuration file (`config.py`) and detailed command-line options suggests the artifact is consistent and complete.",
-        "The artifact includes multiple scripts that can be executed to perform various tasks, indicating it is exercisable.",
-        "The README mentions that logs and results are saved, which could serve as evidence of verification and validation.",
-        "While the documentation is thorough, it does not explicitly provide evidence of significantly exceeding minimal functionality, which would be required for the 'Reusable' tier."
-       ],
-       "mentions_absence": false
-      },
-      "solution": {
-       "clean_tier": "Available",
-       "dirty_tier": "Available",
        "clean_conf": 0.8,
        "dirty_conf": 0.8,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
+        "The artifact is placed in a public archival repository, satisfying the 'Available' tier.",
+        "The README provides clear instructions on how to set up and run the scripts, indicating documentation.",
+        "The presence of a configuration file (config.py) and detailed command-line options suggests the artifact is consistent and complete.",
+        "The artifact includes scripts that can be executed to perform the differential testing pipeline, meeting the exercisable criterion.",
+        "The README mentions that logs and results are saved, providing evidence of verification and validation.",
+        "While the documentation is comprehensive, it does not explicitly demonstrate significantly exceeding minimal functionality for reusability, hence not 'Reusable'."
+       ]
+      },
+      "solution": {
+       "mentions_absence": true,
+       "clean_tier": "Functional",
+       "dirty_tier": "Available",
+       "clean_conf": 0.7,
+       "dirty_conf": 0.8,
+       "downgraded": true,
+       "delta": -1,
+       "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The documentation is inconsistent with the actual files present in the repository.",
-        "Missing files and scripts referenced in the README.",
+        "Significant discrepancies between the README and the actual files present in the repository.",
+        "Missing critical files referenced in the README.",
         "No dependencies listed in requirements.txt.",
         "No Dockerfile or container configuration present.",
         "No CI configuration or tests present."
-       ],
-       "mentions_absence": true
+       ]
       }
      }
     },
@@ -2180,6 +2169,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -2187,31 +2177,30 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository and is documented.",
-        "The README provides clear instructions on how to download, install, and run the benchmark.",
+        "The artifact is placed in a public archival repository.",
+        "The README provides clear documentation on how to download, install, and run the benchmark.",
         "Scripts for running the benchmark and reproducing results are provided.",
-        "The repository includes requirements and dependencies needed to run the artifact.",
-        "Demo scripts are available for quick testing of the artifact.",
+        "Requirements and dependencies are clearly listed.",
+        "The artifact includes datasets, source code, and evaluation scripts.",
         "The documentation explains how to evaluate custom parsers using the provided framework."
-       ],
-       "mentions_absence": false
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
-       "clean_conf": 0.7,
+       "clean_conf": 0.8,
        "dirty_conf": 0.7,
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README contains detailed information about the datasets and their characteristics.",
-        "The license is present, allowing for potential reuse.",
-        "Several referenced files in the README do not exist, indicating inconsistency.",
-        "No dependencies are listed, and no Dockerfile or CI configuration is present.",
-        "The requirements.txt file is empty, making environment setup unclear."
-       ],
-       "mentions_absence": true
+        "The README file provides detailed information about the datasets and their characteristics.",
+        "The repository includes a license, which is a positive sign for archival.",
+        "However, the README references several files that do not exist in the repository, indicating a lack of documentation consistency.",
+        "There are no dependencies listed, no container configuration, and no tests present, which are necessary for higher tiers.",
+        "The environment reproducibility is lacking due to the absence of a Dockerfile and CI configuration."
+       ]
       }
      }
     },
@@ -2233,6 +2222,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.85,
@@ -2241,15 +2231,15 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README provides detailed instructions for environment setup, data collection, and running the TCP techniques.",
-        "The artifact includes scripts and code for downloading more builds, implementing TCP techniques, and evaluating them.",
-        "The documentation appears consistent and complete, with clear steps for reproducing the results.",
-        "The artifact includes evidence of verification and validation through the provided evaluation scripts and outcome data.",
-        "A reviewer could follow the documentation and exercise the artifact to reproduce the results."
-       ],
-       "mentions_absence": false
+        "The README provides clear instructions for environment setup, both using Docker and locally.",
+        "The artifact includes scripts for collecting data, implementing TCP techniques, and evaluating their performance.",
+        "Documentation is comprehensive, guiding users through the process of using the artifact.",
+        "The artifact appears to be exercisable, as it provides steps to reproduce results from the paper.",
+        "Evidence of verification and validation is present through the provided evaluation scripts and outcomes."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
@@ -2258,12 +2248,11 @@
        "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README file is extensive but contains references to non-existent files, indicating inconsistency.",
-        "The repository lacks a requirements.txt with actual dependencies and a proper Dockerfile.",
-        "There are no CI configurations or tests present, which are essential for higher tiers.",
-        "The documentation, while detailed, does not align with the actual files present in the repository."
-       ],
-       "mentions_absence": true
+        "The README references multiple files that do not exist in the repository, indicating inconsistency.",
+        "The requirements.txt file is present but lists no requirements, and there is no Dockerfile with a FROM directive.",
+        "There are no CI configuration or tests present, which are essential for higher tiers.",
+        "The documentation is extensive but contains references to non-existent files, reducing its reliability."
+       ]
       }
      }
     },
@@ -2285,6 +2274,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.7,
@@ -2292,16 +2282,16 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public archival repository, satisfying the 'Available' criterion.",
+        "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
         "The README provides detailed installation and build instructions, suggesting the artifact is documented.",
-        "The presence of commands to run specific analyses (e.g., jump table analysis) indicates the artifact is exercisable.",
-        "The README mentions a script to reproduce results, suggesting some level of verification and validation.",
-        "The documentation appears consistent and complete for building and running the artifact.",
-        "However, the artifact is described as undergoing a significant overhaul, which introduces some uncertainty about its current state and functionality."
-       ],
-       "mentions_absence": false
+        "The presence of a 'Getting Started' section with clear steps indicates the artifact is likely exercisable.",
+        "The 'Reproducing the results' section suggests there is a process to validate the artifact, though specific evidence of verification is not detailed.",
+        "The artifact appears to be consistent with the paper's claims, as it includes applications like Jump Table Analysis as described.",
+        "The confidence is not at 1 due to the lack of explicit evidence of verification and validation beyond the build and run instructions."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
@@ -2310,11 +2300,12 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README references several files that do not exist in the repository, indicating inconsistency.",
-        "There is no dependency manifest, Dockerfile, CI configuration, or tests present.",
-        "The documentation appears to be out of date and does not match the current state of the repository."
-       ],
-       "mentions_absence": true
+        "Significant discrepancies between the README and the actual repository contents, indicating poor documentation consistency.",
+        "No dependency manifest, container, CI configuration, or tests are present, which are essential for higher tiers.",
+        "Missing critical files referenced in the README, such as configuration scripts and analysis tools.",
+        "The README provides some installation and build instructions, but the actual reproducibility and functionality are questionable due to the missing files and dependencies.",
+        "The artifact does not meet the criteria for 'Functional' or 'Reusable' tiers due to the significant issues with documentation and missing components."
+       ]
       }
      }
     },
@@ -2336,6 +2327,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -2346,27 +2338,27 @@
         "The artifact is placed in a public archival repository.",
         "The README provides detailed instructions on setting up the environment and reproducing the results.",
         "The repository includes scripts to automate the running of experiments.",
-        "Results are provided and can be overwritten by rerunning the experiments, indicating that the experiments are exercisable.",
-        "The documentation appears to be consistent and complete, covering both studies presented in the paper.",
-        "There is evidence of verification and validation through the provided results and the ability to reproduce them."
-       ],
-       "mentions_absence": false
+        "Results are provided and can be overwritten by rerunning the experiments, indicating they are reproducible.",
+        "The documentation appears to be consistent and complete for reproducing the main study (study_1).",
+        "There is evidence of verification and validation through the provided results and the ability to rerun experiments."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
-       "dirty_conf": 0.8,
+       "dirty_conf": 0.85,
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "The README file contains detailed instructions for setting up the environment and reproducing the results.",
-        "However, the README references several file paths that do not exist in the repository, indicating a lack of documentation consistency.",
-        "The requirements.txt file is present but lists no requirements, and there is no Dockerfile or CI configuration, which affects environment reproducibility.",
-        "The artifact lacks a license, which is important for reuse and redistribution."
-       ],
-       "mentions_absence": true
+        "The README file is present and provides instructions for setting up the environment and reproducing the results.",
+        "Several file paths referenced in the README do not exist in the repository, indicating a lack of documentation consistency.",
+        "The requirements.txt file lists no dependencies, which makes environment reproducibility uncertain.",
+        "No Dockerfile or CI configuration is present, further complicating environment reproducibility.",
+        "The presence of tests is a positive sign, but the overall documentation and file consistency issues prevent a higher tier assignment."
+       ]
       }
      }
     },
@@ -2388,6 +2380,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -2396,15 +2389,15 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository (Docker Hub).",
-        "The README provides clear documentation on how to set up and run the experiments.",
-        "The Docker image includes all necessary code, datasets, models, and scripts.",
-        "The README provides commands to replicate the experiments and results.",
-        "The artifact includes evidence of verification and validation through the provided results and figures.",
-        "The documentation is comprehensive enough for a reviewer to follow and exercise the artifact."
-       ],
-       "mentions_absence": false
+        "The README provides clear documentation on how to install and run the artifact.",
+        "The Docker image includes all necessary code, datasets, models, and scripts for replication.",
+        "The README includes detailed steps for replicating the experiments and results.",
+        "The artifact appears to be complete and exercisable based on the provided instructions.",
+        "The documentation includes evidence of verification and validation through the replication and comparison scripts."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Functional",
        "dirty_tier": "Available",
        "clean_conf": 0.7,
@@ -2414,12 +2407,11 @@
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
         "The README provides instructions for setting up and running the experiments using Docker.",
-        "However, there are significant inconsistencies between the README and the actual repository contents, with several referenced files missing.",
-        "There is no dependency manifest, CI configuration, or tests present, which are crucial for higher tiers.",
-        "The external links to datasets are dead, which impacts the reproducibility of the results.",
-        "The documentation, while present, is not consistent with the actual files in the repository."
-       ],
-       "mentions_absence": true
+        "Several files referenced in the README do not exist in the repository, indicating inconsistency.",
+        "No dependency manifest, CI configuration, or tests were found, which are essential for higher tiers.",
+        "Dead external links in the README reduce confidence in the artifact's completeness.",
+        "The documentation, while present, has significant issues with consistency and accuracy."
+       ]
       }
      }
     },
@@ -2441,6 +2433,7 @@
      ],
      "systems": {
       "baseline": {
+       "mentions_absence": false,
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.8,
@@ -2448,37 +2441,34 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public GitHub repository.",
-        "The README provides detailed instructions for setting up the environment and running the experiments.",
-        "The artifact includes scripts and tools necessary to reproduce the results.",
-        "Precomputed results are provided to facilitate evaluation, though rerunning the experiments is possible.",
-        "The documentation explains the non-deterministic nature of LLM outputs and provides strategies to handle it."
-       ],
-       "mentions_absence": false
+        "The artifact is documented with clear instructions on how to set up the environment and run the experiments.",
+        "It includes scripts and programs to run the experiments and analyze the results.",
+        "Precomputed results are provided for convenience, acknowledging the time-consuming and LLM-dependent nature of the experiments.",
+        "The README explains how to handle the non-deterministic output of LLMs and provides flags for multi-processing.",
+        "The folder structure is well-organized, with separate directories for scripts, prompts, benchmark suites, tools, and precomputed results.",
+        "Some level of verification and validation is implied by the provision of precomputed results and the ability to rerun experiments."
+       ]
       },
       "solution": {
+       "mentions_absence": true,
        "clean_tier": "Available",
        "dirty_tier": "Available",
-       "clean_conf": 0.9,
-       "dirty_conf": 0.7,
+       "clean_conf": 0.85,
+       "dirty_conf": 0.9,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact is placed in a public archival repository.",
-        "However, the documentation is inconsistent with the actual files present in the repository.",
-        "Missing critical files and scripts as referenced in the README.",
-        "No dependency manifest, Dockerfile, CI configuration, tests, or license present.",
-        "The environment setup and execution instructions are provided, but the actual files do not match the README.",
-        "The artifact does not meet the criteria for Functional or Reusable tiers due to the significant documentation issues."
-       ],
-       "mentions_absence": true
+        "The documentation is inconsistent with the actual files present in the repository.",
+        "There are no dependency manifests, container configurations, CI configurations, tests, or licenses present.",
+        "Many referenced files and scripts in the README do not exist in the repository.",
+        "The environment reproducibility is not ensured due to missing dependency and container information.",
+        "The artifact does not meet the criteria for 'Functional' or 'Reusable' tiers due to the above issues."
+       ]
       }
      }
     }
    ]
   }
- ],
- "baseline_mentions_absence": 0,
- "solution_mentions_absence": 44,
- "mentions_denominator": 45
+ ]
 }

@@ -42,13 +42,50 @@ def claims() -> list[tuple[str, str, str, str]]:
         if br:
             out.append(("README.md", f"{sum(br)/len(br):.0%}",
                         "baseline detection mean", "falsified_run.json"))
-        if fr.get("solution_mentions_absence") is not None:
-            out.append(("README.md",
-                        f"{fr['solution_mentions_absence']}/{fr['mentions_denominator']}",
-                        "floor-free: solution cites absence", "falsified_run.json"))
+        # Derive the floor-free figure from the per-artifact records of EVERY
+        # model run, rather than a top-level key. The key did not exist, so
+        # this claim was being silently skipped - a claim checker that quietly
+        # omits a claim is the same defect class it exists to catch.
+        tb = ts = tn = 0
+        for fname in ("results/falsified_run.json", "results/falsified_llama.json"):
+            d = load(fname)
+            if not d:
+                continue
+            for t in d.get("per_trial", []):
+                for r in t.get("per_artifact", []):
+                    tn += 1
+                    tb += bool(r["systems"]["baseline"]["mentions_absence"])
+                    ts += bool(r["systems"]["solution"]["mentions_absence"])
+        if tn:
+            out.append(("README.md", f"{ts}/{tn}",
+                        "floor-free: solution cites absence",
+                        "falsified_run.json + falsified_llama.json"))
+            out.append(("README.md", f"{tb}/{tn}",
+                        "floor-free: baseline cites absence",
+                        "falsified_run.json + falsified_llama.json"))
         if fr.get("trials"):
             out.append(("README.md", str(fr["trials"]), "trial count",
                         "falsified_run.json"))
+
+    # The negative result is a documented claim too, and it drifted: the table
+    # read 0.733 / 1.000 long after a re-run put both at 0.800. A result kept
+    # visible for honesty is worthless if its numbers are stale.
+    cp = load("results/comparison.json")
+    if cp:
+        for sysname in ("baseline", "solution"):
+            if cp.get(sysname):
+                # The video script quotes these too. A spoken number is still a
+                # claim, and it had drifted there as well.
+                for doc in ("README.md", "docs/VIDEO_SCRIPT.md"):
+                    out.append((doc, f"{cp[sysname]['mae']:.3f}",
+                                f"{sysname} MAE (badge agreement)",
+                                "comparison.json"))
+        best = next((c for c in cp.get("controls", [])
+                     if c["system"] == cp.get("best_control")), None)
+        if best:
+            out.append(("README.md", f"{best['mae']:.3f}",
+                        f"best constant control ({best['system']})",
+                        "comparison.json"))
 
     nc = load("results/negative_control.json")
     if nc:

@@ -1,8 +1,8 @@
 {
  "_provenance": {
   "kind": "solution",
-  "commit": "40b448c",
-  "code_fingerprint": "1ac47c7ed9f2"
+  "commit": "e4d0e70",
+  "code_fingerprint": "72810c51f6f6"
  },
  "report": {
   "system": "solution",
@@ -10,22 +10,22 @@
   "n_scored": 10,
   "n_escalated": 5,
   "n_failed": 0,
-  "mae": 0.7,
-  "exact_accuracy": 0.3,
+  "mae": 0.8,
+  "exact_accuracy": 0.2,
   "adjacent_accuracy": 1.0,
-  "overclaim_rate": 0.2,
+  "overclaim_rate": 0.4,
   "escalation_rate": 0.333,
   "human_minutes": 305.0,
   "human_minutes_saved": 370.0,
-  "input_tokens": 37833,
-  "output_tokens": 1925,
+  "input_tokens": 37649,
+  "output_tokens": 1968,
   "usd": 0.0364,
   "per_item": [
    {
     "artifact_id": "DueForce/DueForce",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.8,
+    "confidence": 0.7,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -59,11 +59,11 @@
    {
     "artifact_id": "THU-WingTecher/DeepConstr",
     "truth": "Available",
-    "predicted": "Available",
+    "predicted": "Functional",
     "confidence": 0.7,
     "escalated": false,
-    "rank_error": 0,
-    "outcome": "correct"
+    "rank_error": 1,
+    "outcome": "overclaim"
    },
    {
     "artifact_id": "asub0/fonnx",
@@ -84,26 +84,26 @@
    {
     "artifact_id": "emocat/VioHawk",
     "truth": "Functional",
-    "predicted": "Available",
+    "predicted": "Functional",
     "confidence": 0.7,
-    "escalated": false,
-    "rank_error": -1,
-    "outcome": "underclaim"
-   },
-   {
-    "artifact_id": "jovyntls/inconsistencies-in-tex",
-    "truth": "Available",
-    "predicted": "Available",
-    "confidence": 0.8,
     "escalated": false,
     "rank_error": 0,
     "outcome": "correct"
    },
    {
+    "artifact_id": "jovyntls/inconsistencies-in-tex",
+    "truth": "Available",
+    "predicted": "Functional",
+    "confidence": 0.7,
+    "escalated": false,
+    "rank_error": 1,
+    "outcome": "overclaim"
+   },
+   {
     "artifact_id": "logpai/loghub-2.0",
     "truth": "Reusable",
     "predicted": "Functional",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": -1,
     "outcome": "underclaim"
@@ -157,24 +157,25 @@
   {
    "artifact_id": "DueForce/DueForce",
    "tier": "Available",
-   "confidence": 0.8,
+   "confidence": 0.7,
    "escalated": true,
    "escalation_reasons": [
     "README makes no checkable file references, so no claim could be verified either way"
    ],
    "reasons": [
-    "The artifact is placed in a public archival repository (Docker and Zenodo).",
-    "The README provides a reference to a pre-compiled Docker image and a paper for technical details.",
-    "No dependency manifest or Dockerfile is present, making it hard to verify environment reproducibility.",
-    "The README is very minimal (409 bytes) and does not provide checkable file paths or detailed instructions.",
-    "No evidence of verification and validation is present in the verified facts.",
-    "The documentation is inconsistent with the repository contents as it references non-existent files."
+    "The artifact is placed in a public archival repository (Zenodo).",
+    "The README is minimal and does not provide detailed instructions or references to checkable file paths.",
+    "No dependency manifest or Dockerfile is present, making environment reproducibility uncertain.",
+    "The presence of CI configuration and tests suggests some level of verification, but this is not sufficient for higher tiers.",
+    "The README references a pre-compiled Docker image, but the repository itself lacks detailed documentation or files to verify functionality.",
+    "The minimal README and lack of detailed documentation prevent it from reaching the 'Functional' or 'Reusable' tiers."
    ],
    "verified": {
     "artifact_id": "DueForce/DueForce",
     "claims_total": 0,
     "claims_broken": 0,
     "broken_paths": [],
+    "case_mismatches": [],
     "suggestions": {},
     "broken_ratio": 0.0,
     "has_dependency_manifest": true,
@@ -197,22 +198,21 @@
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public repository and includes a README with instructions for building and running the software.",
-    "The README provides detailed steps for both using a provided wrapper script and manual compilation, indicating a level of documentation.",
-    "The repository includes a Dockerfile with pinned base images, enhancing reproducibility.",
-    "There is a CI configuration present, suggesting some level of automated testing or building process.",
-    "The README references a missing file (TMP_DIR/funcid.csv), which indicates a discrepancy between the documentation and the actual repository contents, slightly undermining the consistency and completeness of the documentation.",
-    "There are no tests present in the repository, which is a minor drawback for achieving the 'Functional' tier but does not necessarily prevent it."
+    "The artifact is placed in a public repository and includes a README with detailed instructions.",
+    "All referenced paths in the README exist in the repository, indicating documentation consistency.",
+    "The repository includes a Dockerfile with pinned base images, enhancing environment reproducibility.",
+    "No machine-specific values were found, suggesting good portability.",
+    "External links are valid, contributing to the artifact's reliability.",
+    "However, there is no dependency manifest, and no tests are present, which slightly lowers the confidence in the tier assignment."
    ],
    "verified": {
     "artifact_id": "HexHive/FishFuzz",
-    "claims_total": 9,
-    "claims_broken": 1,
-    "broken_paths": [
-     "TMP_DIR/funcid.csv"
-    ],
+    "claims_total": 8,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "case_mismatches": [],
     "suggestions": {},
-    "broken_ratio": 0.111,
+    "broken_ratio": 0.0,
     "has_dependency_manifest": true,
     "has_container": true,
     "has_ci": true,
@@ -232,11 +232,6 @@
       "path": "README.md",
       "exists": true,
       "matched_as": "exact"
-     },
-     {
-      "path": "TMP_DIR/funcid.csv",
-      "exists": false,
-      "matched_as": null
      },
      {
       "path": "afl-fishfuzz.cc",
@@ -291,6 +286,7 @@
     "claims_total": 4,
     "claims_broken": 0,
     "broken_paths": [],
+    "case_mismatches": [],
     "suggestions": {},
     "broken_ratio": 0.0,
     "has_dependency_manifest": false,
@@ -334,18 +330,19 @@
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "The README is detailed and provides step-by-step instructions for reproducing and replicating the studies.",
-    "All referenced paths in the README were found in the repository, indicating documentation consistency.",
-    "All dependencies are pinned, ensuring environment reproducibility.",
-    "The artifact includes a demonstration with instructions to test the functionality.",
-    "The README provides clear instructions on how to set up and run the experiments, both using Docker and locally."
+    "The artifact is placed in a public archival repository, fulfilling the 'Available' tier.",
+    "The README is comprehensive and provides clear instructions for setting up and running the experiments.",
+    "All referenced paths in the README exist in the repository, indicating documentation consistency.",
+    "Dependencies are mostly pinned, contributing to environment reproducibility.",
+    "The artifact includes a demonstration with step-by-step instructions, showing that it is exercisable.",
+    "The artifact lacks CI configuration and tests, which slightly reduces confidence in its functionality."
    ],
    "verified": {
     "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
-    "claims_total": 4,
+    "claims_total": 3,
     "claims_broken": 0,
     "broken_paths": [],
+    "case_mismatches": [],
     "suggestions": {},
     "broken_ratio": 0.0,
     "has_dependency_manifest": true,
@@ -358,11 +355,6 @@
     "n_files": 1129,
     "ignored": 0,
     "claims": [
-     {
-      "path": "my_simulate.py",
-      "exists": true,
-      "matched_as": "suffix"
-     },
      {
       "path": "replication",
       "exists": true,
@@ -384,35 +376,36 @@
   },
   {
    "artifact_id": "THU-WingTecher/DeepConstr",
-   "tier": "Available",
+   "tier": "Functional",
    "confidence": 0.7,
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "There are significant inconsistencies between the README and the actual repository contents, such as missing files and directories.",
-    "The dependencies are not pinned, which may affect reproducibility.",
-    "No Dockerfile is present, making environment setup less straightforward.",
-    "The README contains dead external links, reducing its utility."
+    "The artifact is placed in a public repository, satisfying the 'Available' tier.",
+    "The README provides detailed setup and usage instructions, suggesting it is documented.",
+    "The presence of tests indicates some level of verification.",
+    "Several file paths referenced in the README do not exist, indicating documentation inconsistency.",
+    "Dependencies are not pinned, which may affect reproducibility.",
+    "The artifact appears to be exercisable based on the provided scripts and instructions."
    ],
    "verified": {
     "artifact_id": "THU-WingTecher/DeepConstr",
-    "claims_total": 28,
-    "claims_broken": 6,
+    "claims_total": 27,
+    "claims_broken": 5,
     "broken_paths": [
      "DeepConstr/data/records",
      "DeepConstr/results/tf_exp.csv",
      "DeepConstr/results/torch_exp.csv",
      "DeepConstr/results/unnormal_val_deepconstr_torch.json",
-     "env",
      "pt_gen.csv"
     ],
+    "case_mismatches": [],
     "suggestions": {
      "DeepConstr/data/records": [
       "deepconstr/gen/record.py"
      ]
     },
-    "broken_ratio": 0.214,
+    "broken_ratio": 0.185,
     "has_dependency_manifest": true,
     "has_container": false,
     "has_ci": false,
@@ -487,11 +480,6 @@
       "path": "docs/bug_list.md",
       "exists": true,
       "matched_as": "exact"
-     },
-     {
-      "path": "env",
-      "exists": false,
-      "matched_as": null
      },
      {
       "path": "error.py",
@@ -578,16 +566,17 @@
    "reasons": [
     "The artifact is placed in a public archival repository.",
     "No dependency manifest or Dockerfile is present, making environment reproducibility uncertain.",
-    "No tests or CI configuration are present, indicating lack of verification and validation evidence.",
-    "The README is very brief and does not provide checkable instructions or reference existing files.",
-    "The artifact lacks comprehensive documentation necessary for higher tiers.",
-    "The absence of a dependency manifest and tests suggests the artifact may not be easily exercisable."
+    "No tests are present, so functionality cannot be verified.",
+    "The README is very short and does not provide checkable instructions or references to existing files.",
+    "The artifact lacks documentation that would allow a reviewer to follow and exercise it, failing to meet 'Functional' criteria.",
+    "The structure and documentation do not exceed minimal functionality, failing to meet 'Reusable' criteria."
    ],
    "verified": {
     "artifact_id": "asub0/fonnx",
     "claims_total": 0,
     "claims_broken": 0,
     "broken_paths": [],
+    "case_mismatches": [],
     "suggestions": {},
     "broken_ratio": 0.0,
     "has_dependency_manifest": true,
@@ -613,9 +602,10 @@
    ],
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "There are significant issues with documentation consistency, missing files, and hard-coded values.",
-    "No dependency manifest, container, CI configuration, tests, or license present.",
-    "The environment reproducibility and portability are lacking."
+    "The README references files that do not exist in the repository, indicating inconsistency.",
+    "There is no dependency manifest, container, CI configuration, or tests present.",
+    "There are hard-coded values that resolve only on the author's machine, affecting portability.",
+    "Several external links are dead, reducing the reliability of the documentation."
    ],
    "verified": {
     "artifact_id": "dserfe/FlakyDoctor",
@@ -626,6 +616,7 @@
      "OD_summary.csv",
      "install_summary.csv"
     ],
+    "case_mismatches": [],
     "suggestions": {},
     "broken_ratio": 0.25,
     "has_dependency_manifest": false,
@@ -704,34 +695,26 @@
   },
   {
    "artifact_id": "emocat/VioHawk",
-   "tier": "Available",
+   "tier": "Functional",
    "confidence": 0.7,
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public archival repository (GitHub).",
-    "README references non-existent files, indicating documentation inconsistency.",
-    "No Dockerfile is present, making environment reproducibility challenging.",
-    "Presence of hard-coded values that resolve only on the author's machine reduces portability.",
-    "Despite issues, the artifact is available for review and potential use."
+    "The artifact is placed in a public repository and has a README with instructions.",
+    "All dependencies are pinned, indicating careful environment management.",
+    "CI configuration and tests are present, suggesting some level of automated verification.",
+    "The README provides clear instructions on how to use the main functionalities of the tool.",
+    "There are hard-coded values that reduce portability, but the core functionality seems intact.",
+    "The absence of a Dockerfile and the need for manual patching slightly reduce the ease of setup."
    ],
    "verified": {
     "artifact_id": "emocat/VioHawk",
-    "claims_total": 15,
-    "claims_broken": 3,
-    "broken_paths": [
-     "corpus",
-     "out",
-     "path/to/site-packages/commonroad_reach/utility/coordinate_system.py"
-    ],
-    "suggestions": {
-     "out": [
-      "utils/able/src/bridge/node_modules/es5-ext/object/count.js",
-      "utils/lawbreaker/src/bridge/node_modules/es5-ext/object/count.js",
-      "utils/able/src/bridge/node_modules/es5-ext/string/#/count.js"
-     ]
-    },
-    "broken_ratio": 0.2,
+    "claims_total": 11,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "case_mismatches": [],
+    "suggestions": {},
+    "broken_ratio": 0.0,
     "has_dependency_manifest": true,
     "has_container": true,
     "has_ci": true,
@@ -746,11 +729,6 @@
       "path": "config",
       "exists": true,
       "matched_as": "directory"
-     },
-     {
-      "path": "corpus",
-      "exists": false,
-      "matched_as": null
      },
      {
       "path": "dataparser",
@@ -783,21 +761,6 @@
       "matched_as": "suffix"
      },
      {
-      "path": "out",
-      "exists": false,
-      "matched_as": null
-     },
-     {
-      "path": "path/to/site-packages/commonroad_reach/data_structure/configuration.py",
-      "exists": true,
-      "matched_as": "basename"
-     },
-     {
-      "path": "path/to/site-packages/commonroad_reach/utility/coordinate_system.py",
-      "exists": false,
-      "matched_as": null
-     },
-     {
       "path": "requirements.txt",
       "exists": true,
       "matched_as": "exact"
@@ -823,28 +786,26 @@
   },
   {
    "artifact_id": "jovyntls/inconsistencies-in-tex",
-   "tier": "Available",
-   "confidence": 0.8,
+   "tier": "Functional",
+   "confidence": 0.7,
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public archival repository, fulfilling the 'Available' tier criteria.",
-    "The README references non-existent files (bin, logs), indicating potential issues with documentation consistency.",
-    "There are hard-coded values specific to the author's machine, reducing portability.",
-    "No Dockerfile or CI configuration is present, which are important for environment reproducibility.",
-    "No tests are present, which is crucial for the 'Functional' tier.",
-    "The documentation, while present, has inconsistencies and lacks evidence of verification and validation, which are required for the 'Functional' tier."
+    "All referenced paths in the README exist in the repository.",
+    "All dependencies are pinned, ensuring environment reproducibility.",
+    "The README provides clear instructions on how to set up and run the scripts.",
+    "The artifact includes a license, indicating some level of formal release.",
+    "There is a hard-coded value that reduces portability, but the overall setup seems functional.",
+    "The absence of a Dockerfile and CI configuration slightly lowers the tier, but the artifact is still likely functional."
    ],
    "verified": {
     "artifact_id": "jovyntls/inconsistencies-in-tex",
-    "claims_total": 12,
-    "claims_broken": 2,
-    "broken_paths": [
-     "bin",
-     "logs"
-    ],
+    "claims_total": 10,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "case_mismatches": [],
     "suggestions": {},
-    "broken_ratio": 0.167,
+    "broken_ratio": 0.0,
     "has_dependency_manifest": true,
     "has_container": false,
     "has_ci": false,
@@ -856,11 +817,6 @@
     "ignored": 0,
     "claims": [
      {
-      "path": "bin",
-      "exists": false,
-      "matched_as": null
-     },
-     {
       "path": "config.py",
       "exists": true,
       "matched_as": "exact"
@@ -869,11 +825,6 @@
       "path": "count_latexmk_runs.py",
       "exists": true,
       "matched_as": "exact"
-     },
-     {
-      "path": "logs",
-      "exists": false,
-      "matched_as": null
      },
      {
       "path": "main.py",
@@ -922,33 +873,27 @@
   {
    "artifact_id": "logpai/loghub-2.0",
    "tier": "Functional",
-   "confidence": 0.7,
+   "confidence": 0.8,
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is placed in a public archival repository, satisfying the 'Available' tier.",
-    "The documentation, while not perfectly consistent (references to non-existent files), provides a clear guide on how to use the datasets and run the benchmarks.",
-    "The repository includes a requirements.txt file with mostly pinned dependencies, though one dependency is unpinned.",
-    "Scripts for running benchmarks are provided, though no Dockerfile or CI configuration is present.",
-    "The artifact appears to be portable, with no machine-specific values found in the inspected files.",
-    "The README provides clear instructions for reproducing results, though the process is time-consuming."
+    "The artifact is placed in a public archival repository.",
+    "The README is detailed and references all existing file paths.",
+    "Dependencies are mostly pinned, though one is floating.",
+    "The artifact is documented and includes scripts for reproduction.",
+    "The repository includes datasets and benchmark scripts, allowing for evaluation of log parsing techniques.",
+    "The setup and requirements are clearly specified, though no CI configuration or tests are present."
    ],
    "verified": {
     "artifact_id": "logpai/loghub-2.0",
-    "claims_total": 11,
-    "claims_broken": 2,
-    "broken_paths": [
-     "README.MD",
-     "result"
+    "claims_total": 10,
+    "claims_broken": 0,
+    "broken_paths": [],
+    "case_mismatches": [
+     "README.MD"
     ],
-    "suggestions": {
-     "README.MD": [
-      "README.md",
-      "benchmark/README.md",
-      "2k_dataset/README.md"
-     ]
-    },
-    "broken_ratio": 0.182,
+    "suggestions": {},
+    "broken_ratio": 0.0,
     "has_dependency_manifest": true,
     "has_container": false,
     "has_ci": false,
@@ -961,8 +906,8 @@
     "claims": [
      {
       "path": "README.MD",
-      "exists": false,
-      "matched_as": null
+      "exists": true,
+      "matched_as": "case-mismatch"
      },
      {
       "path": "RQs_experiments/README.md",
@@ -1000,11 +945,6 @@
       "matched_as": "exact"
      },
      {
-      "path": "result",
-      "exists": false,
-      "matched_as": null
-     },
-     {
       "path": "run_statistic_2k.sh",
       "exists": true,
       "matched_as": "suffix"
@@ -1025,33 +965,32 @@
    "escalated": false,
    "escalation_reasons": [],
    "reasons": [
-    "The artifact is documented and provides a README with setup and usage instructions.",
+    "The artifact is documented and provides detailed instructions for setup and usage.",
     "All dependencies are pinned, ensuring reproducibility.",
-    "The README provides steps to collect data and evaluate TCP techniques.",
-    "The artifact includes scripts to reproduce results from the paper.",
-    "Despite some inconsistencies in the README (missing files), the core functionality appears to be present and executable.",
-    "The artifact lacks CI configuration and tests, which slightly reduces confidence in its reusability."
+    "The README provides steps to reproduce the results from the paper.",
+    "The artifact includes scripts for collecting data and evaluating TCP techniques.",
+    "Some file references in the README do not match the actual files in the repository, indicating a lack of consistency.",
+    "There are no CI configuration or tests present, which could impact the reliability of the artifact."
    ],
    "verified": {
     "artifact_id": "lrtsuser/LRTS",
-    "claims_total": 31,
-    "claims_broken": 8,
+    "claims_total": 29,
+    "claims_broken": 6,
     "broken_paths": [
      "historical.csv",
      "history",
-     "metadata",
      "prdata",
      "processed_test_result",
      "repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh",
-     "shadata",
-     "testdata"
+     "shadata"
     ],
+    "case_mismatches": [],
     "suggestions": {
      "shadata": [
       "artifact/get_sha_data.py"
      ]
     },
-    "broken_ratio": 0.258,
+    "broken_ratio": 0.207,
     "has_dependency_manifest": true,
     "has_container": true,
     "has_ci": false,
@@ -1153,11 +1092,6 @@
       "matched_as": null
      },
      {
-      "path": "metadata",
-      "exists": false,
-      "matched_as": null
-     },
-     {
       "path": "metadata/dataset.csv",
       "exists": true,
       "matched_as": "suffix"
@@ -1203,11 +1137,6 @@
       "matched_as": "suffix"
      },
      {
-      "path": "testdata",
-      "exists": false,
-      "matched_as": null
-     },
-     {
       "path": "token_pool.py",
       "exists": true,
       "matched_as": "suffix"
@@ -1230,11 +1159,11 @@
     "neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human"
    ],
    "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "The README provides installation and build instructions, but lacks a dependency manifest and Dockerfile.",
-    "There are no CI configurations or tests present, which are crucial for verifying functionality.",
-    "The README references non-existent file paths, indicating a lack of documentation consistency.",
-    "The absence of comprehensive documentation and validation evidence prevents higher tier classification."
+    "The artifact is placed in a public archival repository, fulfilling the 'Available' tier.",
+    "The README provides installation and build instructions, but there is no dependency manifest or Dockerfile, which are essential for the 'Functional' tier.",
+    "There are no tests or CI configuration present, which are required for the 'Functional' tier.",
+    "The README references a file path that does not exist in the repository, indicating a lack of documentation consistency.",
+    "The absence of a dependency manifest and Dockerfile makes it difficult to ensure the artifact is exercisable and verifiable, preventing it from reaching the 'Functional' tier."
    ],
    "verified": {
     "artifact_id": "nhuhuan/sba",
@@ -1243,6 +1172,7 @@
     "broken_paths": [
      "tmp/sba"
     ],
+    "case_mismatches": [],
     "suggestions": {
      "tmp/sba": [
       "src/analysis/lift/lisc/sa.ml"
@@ -1276,27 +1206,26 @@
    "escalation_reasons": [],
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The documentation is comprehensive and provides detailed instructions for setting up the environment and reproducing the results.",
-    "All dependencies are pinned, ensuring reproducibility.",
-    "Tests are present, indicating some level of verification.",
-    "However, the README references several file paths that do not exist in the repository, indicating a lack of consistency.",
-    "There is no Dockerfile or CI configuration, which could hinder reproducibility for some users."
+    "The documentation is comprehensive but has some inconsistencies with the actual file paths.",
+    "All dependencies are pinned, indicating a good level of environment reproducibility.",
+    "Tests are present, suggesting some level of verification.",
+    "The README provides clear instructions on how to set up the environment and reproduce the results.",
+    "The artifact appears to be exercisable, though some manual adjustments may be needed due to documentation inconsistencies."
    ],
    "verified": {
     "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
     "claims_total": 15,
-    "claims_broken": 5,
+    "claims_broken": 4,
     "broken_paths": [
-     "readme.md",
      "requirement.txt",
      "screen_and_component_localization.py",
      "src/main/java/ComponentLocalization.java",
      "src/main/java/ScreenLocalization.java"
     ],
+    "case_mismatches": [
+     "readme.md"
+    ],
     "suggestions": {
-     "readme.md": [
-      "README.md"
-     ],
      "requirement.txt": [
       "requirements.txt"
      ],
@@ -1306,7 +1235,7 @@
       "study_1/blip/screen_localization.py"
      ]
     },
-    "broken_ratio": 0.333,
+    "broken_ratio": 0.267,
     "has_dependency_manifest": true,
     "has_container": false,
     "has_ci": false,
@@ -1339,8 +1268,8 @@
      },
      {
       "path": "readme.md",
-      "exists": false,
-      "matched_as": null
+      "exists": true,
+      "matched_as": "case-mismatch"
      },
      {
       "path": "requirement.txt",
@@ -1406,9 +1335,9 @@
     "The artifact is placed in a public archival repository and includes a Docker image for reproducibility.",
     "The README provides detailed instructions for setting up and running the experiments.",
     "The Docker image pins its base image, ensuring some level of environment reproducibility.",
-    "The README references external resources and tools, though some links are dead.",
-    "The documentation has inconsistencies, with some referenced files missing in the repository.",
-    "There are no tests or CI configuration present, which slightly reduces confidence in the artifact's functionality."
+    "The README references scripts and configurations, though some file paths in the README do not match the repository contents.",
+    "There are no dependency manifests, CI configurations, or tests present, which slightly lowers the confidence in the tier.",
+    "The external links to models are dead, which affects the completeness of the artifact."
    ],
    "verified": {
     "artifact_id": "trustdnn/issta2024",
@@ -1419,6 +1348,7 @@
      "replication.sh",
      "trustbench/models"
     ],
+    "case_mismatches": [],
     "suggestions": {
      "replication.sh": [
       "scripts/replicate.sh"
@@ -1509,11 +1439,11 @@
    ],
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "However, the documentation is inconsistent with the actual files present in the repository.",
-    "Missing scripts and tools as referenced in the README.",
-    "No dependency manifest, Dockerfile, CI configuration, or tests are present.",
-    "The environment setup and execution instructions are provided, but the actual files and scripts needed are missing.",
-    "The artifact does not meet the criteria for 'Functional' or 'Reusable' tiers due to the significant documentation and file inconsistencies."
+    "The README file is present and provides detailed instructions.",
+    "However, many referenced files and scripts are missing, indicating a lack of documentation consistency.",
+    "No dependency manifest, Dockerfile, CI configuration, or tests are present, which are essential for higher tiers.",
+    "The artifact requires external dependencies (like LLMs) that are not included or easily reproducible.",
+    "The missing scripts and files significantly undermine the functionality and reusability of the artifact."
    ],
    "verified": {
     "artifact_id": "zhangxiaosa/LPR",
@@ -1536,6 +1466,7 @@
      "token_counter_deploy.jar",
      "vulcan_deploy.jar"
     ],
+    "case_mismatches": [],
     "suggestions": {},
     "broken_ratio": 0.882,
     "has_dependency_manifest": false,
