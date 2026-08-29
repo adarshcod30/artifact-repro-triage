@@ -179,6 +179,27 @@ Harder than the invented-path control, and closer to what a stale README actuall
 looks like: each reference still reads correctly and differs from a working path
 by a few characters.
 
+### Ablation: does the strict extractor earn its complexity?
+
+The path extractor is fussier than "does it contain a dot" — an extension
+whitelist, a rejection rule for dotted identifiers, a version-number guard. That
+machinery has to justify itself, so it was measured against the naive rule it
+replaced.
+
+| | naive | strict |
+|---|---|---|
+| Recall on 75 known falsehoods | **100%** | **100%** |
+| Tokens extracted as paths, unmodified READMEs | 307 | 145 |
+| Flagged as broken documentation | **195** | **35** |
+
+Identical recall; 160 fewer findings. There is no ground truth for those extras,
+so they are shown rather than scored — `zenodo.org`, `20.04`, `3.7.4`,
+`FF_DRIVER_NAME.final.bc`, `dl.acm.org/doi/abs/10.1145/...`.
+
+Domains, version numbers and compiler artifacts are not broken documentation. A
+checker that reports 195 defects where 35 exist gets switched off, so suppressing
+them is not polish — it is the job.
+
 ### Honest negative result
 
 The evaluation this project *started* with — predicting ACM badge tier — does not

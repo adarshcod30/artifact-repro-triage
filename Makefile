@@ -31,6 +31,9 @@ verify:  ## Deterministic claim verification over the labelled corpus
 control:  ## Negative control - 75 injected false claims
 	$(PY) -m artifact_triage.eval.negative_control
 
+ablation:  ## Does the strict path extractor earn its complexity?
+	$(PY) -m artifact_triage.eval.ablation
+
 subtle:  ## Harder control: mutate real paths into near-misses
 	$(PY) -m artifact_triage.eval.subtle_control
 
