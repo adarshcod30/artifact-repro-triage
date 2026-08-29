@@ -307,6 +307,40 @@ def test_extension_mismatch_is_not_suggested():
 
 
 # --------------------------------------------------------------------------
+# Declared exceptions. Found by dogfooding: our own README quotes other
+# artifacts' paths. Suppression must be explicit and must be reported.
+# --------------------------------------------------------------------------
+def _fx(paths, refs):
+    return {"artifact_id": "o/r", "file_tree": paths, "n_files": len(paths),
+            "readme": "x", "readme_referenced_paths": refs, "signals": {}}
+
+
+def test_declared_exception_suppresses_a_claim():
+    fx = _fx(["a.py"], ["other/project.py"])
+    assert verify(fx).claims_broken == 1
+    assert verify(fx, ignores=["other/*"]).claims_broken == 0
+
+
+def test_suppression_count_is_always_reported():
+    fx = _fx(["a.py"], ["other/project.py"])
+    ev = verify(fx, ignores=["other/*"])
+    assert ev.ignored == 1, "a silent suppression is worse than a false positive"
+    assert "exception pattern" in ev.as_prompt_block()
+
+
+def test_ignores_do_not_suppress_unrelated_claims():
+    fx = _fx(["a.py"], ["other/project.py", "missing/real.py"])
+    assert verify(fx, ignores=["other/*"]).claims_broken == 1
+
+
+def test_ignore_file_parsing_skips_comments_and_blanks():
+    from artifact_triage.solution.verify import load_ignores, IGNORE_FILE
+    body = "# a comment\n\nscripts/x.py\ny.py  # trailing\n"
+    got = load_ignores([IGNORE_FILE], fetch=lambda s, p: body, slug="o/r")
+    assert got == ["scripts/x.py", "y.py"]
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

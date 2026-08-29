@@ -238,7 +238,10 @@ def main(argv: list[str] | None = None) -> int:
     fx = build_factsheet(slug)
     if not fx["readme_present"]:
         print("warning: this repository has no README", file=sys.stderr)
-    ev = verify(fx)
+    from artifact_triage.solution.pinning import fetch_file
+    from artifact_triage.solution.verify import load_ignores
+    ignores = load_ignores(fx["file_tree"], fetch=fetch_file, slug=slug)
+    ev = verify(fx, ignores=ignores)
 
     from artifact_triage.solution.pinning import analyse as analyse_pins
     pins = analyse_pins(slug, fx["file_tree"])

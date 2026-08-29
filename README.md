@@ -344,6 +344,30 @@ there is no code path by which one side is scored differently from the other.
 See [CHANGELOG.md](CHANGELOG.md) — every iteration, the evidence that prompted it,
 and what was decided, including the experiments that were removed.
 
+## Known limitations, found by running the tool on itself
+
+`make selfcheck` points the tool at this repository. It found three things.
+
+**Two were real and are fixed.** No `LICENSE` and no CI configuration — the tool
+flagged its own author for exactly the category of omission it flags in others.
+
+**One was a false positive, and it is a genuine limitation.** All six "broken
+paths" it reported in this README are **quotations from other artifacts**:
+`scripts/run_lpr.py` and `token_counter_deploy.jar` belong to LPR and appear as
+example output; `configs/default.yaml` comes from the negative-control injection
+list. The checker cannot tell a claim about *this* repository from a quotation
+about another one.
+
+This is **meta-documentation**, and no artifact in the 376-repository corpus
+exhibits it — every one of them describes only itself. Only pointing the tool at
+itself could surface it.
+
+The mitigation is a declared-exceptions file, `.artifact-triage-ignore`, with one
+rule: **the report always states how many exceptions were applied.** A silent
+suppression would be worse than the false positive it hides, because it would
+make the tool's own output unfalsifiable — which is the failure this project
+exists to detect.
+
 ## Main failure mode
 
 **The verifier only checks claims that are shaped like file paths.**
