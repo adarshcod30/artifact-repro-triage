@@ -27,8 +27,8 @@ verified on a machine that is not mine.
 | **Causally isolated** | placebo evidence collapses solution detection to **0%** |
 | **Floor-free metric** | baseline cites the fabrication **0/60**; solution **59/60** |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
-| **Prevalence in the wild** | **56.7%** of 732 research artifacts carry a broken README claim |
-| | **1,257 of 6,740** documented file references (18.6%) resolve to nothing |
+| **Prevalence in the wild** | **56.3%** of 742 research artifacts carry a broken README claim |
+| | **1,264 of 6,840** documented file references (18.5%) resolve to nothing |
 | **Is it decay?** | **No.** Flat across four years — artifacts *ship* broken |
 | **Model spend, entire project** | **$3.23** of a $5 ceiling — five of six checks need no model at all |
 
@@ -47,7 +47,7 @@ them would make everything else less trustworthy:
 - [Who has this problem](#1-who-has-this-problem)
 - [What bottleneck makes it worth solving](#2-what-bottleneck-makes-it-worth-solving) · [published evidence](#this-is-a-documented-problem-not-an-assumed-one)
 - [Does the agent solve it well](#3-does-the-agent-solve-it-well) · [ACM badge criteria](#the-report-answers-the-reviewers-actual-checklist) · [measured result](#measured-result) · [honest negative result](#honest-negative-result)
-- [Prevalence across 732 artifacts](#prevalence-in-the-wild-across-732-artifacts) · [is it decay?](#the-defect-is-not-decay-artifacts-ship-broken)
+- [Prevalence across 742 artifacts](#prevalence-in-the-wild-across-742-artifacts) · [is it decay?](#the-defect-is-not-decay-artifacts-ship-broken)
 - [Reproducing this](#4-can-another-person-reproduce-the-result)
 - [Try it on your own repository](#try-it-on-your-own-repository)
 - [Known limitations](#known-limitations-found-by-running-the-tool-on-itself)
@@ -428,20 +428,20 @@ normal. The verifier is behaving correctly and being penalised for it — `LPR`
 genuinely has 15 of 17 README paths missing, the solution correctly downgrades
 it, and its badge says `Reusable`.
 
-### Prevalence in the wild across 732 artifacts
+### Prevalence in the wild across 742 artifacts
 
 The verifier needs no labels and no model, so it can be pointed at every artifact
-we could find. 769 research-artifact repositories were harvested from Zenodo,
-stratified across publication years 2018–2026; 732 profiled successfully.
+we could find. 766 research-artifact repositories were harvested from Zenodo,
+stratified across publication years 2018–2026; 742 profiled successfully.
 
 | | |
 |---|---|
-| Artifacts with **≥1 broken README claim** | **340 / 600 (56.7%)** |
-| Claims checked | 6,740 |
-| Claims that resolve to nothing | **1,257 (18.6%)** |
+| Artifacts with **≥1 broken README claim** | **343 / 609 (56.3%)** |
+| Claims checked | 6,840 |
+| Claims that resolve to nothing | **1,264 (18.5%)** |
 | Median broken-claim ratio | 0.143 |
 
-Reproducibility infrastructure across the same 732:
+Reproducibility infrastructure across the same 742:
 
 | Signal | Present |
 |---|---|
@@ -648,11 +648,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   110 tests pinning every fixed bug
+tests/        test_regressions.py   116 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 110 regression tests, no credentials, ~2s
+make test         # 116 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan
@@ -682,7 +682,7 @@ example output; `configs/default.yaml` comes from the negative-control injection
 list. The checker cannot tell a claim about *this* repository from a quotation
 about another one.
 
-This is **meta-documentation**, and no artifact in the 732-repository corpus
+This is **meta-documentation**, and no artifact in the 742-repository corpus
 exhibits it — every one of them describes only itself. Only pointing the tool at
 itself could surface it.
 

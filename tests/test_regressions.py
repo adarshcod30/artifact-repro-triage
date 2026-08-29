@@ -1430,6 +1430,101 @@ def test_claim_literals_are_distinctive_enough_to_verify_something():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 92 - a full stop deleted ten real artifacts from the corpus
+#
+# The GitHub URL pattern allows "." inside a repository name, so a link written
+# in prose - "see https://github.com/owner/repo." - captured the sentence's full
+# stop. GitHub does not permit a trailing dot in a repository name, so those
+# slugs could only ever 404.
+#
+# 10 of 769 harvested slugs were affected, and ALL TEN were verified to be real
+# repositories via the GitHub API. They were not noise being correctly rejected;
+# they were legitimate artifacts silently dropped from the population, which
+# quietly biases a prevalence measurement.
+#
+# Three more were github.com paths that are not repositories at all -
+# `user-attachments/assets` comes from pasted image URLs.
+# --------------------------------------------------------------------------
+def test_sentence_full_stop_is_not_part_of_the_repository_name():
+    from artifact_triage.corpus.zenodo import github_repos
+    got = github_repos({"metadata": {"d":
+        "The code is at https://github.com/cesar-andress/caliper."}})
+    assert got == ["cesar-andress/caliper"], got
+
+
+def test_github_non_repository_paths_are_rejected():
+    from artifact_triage.corpus.zenodo import github_repos
+    got = github_repos({"metadata": {"d":
+        "![x](https://github.com/user-attachments/assets/abc123) "
+        "https://github.com/apps/renovate "
+        "https://github.com/features/actions "
+        "https://github.com/real/project"}})
+    assert got == ["real/project"], got
+
+
+def test_git_suffix_and_trailing_dot_are_both_handled():
+    from artifact_triage.corpus.zenodo import github_repos
+    got = github_repos({"metadata": {"d":
+        "https://github.com/a/b.git and https://github.com/c/d.git."}})
+    assert got == ["a/b", "c/d"], got
+
+
+def test_no_harvested_slug_is_structurally_invalid():
+    import json as _json
+    p = Path("data/discovered.jsonl")
+    if not p.exists():
+        return
+    bad = []
+    for line in p.read_text().splitlines():
+        if not line.strip():
+            continue
+        slug = _json.loads(line)["repo"]
+        owner, _, name = slug.partition("/")
+        if not name or name.endswith(".") or owner.lower() in (
+                "user-attachments", "apps", "features", "assets"):
+            bad.append(slug)
+    assert not bad, f"invalid slugs harvested: {bad[:8]}"
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 93 - `make discover` silently shrank the corpus
+#
+# The corpus reached 769 repositories through a STRATIFIED harvest across
+# publication years. A plain `make discover` finds 398 and overwrote the larger
+# file with the smaller one - quietly shrinking the measured population by half.
+#
+# It happened during this work and was caught only because a backup existed. A
+# build target that destroys data without saying so is a defect regardless of
+# whether anyone has lost anything to it yet.
+# --------------------------------------------------------------------------
+def test_discovery_refuses_to_replace_a_larger_corpus():
+    import inspect
+    from artifact_triage.corpus import discover
+    src = inspect.getsource(discover)
+    assert "REFUSING to shrink the corpus" in src
+    i = src.index("REFUSING to shrink the corpus")
+    assert "--force" in src[max(0, i - 400):i + 400], \
+        "there must be an explicit way to override, or the guard is a wall"
+
+
+def test_slug_migration_is_idempotent():
+    """Re-running the correction on a corrected corpus must change nothing."""
+    import json as _json
+    p = Path("data/discovered.jsonl")
+    if not p.exists():
+        return
+    from artifact_triage.corpus.zenodo import _NOT_REPOS
+    for line in p.read_text().splitlines():
+        if not line.strip():
+            continue
+        owner, _, name = _json.loads(line)["repo"].partition("/")
+        assert name and not name.endswith(".")
+        assert owner.lower() not in _NOT_REPOS
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

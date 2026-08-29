@@ -33,6 +33,14 @@ MATCH_THRESHOLD = 0.62  # below this we flag for human review rather than trust
 _NORM = re.compile(r"[^a-z0-9 ]+")
 _GH = re.compile(r"https?://github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)")
 
+# github.com paths that are not repositories. `user-attachments/assets` comes
+# from pasted image URLs and appeared in the harvest as if it were an artifact.
+_NOT_REPOS = {"user-attachments", "assets", "raw", "gist", "gists", "sponsors",
+              "orgs", "apps", "topics", "features", "about", "enterprise",
+              "pricing", "settings", "notifications", "marketplace",
+              "collections", "events", "explore", "login", "join", "security",
+              "readme", "site", "contact", "search"}
+
 
 def github_repos(record: dict) -> list[str]:
     """Pull candidate GitHub repos out of anywhere in the Zenodo metadata.
@@ -45,7 +53,19 @@ def github_repos(record: dict) -> list[str]:
     for owner, repo in _GH.findall(blob):
         # rstrip() strips CHARACTERS, not a suffix: "upbeat".rstrip(".git")
         # returns "upbea". removesuffix is the correct operation.
-        repo = repo.removesuffix(".git")
+        # ORDER MATTERS. ".git" must be stripped AFTER the sentence's full
+        # stop, or "repo.git." never matches the suffix and survives as
+        # "repo.git" - a different wrong answer. A test caught this; reading it
+        # did not.
+        repo = repo.rstrip(".").removesuffix(".git").rstrip(".")
+        # The URL pattern allows "." inside a repo name, so a link written in
+        # prose - "see https://github.com/owner/repo." - captured the sentence's
+        # full stop. GitHub does not permit a trailing dot in a repository name,
+        # so this could only ever 404. It affected 10 of 769 harvested slugs,
+        # and each one was a REAL repository silently dropped from the corpus,
+        # not merely noise. rstrip is correct here: strip every trailing dot.
+        if not repo or owner.lower() in _NOT_REPOS:
+            continue
         slug = f"{owner}/{repo}"
         if slug.lower() not in seen:
             seen.add(slug.lower())

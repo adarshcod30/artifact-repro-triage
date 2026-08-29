@@ -181,6 +181,23 @@ if __name__ == "__main__":
         raise SystemExit(0)
 
     items = harvest()
+
+    # `make discover` overwrites. The corpus reached 769 repositories through a
+    # stratified harvest across publication years; a plain run finds 398 and
+    # would silently replace the larger file with the smaller one, shrinking the
+    # measured population without saying so. That happened once, during
+    # development, and was only caught because a backup existed.
+    #
+    # Destroying data is not something a build target should do quietly.
+    if OUT.exists():
+        have = len([l for l in OUT.read_text().splitlines() if l.strip()])
+        if have > len(items) and "--force" not in sys.argv:
+            raise SystemExit(
+                f"REFUSING to shrink the corpus: {OUT} holds {have} "
+                f"repositories, this run found {len(items)}.\n"
+                f"  To EXTEND the corpus:  make discover ARGS=--stratified\n"
+                f"  To replace it anyway:  ... --force")
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("".join(json.dumps(asdict(d)) + "\n" for d in items))
     print(f"\ndiscovered {len(items)} distinct artifact repositories")

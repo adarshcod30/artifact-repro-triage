@@ -2,7 +2,7 @@
 
 ## What this is
 
-Per-artifact measurements for 732 public research-software repositories: how many
+Per-artifact measurements for 742 public research-software repositories: how many
 file paths each README references, how many of those resolve against the
 repository's actual file tree, and what reproducibility infrastructure is present.
 
@@ -12,12 +12,20 @@ Produced by [artifact-repro-triage](https://github.com/adarshcod30/artifact-repr
 
 1. Harvested software deposits from the public Zenodo API using venue names and
    the phrases "replication package" / "reproduction package" / "artifact
-   evaluation", **stratified across publication years 2018-2026**. 769
-   distinct GitHub repositories were found; 732 profiled successfully.
+   evaluation", **stratified across publication years 2018-2026**. 766
+   distinct GitHub repositories were found; 742 profiled successfully.
 2. For each, the complete recursive file tree and the README were read through
    the GitHub API, pinned to an explicit commit. **No repository was cloned and
    no code was executed.**
-3. Every file path referenced in the README was checked for existence.
+3. Every file path referenced in the README was checked for existence. URLs are
+   stripped first, so links to other projects are not counted as this
+   repository's claims.
+
+**Derived values are never cached.** The per-repository cache stores only what
+was fetched - the raw README and the file tree - and everything computed from
+them is recomputed on load. An earlier version cached the extracted path list,
+so fixing the extractor silently could not change any cached artifact while the
+provenance stamp still reported the output as current.
 
 All measurement code is deterministic. Re-running it on the same commits produces
 byte-identical output.
@@ -42,8 +50,8 @@ byte-identical output.
 - **Sampling is not random.** Zenodo's search is keyword-based. The corpus was
   harvested stratified across publication years 2018-2026 specifically to avoid
   the recency skew an earlier version had, but it remains a keyword sample of
-  Zenodo software deposits, not a random sample of research software. 354 of
-  732 repositories were pushed within the last three months.
+  Zenodo software deposits, not a random sample of research software. 359 of
+  742 repositories were pushed within the last three months.
 - **Only GitHub-mirrored artifacts appear.** Deposits without a GitHub link are
   absent, and those may differ systematically.
 - **Path extraction is conservative.** It requires a recognised source or config
@@ -54,6 +62,12 @@ byte-identical output.
 - **`broken` can include legitimate references to other projects.** A README
   discussing another repository's files will have them counted. Measured on this
   project's own README, where all six flagged paths were quotations.
+  **Links are no longer among them.** External URLs used to be extracted as
+  repository paths - the token pattern cannot contain `:`, so
+  `https://github.com/other/repo/blob/main/x.py` degraded to a path that by
+  construction can never exist here. That was **126 of 1,190 reported-broken
+  paths (10.6%)**, now zero. Prose references to another project's files can
+  still be counted; URLs cannot.
 
 ## Licence
 

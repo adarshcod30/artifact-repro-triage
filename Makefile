@@ -46,8 +46,8 @@ pinning:  ## Dependency and container base-image pinning
 portability:  ## Hard-coded machine-specific paths and hosts
 	$(PY) -m artifact_triage.solution.portability
 
-discover:  ## Harvest research-artifact repositories from Zenodo
-	$(PY) -m artifact_triage.corpus.discover
+discover:  ## Harvest research-artifact repositories from Zenodo (ARGS=--stratified to extend)
+	$(PY) -m artifact_triage.corpus.discover $(ARGS)
 
 prevalence:  ## How widespread are broken README claims (376 artifacts)
 	$(PY) -m artifact_triage.eval.prevalence
