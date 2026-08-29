@@ -45,7 +45,7 @@ them would make everything else less trustworthy:
 - [Who has this problem](#1-who-has-this-problem)
 - [What bottleneck makes it worth solving](#2-what-bottleneck-makes-it-worth-solving) · [published evidence](#this-is-a-documented-problem-not-an-assumed-one)
 - [Does the agent solve it well](#3-does-the-agent-solve-it-well) · [measured result](#measured-result) · [honest negative result](#honest-negative-result)
-- [Prevalence across 376 artifacts](#prevalence-in-the-wild-across-376-artifacts) · [is it decay?](#the-defect-is-not-decay-artifacts-ship-broken)
+- [Prevalence across 376 artifacts](#prevalence-in-the-wild-across-732-artifacts) · [is it decay?](#the-defect-is-not-decay-artifacts-ship-broken)
 - [Reproducing this](#4-can-another-person-reproduce-the-result)
 - [Try it on your own repository](#try-it-on-your-own-repository)
 - [Known limitations](#known-limitations-found-by-running-the-tool-on-itself)
