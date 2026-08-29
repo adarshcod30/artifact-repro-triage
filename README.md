@@ -294,7 +294,7 @@ experiment: **$0.42**.
 > being optional. It happened to come out higher. It did not have to.
 >
 > A number that survives only because nobody re-ran it is not a result.
-> Cumulative project spend: **$3.87** of $5.
+> Cumulative project spend: **$3.94** of $5.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -396,15 +396,27 @@ them is not polish — it is the job.
 The evaluation this project *started* with — predicting ACM badge tier — does not
 work, and the write-up keeps it visible rather than quietly dropping it.
 
-| System | MAE (badge tiers, lower better) |
-|---|---|
-| Constant predictor, always `"Functional"` | **0.667** |
-| Baseline | 0.800 |
-| Solution | 0.800 |
+| System | MAE (badge tiers, lower better) | Deterministic? |
+|---|---|---|
+| Constant predictor, always `"Functional"` | **0.667** | yes — no model, no input |
+| Baseline | 0.733 | no |
+| Solution | 0.800 | no |
 
 **A zero-skill constant beats both systems.** It wins by collapsing onto the
 middle class, which MAE rewards on a 3-class ordinal problem — and the baseline
 does nearly the same thing, predicting `Functional` for 13 of 15 artifacts.
+
+> **These two figures are single-run point estimates, and they move.** Re-running
+> the same code the same day gave baseline 0.800 / solution 0.800; the run
+> recorded above gave 0.733 / 0.800. The model is not deterministic even at
+> temperature 0. `falsified_run.py` already accounted for this — it runs three
+> trials and reports a range — but that standard had not been applied here, so
+> these were published to three decimals with no spread. `make eval` now appends
+> every scoring to `results/comparison_history.jsonl` so the spread accumulates
+> instead of being overwritten.
+>
+> **The conclusion is unaffected.** The control needs no model and no input, so
+> its 0.667 is exact, and every observed value for both systems sits above it.
 
 The cause is a ground-truth mismatch: the committee badged the curated **Zenodo
 deposit**, while we analyse the living **GitHub mirror**, where README drift is
@@ -577,6 +589,16 @@ capacity problem this targets — `--json` emits a sortable record per artifact:
 artifact-triage <owner>/<repo> --json | jq '.acm_summary, .verified.claims_broken'
 ```
 
+And `--fail-on-findings` exits non-zero, so an author can gate their own CI on it
+— which is what "evaluate at the time of publication" looks like in practice:
+
+```bash
+artifact-triage <owner>/<repo> --fail-on-findings
+```
+
+[This repository's own CI runs exactly that on itself](.github/workflows/checks.yml),
+and it passes.
+
 Real output, abridged:
 
 ```
@@ -622,11 +644,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   89 tests pinning every fixed bug
+tests/        test_regressions.py   93 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 89 regression tests, no credentials, ~2s
+make test         # 93 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

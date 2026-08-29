@@ -43,3 +43,15 @@ jobs:
             echo "negative control regressed"; exit 1; }
           grep -q "false positives        : 0" /tmp/nc.txt || {
             echo "false positives appeared"; exit 1; }
+
+      # Dogfooding: run the tool on its own repository with the CI gate on.
+      # Arvan et al. (EMNLP 2022) recommend evaluating artifacts "at the time
+      # of publication"; this is that check, applied to this artifact. If this
+      # project's own README ever documents a file that does not exist, this
+      # job fails - which is exactly what it asks of everyone else.
+      - name: The tool must pass its own CI gate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install -e .
+          artifact-triage ${{ github.repository }} --no-links --fail-on-findings

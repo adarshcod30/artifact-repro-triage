@@ -987,72 +987,83 @@ def _isolated_ledger(tmp, entries_usd):
 
 def test_budget_check_refuses_to_start_past_the_ceiling():
     import tempfile
-    from artifact_triage.common import ledger, llm
-    old_ledger, old_guard = ledger.LEDGER, llm.BUDGET_GUARD
+    from artifact_triage.common import budget, ledger
+    old_ledger, old_guard = ledger.LEDGER, budget.GUARD_USD
     try:
         with tempfile.TemporaryDirectory() as tmp:
             _isolated_ledger(tmp, [4.0, 1.5])      # $5.50 spent
-            llm.BUDGET_GUARD = 5.0
-            llm._BASE_USD, llm._SESSION_USD = None, 0.0
+            budget.GUARD_USD = 5.0
+            budget.reset()
             raised = False
             try:
-                llm.budget_check()
+                budget.check()
             except SystemExit:
                 raised = True
-            assert raised, "budget_check must raise, not warn"
+            assert raised, "the guard must raise, not warn"
     finally:
-        ledger.LEDGER, llm.BUDGET_GUARD = old_ledger, old_guard
-        llm._BASE_USD, llm._SESSION_USD = None, 0.0
+        ledger.LEDGER, budget.GUARD_USD = old_ledger, old_guard
+        budget.reset()
 
 
 def test_budget_guard_can_be_disabled_explicitly():
     import tempfile
-    from artifact_triage.common import ledger, llm
-    old_ledger, old_guard = ledger.LEDGER, llm.BUDGET_GUARD
+    from artifact_triage.common import budget, ledger
+    old_ledger, old_guard = ledger.LEDGER, budget.GUARD_USD
     try:
         with tempfile.TemporaryDirectory() as tmp:
             _isolated_ledger(tmp, [99.0])
-            llm.BUDGET_GUARD = 0.0
-            llm._BASE_USD, llm._SESSION_USD = None, 0.0
-            llm.budget_check()                      # must not raise
+            budget.GUARD_USD = 0.0
+            budget.reset()
+            budget.check()                          # must not raise
     finally:
-        ledger.LEDGER, llm.BUDGET_GUARD = old_ledger, old_guard
-        llm._BASE_USD, llm._SESSION_USD = None, 0.0
+        ledger.LEDGER, budget.GUARD_USD = old_ledger, old_guard
+        budget.reset()
 
 
 def test_a_long_run_is_stopped_the_moment_it_crosses_the_ceiling():
     """The defect: the ceiling was checked once, then hundreds of calls ran."""
     import tempfile
-    from artifact_triage.common import ledger, llm
-    old_ledger, old_guard = ledger.LEDGER, llm.BUDGET_GUARD
+    from artifact_triage.common import budget, ledger
+    old_ledger, old_guard = ledger.LEDGER, budget.GUARD_USD
     try:
         with tempfile.TemporaryDirectory() as tmp:
             _isolated_ledger(tmp, [4.90])           # just under the ceiling
-            llm.BUDGET_GUARD = 5.0
-            llm._BASE_USD, llm._SESSION_USD = None, 0.0
-            llm.budget_check()                      # start of run: passes
+            budget.GUARD_USD = 5.0
+            budget.reset()
+            budget.check()                          # start of run: passes
 
-            # Now bill calls one at a time, as a real run does.
             calls = 0
             stopped = False
             try:
-                for _ in range(500):
+                for _ in range(500):                # bill call by call
                     calls += 1
-                    llm._meter(llm.Answer(None, 0.0, [], 20000, 2000), 0)
+                    budget.enforce(0.01)
             except SystemExit:
                 stopped = True
             assert stopped, "the run was never stopped - the ceiling is not a ceiling"
             assert calls < 500, "stopped only after every call had already run"
     finally:
-        ledger.LEDGER, llm.BUDGET_GUARD = old_ledger, old_guard
-        llm._BASE_USD, llm._SESSION_USD = None, 0.0
+        ledger.LEDGER, budget.GUARD_USD = old_ledger, old_guard
+        budget.reset()
 
 
 def test_the_ceiling_is_enforced_per_call_not_only_at_client_creation():
     import inspect
     from artifact_triage.common import llm
-    assert "BUDGET_GUARD" in inspect.getsource(llm._meter), \
+    assert "enforce" in inspect.getsource(llm._meter), \
         "metering every call is useless if none of them checks the ceiling"
+
+
+def test_budget_policy_is_not_a_provenance_influencer():
+    """Editing budget code must not mark recorded results stale.
+
+    It cannot change a single token of model output, and a staleness detector
+    that cries wolf trains you to ignore it.
+    """
+    from artifact_triage.common.provenance import INFLUENCERS
+    for kind, files in INFLUENCERS.items():
+        assert not any("budget.py" in f for f in files), \
+            f"{kind} lists budget.py, which cannot affect any result"
 
 
 
@@ -1104,6 +1115,45 @@ def test_cli_exposes_a_machine_readable_mode():
     src = inspect.getsource(cli.main)
     assert '"--json"' in src
     assert "acm_functional" in src
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 82 - a CI gate, because "at publication time" needs an exit code
+#
+# Arvan et al. (EMNLP 2022) recommend evaluating artifacts "at the time of
+# publication". In practice that means a check in the author's own CI, and CI
+# gates on exit codes. The CLI exited 0 whether an artifact was clean or had 15
+# missing documented paths, so the moment the literature identifies was not
+# reachable. Opt-in via --fail-on-findings, so plain reporting still exits 0.
+# --------------------------------------------------------------------------
+def test_ci_gate_is_opt_in_and_fails_only_on_concerns():
+    from artifact_triage.cli import _exit_code
+    from artifact_triage.solution.criteria import assess
+    clean = assess(_fake_evidence())
+    dirty = assess(_fake_evidence(claims_broken=5, broken_paths=["gone.py"]))
+    assert _exit_code(dirty, False) == 0, "default must stay 0 - it is a report"
+    assert _exit_code(dirty, True) != 0, "the gate must fail a broken artifact"
+    assert _exit_code(clean, True) == 0, "a clean artifact must not fail CI"
+
+
+def test_not_checkable_alone_never_fails_ci():
+    """`Consistent` is un-checkable for EVERY artifact. Failing on it would
+    make the gate fire always, which is the same as never."""
+    from artifact_triage.cli import _exit_code
+    from artifact_triage.solution.criteria import assess
+    assert _exit_code(assess(_fake_evidence()), True) == 0
+
+
+# --------------------------------------------------------------------------
+# Iteration 83 - one experiment reported a range, the other a point estimate
+# --------------------------------------------------------------------------
+def test_comparison_records_a_history_rather_than_overwriting_it():
+    import inspect
+    from artifact_triage.eval import compare
+    src = inspect.getsource(compare)
+    assert "HISTORY" in src and 'open("a")' in src, \
+        "MAE varies between runs; overwriting it hides the spread"
 
 
 

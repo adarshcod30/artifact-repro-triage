@@ -5,8 +5,8 @@
   "n_scored": 15,
   "n_escalated": 0,
   "n_failed": 0,
-  "mae": 0.8,
-  "exact_accuracy": 0.267,
+  "mae": 0.733,
+  "exact_accuracy": 0.333,
   "adjacent_accuracy": 0.933,
   "overclaim_rate": 0.267,
   "escalation_rate": 0.0,
@@ -38,7 +38,7 @@
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
     "truth": "Functional",
     "predicted": "Functional",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": 0,
     "outcome": "correct"
@@ -64,11 +64,11 @@
    {
     "artifact_id": "asub0/fonnx",
     "truth": "Functional",
-    "predicted": "Available",
-    "confidence": 0.8,
+    "predicted": "Functional",
+    "confidence": 0.7,
     "escalated": false,
-    "rank_error": -1,
-    "outcome": "underclaim"
+    "rank_error": 0,
+    "outcome": "correct"
    },
    {
     "artifact_id": "dserfe/FlakyDoctor",
@@ -174,7 +174,7 @@
     "artifact_id": "DueForce/DueForce",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -252,7 +252,7 @@
     "artifact_id": "logpai/loghub-2.0",
     "truth": "Reusable",
     "predicted": "Functional",
-    "confidence": 0.8,
+    "confidence": 0.7,
     "escalated": false,
     "rank_error": -1,
     "outcome": "underclaim"
@@ -296,12 +296,21 @@
     "artifact_id": "zhangxiaosa/LPR",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.85,
+    "confidence": 0.9,
     "escalated": true,
     "outcome": "escalated"
    }
   ]
  },
+ "runs_recorded": 1,
+ "baseline_mae_range": [
+  0.733,
+  0.733
+ ],
+ "solution_mae_range": [
+  0.8,
+  0.8
+ ],
  "controls": [
   {
    "system": "always-Available",

@@ -136,6 +136,12 @@ in the regression suite exists to keep it that way.
 - **n=15 for the labelled comparison.** ISSTA 2024 was the only venue found
   publishing machine-readable badge outcomes across 12 venues probed.
 - **No repair.** READU repairs; this project only reports and suggests.
+- **Badge-agreement MAE is a single-run point estimate.** The model is not
+  deterministic at temperature 0; observed baseline MAE moved between 0.733 and
+  0.800 across same-day re-runs. The *conclusion* is robust — the best constant
+  control requires no model and scores 0.667 exactly, below every observed value
+  — but the individual figures should be read as approximate. The falsified
+  experiment, which carries the positive claim, does report 3 trials and a range.
 - **No user study.** No evidence that a reviewer is actually faster with this,
   or that the badge-criteria framing helps them. The claim is that the output is
   *addressed to* the reviewer's decision, not that it measurably improves it.

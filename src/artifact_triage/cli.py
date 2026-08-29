@@ -96,6 +96,19 @@ def build_factsheet(slug: str) -> dict:
     }
 
 
+def _exit_code(criteria, strict: bool) -> int:
+    """0 unless the caller asked for a CI gate and something was found.
+
+    Arvan et al. (EMNLP 2022) recommend evaluating artifacts "at the time of
+    publication". In practice that means a check in the author's own CI, and CI
+    gates on exit codes - so without this flag the moment the literature
+    identifies is not reachable. Opt-in, so plain reporting still exits 0.
+    """
+    if not strict:
+        return 0
+    return 2 if any(c.verdict == "concerns" for c in criteria) else 0
+
+
 def render(fx: dict, ev, links: dict | None, model: dict | None,
            pins=None, port=None, docker=None, criteria=None) -> str:
     L: list[str] = []
@@ -291,6 +304,9 @@ def main(argv: list[str] | None = None) -> int:
                     help="also produce a tier assessment (needs credentials)")
     ap.add_argument("--no-links", action="store_true",
                     help="skip URL checking (offline)")
+    ap.add_argument("--fail-on-findings", action="store_true",
+                    help="exit non-zero if any mechanical check raises a "
+                         "concern (for CI, so a broken README fails a build)")
     ap.add_argument("--json", action="store_true",
                     help="emit machine-readable findings instead of the report")
     ap.add_argument("-o", "--out", help="write the report to a file")
@@ -364,7 +380,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"-> {args.out}", file=sys.stderr)
         else:
             print(text)
-        return 0
+        return _exit_code(criteria, args.fail_on_findings)
 
     report = render(fx, ev, links, model, pins, port, docker, criteria)
     if args.out:
@@ -372,7 +388,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"-> {args.out}", file=sys.stderr)
     else:
         print(report)
-    return 0
+    return _exit_code(criteria, args.fail_on_findings)
 
 
 if __name__ == "__main__":

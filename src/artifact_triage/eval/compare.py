@@ -19,6 +19,7 @@ from artifact_triage.eval.metrics import (Prediction, TIERS, comparison_table,
 BASELINE = Path("results/baseline.json")
 SOLUTION = Path("results/solution.json")
 OUT = Path("results/comparison.json")
+HISTORY = Path("results/comparison_history.jsonl")
 
 
 def load(path: Path, name: str):
@@ -86,8 +87,37 @@ def main() -> None:
     else:
         print("\n  Both systems beat every zero-skill control.")
 
+    # Append-only history of every scoring, because the model is NOT
+    # deterministic even at temperature 0. `falsified_run.py` already knew
+    # this - it runs 3 trials and reports a range, with a comment saying "a
+    # single run is not a reportable number". That standard was never applied
+    # here, so the badge-agreement MAE was published as a two-decimal point
+    # estimate that moved between 0.733 and 0.800 across re-runs.
+    #
+    # The conclusion is unaffected: the best constant control is deterministic
+    # (no model, no input) at 0.667, below every observed value. But the
+    # precision was overclaimed, and the fix is to record the spread instead of
+    # overwriting it.
+    HISTORY.parent.mkdir(exist_ok=True)
+    with HISTORY.open("a") as f:
+        f.write(json.dumps({"baseline_mae": rb.mae, "solution_mae": rs.mae,
+                            "best_control": best.system,
+                            "best_control_mae": best.mae}) + "\n")
+    hist = [json.loads(ln) for ln in HISTORY.read_text().splitlines() if ln]
+    if len(hist) > 1:
+        for name in ("baseline", "solution"):
+            vals = [h[f"{name}_mae"] for h in hist]
+            print(f"  {name:<9} MAE over {len(vals)} recorded run(s): "
+                  f"mean {sum(vals)/len(vals):.3f}  "
+                  f"range {min(vals):.3f}-{max(vals):.3f}")
+
     OUT.write_text(json.dumps({
         "baseline": rb.to_dict(), "solution": rs.to_dict(),
+        "runs_recorded": len(hist),
+        "baseline_mae_range": [min(h["baseline_mae"] for h in hist),
+                               max(h["baseline_mae"] for h in hist)],
+        "solution_mae_range": [min(h["solution_mae"] for h in hist),
+                               max(h["solution_mae"] for h in hist)],
         "controls": [c.to_dict() for c in controls],
         "best_control": best.system,
         "systems_beaten_by_control": [r.system for r in beaten],
