@@ -97,7 +97,7 @@ def build_factsheet(slug: str) -> dict:
 
 
 def render(fx: dict, ev, links: dict | None, model: dict | None,
-           pins=None, port=None, docker=None) -> str:
+           pins=None, port=None, docker=None, criteria=None) -> str:
     L: list[str] = []
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     L.append(f"# Artifact reproducibility report — `{fx['artifact_id']}`\n")
@@ -240,6 +240,22 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
             L += [f"- {r}" for r in model["reasons"]]
         L.append("")
 
+    # ---- ACM criteria ------------------------------------------------------
+    if criteria:
+        L.append("## ACM Functional criteria — pre-filled\n")
+        L.append("Each finding above is evidence for or against a *named* ACM "
+                 "criterion, quoted verbatim. This is the decision you have to "
+                 "make anyway.\n")
+        for c in criteria:
+            mark = {"supported": "no mechanical concerns",
+                    "concerns": "**CONCERNS**",
+                    "not-checkable": "**not machine-checkable**"}[c.verdict]
+            L.append(f"### {c.criterion} — {mark}\n")
+            L.append(f"> *{c.definition}*\n")
+            for e in c.evidence:
+                L.append(f"- {e}")
+            L.append(f"\n**Reviewer:** {c.needs_human}\n")
+
     # ---- limits ------------------------------------------------------------
     L.append("## Not checked\n")
     L.append("This tool verifies that documented *references* resolve. It does "
@@ -306,7 +322,10 @@ def main(argv: list[str] | None = None) -> int:
                  "reasons": a.reasons, "escalated": d.escalate,
                  "escalation_reasons": d.reasons}
 
-    report = render(fx, ev, links, model, pins, port, docker)
+    from artifact_triage.solution.criteria import assess
+    criteria = assess(ev, pins=pins, docker=docker, port=port, links=links)
+
+    report = render(fx, ev, links, model, pins, port, docker, criteria)
     if args.out:
         Path(args.out).write_text(report)
         print(f"-> {args.out}", file=sys.stderr)

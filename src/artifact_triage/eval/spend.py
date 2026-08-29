@@ -28,6 +28,21 @@ class Entry:
     note: str = ""
 
 
+def _n_tests() -> int:
+    """Count the suite rather than hard-coding it.
+
+    A hard-coded "46 tests" had drifted to wrong in four documents at once.
+    Any number a document asserts about this repository should be derived from
+    the repository, or a test should enforce it. Here, derived.
+    """
+    from pathlib import Path
+    p = Path(__file__).resolve().parents[3] / "tests" / "test_regressions.py"
+    if not p.exists():
+        return 0
+    return sum(1 for ln in p.read_text().splitlines() if ln.startswith("def test_"))
+
+
+
 def collect() -> list[Entry]:
     """Cumulative spend from the append-only ledger.
 
@@ -93,7 +108,7 @@ def free_components() -> list[str]:
         "portability / environment leakage (portability.py)",
         "subtle-mutation control (subtle_control.py)",
         "extractor ablation (ablation.py)",
-        "regression test suite, 46 tests (tests/)",
+        f"regression test suite, {_n_tests()} tests (tests/)",
     ]
 
 

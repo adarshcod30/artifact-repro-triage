@@ -17,6 +17,7 @@ from artifact_triage.corpus.fetch import _is_path, referenced_paths  # noqa: E40
 from artifact_triage.corpus.scrub import scrub  # noqa: E402
 from artifact_triage.corpus.zenodo import github_repos, normalise  # noqa: E402
 from artifact_triage.eval.metrics import Prediction, score  # noqa: E402
+from artifact_triage.solution.criteria import ACM, assess  # noqa: E402
 from artifact_triage.solution.verify import _index, check_claim, verify  # noqa: E402
 
 
@@ -735,6 +736,197 @@ def test_verifier_is_deterministic():
     fx = json.loads(p[0].read_text())
     a, b = verify(fx), verify(fx)
     assert a.to_dict() == b.to_dict()
+
+
+# --------------------------------------------------------------------------
+# Iteration 74 - ACM badge-criteria mapping
+#
+# These are not bug regressions. They pin the HONESTY of the mapping: the
+# value of reporting against named ACM criteria depends entirely on never
+# overclaiming which of them a machine can settle. A future edit that quietly
+# marks `Consistent` as mechanically checkable would make the whole report
+# untrustworthy while still passing every other test in this file.
+# --------------------------------------------------------------------------
+def _fake_evidence(**kw):
+    class E:
+        readme_bytes = 2000
+        claims_total = 10
+        claims_broken = 0
+        broken_paths: list = []
+        has_build_script = True
+    e = E()
+    e.broken_paths = []
+    for k, v in kw.items():
+        setattr(e, k, v)
+    return e
+
+
+def test_consistent_is_never_claimed_as_machine_checkable():
+    """The criterion requiring the paper must always be escalated."""
+    for ev in (_fake_evidence(),
+               _fake_evidence(claims_broken=9, broken_paths=["a.py"] * 9),
+               _fake_evidence(readme_bytes=0, claims_total=0)):
+        c = [f for f in assess(ev) if f.criterion == "Consistent"][0]
+        assert c.mechanical is False
+        assert c.verdict == "not-checkable"
+
+
+def test_all_four_functional_qualities_are_covered_exactly_once():
+    names = [f.criterion for f in assess(_fake_evidence())]
+    assert sorted(names) == sorted(ACM)
+    assert len(names) == len(set(names)) == 4
+
+
+def test_broken_paths_are_evidence_against_completeness():
+    ev = _fake_evidence(claims_broken=5, broken_paths=["scripts/run.sh"])
+    comp = [f for f in assess(ev) if f.criterion == "Complete"][0]
+    assert comp.verdict == "concerns"
+    assert any("scripts/run.sh" in e for e in comp.evidence)
+
+
+def test_resolving_paths_do_not_raise_completeness_concerns():
+    comp = [f for f in assess(_fake_evidence()) if f.criterion == "Complete"][0]
+    assert comp.verdict == "supported"
+
+
+def test_exercisable_never_claims_the_artifact_runs():
+    """Static checks give a necessary condition only. Say so, always."""
+    for ev in (_fake_evidence(), _fake_evidence(claims_broken=3)):
+        ex = [f for f in assess(ev) if f.criterion == "Exercisable"][0]
+        assert "Run it" in ex.needs_human
+
+
+def test_criteria_definitions_are_verbatim_not_paraphrased():
+    """Paraphrasing ACM would let the tool grade against its own invention."""
+    assert ACM["Complete"] == ("To the extent possible, all components relevant "
+                               "to the paper in question are included.")
+    assert ACM["Consistent"].startswith("The artifacts are relevant to the "
+                                        "associated paper")
+    for f in assess(_fake_evidence()):
+        assert f.definition == ACM[f.criterion]
+
+
+def test_every_finding_states_what_a_human_must_still_do():
+    for f in assess(_fake_evidence()):
+        assert f.needs_human and len(f.needs_human) > 30
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 75 - documented counts must be derived, not asserted from memory
+#
+# "46 tests" in spend.py, "29 regression tests" in AGENTS.md and
+# REPRODUCTION.md, "18 tests" twice in README.md - four documents asserting
+# four DIFFERENT counts, all of them wrong, while the suite stood at 75. Every
+# one was correct when written. None was correct when read.
+#
+# The same failure mode as the truncated file trees and the never-firing
+# RFC1918 pattern: a claim that silently stops being true. So this test scans
+# the present-tense documentation and fails if any stated count drifts.
+# CHANGELOG.md is deliberately excluded - its entries are historical records of
+# what was true at that iteration, and rewriting them would be falsifying a log.
+# --------------------------------------------------------------------------
+def test_documented_test_counts_match_the_actual_suite():
+    import re
+    root = Path(__file__).resolve().parents[1]
+    actual = sum(1 for ln in (root / "tests" / "test_regressions.py")
+                 .read_text().splitlines() if ln.startswith("def test_"))
+    assert actual > 0
+    pat = re.compile(r"(\d+)\s+(?:regression\s+)?tests\b")
+    wrong = []
+    for name in ("README.md", "AGENTS.md", "REPRODUCTION.md"):
+        f = root / name
+        if not f.exists():
+            continue
+        for i, line in enumerate(f.read_text().splitlines(), 1):
+            for m in pat.finditer(line):
+                if int(m.group(1)) != actual:
+                    wrong.append(f"{name}:{i} claims {m.group(1)}, actual {actual}")
+    assert not wrong, "stale test counts: " + "; ".join(wrong)
+
+
+def test_spend_report_derives_the_test_count():
+    """It must be computed, not written down - that is what drifted."""
+    from artifact_triage.eval.spend import _n_tests
+    root = Path(__file__).resolve().parents[1]
+    actual = sum(1 for ln in (root / "tests" / "test_regressions.py")
+                 .read_text().splitlines() if ln.startswith("def test_"))
+    assert _n_tests() == actual
+
+
+
+# --------------------------------------------------------------------------
+# Iteration 77 - the reporting path that had never executed
+#
+# `_report` in falsified_run.py read `b_ment` and `s_ment` as bare names. They
+# are locals of a DIFFERENT function; in `_report` they were undefined. The
+# floor-free metric was added in iteration 70 and backfilled onto runs that had
+# ALREADY been recorded, so this print path was never once exercised. It
+# crashed the first time it ran for real - after the API calls were paid for,
+# and before any result was written to disk.
+#
+# The fix is two-part: read from `summary`, and checkpoint each trial before
+# anything that can fail touches it. This test covers the first part by doing
+# the thing nothing had done: calling the function.
+# --------------------------------------------------------------------------
+def _fake_summary():
+    return {
+        "n_artifacts": 15, "baseline_noticed": 0, "solution_noticed": 8,
+        "baseline_mentions_absence": 0, "solution_mentions_absence": 15,
+        "baseline_eligible": 14, "baseline_downgraded_eligible": 0,
+        "baseline_at_floor": ["a"],
+        "solution_eligible": 8, "solution_downgraded_eligible": 8,
+        "solution_at_floor": ["b"] * 7,
+        "verifier_detected": 75, "injected_claims": 75, "usd": 0.1,
+    }
+
+
+def test_falsified_report_runs_without_undefined_names():
+    import io
+    import contextlib
+    from artifact_triage.eval import falsified_run as fr
+    d = _fake_summary()
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        fr._report(d, d["n_artifacts"],
+                   d["baseline_downgraded_eligible"], d["baseline_eligible"],
+                   d["baseline_at_floor"],
+                   d["solution_downgraded_eligible"], d["solution_eligible"],
+                   d["solution_at_floor"],
+                   d["verifier_detected"], d["injected_claims"], d["usd"])
+    out = buf.getvalue()
+    assert "MENTIONS THE ABSENCE" in out
+    assert "0/15" in out and "15/15" in out
+
+
+def test_falsified_report_reads_mentions_from_summary_not_scope():
+    """Changing the summary must change the printed figure."""
+    import io
+    import contextlib
+    from artifact_triage.eval import falsified_run as fr
+    d = _fake_summary()
+    d["solution_mentions_absence"] = 3
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        fr._report(d, d["n_artifacts"],
+                   d["baseline_downgraded_eligible"], d["baseline_eligible"],
+                   d["baseline_at_floor"],
+                   d["solution_downgraded_eligible"], d["solution_eligible"],
+                   d["solution_at_floor"],
+                   d["verifier_detected"], d["injected_claims"], d["usd"])
+    assert "3/15" in buf.getvalue()
+
+
+def test_paid_trials_are_checkpointed_before_reporting():
+    """A display failure must never destroy data that cost money."""
+    import inspect
+    from artifact_triage.eval import falsified_run as fr
+    src = inspect.getsource(fr.main)
+    ck = src.index("_checkpoint(")
+    rep = src.index("_report(")
+    assert ck < rep, "checkpoint must happen before anything that can fail"
+    assert "try:" in src, "reporting must not be able to abort a paid run"
+
 
 
 if __name__ == "__main__":

@@ -90,11 +90,35 @@ what remains after removing everything prior work already established.
 | **Ecosystem variation** — Java 0.340 and Rust 0.364 versus Python 0.192 and Notebooks 0.104 | Not reported anywhere found. |
 | **A causal comparison against an LLM reading prose** — baseline 0%, solution 93–100% on two model families, with a **placebo-evidence control** that collapses detection to 0% | READU has no LLM baseline; Tan et al. predates LLM baselines. The placebo isolates *the evidence* as the cause rather than the prose. |
 | **Targeted at the artifact-evaluation reviewer** | Arvan et al. call for evaluation "at the time of publication"; no tool found is built for that reviewer's hour. |
+| **Output mapped onto the named ACM badge criteria**, with the one criterion no machine can settle marked as such | READU and Tan et al. report documentation bugs. Neither expresses findings as evidence for or against `Documented` / `Consistent` / `Complete` / `Exercisable` - the decision an AE reviewer actually has to make. |
 
 The honest summary: **the contribution is measurement and framing, not the
 detector.** The detector is a competent re-implementation of an idea that already
 exists in the literature; what is new is pointing it at research artifacts at
 scale, and demonstrating that a language model cannot substitute for it.
+
+### Why the criteria mapping matters, and its limit
+
+ACM defines `Artifacts Evaluated - Functional` as four named qualities. Quoting
+them exactly is what makes the mapping checkable rather than rhetorical:
+
+| Quality | ACM definition | What a machine can establish |
+|---|---|---|
+| **Documented** | "At a minimum, an inventory of artifacts is included, and sufficient description is provided to enable the artifacts to be exercised." | That a README exists and makes concrete, checkable references. **Not** whether the description is *sufficient*. |
+| **Consistent** | "The artifacts are relevant to the associated paper and contribute in some inherent way to generating its main results." | **Nothing.** This requires reading the paper. Always escalated. |
+| **Complete** | "To the extent possible, all components relevant to the paper in question are included." | A documented file that does not exist is direct evidence of incompleteness. **Not** whether the missing component matters. |
+| **Exercisable** | "Included scripts and / or software used to generate the results in the associated paper can be successfully executed." | That the scripts exist and the environment is pinned - a *necessary* condition. **Never** the sufficient one: nothing here is executed. |
+
+Criteria quoted from the ACM Artifact Review and Badging policy as reproduced on
+the [ICSE 2025 artifact evaluation page](https://conf.researchr.org/track/icse-2025/icse-2025-artifact-evaluation).
+The ACM policy page itself refused automated retrieval (HTTP 403), so the text
+was taken from a conference reproduction of it; a reviewer should check it
+against the primary source.
+
+**The limit, stated plainly:** this mapping does not make the tool an artifact
+evaluator. It answers a strict subset of one badge's criteria, and the subset it
+answers is the mechanical one. `test_consistent_is_never_claimed_as_machine_checkable`
+in the regression suite exists to keep it that way.
 
 ---
 
@@ -112,7 +136,12 @@ scale, and demonstrating that a language model cannot substitute for it.
 - **n=15 for the labelled comparison.** ISSTA 2024 was the only venue found
   publishing machine-readable badge outcomes across 12 venues probed.
 - **No repair.** READU repairs; this project only reports and suggests.
-- **No user study.** No evidence that a reviewer is actually faster with this.
+- **No user study.** No evidence that a reviewer is actually faster with this,
+  or that the badge-criteria framing helps them. The claim is that the output is
+  *addressed to* the reviewer's decision, not that it measurably improves it.
+- **The criteria mapping is an interpretation.** Reading a broken path reference
+  as evidence against `Complete` is a judgement, defensible but not official.
+  ACM has not blessed it, and an AE chair might map it differently.
 
 ---
 

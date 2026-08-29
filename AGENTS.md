@@ -76,7 +76,7 @@ model *"does this file exist?"* would reintroduce the exact failure mode the
 project exists to detect.
 
 **Verified behaviour.** 75/75 injected false claims detected, 0 false positives,
-identical across all trials (`eval/negative_control.py`), and 29 regression tests
+identical across all trials (`eval/negative_control.py`), and 80 regression tests
 pin every bug fixed along the way (`tests/`).
 
 ---

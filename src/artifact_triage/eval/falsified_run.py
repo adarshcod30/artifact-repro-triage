@@ -156,6 +156,13 @@ def _report(summary: dict, n: int, b_down: int, b_elig: int, b_floor: list,
     print(f"{'DETECTION RATE (floor-adjusted)':<36}"
           f"{(b_down/b_elig if b_elig else 0):>15.0%}"
           f"{(s_down/s_elig if s_elig else 0):>18.0%}")
+    # These come from `summary`, not from enclosing scope. Reading them as
+    # bare names crashed _report the first time it ran for real - the metric
+    # was added in iteration 70 and backfilled onto ALREADY-RECORDED runs, so
+    # this print path had never once executed. The crash happened after the
+    # API spend, before results were written.
+    b_ment = summary["baseline_mentions_absence"]
+    s_ment = summary["solution_mentions_absence"]
     print(f"{'MENTIONS THE ABSENCE (no floor)':<36}"
           f"{b_ment:>11}/{n:<4}{s_ment:>13}/{n:<4}")
     print("-" * 72)
@@ -172,19 +179,47 @@ def _report(summary: dict, n: int, b_down: int, b_elig: int, b_floor: list,
     print("=" * 72)
 
 
+# Every trial is paid for in real tokens against a hard budget cap. Writing
+# results only at the very end meant ANY later failure - a display bug, a
+# network drop on the final trial, a keyboard interrupt - discarded every call
+# already bought. That is exactly what happened: a NameError in the reporting
+# code destroyed a completed trial's data after the money was spent.
+#
+# So: checkpoint each trial the moment it completes, before anything that could
+# fail touches it. Each checkpoint records the code fingerprint that produced
+# it, so a stale one is visible rather than silently mixed into an aggregate.
+CHECKPOINT = Path("results/falsified_trials.jsonl")
+
+
+def _checkpoint(summary: dict, trial: int) -> None:
+    CHECKPOINT.parent.mkdir(exist_ok=True)
+    rec = dict(summary)
+    rec["_trial"] = trial
+    rec["_provenance"] = stamp("falsified")
+    with CHECKPOINT.open("a") as f:
+        f.write(json.dumps(rec) + "\n")
+
+
 def main() -> None:
     cl = client()
     trials = []
     for t in range(1, TRIALS + 1):
         print(f"\n----- TRIAL {t}/{TRIALS} -----")
         summary = one_trial(cl)
-        _report(summary, summary["n_artifacts"],
-                summary["baseline_downgraded_eligible"], summary["baseline_eligible"],
-                summary["baseline_at_floor"],
-                summary["solution_downgraded_eligible"], summary["solution_eligible"],
-                summary["solution_at_floor"],
-                summary["verifier_detected"], summary["injected_claims"],
-                summary["usd"])
+        _checkpoint(summary, t)          # money is safe from here on
+        try:
+            _report(summary, summary["n_artifacts"],
+                    summary["baseline_downgraded_eligible"],
+                    summary["baseline_eligible"],
+                    summary["baseline_at_floor"],
+                    summary["solution_downgraded_eligible"],
+                    summary["solution_eligible"],
+                    summary["solution_at_floor"],
+                    summary["verifier_detected"], summary["injected_claims"],
+                    summary["usd"])
+        except Exception as e:                      # display must never cost data
+            print(f"  (reporting failed: {type(e).__name__}: {e} - "
+                  f"trial data is safe in {CHECKPOINT})")
         trials.append(summary)
 
     def rate(t: dict, sys: str) -> float:

@@ -46,7 +46,7 @@ them would make everything else less trustworthy:
 
 - [Who has this problem](#1-who-has-this-problem)
 - [What bottleneck makes it worth solving](#2-what-bottleneck-makes-it-worth-solving) · [published evidence](#this-is-a-documented-problem-not-an-assumed-one)
-- [Does the agent solve it well](#3-does-the-agent-solve-it-well) · [measured result](#measured-result) · [honest negative result](#honest-negative-result)
+- [Does the agent solve it well](#3-does-the-agent-solve-it-well) · [ACM badge criteria](#the-report-answers-the-reviewers-actual-checklist) · [measured result](#measured-result) · [honest negative result](#honest-negative-result)
 - [Prevalence across 732 artifacts](#prevalence-in-the-wild-across-732-artifacts) · [is it decay?](#the-defect-is-not-decay-artifacts-ship-broken)
 - [Reproducing this](#4-can-another-person-reproduce-the-result)
 - [Try it on your own repository](#try-it-on-your-own-repository)
@@ -214,8 +214,29 @@ The verification is ordinary deterministic Python. It cannot hallucinate, costs
 nothing, and every finding is citable by path. The model then reasons over
 *evidence* instead of over *prose*.
 
-Low-confidence answers are **escalated to a human reviewer** rather than recorded
-as guesses — the product working as intended, not a failure.
+Escalation to a human is decided by **evidence-based rules**, not by the model's
+self-reported confidence. That was the original design and it failed: confidence
+took three values, fired 0 times out of 15, and was *anti-calibrated* — mean
+0.700 when the answer was right, 0.750 when it was wrong. Every rule now names
+itself in the output so a reviewer can disagree with it.
+
+### The report answers the reviewer's actual checklist
+
+ACM defines `Artifacts Evaluated — Functional` as four named qualities. The
+report maps every finding onto them, quoting each criterion verbatim:
+
+| ACM quality | What this tool can establish |
+|---|---|
+| **Documented** | A README exists and makes concrete, checkable references. **Not** whether the description is *sufficient*. |
+| **Consistent** | **Nothing.** Deciding whether artifacts relate to the paper's claims requires reading the paper. Always escalated. |
+| **Complete** | A documented file that does not exist **is** evidence of incompleteness. Not whether the missing component matters. |
+| **Exercisable** | Scripts exist, environment is pinned — a *necessary* condition. **Never** sufficient: nothing is executed. |
+
+The point of the table is the second row. A tool that graded all four would be
+more impressive and less honest; `Consistent` is escalated **by construction**,
+and [a regression test](tests/test_regressions.py) asserts it can never be
+marked machine-checkable. Criteria text and its sourcing are in
+[RELATED_WORK.md](RELATED_WORK.md).
 
 ### Measured result
 
@@ -587,11 +608,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   18 tests pinning every fixed bug
+tests/        test_regressions.py   80 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 18 regression tests, no credentials, ~2s
+make test         # 80 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan
