@@ -24,6 +24,7 @@ from artifact_triage.eval.metrics import Prediction, score
 from artifact_triage.solution.escalate import decide
 from artifact_triage.solution.evidence import gather
 from artifact_triage.solution.verify import verify
+from artifact_triage.common.provenance import stamp
 
 # Deterministic checks that read file CONTENTS (pinning, portability, links) need
 # the API, but every response is cached to data/cache/ and committed, so a rerun
@@ -78,7 +79,8 @@ def main() -> None:
               f"{fx['artifact_id']}")
     rep = score("solution", preds, labels, USD_IN, USD_OUT)
     OUT.parent.mkdir(exist_ok=True)
-    OUT.write_text(json.dumps({"report": rep.to_dict(), "raw": raw}, indent=1))
+    OUT.write_text(json.dumps({"_provenance": stamp("solution"),
+                           "report": rep.to_dict(), "raw": raw}, indent=1))
     print(f"\nMAE {rep.mae}  exact {rep.exact_accuracy}  overclaim {rep.overclaim_rate}  "
           f"escalated {rep.escalation_rate:.0%}  ${rep.usd:.4f}")
     print(f"-> {OUT}")

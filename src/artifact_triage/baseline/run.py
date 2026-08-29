@@ -15,6 +15,7 @@ from pathlib import Path
 from artifact_triage.common.llm import USD_IN, USD_OUT, Answer, ask, client
 from artifact_triage.common.rubric import RUBRIC
 from artifact_triage.eval.metrics import Prediction, score
+from artifact_triage.common.provenance import stamp
 
 OUT = Path("results/baseline.json")
 
@@ -46,7 +47,8 @@ def main() -> None:
               f"truth={fx['_label']['badge']:<11} {fx['artifact_id']}")
     rep = score("baseline", preds, labels, USD_IN, USD_OUT)
     OUT.parent.mkdir(exist_ok=True)
-    OUT.write_text(json.dumps({"report": rep.to_dict(), "raw": raw}, indent=1))
+    OUT.write_text(json.dumps({"_provenance": stamp("baseline"),
+                           "report": rep.to_dict(), "raw": raw}, indent=1))
     print(f"\nMAE {rep.mae}  exact {rep.exact_accuracy}  "
           f"overclaim {rep.overclaim_rate}  ${rep.usd:.4f}")
     print(f"-> {OUT}")

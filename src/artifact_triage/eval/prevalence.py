@@ -30,6 +30,7 @@ from artifact_triage.corpus.fetch import (default_branch_sha, readme,
                                           referenced_paths, signals_present, tree)
 from artifact_triage.corpus.github import API, _get
 from artifact_triage.corpus.scrub import scrub
+from artifact_triage.common.provenance import stamp
 from artifact_triage.solution.verify import verify
 
 SRC = Path("data/discovered.jsonl")
@@ -226,6 +227,7 @@ def main() -> None:
 
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps({
+        "_provenance": stamp("prevalence"),
         "n_profiled": len(rows), "n_checkable": len(checkable),
         "n_with_broken": len(with_broken),
         "prevalence": round(len(with_broken) / len(checkable), 4) if checkable else None,

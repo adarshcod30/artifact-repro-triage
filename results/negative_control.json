@@ -1,4 +1,9 @@
 {
+ "_provenance": {
+  "kind": "negative_control",
+  "commit": "edf21f9",
+  "code_fingerprint": "a2afe5e8d906"
+ },
  "injected": 75,
  "detected": 75,
  "detection_rate": 1.0,

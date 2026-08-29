@@ -74,6 +74,31 @@ def claims() -> list[tuple[str, str, str, str]]:
     return out
 
 
+def check_staleness() -> list[str]:
+    """Report results produced by code that has since changed.
+
+    A results file is a claim about what the code does. If the code changes and
+    the result does not, the claim silently becomes false while still looking
+    authoritative - the project's own subject, applied to itself.
+    """
+    sys.path.insert(0, str(ROOT / "src"))
+    from artifact_triage.common.provenance import is_stale
+
+    stale = []
+    print("\nRESULT PROVENANCE")
+    print("-" * 74)
+    for name in ("negative_control", "baseline", "solution", "falsified_run",
+                 "prevalence"):
+        payload = load(f"results/{name}.json")
+        if payload is None:
+            continue
+        bad, why = is_stale(payload)
+        print(f"  {'STALE' if bad else 'ok   '}  {name:<20} {why[:58]}")
+        if bad:
+            stale.append(name)
+    return stale
+
+
 def main() -> int:
     rows = claims()
     if not rows:
@@ -104,6 +129,16 @@ def main() -> int:
         print("  this project detects, in this project's own documentation.")
         return 1
     print(f"  All {len(rows)} documented numbers match the results files.")
+
+    stale = check_staleness()
+    print("-" * 74)
+    if stale:
+        print(f"  {len(stale)} result(s) were produced by code that has since")
+        print(f"  changed: {', '.join(stale)}")
+        print("  The numbers may still be right, but nothing currently proves it.")
+        print("  Re-run those before treating them as reported results.")
+    else:
+        print("  Every result was produced by the current code.")
     print("=" * 74)
     return 0
 

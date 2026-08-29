@@ -27,6 +27,7 @@ from pathlib import Path
 
 from artifact_triage.baseline.run import prompt_for as baseline_prompt
 from artifact_triage.common.llm import USD_IN, USD_OUT, MODEL, PROVIDER, ask, client
+from artifact_triage.common.provenance import stamp
 from artifact_triage.common.rubric import RUBRIC
 from artifact_triage.eval.negative_control import falsify
 from artifact_triage.solution.run import prompt_for as solution_prompt
@@ -163,6 +164,7 @@ def main() -> None:
         return t[f"{sys}_downgraded_eligible"] / e if e else 0.0
 
     agg = {
+        "_provenance": stamp("falsified"),
         "model": MODEL, "provider": PROVIDER, "trials": TRIALS,
         "baseline_rates": [round(rate(t, "baseline"), 4) for t in trials],
         "solution_rates": [round(rate(t, "solution"), 4) for t in trials],

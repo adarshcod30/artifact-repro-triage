@@ -25,6 +25,7 @@ import random
 from pathlib import Path
 
 from artifact_triage.solution.verify import verify
+from artifact_triage.common.provenance import stamp
 
 # Plausible paths a real research README would reference. Injected only when
 # genuinely absent from the target repository.
@@ -111,7 +112,7 @@ def main() -> None:
     print(f"{'=' * 62}")
     Path("results").mkdir(exist_ok=True)
     Path("results/negative_control.json").write_text(json.dumps(
-        {"injected": total_injected, "detected": total_detected,
+        {"_provenance": stamp("negative_control"), "injected": total_injected, "detected": total_detected,
          "detection_rate": round(rate, 4), "false_positives": false_positives,
          "per_artifact": rows}, indent=1))
     print("-> results/negative_control.json")
