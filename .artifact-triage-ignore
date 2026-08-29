@@ -1,0 +1,29 @@
+# Paths this README references that belong to OTHER artifacts, not this one.
+#
+# This tool's documentation shows example output from the artifacts it analyses,
+# so those artifacts' paths appear in our README and are checked against our own
+# file tree. That is a genuine false-positive class, documented in the README
+# under "Known limitations".
+#
+# Every entry below is a path quoted from another project or from the
+# negative-control injection list. The report states how many were applied.
+
+# Quoted from zhangxiaosa/LPR (the worked example throughout the docs)
+scripts/run_lpr.py
+scripts/run_perses.py
+scripts/run_creduce.py
+scripts/run_vulcan.py
+scripts/analyze_and_draw.sh
+scripts/keep_running.sh
+scripts/summarize_lpr.py
+token_counter_deploy.jar
+perses_deploy.jar
+
+# From the negative-control injection list (paths chosen BECAUSE they do not exist)
+configs/default.yaml
+scripts/run_experiments.sh
+src/train_model.py
+tools/evaluate_all.py
+
+# Discussed as something artifacts should have, not a file we ship
+requirements.txt

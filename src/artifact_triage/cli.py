@@ -120,6 +120,9 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
             L.append(f"\n…and {len(ev.broken_paths) - 20} more.")
         L.append("\n> Each row is a documented instruction a user would follow "
                  "and find missing.")
+    if getattr(ev, "ignored", 0):
+        L.append(f"\n*{ev.ignored} author-declared exception pattern(s) applied "
+                 f"from `.artifact-triage-ignore`.*")
     elif ev.claims_total:
         L.append("All referenced paths were found.")
     else:

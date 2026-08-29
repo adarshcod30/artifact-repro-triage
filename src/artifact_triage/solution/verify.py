@@ -87,6 +87,7 @@ class Evidence:
     has_build_script: bool
     readme_bytes: int
     n_files: int
+    ignored: int
     claims: list[dict]
 
     def to_dict(self) -> dict:
@@ -118,6 +119,9 @@ class Evidence:
                     lines.append(f"  - {p}   (nothing similar in the repository)")
         elif self.claims_total:
             lines.append("Every path the README references was found.")
+        if self.ignored:
+            lines.append(f"({self.ignored} author-declared exception pattern(s) "
+                         f"applied from .artifact-triage-ignore)")
         else:
             lines.append("The README references no checkable file paths.")
         return "\n".join(lines)
@@ -156,6 +160,35 @@ def check_claim(path: str, exact: set[str], basenames: set[str],
     return Claim(path, False, None)
 
 
+IGNORE_FILE = ".artifact-triage-ignore"
+
+
+def load_ignores(file_tree: list[str], fetch=None, slug: str = "") -> list[str]:
+    """Read author-declared exceptions from `.artifact-triage-ignore`.
+
+    Some READMEs legitimately reference paths that do not belong to their own
+    repository - a tutorial quoting another project, or, as here, a tool whose
+    documentation shows example output from the artifacts it analyses. The
+    checker cannot infer that intent, and a linter that cannot be told about a
+    legitimate exception is a linter people stop running.
+
+    So the author declares them, in the open, in a file a reviewer can read. The
+    report always states how many exceptions were applied - a silent suppression
+    would be worse than a false positive.
+    """
+    if IGNORE_FILE not in file_tree or fetch is None or not slug:
+        return []
+    text = fetch(slug, IGNORE_FILE)
+    if not text:
+        return []
+    out = []
+    for line in text.splitlines():
+        line = line.split("#", 1)[0].strip()
+        if line:
+            out.append(line)
+    return out
+
+
 def interesting(path: str) -> bool:
     low = path.lower()
     if any(t in low for t in IGNORE_TOKENS):
@@ -165,10 +198,16 @@ def interesting(path: str) -> bool:
     return True
 
 
-def verify(fixture: dict) -> Evidence:
+def verify(fixture: dict, ignores: list[str] | None = None) -> Evidence:
+    import fnmatch
+
     tree = fixture["file_tree"]
     exact, basenames, dirs = _index(tree)
+    ignores = ignores or fixture.get("declared_ignores") or []
     raw = [p for p in fixture.get("readme_referenced_paths", []) if interesting(p)]
+    if ignores:
+        raw = [p for p in raw
+               if not any(fnmatch.fnmatch(p, g) for g in ignores)]
     claims = [check_claim(p, exact, basenames, dirs) for p in raw]
     broken = [c.path for c in claims if not c.exists]
     sig = fixture.get("signals", {})
@@ -190,6 +229,7 @@ def verify(fixture: dict) -> Evidence:
         has_build_script=bool(sig.get("build_script")),
         readme_bytes=len(fixture.get("readme", "")),
         n_files=fixture.get("n_files", 0),
+        ignored=len(ignores),
         claims=[asdict(c) for c in claims],
     )
 
