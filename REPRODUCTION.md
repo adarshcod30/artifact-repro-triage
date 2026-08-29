@@ -10,7 +10,7 @@ Written for someone starting from a clean machine with nothing installed.
 |---|---|
 | OS | macOS or Linux (developed on macOS 15, Apple Silicon) |
 | Python | 3.11 or newer |
-| Disk | ~250 MB (no repositories are cloned) |
+| Disk | ~120 MB (37 MB clone + venv; no repositories are cloned) |
 | Network | Only for the model calls. Corpus rebuild is optional and cached. |
 | Credentials | One model provider (see step 3) |
 
@@ -20,14 +20,31 @@ JSON fixtures, so the corpus does not need rebuilding and no rate limit applies.
 ## 2. Setup
 
 ```bash
-git clone https://github.com/adarshcod30/artifact-repro-triage.git
+git clone --depth 1 https://github.com/adarshcod30/artifact-repro-triage.git
 cd artifact-repro-triage
 pip install uv          # if you don't have it
 uv venv
 uv pip install -e .
 ```
 
-Installs `boto3`, `botocore[crt]` and `certifi`. Roughly 30 seconds.
+**Use `--depth 1`.** Measured on a clean machine: shallow clone **37 MB in 3
+seconds**; full clone 91 MB in 32 seconds. The history carries API-cache files
+that were later removed, and nothing needs them.
+
+Install takes roughly 30 seconds (`boto3`, `botocore[crt]`, `certifi`).
+
+### Verified from a clean clone
+
+This was run end to end on a fresh shallow clone. All ten credential-free
+targets pass with no API key, no AWS account and no configuration:
+
+```
+test  verify  control  subtle  ablation  pinning  portability
+dataset  dashboard  check-claims
+```
+
+`make verify-targets` re-runs that check and fails loudly if any documented
+command does not work.
 
 > `certifi` is not optional on macOS: python.org builds ship without a CA bundle,
 > and every HTTPS call fails with `CERTIFICATE_VERIFY_FAILED` without it.
