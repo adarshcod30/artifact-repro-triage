@@ -8,22 +8,28 @@ This script covers all six. Timings are cumulative.
 
 ---
 
-## 0:00 – 0:35 — The problem
+## 0:00 – 0:40 — The problem, and how big it is
 
-> "Every major software-engineering conference runs an artifact evaluation
-> track. Volunteer reviewers — usually PhD students — decide whether a paper's
-> released code is *Functional* or *Reusable*.
+> "A research paper's README is a set of promises. Install with
+> `requirements.txt`. Run `scripts/run_experiments.sh`. See
+> `configs/default.yaml`. Nothing checks whether those files exist.
 >
-> A README is a set of promises. It says install with `requirements.txt`, run
-> `scripts/run_experiments.sh`, see `configs/default.yaml`. Nothing checks them.
-> A reviewer reads fluent, confident prose and forms an impression, because
-> reading prose is what a human can cheaply do.
+> I checked. Across 376 research artifacts harvested from Zenodo — four thousand
+> two hundred documented file references — **nineteen and a half percent point at
+> nothing at all**. Sixty-five percent of artifacts have at least one.
 >
-> So the expensive failure is specific: a convincing README that isn't consistent
-> with its own repository."
+> And here is the part I didn't expect. The literature says artifacts *decay* —
+> dependencies drift, environments rot. So older artifacts should be worse. They
+> aren't. The rate is flat with age: point two-four at three months, point
+> two-five at two years.
+>
+> **These artifacts shipped broken.** A reviewer could have caught every one of
+> them on day one, in about five seconds, for free. Nobody did, because nobody
+> had a tool that looks."
 
-**On screen:** the LPR artifact's README, scrolling. Then the verifier output
-showing *15 of 17 referenced paths do not exist.*
+**On screen:** the prevalence table, then the age-bucket table showing the flat
+line. Then the LPR verifier output: *15 of 17 referenced paths do not exist* — in
+an artifact badged **Reusable**.
 
 ---
 
@@ -128,7 +134,7 @@ verifier              75/75 claims, 0 false positives
 
 ---
 
-## 4:20 – 4:45 — Hot take
+## 4:15 – 4:40 — Hot take
 
 > "Give an agent a control group before you give it a metric.
 >
@@ -143,6 +149,17 @@ verifier              75/75 claims, 0 false positives
 
 ---
 
+## If there is time (cut first if over 5:00)
+
+> "Two other checks fell out of the same idea. Fifty-three percent of these
+> artifacts have no dependency manifest at all. Twenty-seven percent hard-code a
+> path into the author's own machine — one artifact that **passed Functional
+> review** has twelve paths pointing into `/root/upbeat/`, and another reads a
+> CSV off the author's Desktop."
+
+**On screen:** `artifact-triage NWU-NISL-Fuzzing/upbeat` running live — it takes
+about five seconds and needs no API key.
+
 ## Recording notes
 
 - **Cut the setup.** Don't film `uv venv`. Start on the problem.
@@ -153,3 +170,7 @@ verifier              75/75 claims, 0 false positives
   and non-deterministic on camera.
 - The single most persuasive shot is the LPR verifier output: *15 of 17
   referenced paths do not exist*, in a repository badged `Reusable`.
+- Second most persuasive: the flat age-bucket table. It is the finding that
+  turns "a tool I built" into "a thing nobody knew about this ecosystem".
+- `results/dashboard.html` opens offline and shows every number on one page —
+  useful for the comparison beat if screen space is tight.
