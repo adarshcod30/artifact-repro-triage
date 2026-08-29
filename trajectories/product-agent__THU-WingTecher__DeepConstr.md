@@ -42,7 +42,7 @@ The README **disclosed its own badge tier**. Redacted before either agent saw it
 
 *Solution only. No model involved — ordinary Python over the repository's real file tree.*
 
-**Tool input**: 27 candidate paths extracted from the README.
+**Tool input**: 28 candidate paths extracted from the README.
 
 **Tool response**:
 
@@ -57,8 +57,9 @@ VERIFIED REPOSITORY FACTS (checked against the actual file tree):
 - test files present: True
 - licence present: True
 
-README PATH CLAIMS: 27 checked, 5 could NOT be found in the repository.
+README PATH CLAIMS: 28 checked, 6 could NOT be found in the repository.
 Paths the README references that do not exist:
+  - DeepConstr/data/records   (closest real file: deepconstr/gen/record.py)
   - DeepConstr/results/tf_exp.csv   (nothing similar in the repository)
   - DeepConstr/results/torch_exp.csv   (nothing similar in the repository)
   - DeepConstr/results/unnormal_val_deepconstr_torch.json   (nothing similar in the repository)
@@ -67,7 +68,7 @@ Paths the README references that do not exist:
 The README references no checkable file paths.
 ```
 
-> This is the feedback that shapes the next step. 5 of 27 referenced paths do not exist, and each is citable by name — the model reasons over these facts instead of over the README's prose.
+> This is the feedback that shapes the next step. 6 of 28 referenced paths do not exist, and each is citable by name — the model reasons over these facts instead of over the README's prose.
 
 ## Step 3 — BASELINE agent
 
@@ -112,11 +113,11 @@ Welcome to the artifact repository of the DeepConstr paper which is accepted by 
   "confidence": 0.8,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README provides detailed instructions on how to set up and use the software.",
-    "The documentation includes setup instructions, quick start guides, and explanations of important arguments and outputs.",
-    "The artifact includes scripts for conducting experiments and reproducing results.",
-    "The artifact appears to be documented, consistent, complete, and exercisable.",
-    "There is evidence of verification and validation through the provided experiments and bug finding evidence."
+    "The README provides detailed documentation on how to set up, run, and use the artifact.",
+    "The artifact includes scripts for fuzzing, constraint extraction, and experiment reproduction.",
+    "The documentation covers setup instructions, quick start guides, and command usage examples.",
+    "The artifact appears to be exercisable based on the provided commands and scripts.",
+    "The README mentions evidence of verification and validation through experiments and bug finding."
   ],
   "escalated_to_human": false
 }
@@ -124,7 +125,7 @@ Welcome to the artifact repository of the DeepConstr paper which is accepted by 
 
 ## Step 3 — SOLUTION agent
 
-**Prompt** (17,681 chars; README truncated here for readability):
+**Prompt** (17,766 chars; README truncated here for readability):
 
 ```
 Artifact repository: THU-WingTecher/DeepConstr
@@ -135,7 +136,8 @@ VERIFIED FACTS. Each line was established by running code against the repository
 == Documentation consistency ==
 Files in repository: 41822
 README size: 16631 bytes
-README references 27 file path(s); 5 do NOT exist in the repository.
+README references 28 file path(s); 6 do NOT exist in the repository.
+  - MISSING: DeepConstr/data/records   (closest real file: deepconstr/gen/record.py)
   - MISSING: DeepConstr/results/tf_exp.csv   (nothing similar exists)
   - MISSING: DeepConstr/results/torch_exp.csv   (nothing similar exists)
   - MISSING: DeepConstr/results/unnormal_val_deepconstr_torch.json   (nothing similar exists)
@@ -159,8 +161,7 @@ Licence present: True
 No machine-specific values found across 12 inspected file(s).
 
 == External links ==
-5 URL(s) checked, 1 dead (0 unverifiable).
-  - DEAD: https://hub.docker.com/repository
+5
 … README continues …
 ```
 
@@ -172,11 +173,10 @@ No machine-specific values found across 12 inspected file(s).
   "confidence": 0.7,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README file is present and provides some documentation.",
-    "There are tests present in the repository.",
-    "Several files referenced in the README do not exist in the repository, indicating documentation inconsistency.",
-    "Dependencies are not pinned, which may affect reproducibility.",
-    "No Dockerfile is present, which complicates environment reproducibility."
+    "There are significant inconsistencies between the README and the actual repository contents, such as missing files and directories.",
+    "The dependencies are not pinned, which may affect reproducibility.",
+    "No Dockerfile is present, making environment setup less straightforward.",
+    "The README contains dead external links, reducing its utility."
   ],
   "escalated_to_human": false
 }

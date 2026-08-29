@@ -23,12 +23,12 @@ verified on a machine that is not mine.
 
 | | |
 |---|---|
-| **Detecting a falsified README** | baseline **0%** → solution **100%** (3 trials, 100–100%) |
+| **Detecting a falsified README** | baseline **0%** → solution **93%** (3 trials, 80–100%) |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
 | **Prevalence in the wild** | **63.8%** of 732 research artifacts carry a broken README claim |
 | | **1,459 of 6,687** documented file references (21.8%) resolve to nothing |
 | **Is it decay?** | **No.** Flat across four years — artifacts *ship* broken |
-| **Model spend, entire project** | **$2.39** of a $5 ceiling (AWS actual) — five of six checks need no model at all |
+| **Model spend, entire project** | **$2.88** of a $5 ceiling — five of six checks need no model at all |
 
 Two results are reported that do **not** flatter the project, because omitting
 them would make everything else less trustworthy:
@@ -193,9 +193,9 @@ Same model, same rubric, same input pair. Only the evidence differs.
 
 | Metric | Baseline | Solution |
 |---|---|---|
-| Noticed the falsified README | **0%** | **100%** |
-| Range over 3 trials | 0% – 0% | 100% – 100% |
-| Per-trial | `[0.0, 0.0, 0.0]` | `[1.0, 1.0, 1.0]` |
+| Noticed the falsified README | **0%** | **93%** |
+| Range over 3 trials | 0% – 0% | 80% – 100% |
+| Per-trial | `[0.0, 0.0, 0.0]` | `[0.8, 1.0, 1.0]` |
 | Deterministic verifier | — | **75/75 claims (100%), 0 false positives** |
 
 The baseline is *perfectly stable at zero*: across 45 opportunities it never once
@@ -209,7 +209,15 @@ Both raw and adjusted figures are reported and the excluded artifacts are named
 in `results/falsified_run.json`.
 
 Model: `us.amazon.nova-pro-v1:0` on AWS Bedrock. Total cost of the reported
-experiment: **$0.42**. Cumulative project spend: **$2.39** of $5, verified against AWS billing.
+experiment: **$0.42**.
+
+> An earlier run of this experiment reported 100% with no variance. It is 93%
+> here because the path extractor changed in between — directory references were
+> added, so the falsified twins carry more claims and the task is not identical.
+> The provenance check flagged the old numbers as stale and they were
+> re-measured rather than carried forward. **The reported figure went down as a
+> result, which is the point:** a number that survives only because nobody
+> re-ran it is not a result. Cumulative project spend: **$2.88** of $5.
 
 ### A harder control: near-misses, not inventions
 

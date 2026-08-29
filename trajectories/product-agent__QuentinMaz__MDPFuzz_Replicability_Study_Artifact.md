@@ -42,7 +42,7 @@ Scrubber found no badge self-disclosure in this README.
 
 *Solution only. No model involved — ordinary Python over the repository's real file tree.*
 
-**Tool input**: 2 candidate paths extracted from the README.
+**Tool input**: 4 candidate paths extracted from the README.
 
 **Tool response**:
 
@@ -57,7 +57,7 @@ VERIFIED REPOSITORY FACTS (checked against the actual file tree):
 - test files present: False
 - licence present: True
 
-README PATH CLAIMS: 2 checked, 0 could NOT be found in the repository.
+README PATH CLAIMS: 4 checked, 0 could NOT be found in the repository.
 Every path the README references was found.
 The README references no checkable file paths.
 ```
@@ -97,12 +97,12 @@ The studies consist in executing testing methods for Reinforcement Learning mode
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "The README provides detailed instructions on how to set up and run the experiments.",
-    "A Docker image is provided to simplify the setup process.",
-    "Step-by-step instructions are given for both reproduction and replication studies.",
-    "A demonstration is included to show the functionality of the artifact.",
-    "The artifact includes evidence of verification and validation through the provided demonstration and results."
+    "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
+    "The README provides detailed instructions on how to set up and run the experiments, indicating documentation is present.",
+    "The artifact includes a demonstration with step-by-step instructions, suggesting it is exercisable.",
+    "The README mentions the inclusion of a Docker image with pre-installed environments, facilitating the execution of the artifact.",
+    "The artifact involves complex computations and setups, particularly for the CARLA use case, which may pose challenges for full reproducibility but does not detract from the functional tier.",
+    "The provided demonstration, although small-scale, shows that the artifact can be executed and produces results, supporting the 'Functional' tier."
   ],
   "escalated_to_human": false
 }
@@ -121,7 +121,7 @@ VERIFIED FACTS. Each line was established by running code against the repository
 == Documentation consistency ==
 Files in repository: 1129
 README size: 8638 bytes
-README references 2 file path(s); 0 do NOT exist in the repository.
+README references 4 file path(s); 0 do NOT exist in the repository.
   All referenced paths were found.
 
 == Environment reproducibility ==
@@ -155,11 +155,11 @@ Its content consists of a <ins>reproduction</ins> study and a <ins>replication</
   "confidence": 0.8,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README provides detailed instructions on how to set up and run the experiments.",
-    "All referenced paths in the README exist in the repository.",
-    "Dependencies are mostly pinned, though the base Docker image is unpinned.",
-    "The artifact includes a demonstration that can be followed to verify functionality.",
-    "The README provides step-by-step instructions for both reproduction and replication studies."
+    "The README is detailed and provides step-by-step instructions for reproducing and replicating the studies.",
+    "All referenced paths in the README were found in the repository, indicating documentation consistency.",
+    "All dependencies are pinned, ensuring environment reproducibility.",
+    "The artifact includes a demonstration with instructions to test the functionality.",
+    "The README provides clear instructions on how to set up and run the experiments, both using Docker and locally."
   ],
   "escalated_to_human": false
 }

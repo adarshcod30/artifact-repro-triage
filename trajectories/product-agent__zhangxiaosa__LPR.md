@@ -127,12 +127,12 @@ However, the deviation should be trivial, and the results should still support t
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is documented with clear instructions on how to set up and run the experiments.",
+    "The artifact is placed in a public archival repository.",
+    "The README provides detailed instructions on how to set up and run the experiments.",
     "The artifact includes scripts and tools necessary to reproduce the results.",
-    "The README provides detailed information on how to use the artifact, including how to handle the non-deterministic nature of LLMs.",
-    "Precomputed results are provided to facilitate evaluation, although rerunning the experiments is possible.",
-    "The artifact includes benchmark suites and previous results to support the claims made in the paper.",
-    "The setup requires specific environment (docker) and access to LLMs, which might pose challenges for some users."
+    "Precomputed results are provided to facilitate evaluation.",
+    "The documentation explains the non-deterministic nature of LLM outputs and provides guidance on handling it.",
+    "The artifact includes benchmark suites and detailed commands to run different reduction algorithms."
   ],
   "escalated_to_human": false
 }
@@ -184,10 +184,11 @@ Licence present: False
   "confidence": 0.85,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README references many file paths that do not exist in the repository, indicating inconsistency.",
-    "There are no dependency manifests, Dockerfile, CI configuration, or tests present.",
-    "The documentation is extensive but contains inaccuracies and missing files, which hinders functional evaluation.",
-    "The environment setup and execution instructions are provided, but the missing files and lack of tests make functional evaluation uncertain."
+    "However, the documentation is inconsistent with the actual files present in the repository.",
+    "Missing scripts and tools as referenced in the README.",
+    "No dependency manifest, Dockerfile, CI configuration, or tests are present.",
+    "The environment setup and execution instructions are provided, but the actual files and scripts needed are missing.",
+    "The artifact does not meet the criteria for 'Functional' or 'Reusable' tiers due to the significant documentation and file inconsistencies."
   ],
   "escalated_to_human": true
 }
