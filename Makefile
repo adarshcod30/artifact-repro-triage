@@ -31,6 +31,9 @@ verify:  ## Deterministic claim verification over the labelled corpus
 control:  ## Negative control - 75 injected false claims
 	$(PY) -m artifact_triage.eval.negative_control
 
+subtle:  ## Harder control: mutate real paths into near-misses
+	$(PY) -m artifact_triage.eval.subtle_control
+
 links:  ## Check README URLs for link rot
 	$(PY) -m artifact_triage.solution.links
 

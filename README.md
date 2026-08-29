@@ -161,6 +161,24 @@ in `results/falsified_run.json`.
 Model: `us.amazon.nova-pro-v1:0` on AWS Bedrock. Total cost of the reported
 experiment: **$0.42**.
 
+### A harder control: near-misses, not inventions
+
+Injecting obviously-fake paths is the easy case. Real breakage is a rename that
+was never propagated. So a second control takes paths that genuinely **do** exist,
+mutates them the way references actually go stale — `run.py` → `run_v2.py`,
+`config/` → `configs/`, a file moved one level up — and rewrites the README to
+use the stale form.
+
+| | |
+|---|---|
+| Mutations introduced | 44 |
+| Detected as broken | **40 (91%)** |
+| Correct original file suggested | **32 (73%)** |
+
+Harder than the invented-path control, and closer to what a stale README actually
+looks like: each reference still reads correctly and differs from a working path
+by a few characters.
+
 ### Honest negative result
 
 The evaluation this project *started* with — predicting ACM badge tier — does not

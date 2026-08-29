@@ -1,0 +1,409 @@
+{
+ "mutations": 44,
+ "detected": 40,
+ "detection_rate": 0.9091,
+ "correctly_suggested": 32,
+ "suggestion_rate": 0.7273,
+ "per_artifact": [
+  {
+   "artifact_id": "HexHive/FishFuzz",
+   "applied": [
+    {
+     "original": "afl-fuzz-debug.c",
+     "mutated": "afl-fuzz-debug_old.c",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "afl-fuzz-queue.c",
+     "mutated": "afl-fuzz-queue_v2.c",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "README.md",
+     "mutated": "README_v2.md",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "PREFUZZ/scripts/gen_initial_distance.py",
+     "mutated": "PREFUZZ/scripts/gen_initial_distance_v2.py",
+     "kind": "renamed _v2"
+    }
+   ],
+   "detected": [
+    "afl-fuzz-debug_old.c",
+    "afl-fuzz-queue_v2.c",
+    "README_v2.md",
+    "PREFUZZ/scripts/gen_initial_distance_v2.py"
+   ],
+   "correctly_suggested": [
+    "afl-fuzz-debug.c",
+    "afl-fuzz-queue.c",
+    "README.md"
+   ]
+  },
+  {
+   "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+   "applied": [
+    {
+     "original": "docs/INSTALL.md",
+     "mutated": "docs/INSTALL_v2.md",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "docs/CommonIssues.md",
+     "mutated": "docs/CommonIssues_old.md",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "AE.md",
+     "mutated": "AE_old.md",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "INSTALL.md",
+     "mutated": "INSTALL_v2.md",
+     "kind": "renamed _v2"
+    }
+   ],
+   "detected": [
+    "docs/INSTALL_v2.md",
+    "docs/CommonIssues_old.md",
+    "AE_old.md",
+    "INSTALL_v2.md"
+   ],
+   "correctly_suggested": [
+    "docs/INSTALL.md",
+    "docs/CommonIssues.md",
+    "INSTALL.md"
+   ]
+  },
+  {
+   "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+   "applied": [
+    {
+     "original": "my_simulate.py",
+     "mutated": "my.py",
+     "kind": "suffix dropped"
+    },
+    {
+     "original": "result_script.py",
+     "mutated": "result_script_old.py",
+     "kind": "renamed _old"
+    }
+   ],
+   "detected": [
+    "my.py",
+    "result_script_old.py"
+   ],
+   "correctly_suggested": [
+    "result_script.py"
+   ]
+  },
+  {
+   "artifact_id": "THU-WingTecher/DeepConstr",
+   "applied": [
+    {
+     "original": "collect_env.py",
+     "mutated": "collect_env_old.py",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "nnsmith/cli/fuzz.py",
+     "mutated": "nnsmith/fuzz.py",
+     "kind": "moved up one level"
+    },
+    {
+     "original": "utils.py",
+     "mutated": "utils_v2.py",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "docs/bug_list.md",
+     "mutated": "docs/bug_list_old.md",
+     "kind": "renamed _old"
+    }
+   ],
+   "detected": [
+    "collect_env_old.py",
+    "utils_v2.py",
+    "docs/bug_list_old.md"
+   ],
+   "correctly_suggested": [
+    "collect_env.py",
+    "utils.py",
+    "docs/bug_list.md"
+   ]
+  },
+  {
+   "artifact_id": "dserfe/FlakyDoctor",
+   "applied": [
+    {
+     "original": "datasets/OD_projects.csv",
+     "mutated": "OD_projects.csv",
+     "kind": "moved up one level"
+    },
+    {
+     "original": "src/run_FlakyDoctor.sh",
+     "mutated": "src/run_FlakyDoctor_v2.sh",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "datasets/demo.csv",
+     "mutated": "datasets/demo_old.csv",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "src/install.sh",
+     "mutated": "install.sh",
+     "kind": "moved up one level"
+    }
+   ],
+   "detected": [
+    "src/run_FlakyDoctor_v2.sh",
+    "datasets/demo_old.csv"
+   ],
+   "correctly_suggested": [
+    "src/run_FlakyDoctor.sh"
+   ]
+  },
+  {
+   "artifact_id": "emocat/VioHawk",
+   "applied": [
+    {
+     "original": "fuzzer.py",
+     "mutated": "fuzzer_v2.py",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "mutator.py",
+     "mutated": "mutator_old.py",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "run_vse.py",
+     "mutated": "run_vse_old.py",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "requirements.txt",
+     "mutated": "requirements_old.txt",
+     "kind": "renamed _old"
+    }
+   ],
+   "detected": [
+    "fuzzer_v2.py",
+    "mutator_old.py",
+    "run_vse_old.py",
+    "requirements_old.txt"
+   ],
+   "correctly_suggested": [
+    "fuzzer.py",
+    "mutator.py",
+    "run_vse.py",
+    "requirements.txt"
+   ]
+  },
+  {
+   "artifact_id": "jovyntls/inconsistencies-in-tex",
+   "applied": [
+    {
+     "original": "run_analysis.py",
+     "mutated": "run.py",
+     "kind": "suffix dropped"
+    },
+    {
+     "original": "run_compile_only.py",
+     "mutated": "run_compile_only_v2.py",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "run_img_comparison.py",
+     "mutated": "run_img_comparison_v2.py",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "requirements.txt",
+     "mutated": "requirements_old.txt",
+     "kind": "renamed _old"
+    }
+   ],
+   "detected": [
+    "run.py",
+    "run_compile_only_v2.py",
+    "run_img_comparison_v2.py",
+    "requirements_old.txt"
+   ],
+   "correctly_suggested": [
+    "run_compile_only.py",
+    "run_img_comparison.py",
+    "requirements.txt"
+   ]
+  },
+  {
+   "artifact_id": "logpai/loghub-2.0",
+   "applied": [
+    {
+     "original": "RQs_experiments/README.md",
+     "mutated": "RQs_experiments/README_old.md",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "benchmark/UniParser/README.md",
+     "mutated": "benchmark/UniParser/README_old.md",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "post_process.py",
+     "mutated": "post_process_old.py",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "run_statistic_2k.sh",
+     "mutated": "run_statistic_2k_v2.sh",
+     "kind": "renamed _v2"
+    }
+   ],
+   "detected": [
+    "RQs_experiments/README_old.md",
+    "benchmark/UniParser/README_old.md",
+    "post_process_old.py",
+    "run_statistic_2k_v2.sh"
+   ],
+   "correctly_suggested": [
+    "RQs_experiments/README.md",
+    "post_process.py",
+    "run_statistic_2k.sh"
+   ]
+  },
+  {
+   "artifact_id": "lrtsuser/LRTS",
+   "applied": [
+    {
+     "original": "collect_builds.sh",
+     "mutated": "collect_builds_v2.sh",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "plot_eval_outcome.py",
+     "mutated": "plot_eval_outcome_v2.py",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "extract_filtered_test_result.py",
+     "mutated": "extract_filtered_test_result_v2.py",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "extract_ir_body.py",
+     "mutated": "extract_ir_body_v2.py",
+     "kind": "renamed _v2"
+    }
+   ],
+   "detected": [
+    "collect_builds_v2.sh",
+    "plot_eval_outcome_v2.py",
+    "extract_filtered_test_result_v2.py",
+    "extract_ir_body_v2.py"
+   ],
+   "correctly_suggested": [
+    "collect_builds.sh",
+    "plot_eval_outcome.py",
+    "extract_filtered_test_result.py",
+    "extract_ir_body.py"
+   ]
+  },
+  {
+   "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+   "applied": [
+    {
+     "original": "requirements.txt",
+     "mutated": "requirements_old.txt",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "README.md",
+     "mutated": "README_old.md",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "study_2/individual_ob_experiments/README.md",
+     "mutated": "study_2/individual_ob_experiments/README_v2.md",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "run_cmnd.sh",
+     "mutated": "run.sh",
+     "kind": "suffix dropped"
+    }
+   ],
+   "detected": [
+    "requirements_old.txt",
+    "README_old.md",
+    "study_2/individual_ob_experiments/README_v2.md",
+    "run.sh"
+   ],
+   "correctly_suggested": [
+    "requirements.txt",
+    "README.md",
+    "study_2/individual_ob_experiments/README.md"
+   ]
+  },
+  {
+   "artifact_id": "trustdnn/issta2024",
+   "applied": [
+    {
+     "original": "experiments/comparison/effectiveness.csv",
+     "mutated": "experiments/comparison/effectiveness_old.csv",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "effectiveness.csv",
+     "mutated": "effectiveness_v2.csv",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "efficiency.csv",
+     "mutated": "efficiency_old.csv",
+     "kind": "renamed _old"
+    },
+    {
+     "original": "experiments/replication/effectiveness.csv",
+     "mutated": "experiments/effectiveness.csv",
+     "kind": "moved up one level"
+    }
+   ],
+   "detected": [
+    "experiments/comparison/effectiveness_old.csv",
+    "effectiveness_v2.csv",
+    "efficiency_old.csv"
+   ],
+   "correctly_suggested": [
+    "experiments/comparison/effectiveness.csv",
+    "effectiveness.csv",
+    "efficiency.csv"
+   ]
+  },
+  {
+   "artifact_id": "zhangxiaosa/LPR",
+   "applied": [
+    {
+     "original": "README.md",
+     "mutated": "README_v2.md",
+     "kind": "renamed _v2"
+    },
+    {
+     "original": "small.c",
+     "mutated": "small_old.c",
+     "kind": "renamed _old"
+    }
+   ],
+   "detected": [
+    "README_v2.md",
+    "small_old.c"
+   ],
+   "correctly_suggested": [
+    "README.md"
+   ]
+  }
+ ]
+}
