@@ -22,6 +22,14 @@ from dataclasses import dataclass
 # Deliberately contains no matchable keyword, so redactions cannot re-match.
 REDACTION = "[REDACTED]"
 
+# Separators seen between "Evaluated" and the tier in real READMEs: hyphens of
+# three kinds, colon, slash, underscore, brackets, or nothing but whitespace.
+SEP = r"[\s\-\u2013\u2014:/_()\[\]]*"
+
+# Phrases that mark the surrounding sentence as being ABOUT artifact evaluation.
+AE_CTX = (r"\b(?:badges?|(?:artefact|artifact)\s+evaluation|AEC"
+          r"|AE\s+(?:committee|process|submission))\b")
+
 # Ordered most-specific first; each is a distinct way an artifact can leak.
 PATTERNS: list[tuple[str, re.Pattern]] = [
     # Order matters: broad structures (images, whole sentences) must fire before
@@ -36,16 +44,45 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("badge_award_sentence", re.compile(
         r"[^.\n]*\b(?:awarded|received|earned|granted|holds?|obtained)\b"
         r"[^.\n]{0,80}\bbadges?\b[^.\n]*\.?", re.I)),
+    # The alternation here was UNGROUPED: `artefacts?|artifacts?\s*...` reads as
+    # (artefacts?) OR (artifacts?...), so the British spelling matched the bare
+    # word ALONE. "Artefacts Evaluated - Reusable" became
+    # "[REDACTED] Evaluated - Reusable" - the word removed, the tier left in
+    # plain sight. The same failure the badge-image comment above describes:
+    # redact the label, keep the container.
+    #
+    # The separator class was also too narrow. Real READMEs write the tier as
+    # "(Reusable)", "/ Functional" and "_reusable", none of which matched.
     ("acm_badge_phrase", re.compile(
-        r"artefacts?|artifacts?\s*(?:evaluated|available)\s*[-\u2013\u2014:]?\s*"
+        r"(?:artefacts?|artifacts?)" + SEP +
+        r"(?:evaluated|available)" + SEP +
         r"(?:functional|reusable|available)", re.I)),
     ("results_reproduced", re.compile(
         r"\bresults?\b(?:\s+\w+){0,3}\s+(?:reproduced|replicated)\b", re.I)),
     ("badge_tier_bare", re.compile(
         r"\b(?:artifact|artefact)s?\s+(?:is|are|was|were)\s+"
         r"(?:functional|reusable)\b", re.I)),
+    # NOTE: written first as `artefact|artifact\s+evaluation\s+committee` -
+    # the EXACT ungrouped-alternation bug being fixed two patterns above,
+    # reintroduced while fixing it. It silently redacted every bare "artefact".
+    # Precedence errors in a regex are invisible until something tests the
+    # branch, which is why the tests below assert both directions.
     ("ae_committee", re.compile(
-        r"artifact\s+evaluation\s+committee", re.I)),
+        r"(?:artefact|artifact)\s+evaluation\s+committee", re.I)),
+    # A tier word in the same sentence as badge / AE context is the answer,
+    # however it is phrased ("we got the Reusable stamp from the AE committee").
+    # Must precede `badge_word`, which would otherwise consume the very context
+    # this rule depends on.
+    #
+    # This over-redacts: a sentence merely discussing artifact evaluation that
+    # happens to say "reusable" is removed whole. That is the correct direction
+    # to err. The baseline and the solution receive BYTE-IDENTICAL scrubbed
+    # text, so over-redaction costs realism equally for both and cannot bias the
+    # comparison - while leakage hands one side the answer and voids the result.
+    ("tier_in_badge_sentence", re.compile(
+        r"[^.\n]*" + AE_CTX + r"[^.\n]*\b(?:functional|reusable)\b[^.\n]*\.?"
+        r"|[^.\n]*\b(?:functional|reusable)\b[^.\n]*" + AE_CTX + r"[^.\n]*\.?",
+        re.I)),
     ("badge_word", re.compile(
         r"\b(?:acm\s+)?badges?\b", re.I)),
 ]

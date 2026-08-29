@@ -1157,6 +1157,137 @@ def test_comparison_records_a_history_rather_than_overwriting_it():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 85 - the scrubber leaked the answer for British spellings
+#
+# `artefacts?|artifacts?\s*(?:evaluated|available)...` is an UNGROUPED
+# alternation: it reads as (artefacts?) OR (artifacts?...). So the British
+# spelling matched the bare word ALONE.
+#
+#     "Artefacts Evaluated - Reusable"  ->  "[REDACTED] Evaluated - Reusable"
+#
+# The label removed, the tier left in plain sight - the exact failure the
+# badge-image comment in that file already warned about. It also over-redacted
+# every innocent "artefact".
+#
+# The separator class was too narrow as well: real READMEs write the tier as
+# "(Reusable)", "/ Functional" and "_reusable", none of which matched.
+#
+# Verified against the corpus: NO stored fixture leaked, and the fix is a
+# byte-for-byte no-op on all 15, so no recorded result was ever contaminated.
+# This was a latent hole, and it is reported as one.
+# --------------------------------------------------------------------------
+LEAKS_THE_ANSWER = [
+    "Artifacts Evaluated - Reusable",
+    "Artefacts Evaluated - Reusable",          # the precedence bug
+    "Artefacts Evaluated — Functional",
+    "Artifacts Evaluated (Reusable)",          # parenthesised
+    "Artifacts Evaluated / Functional",        # slash
+    "artifacts_evaluated_reusable",            # underscore, e.g. a badge file
+    "Artifact Evaluated: Reusable",
+    "This artifact is REUSABLE.",
+    "We got the Reusable stamp from the AE committee.",
+    "Results Reproduced",
+]
+
+MUST_SURVIVE_UNTOUCHED = [
+    "Our artefact implements the algorithm.",   # British spelling, no badge
+    "This artifact contains our tool.",
+    "The code is reusable across projects.",
+    "A functional programming approach was used.",
+    "See the functional tests in tests/.",
+    "Artefact Evaluation is discussed in the paper.",
+]
+
+
+def test_no_phrasing_of_the_badge_survives_scrubbing():
+    from artifact_triage.corpus.scrub import scrub
+    for text in LEAKS_THE_ANSWER:
+        out = scrub(text).text.lower()
+        for tier in ("reusable", "functional", "reproduced"):
+            assert tier not in out, f"{text!r} leaked {tier!r} as {out!r}"
+
+
+def test_scrubbing_does_not_destroy_innocent_prose():
+    """Over-redaction cannot bias the comparison, but it still costs realism."""
+    from artifact_triage.corpus.scrub import scrub
+    for text in MUST_SURVIVE_UNTOUCHED:
+        assert scrub(text).text == text, f"over-redacted: {text!r}"
+
+
+def test_bare_artefact_is_not_redacted_by_the_committee_pattern():
+    """This bug was REINTRODUCED while fixing it, in the very next pattern."""
+    from artifact_triage.corpus.scrub import scrub
+    assert scrub("Our artefact is here.").text == "Our artefact is here."
+    assert "committee" not in scrub(
+        "Artefact Evaluation Committee approved this").text.lower()
+
+
+def test_the_fix_does_not_change_the_recorded_corpus():
+    """If it did, every published result would be stale."""
+    import json as _json
+    from artifact_triage.corpus.scrub import scrub
+    for p in sorted(Path("data/fixtures").glob("*.json")):
+        rm = _json.loads(p.read_text()).get("readme") or ""
+        assert scrub(rm).text == rm, f"{p.name} would change on re-scrub"
+
+
+def test_no_tier_word_survives_anywhere_in_the_stored_corpus():
+    import json as _json
+    import re as _re
+    pat = _re.compile(r"\b(functional|reusable)\b", _re.I)
+    for p in sorted(Path("data/fixtures").glob("*.json")):
+        rm = _json.loads(p.read_text()).get("readme") or ""
+        assert not pat.search(rm), f"{p.name} discloses its tier"
+
+
+# --------------------------------------------------------------------------
+# Iteration 86 - the corpus had no fingerprint at all
+#
+# scrub.py is the strongest single lever on what a model can conclude, and it
+# appeared in NO influencer list. But it does not influence a result directly:
+# baseline and solution read committed fixtures, so the FIXTURES are the
+# interface. Fingerprinting the corpus separately marks scrubbing changes as
+# corpus changes, without falsely invalidating results whose inputs are intact.
+# --------------------------------------------------------------------------
+def test_corpus_fingerprint_covers_the_fixtures_not_just_the_code():
+    import tempfile
+    from artifact_triage.common import provenance as pv
+    before = pv.corpus_fingerprint()
+    fixtures = sorted(Path("data/fixtures").glob("*.json"))
+    if not fixtures:
+        return
+    target = fixtures[0]
+    original = target.read_bytes()
+    try:
+        target.write_bytes(original + b"\n")      # one byte of difference
+        assert pv.corpus_fingerprint() != before, \
+            "changing a fixture must change the corpus fingerprint"
+    finally:
+        target.write_bytes(original)
+    assert pv.corpus_fingerprint() == before, "fingerprint must be restored"
+
+
+def test_missing_corpus_fingerprint_is_not_reported_as_stale():
+    """Results recorded before the check existed are unknown, not wrong."""
+    from artifact_triage.common.provenance import fingerprint, is_stale
+    payload = {"_provenance": {"kind": "solution", "commit": "abc",
+                               "code_fingerprint": fingerprint("solution")}}
+    stale, why = is_stale(payload)
+    assert not stale, why
+    assert "predates" in why
+
+
+def test_a_changed_corpus_marks_results_stale():
+    from artifact_triage.common.provenance import fingerprint, is_stale
+    payload = {"_provenance": {"kind": "solution", "commit": "abc",
+                               "code_fingerprint": fingerprint("solution"),
+                               "corpus_fingerprint": "deadbeefcafe"}}
+    stale, why = is_stale(payload)
+    assert stale and "corpus changed" in why
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

@@ -142,6 +142,12 @@ in the regression suite exists to keep it that way.
   control requires no model and scores 0.667 exactly, below every observed value
   — but the individual figures should be read as approximate. The falsified
   experiment, which carries the positive claim, does report 3 trials and a range.
+- **Badge leakage is defended by pattern matching, which is not a proof.** Ten
+  phrasings are asserted redacted and six innocent sentences asserted intact,
+  and no tier word survives anywhere in the stored corpus. A phrasing nobody
+  thought of could still leak. The defence errs toward over-redaction on
+  purpose: both systems receive byte-identical scrubbed text, so over-redaction
+  costs realism equally and cannot bias the comparison, while leakage voids it.
 - **No user study.** No evidence that a reviewer is actually faster with this,
   or that the badge-criteria framing helps them. The claim is that the output is
   *addressed to* the reviewer's decision, not that it measurably improves it.

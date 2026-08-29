@@ -76,9 +76,44 @@ def fingerprint(kind: str) -> str:
     return h.hexdigest()[:12]
 
 
+# The CORPUS is an input, not code, and it had no fingerprint at all.
+#
+# `scrub.py` decides the exact README text every model reads - it is the single
+# strongest lever on what a model can possibly conclude - yet it appeared in no
+# influencer list. The same blind spot `fetch.py` had, and the changelog already
+# says why that matters: a detector that cannot see something certifies it.
+#
+# But scrub.py does NOT influence a result directly. `baseline` and `solution`
+# read committed fixtures that were scrubbed when the corpus was built, so the
+# fixtures are the interface. Adding scrub.py to every list would mark results
+# stale for a change provably unable to alter them - the cry-wolf failure that
+# the budget/inference split was made to stop.
+#
+# So the corpus is fingerprinted separately, over the fixture BYTES plus the two
+# modules that produce them. A change to scrubbing marks the corpus stale, which
+# is true; results stay current while the fixtures they actually consumed are
+# unchanged, which is also true.
+CORPUS_INPUTS = ["src/artifact_triage/corpus/scrub.py",
+                 "src/artifact_triage/corpus/fetch.py"]
+
+
+def corpus_fingerprint() -> str:
+    h = hashlib.sha256()
+    for rel in CORPUS_INPUTS:
+        p = ROOT / rel
+        h.update(rel.encode())
+        h.update(p.read_bytes() if p.exists() else b"<missing>")
+    for f in sorted((ROOT / "data" / "fixtures").glob("*.json")):
+        h.update(f.name.encode())
+        h.update(f.read_bytes())
+    return h.hexdigest()[:12]
+
+
 def stamp(kind: str) -> dict:
     """Attach to any results payload as `_provenance`."""
-    return {"kind": kind, "commit": commit(), "code_fingerprint": fingerprint(kind)}
+    return {"kind": kind, "commit": commit(),
+            "code_fingerprint": fingerprint(kind),
+            "corpus_fingerprint": corpus_fingerprint()}
 
 
 def is_stale(payload: dict) -> tuple[bool, str]:
@@ -92,4 +127,13 @@ def is_stale(payload: dict) -> tuple[bool, str]:
         return True, (f"produced at commit {prov.get('commit')} by different "
                       f"code (fingerprint {prov.get('code_fingerprint')} vs "
                       f"{now} now)")
+    # Absent on results recorded before corpus fingerprinting existed. That is
+    # "not recorded", not "stale" - claiming otherwise would be inventing a
+    # failure, which is the same dishonesty as hiding one.
+    recorded = prov.get("corpus_fingerprint")
+    if recorded is None:
+        return False, "current (corpus fingerprint predates this check)"
+    if recorded != corpus_fingerprint():
+        return True, (f"the corpus changed since this ran (fixtures or "
+                      f"scrubbing differ: {recorded} vs {corpus_fingerprint()})")
     return False, "current"
