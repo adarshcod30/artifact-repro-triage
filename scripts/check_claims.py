@@ -42,6 +42,10 @@ def claims() -> list[tuple[str, str, str, str]]:
         if br:
             out.append(("README.md", f"{sum(br)/len(br):.0%}",
                         "baseline detection mean", "falsified_run.json"))
+        if fr.get("solution_mentions_absence") is not None:
+            out.append(("README.md",
+                        f"{fr['solution_mentions_absence']}/{fr['mentions_denominator']}",
+                        "floor-free: solution cites absence", "falsified_run.json"))
         if fr.get("trials"):
             out.append(("README.md", str(fr["trials"]), "trial count",
                         "falsified_run.json"))

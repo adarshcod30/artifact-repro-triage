@@ -155,6 +155,8 @@ with evidence rather than assertion.
 | | | | **Seventh measurement bug, and the most dangerous.** It would have under-reported a *different system* - the shape that produces confident, publishable, wrong comparative claims. "We evaluated two models and it only worked on one" is exactly the sentence that gets believed. |
 | Iteration 69 | Reported the corrected generalisation result. | Nova Pro: baseline 0%, solution 93%. Llama 3.3 70B: baseline 0%, solution 100%. Verifier 100% on both. | The improvement transfers across unrelated model families, and the baseline's blindness is structural on both - which is what the causal claim predicts. |
 
+| Iteration 70 | Addressed the strongest remaining methodological objection: **the floor effect**. Tier downgrade cannot measure an artifact already rated `Available`, so those are excluded - which a reviewer could fairly call cherry-picking. | Found a metric with no floor in data already recorded: **does the system's reasoning mention the fabricated absence at all?** Every artifact is eligible. | **Baseline 0/60 across two model families. Solution 59/60.** Including 10/10 on the artifacts the downgrade metric had to drop. Backfilled onto the recorded runs, so it cost nothing. |
+
 ## Experiments removed
 
 - **Shallow cloning** (Iteration 9). Filled the disk to 100% on a 15-artifact corpus. Taught me that repo *size at HEAD* and *clone size* differ by more than an order of magnitude, and that the fact I needed (path existence) never justified transferring bytes at all.

@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 
 from artifact_triage.baseline.run import prompt_for as baseline_prompt
@@ -34,6 +35,19 @@ from artifact_triage.solution.run import prompt_for as solution_prompt
 from artifact_triage.solution.verify import verify
 
 OUT = Path("results/falsified_run.json")
+
+# FLOOR-FREE METRIC. Tier downgrade cannot measure an artifact already rated
+# "Available" - the lowest tier has nowhere to fall - so those are excluded, and
+# a reviewer could fairly call that cherry-picking. This metric has no floor:
+# does the system's stated reasoning MENTION the fabricated absence at all?
+# Every artifact is eligible, including the ones the downgrade metric drops.
+_ABSENCE = re.compile(
+    r"(?i)(missing|do(?:es)? not exist|not (?:found|present)|absent|"
+    r"nonexistent|non-existent|cannot be found|no such|does not contain)")
+
+
+def mentions_absence(reasons) -> bool:
+    return bool(_ABSENCE.search(" ".join(reasons or [])))
 # Repeated trials: the model is not deterministic even at temperature 0, so a
 # single run is not a reportable number. TRIALS runs the whole experiment N
 # times and the aggregate reports mean and range.
@@ -70,6 +84,7 @@ def one_trial(cl) -> dict:
             # Did corrupting the documentation change the verdict at all?
             noticed = (rc is not None and rd is not None and rd < rc)
             row["systems"][name] = {
+                "mentions_absence": mentions_absence(a_dirty.reasons),
                 "clean_tier": a_clean.tier, "dirty_tier": a_dirty.tier,
                 "clean_conf": a_clean.confidence, "dirty_conf": a_dirty.confidence,
                 "downgraded": noticed,
@@ -103,12 +118,19 @@ def one_trial(cl) -> dict:
 
     b_down, b_elig, b_floor = split("baseline")
     s_down, s_elig, s_floor = split("solution")
+
+    def mentions(system: str) -> int:
+        return sum(r["systems"][system]["mentions_absence"] for r in rows)
+
+    b_ment, s_ment = mentions("baseline"), mentions("solution")
     summary = {
         "provider": PROVIDER, "model": MODEL, "n_artifacts": n,
         "injected_claims": inj, "verifier_detected": det,
         "verifier_detection_rate": round(det / inj, 4) if inj else 0.0,
         "baseline_noticed": sum(r["systems"]["baseline"]["downgraded"] for r in rows),
         "solution_noticed": sum(r["systems"]["solution"]["downgraded"] for r in rows),
+        "baseline_mentions_absence": b_ment,
+        "solution_mentions_absence": s_ment,
         "baseline_eligible": b_elig, "baseline_downgraded_eligible": b_down,
         "baseline_at_floor": b_floor,
         "solution_eligible": s_elig, "solution_downgraded_eligible": s_down,
@@ -134,6 +156,12 @@ def _report(summary: dict, n: int, b_down: int, b_elig: int, b_floor: list,
     print(f"{'DETECTION RATE (floor-adjusted)':<36}"
           f"{(b_down/b_elig if b_elig else 0):>15.0%}"
           f"{(s_down/s_elig if s_elig else 0):>18.0%}")
+    print(f"{'MENTIONS THE ABSENCE (no floor)':<36}"
+          f"{b_ment:>11}/{n:<4}{s_ment:>13}/{n:<4}")
+    print("-" * 72)
+    print("The second metric has no floor: every artifact is eligible, because")
+    print("it asks whether the reasoning cites the fabrication at all rather")
+    print("than whether the tier could fall.")
     print("-" * 72)
     print("floor = already rated 'Available' on clean input, so it cannot be")
     print("downgraded further. Excluded artifacts are named in the JSON.")

@@ -25,6 +25,7 @@ verified on a machine that is not mine.
 |---|---|
 | **Detecting a falsified README** | baseline **0%** → solution **93%** (3 trials, 80–100%) |
 | **Causally isolated** | placebo evidence collapses solution detection to **0%** |
+| **Floor-free metric** | baseline cites the fabrication **0/60**; solution **59/60** |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
 | **Prevalence in the wild** | **62.5%** of 732 research artifacts carry a broken README claim |
 | | **1,394 of 6,510** documented file references (21.4%) resolve to nothing |
@@ -204,10 +205,23 @@ downgraded a repository whose documentation had been corrupted. That is not a
 tuning gap. It reads only prose, so it has no mechanism capable of detecting a
 fabricated path — the blindness is structural.
 
-Rates are floor-adjusted: an artifact already rated `Available` (the lowest tier)
-on clean input cannot be downgraded further, so it is outside the metric's reach.
-Both raw and adjusted figures are reported and the excluded artifacts are named
-in `results/falsified_run.json`.
+**A second metric, with no floor at all.** Tier downgrade cannot measure an
+artifact already rated `Available` — the lowest tier has nowhere to fall — so
+those are excluded, and a reviewer could fairly call that cherry-picking. So the
+same runs are also scored on a question every artifact is eligible for: **does
+the system's stated reasoning mention the fabricated absence at all?**
+
+| | Baseline | Solution |
+|---|---|---|
+| Nova Pro, 45 artifact-trials | **0/45 (0%)** | **44/45 (98%)** |
+| Llama 3.3 70B, 15 artifact-trials | **0/15 (0%)** | **15/15 (100%)** |
+
+No exclusions, two model families, 60 attempts. **The baseline never once cites
+the absence.** Including on the ten artifacts the downgrade metric had to drop,
+where the solution cites it 10 out of 10 times.
+
+Rates in the table above remain floor-adjusted; both raw and adjusted figures and
+the named exclusions are in `results/falsified_run.json`.
 
 Model: `us.amazon.nova-pro-v1:0` on AWS Bedrock. Total cost of the reported
 experiment: **$0.42**.
