@@ -1,0 +1,39 @@
+{
+ "artifact_id": "zhangxiaosa/LPR",
+ "urls_found": 4,
+ "urls_checked": 4,
+ "urls_unverifiable": 0,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://docs.docker.com/get-docker/",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://huggingface.co/codellama/CodeLlama-13b-Instruct-hf",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/uw-pluverse/perses",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/csmith-project/creduce",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}

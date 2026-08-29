@@ -1,0 +1,18 @@
+{
+ "artifact_id": "jovyntls/inconsistencies-in-tex",
+ "urls_found": 1,
+ "urls_checked": 1,
+ "urls_unverifiable": 0,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://github.com/vslavik/diff-pdf",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}

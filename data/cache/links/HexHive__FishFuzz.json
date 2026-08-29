@@ -1,0 +1,53 @@
+{
+ "artifact_id": "HexHive/FishFuzz",
+ "urls_found": 6,
+ "urls_checked": 6,
+ "urls_unverifiable": 0,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://hexhive.epfl.ch/publications/files/23SEC5.pdf",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/google/afl",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/AFLplusplus/AFLplusplus/",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://www.usenix.org/system/files/usenixsecurity23-zheng.pdf",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/HexHive/fuzzbench-TuneFuzz",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://mujs.com/downloads/mujs-1.0.2.tar.gz",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}

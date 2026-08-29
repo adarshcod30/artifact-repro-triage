@@ -1,0 +1,48 @@
+{
+ "artifact_id": "THU-WingTecher/DeepConstr",
+ "urls_found": 5,
+ "urls_checked": 5,
+ "urls_unverifiable": 0,
+ "urls_dead": 1,
+ "dead_ratio": 0.2,
+ "dead_urls": [
+  "https://hub.docker.com/repository/docker/gwihwan/artifact-issta24/tags"
+ ],
+ "results": [
+  {
+   "url": "https://arxiv.org/abs/2302.02261",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://doi.org/10.5281/zenodo.12669927",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/THU-WingTecher/DeepConstr/blob/main/LICENSE",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://hub.docker.com/repository/docker/gwihwan/artifact-issta24/tags",
+   "status": 302,
+   "ok": false,
+   "unverifiable": false,
+   "error": "HTTP 302"
+  },
+  {
+   "url": "https://docs.docker.com/engine/install/",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}

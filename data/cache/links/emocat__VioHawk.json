@@ -1,0 +1,25 @@
+{
+ "artifact_id": "emocat/VioHawk",
+ "urls_found": 2,
+ "urls_checked": 2,
+ "urls_unverifiable": 0,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://zenodo.org/records/12666547",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/lgsvl/PythonAPI",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}
