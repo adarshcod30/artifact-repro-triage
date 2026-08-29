@@ -96,6 +96,28 @@ def build_factsheet(slug: str) -> dict:
     }
 
 
+def cell(text: str) -> str:
+    """Make an untrusted string safe to place in a markdown table cell.
+
+    The report prints strings taken from other people's READMEs. Today the
+    extractor cannot emit one containing "|", a newline or a backtick - it
+    anchors on `^[\w./\-]+\.(ext)$` - so nothing here is reachable, and this
+    is not a live defect.
+    
+    But that safety is an IMPLICIT COUPLING: the report is safe only because a
+    regex three modules away happens to be strict, and nothing says so. Worse,
+    `verify()` reads a STORED field, so a hand-edited fixture bypasses the
+    extractor entirely. A newline would inject arbitrary markdown into the
+    report - a fabricated heading, for instance - and a "|" would break the
+    table.
+    
+    Escaping here costs nothing and removes the dependency on a distant
+    module staying strict. A test pins the extractor's guarantee separately.
+    """
+    return (str(text).replace("\\", "\\\\").replace("|", "\\|")
+            .replace("`", "'").replace("\r", " ").replace("\n", " "))
+
+
 def _exit_code(criteria, strict: bool) -> int:
     """0 unless the caller asked for a CI gate and something was found.
 
@@ -159,8 +181,8 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
         L.append("|---|---|---|")
         for p in ev.broken_paths[:20]:
             hint = ev.suggestions.get(p)
-            fix = f"`{hint[0]}`" if hint else "&mdash; nothing similar"
-            L.append(f"| `{p}` | **no** | {fix} |")
+            fix = f"`{cell(hint[0])}`" if hint else "&mdash; nothing similar"
+            L.append(f"| `{cell(p)}` | **no** | {fix} |")
         if len(ev.broken_paths) > 20:
             L.append(f"\n…and {len(ev.broken_paths) - 20} more.")
         L.append("\n> Each row is a documented instruction a user would follow "
@@ -254,7 +276,7 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
         if model.get("escalated"):
             L.append("- **Additionally flagged for review:**")
             for r in model.get("escalation_reasons", []):
-                L.append(f"  - {r}")
+                L.append(f"  - {cell(r)}")
         else:
             L.append("- No *additional* evidence-based rule fired.")
         if model.get("reasons"):
@@ -277,7 +299,12 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
             L.append(f"### {c.criterion} — {mark}\n")
             L.append(f"> *{c.definition}*\n")
             for e in c.evidence:
-                L.append(f"- {e}")
+                # These carry the same untrusted paths ("missing: <path>"),
+                # so they need the same treatment as the table cells. Escaping
+                # only the table left the injection alive one section lower -
+                # a reminder that untrusted data has to be tracked to EVERY
+                # sink, not the first one you notice.
+                L.append(f"- {cell(e)}")
             L.append(f"\n**Reviewer:** {c.needs_human}\n")
 
     # ---- limits ------------------------------------------------------------

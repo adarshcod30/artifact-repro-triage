@@ -1880,6 +1880,86 @@ def test_unparseable_urls_fail_closed():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 106 - the report's safety rested on an undeclared coupling
+#
+# The CLI report prints strings taken from other people's READMEs into markdown
+# tables. A path containing "|" breaks the table; one containing a newline
+# injects arbitrary markdown - a fabricated heading, say - into the report.
+#
+# NEITHER IS REACHABLE TODAY, and saying otherwise would be the same overclaim
+# this project keeps correcting. `_PATHLIKE` anchors on ^[\w./\-]+\.(ext)$, so
+# the extractor cannot emit either character.
+#
+# But that is an IMPLICIT coupling: the report is safe only because a regex in
+# another module happens to be strict, and nothing recorded the dependency.
+# `verify()` also reads a STORED field, so a hand-edited fixture bypasses the
+# extractor entirely. Both ends are pinned here - the extractor's guarantee,
+# and the report's independence from it.
+# --------------------------------------------------------------------------
+TABLE_HOSTILE = ["a|b.py", "x\n\n## Injected\n\n.py", "t`ick.py", "back\\slash.py"]
+
+
+def test_extractor_cannot_emit_table_breaking_characters():
+    from artifact_triage.corpus.fetch import referenced_paths
+    text = ("Run `a|b.py` and `x```.py` and `<script>x</script>.py` "
+            "and `weird|pipe/name.py`")
+    for path in referenced_paths(text):
+        for bad in ("|", "\n", "\r", "`", "<", ">"):
+            assert bad not in path, f"extractor emitted {path!r}"
+
+
+def test_report_cells_survive_hostile_strings():
+    from artifact_triage.cli import cell
+    for raw in TABLE_HOSTILE:
+        out = cell(raw)
+        assert "\n" not in out and "\r" not in out
+        assert "`" not in out
+        # every remaining pipe must be escaped
+        for i, ch in enumerate(out):
+            if ch == "|":
+                assert i > 0 and out[i - 1] == "\\", f"unescaped pipe in {out!r}"
+
+
+def test_injected_markdown_cannot_start_a_line_in_the_report():
+    import copy
+    import json as _json
+    from artifact_triage.cli import render
+    from artifact_triage.solution.criteria import assess
+    from artifact_triage.solution.verify import verify
+    fixtures = sorted(Path("data/fixtures").glob("*.json"))
+    if not fixtures:
+        return
+    fx = copy.deepcopy(_json.loads(fixtures[0].read_text()))
+    fx["readme_referenced_paths"] = ["x\n\n## Injected Heading\n\n.py"]
+    ev = verify(fx)
+    out = render(fx, ev, None, None, None, None, None, assess(ev))
+    for line in out.splitlines():
+        assert not line.lstrip().startswith("## Injected Heading"), \
+            "a README path became a heading in the report"
+
+
+def test_table_rows_keep_their_column_count():
+    import copy
+    import json as _json
+    from artifact_triage.cli import render
+    from artifact_triage.solution.criteria import assess
+    from artifact_triage.solution.verify import verify
+    fixtures = sorted(Path("data/fixtures").glob("*.json"))
+    if not fixtures:
+        return
+    fx = copy.deepcopy(_json.loads(fixtures[0].read_text()))
+    fx["readme_referenced_paths"] = ["a|b.py", "c||d.py"]
+    ev = verify(fx)
+    out = render(fx, ev, None, None, None, None, None, assess(ev))
+    rows = [l for l in out.splitlines() if l.startswith("| `")]
+    for r in rows:
+        unescaped = sum(1 for i, ch in enumerate(r)
+                        if ch == "|" and (i == 0 or r[i - 1] != "\\"))
+        assert unescaped == 4, f"row has {unescaped} column separators: {r}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
