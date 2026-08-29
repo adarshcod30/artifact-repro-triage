@@ -60,10 +60,20 @@ def decide(evidence, tier: str | None, confidence: float,
             "verified either way")
 
     # The model overriding verified evidence is the case a human must see.
-    if (tier == "Reusable" and evidence.claims_total >= 4
+    #
+    # This originally required tier == "Reusable", and NEVER FIRED: the model
+    # does not use that tier on this corpus. I had tested the rule by passing
+    # the true badge instead of the model's prediction, saw it fire, and wrote
+    # it up - documenting a capability that does not exist in the pipeline. The
+    # same dead-code failure the confidence gate had, in its replacement.
+    #
+    # `Functional` is defined by ACM as "documented, consistent, complete,
+    # exercisable", so a Functional verdict over a third of missing paths is
+    # exactly as contradictory as a Reusable one.
+    if (tier in ("Functional", "Reusable") and evidence.claims_total >= 4
             and evidence.broken_ratio >= CONTRADICTION_RATIO):
         reasons.append(
-            f"rated Reusable while {evidence.claims_broken} of "
+            f"rated {tier} while {evidence.claims_broken} of "
             f"{evidence.claims_total} documented paths do not exist - the "
             f"verdict contradicts the evidence")
 
@@ -89,7 +99,16 @@ if __name__ == "__main__":
 
     from artifact_triage.solution.verify import verify
 
-    print(f"{'ARTIFACT':<46}{'BADGE':<12}{'DECISION'}")
+    # Read the model's PREDICTIONS. Passing the true badge here is what
+    # produced a documented claim about a rule that never fires in production.
+    try:
+        preds = {r["artifact_id"]: r["tier"]
+                 for r in json.loads(Path("results/solution.json").read_text())["raw"]}
+    except Exception:
+        preds = {}
+        print("(results/solution.json not found - showing rule logic only)\n")
+
+    print(f"{'ARTIFACT':<46}{'PREDICTED':<12}{'DECISION'}")
     print("-" * 96)
     n_esc = 0
     rule_counts: dict[str, int] = {}
@@ -98,14 +117,15 @@ if __name__ == "__main__":
         fx = json.loads(p.read_text())
         ev = verify(fx)
         # Confidence is passed but deliberately unused by the rules.
-        d = decide(ev, fx["_label"]["badge"], 0.8, fx.get("readme_present", True))
+        tier = preds.get(fx["artifact_id"])
+        d = decide(ev, tier, 0.8, fx.get("readme_present", True))
         n_esc += d.escalate
         for r in d.reasons:
             key = r.split(" - ")[0][:46]
             rule_counts[key] = rule_counts.get(key, 0) + 1
-        rows.append((fx["artifact_id"], fx["_label"]["badge"], d))
+        rows.append((fx["artifact_id"], tier, d))
         mark = "ESCALATE" if d.escalate else "auto"
-        print(f"{fx['artifact_id'][:44]:<46}{fx['_label']['badge']:<12}{mark}")
+        print(f"{fx['artifact_id'][:44]:<46}{str(tier):<12}{mark}")
         for r in d.reasons:
             print(f"{'':<58}- {r[:70]}")
 
@@ -113,6 +133,20 @@ if __name__ == "__main__":
     print(f"  escalated: {n_esc}/{len(rows)} ({n_esc/len(rows):.0%})   "
           f"handled automatically: {len(rows)-n_esc}")
     print(f"  previous confidence-threshold design escalated 0/15 (0%)")
+    print()
+    print("  UNTRIGGERED RULES. These are guards, not demonstrated capabilities:")
+    fired = set(rule_counts)
+    for name in ("no README - nothing to assess mechanically",
+                 "model returned no usable answer",
+                 "rated ... while ... do not exist (contradiction)",
+                 "README is only ... bytes"):
+        if not any(name.split(" ")[1] in f for f in fired):
+            print(f"    - {name}")
+    print("    The contradiction rule has never fired on this corpus, because")
+    print("    the model shown verified evidence already downgrades the")
+    print("    contradictory artifacts itself (LPR: 88% broken -> Available).")
+    print("    That is a good sign about the solution and leaves the rule")
+    print("    unvalidated on real data. It is exercised only by tests.")
     print("\n  Rules that fired:")
     for k, v in sorted(rule_counts.items(), key=lambda x: -x[1]):
         print(f"    {v:>3}x  {k}")

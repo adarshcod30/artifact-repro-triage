@@ -352,6 +352,27 @@ def test_reusable_verdict_contradicting_evidence_escalates():
     assert any("contradicts the evidence" in r for r in d.reasons)
 
 
+def test_functional_verdict_contradicting_evidence_also_escalates():
+    """ACM defines Functional as 'documented, consistent, complete'. A
+    Functional verdict over a third of missing paths is as contradictory as a
+    Reusable one. The rule originally required Reusable and so never fired -
+    the model does not use that tier on this corpus."""
+    from artifact_triage.solution.escalate import decide
+    fx = _fx(["a.py"], [f"missing{i}.py" for i in range(10)])
+    d = decide(verify(fx), "Functional", 0.95)
+    assert d.escalate
+    assert any("contradicts the evidence" in r for r in d.reasons)
+
+
+def test_contradiction_rule_does_not_fire_on_clean_evidence():
+    from artifact_triage.solution.escalate import decide
+    fx = _fx(["a.py", "b.py", "c.py", "d.py", "req.txt"],
+             ["a.py", "b.py", "c.py", "d.py"])
+    d = decide(verify(fx), "Functional", 0.5)
+    assert not any("contradicts" in r for r in d.reasons), \
+        "a clean artifact must not trip the contradiction guard"
+
+
 def test_no_checkable_claims_escalates():
     from artifact_triage.solution.escalate import decide
     fx = _fx(["a.py"], [])
