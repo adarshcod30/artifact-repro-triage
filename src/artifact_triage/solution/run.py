@@ -22,7 +22,13 @@ from artifact_triage.common.llm import USD_IN, USD_OUT, Answer, ask, client
 from artifact_triage.common.rubric import RUBRIC
 from artifact_triage.eval.metrics import Prediction, score
 from artifact_triage.solution.escalate import decide
+from artifact_triage.solution.evidence import gather
 from artifact_triage.solution.verify import verify
+
+# Deterministic checks that read file CONTENTS (pinning, portability, links) need
+# the API, but every response is cached to data/cache/ and committed, so a rerun
+# is offline and reproducible. Set 0 to fall back to path evidence only.
+FULL_EVIDENCE = os.environ.get("ARTIFACT_TRIAGE_FULL_EVIDENCE", "1") != "0"
 
 OUT = Path("results/solution.json")
 # Below this the artifact goes to a human reviewer instead of being scored.
@@ -30,11 +36,11 @@ ESCALATE_BELOW = float(os.environ.get("ARTIFACT_TRIAGE_ESCALATE_BELOW", "0.55"))
 
 
 def prompt_for(fx: dict) -> str:
-    ev = verify(fx)
+    bundle = gather(fx, with_network=FULL_EVIDENCE)
     return (
         f"Artifact repository: {fx['artifact_id']}\n"
         f"Paper: {fx['paper_title']}\n\n"
-        f"{ev.as_prompt_block()}\n\n"
+        f"{bundle.as_prompt_block()}\n\n"
         f"README (verbatim):\n---\n{fx['readme'][:16000]}\n---\n\n"
         "Weigh the verified facts above the README's own claims wherever the two "
         "disagree. A README that references files which do not exist has not been "

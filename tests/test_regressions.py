@@ -414,6 +414,53 @@ def test_readme_relative_links_point_at_real_files():
 
 
 # --------------------------------------------------------------------------
+# FAIRNESS INVARIANT. The entire comparison rests on the baseline receiving
+# the same task and the same README, and NO verified evidence. If that ever
+# stops holding, the measured improvement means nothing.
+# --------------------------------------------------------------------------
+def _one_fixture():
+    import json
+    fs = sorted(Path("data/fixtures").glob("*.json"))
+    return json.loads(fs[0].read_text()) if fs else None
+
+
+def test_baseline_prompt_contains_no_verified_evidence():
+    fx = _one_fixture()
+    if fx is None:
+        return
+    import os
+    os.environ["ARTIFACT_TRIAGE_FULL_EVIDENCE"] = "0"  # keep this test offline
+    from artifact_triage.baseline.run import prompt_for as bp
+    text = bp(fx)
+    for marker in ("VERIFIED", "MISSING:", "do NOT exist",
+                   "Environment reproducibility", "Portability"):
+        assert marker not in text, (
+            f"baseline prompt leaked verified evidence ({marker!r}) - the "
+            f"comparison would no longer be attributable")
+
+
+def test_both_systems_receive_the_same_readme():
+    fx = _one_fixture()
+    if fx is None:
+        return
+    import os
+    os.environ["ARTIFACT_TRIAGE_FULL_EVIDENCE"] = "0"
+    from artifact_triage.baseline.run import prompt_for as bp
+    from artifact_triage.solution.run import prompt_for as sp
+    readme = fx["readme"][:400]
+    assert readme in bp(fx) and readme in sp(fx), \
+        "both systems must see the identical README text"
+
+
+def test_both_systems_share_one_rubric():
+    from artifact_triage.common.rubric import RUBRIC
+    import artifact_triage.baseline.run as b
+    import artifact_triage.solution.run as s
+    assert b.RUBRIC is RUBRIC and s.RUBRIC is RUBRIC, \
+        "a divergent rubric would change the task, not just the evidence"
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():
