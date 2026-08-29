@@ -372,9 +372,9 @@ use the stale form.
 
 | | |
 |---|---|
-| Mutations introduced | 44 |
-| Detected as broken | **40 (91%)** |
-| Correct original file suggested | **32 (73%)** |
+| Mutations introduced | 43 |
+| Detected as broken | **39 (91%)** |
+| Correct original file suggested | **32 (74%)** |
 
 Harder than the invented-path control, and closer to what a stale README actually
 looks like: each reference still reads correctly and differs from a working path
@@ -390,15 +390,15 @@ replaced.
 | | naive | strict |
 |---|---|---|
 | Recall on 75 known falsehoods | **100%** | **100%** |
-| Tokens extracted as paths, unmodified READMEs | 307 | 145 |
-| Flagged as broken documentation | **195** | **35** |
+| Tokens extracted as paths, unmodified READMEs | 300 | 140 |
+| Flagged as broken documentation | **188** | **30** |
 
-Identical recall; 160 fewer findings. There is no ground truth for those extras,
+Identical recall; 158 fewer findings. There is no ground truth for those extras,
 so they are shown rather than scored — `zenodo.org`, `20.04`, `3.7.4`,
 `FF_DRIVER_NAME.final.bc`, `dl.acm.org/doi/abs/10.1145/...`.
 
 Domains, version numbers and compiler artifacts are not broken documentation. A
-checker that reports 195 defects where 35 exist gets switched off, so suppressing
+checker that reports 188 defects where 30 exist gets switched off, so suppressing
 them is not polish — it is the job.
 
 ### Honest negative result
@@ -659,11 +659,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   131 tests pinning every fixed bug
+tests/        test_regressions.py   133 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 131 regression tests, no credentials, ~2s
+make test         # 133 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan
@@ -692,6 +692,20 @@ paths" it reported in this README are **quotations from other artifacts**:
 example output; `configs/default.yaml` comes from the negative-control injection
 list. The checker cannot tell a claim about *this* repository from a quotation
 about another one.
+
+**Two results cannot currently be certified, and `make check-claims` says so
+rather than hiding it.** `adversarial.json` carries no provenance stamp — the
+stamp was added after that experiment ran — and `falsified_llama.json` was
+produced before several later fixes. Both would cost model calls to redo, and
+the $5 budget is spent ($4.92 of $5.00), so they are reported as *unverified*
+instead of being quietly presented alongside results that are. The checker
+lists them by name every run.
+
+The figures they support — the strong-baseline and placebo controls (0/13 and
+0/11) and the Llama cross-model check — should be read as measured under
+earlier code. Neither is load-bearing for the headline: the placebo control's
+conclusion is qualitative (evidence causes the detection, prose does not), and
+the headline detection result is from `falsified_run.json`, which is current.
 
 This is **meta-documentation**, and no artifact in the 742-repository corpus
 exhibits it — every one of them describes only itself. Only pointing the tool at

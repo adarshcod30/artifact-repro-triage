@@ -1,4 +1,9 @@
 {
+ "_provenance": {
+  "kind": "issue_validation",
+  "commit": "c132ff1-dirty",
+  "code_fingerprint": "b9bd1a12c0a5"
+ },
  "flagged_summary": {
   "n_repos": 60,
   "n_repos_with_issues": 23,

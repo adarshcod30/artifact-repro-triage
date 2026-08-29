@@ -34,6 +34,7 @@ import statistics
 from pathlib import Path
 
 from artifact_triage.corpus.github import API, _get
+from artifact_triage.common.provenance import stamp
 
 OUT = Path("results/issue_validation.json")
 
@@ -163,8 +164,9 @@ def main() -> None:
     print("estimates as indistinguishable rather than as a measured equality.")
     print("=" * 70)
 
-    OUT.write_text(json.dumps(
-        {"flagged_summary": fs, "clean_summary": cs, "detail": out}, indent=1))
+    OUT.write_text(json.dumps({
+        "_provenance": stamp("issue_validation"),
+        "flagged_summary": fs, "clean_summary": cs, "detail": out}, indent=1))
     print(f"-> {OUT}")
 
 

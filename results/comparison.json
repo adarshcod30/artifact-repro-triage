@@ -1,4 +1,10 @@
 {
+ "_provenance": {
+  "kind": "comparison",
+  "commit": "c132ff1-dirty",
+  "code_fingerprint": "de9c648d3715",
+  "corpus_fingerprint": "d7c75c847b77"
+ },
  "baseline": {
   "system": "baseline",
   "n": 15,
@@ -302,7 +308,7 @@
    }
   ]
  },
- "runs_recorded": 3,
+ "runs_recorded": 4,
  "baseline_mae_range": [
   0.733,
   0.8

@@ -51,6 +51,26 @@ INFLUENCERS = {
     "negative_control": ["src/artifact_triage/eval/negative_control.py",
                          "src/artifact_triage/solution/verify.py",
                          "src/artifact_triage/corpus/fetch.py"],
+    # A kind MISSING from this map hashes nothing, so every result of that kind
+    # would look permanently "current" - a silent false pass, which is worse
+    # than an alarm. Five result files were unstamped and five kinds were
+    # unmapped; both gaps are closed here.
+    "subtle": ["src/artifact_triage/eval/subtle_control.py",
+               "src/artifact_triage/solution/verify.py",
+               "src/artifact_triage/corpus/fetch.py"],
+    "ablation": ["src/artifact_triage/eval/ablation.py",
+                 "src/artifact_triage/solution/verify.py",
+                 "src/artifact_triage/corpus/fetch.py"],
+    "comparison": ["src/artifact_triage/eval/compare.py",
+                   "src/artifact_triage/eval/metrics.py"],
+    "adversarial": ["src/artifact_triage/eval/adversarial.py",
+                    "src/artifact_triage/solution/evidence.py",
+                    "src/artifact_triage/solution/verify.py",
+                    "src/artifact_triage/common/rubric.py",
+                    "src/artifact_triage/corpus/fetch.py"],
+    "issue_validation": ["src/artifact_triage/eval/issue_validation.py",
+                         "src/artifact_triage/solution/verify.py",
+                         "src/artifact_triage/corpus/fetch.py"],
     "prevalence": ["src/artifact_triage/eval/prevalence.py",
                    "src/artifact_triage/solution/verify.py",
                    "src/artifact_triage/corpus/fetch.py"],
@@ -154,7 +174,8 @@ CORPUS_INPUTS = ["src/artifact_triage/corpus/scrub.py",
 # cover exactly what a result consumed. Too little certifies stale numbers; too
 # much trains you to ignore it.
 FIXTURE_KINDS = {"verify", "baseline", "solution", "falsified",
-                 "negative_control", "subtle", "ablation", "adversarial"}
+                 "negative_control", "subtle", "ablation", "adversarial",
+                 "comparison"}
 
 
 def corpus_fingerprint() -> str:

@@ -1,4 +1,10 @@
 {
+ "_provenance": {
+  "kind": "ablation",
+  "commit": "c132ff1-dirty",
+  "code_fingerprint": "132e8bf1ed08",
+  "corpus_fingerprint": "d7c75c847b77"
+ },
  "totals": {
   "naive": {
    "inj": 75,

@@ -33,6 +33,7 @@ from artifact_triage.common.llm import USD_IN, USD_OUT, MODEL, ask, client
 from artifact_triage.common.rubric import RUBRIC
 from artifact_triage.eval.negative_control import falsify
 from artifact_triage.solution.evidence import gather
+from artifact_triage.common.provenance import stamp
 
 OUT = Path("results/adversarial.json")
 TIER_RANK = {"Available": 0, "Functional": 1, "Reusable": 2}
@@ -158,6 +159,7 @@ def main() -> None:
 
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps({
+        "_provenance": stamp("adversarial"),
         "model": MODEL, "n": len(rows),
         "strong_baseline_detected": sb_d, "strong_baseline_eligible": sb_n,
         "placebo_detected": pl_d, "placebo_eligible": pl_n,

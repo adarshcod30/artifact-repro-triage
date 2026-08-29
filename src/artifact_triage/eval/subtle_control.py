@@ -27,6 +27,7 @@ import re
 from pathlib import Path
 
 from artifact_triage.solution.verify import verify
+from artifact_triage.common.provenance import stamp
 
 OUT = Path("results/subtle_control.json")
 
@@ -154,6 +155,7 @@ def main() -> None:
     print("=" * 70)
     Path("results").mkdir(exist_ok=True)
     OUT.write_text(json.dumps({
+        "_provenance": stamp("subtle"),
         "mutations": total, "detected": detected,
         "detection_rate": round(detected / total, 4) if total else 0.0,
         "correctly_suggested": suggested_right,

@@ -637,12 +637,43 @@ def test_directory_without_trailing_slash_is_not_assumed():
 # thing it cannot see. fetch.py decides which claims exist at all, so it
 # influences every result.
 # --------------------------------------------------------------------------
+# `comparison` is the one exception, and it is a real one rather than a
+# loosening: compare.py never reads a README. It scores baseline.json and
+# solution.json, both of which carry their own provenance and are checked
+# separately, so an extractor change reaches `comparison` only THROUGH results
+# that would themselves be marked stale. Listing fetch.py there would fire on
+# changes that cannot reach it - the cry-wolf failure fixed twice already.
+DERIVED_FROM_OTHER_RESULTS = {"comparison"}
+
+
 def test_every_result_kind_tracks_the_extractor():
     from artifact_triage.common.provenance import INFLUENCERS
     for kind, files in INFLUENCERS.items():
+        if kind in DERIVED_FROM_OTHER_RESULTS:
+            continue
         assert "src/artifact_triage/corpus/fetch.py" in files, (
             f"'{kind}' does not track fetch.py, so a change to the extractor "
             f"would leave its results looking current")
+
+
+def test_a_kind_derived_from_results_tracks_the_files_it_reads():
+    """The exception must not become a hole: it has to track something."""
+    from artifact_triage.common.provenance import INFLUENCERS
+    for kind in DERIVED_FROM_OTHER_RESULTS:
+        assert INFLUENCERS.get(kind), f"'{kind}' tracks nothing at all"
+
+
+def test_every_stamped_kind_has_influencers():
+    """A kind missing from INFLUENCERS hashes nothing, so it would look
+    permanently current - a silent false pass, worse than a false alarm."""
+    import re
+    from artifact_triage.common.provenance import INFLUENCERS
+    root = Path(__file__).resolve().parents[1] / "src/artifact_triage"
+    used = set()
+    for f in root.rglob("*.py"):
+        used |= set(re.findall(r'stamp\("([a-z_]+)"\)', f.read_text()))
+    missing = sorted(used - set(INFLUENCERS))
+    assert not missing, f"stamped but unmapped kinds: {missing}"
 
 
 def test_fingerprint_changes_when_influencing_code_changes():

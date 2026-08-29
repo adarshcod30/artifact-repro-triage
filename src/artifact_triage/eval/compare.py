@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from artifact_triage.common.provenance import stamp
 from artifact_triage.eval.metrics import (Prediction, TIERS, comparison_table,
                                           score)
 
@@ -112,6 +113,7 @@ def main() -> None:
                   f"range {min(vals):.3f}-{max(vals):.3f}")
 
     OUT.write_text(json.dumps({
+        "_provenance": stamp("comparison"),
         "baseline": rb.to_dict(), "solution": rs.to_dict(),
         "runs_recorded": len(hist),
         "baseline_mae_range": [min(h["baseline_mae"] for h in hist),

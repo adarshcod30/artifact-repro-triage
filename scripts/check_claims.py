@@ -129,6 +129,31 @@ def claims() -> list[tuple[str, str, str, str]]:
             out.append(("README.md", f"only {withi} of {n} repositories",
                         "repositories with any issues", "issue_validation.json"))
 
+    # The subtle-control and ablation tables were hand-written and both had
+    # drifted. Every quantitative table in the write-up is now derived from
+    # the results file it describes.
+    sc = load("results/subtle_control.json")
+    if sc:
+        out.append(("README.md", f"| Mutations introduced | {sc['mutations']} |",
+                    "subtle control: mutations", "subtle_control.json"))
+        out.append(("README.md",
+                    f"**{sc['detected']} ({sc['detection_rate']:.0%})**",
+                    "subtle control: detected", "subtle_control.json"))
+        out.append(("README.md",
+                    f"**{sc['correctly_suggested']} "
+                    f"({sc['suggestion_rate']:.0%})**",
+                    "subtle control: suggested", "subtle_control.json"))
+
+    ab = load("results/ablation.json")
+    if ab and ab.get("totals"):
+        t = ab["totals"]
+        out.append(("README.md",
+                    f"| {t['naive']['claims']} | {t['strict']['claims']} |",
+                    "ablation: tokens extracted", "ablation.json"))
+        out.append(("README.md",
+                    f"**{t['naive']['flagged']}** | **{t['strict']['flagged']}**",
+                    "ablation: flagged", "ablation.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",
@@ -168,13 +193,24 @@ def check_staleness() -> list[str]:
     sys.path.insert(0, str(ROOT / "src"))
     from artifact_triage.common.provenance import changed_functions, is_stale
 
-    stale = []
+    stale: list = []
+    unstamped: list = []
     print("\nRESULT PROVENANCE")
     print("-" * 74)
+    # This list used to cover five results while the summary line below said
+    # "Every result was produced by the current code". Five OTHER result files
+    # were unstamped and unchecked, so that sentence was a blanket claim over a
+    # subset - the same "certifies what it cannot see" failure this checker
+    # exists to prevent.
     for name in ("negative_control", "baseline", "solution", "falsified_run",
-                 "prevalence"):
+                 "falsified_llama", "prevalence", "comparison", "subtle_control",
+                 "ablation", "adversarial", "issue_validation"):
         payload = load(f"results/{name}.json")
         if payload is None:
+            continue
+        if not payload.get("_provenance"):
+            print(f"  ?      {name:<20} no provenance recorded - cannot be checked")
+            unstamped.append(name)
             continue
         bad, why = is_stale(payload)
         print(f"  {'STALE' if bad else 'ok   '}  {name:<20} {why[:58]}")
@@ -194,7 +230,7 @@ def check_staleness() -> list[str]:
                 if prov.get("commit", "").endswith("-dirty"):
                     print("           (that commit was recorded from a DIRTY "
                           "tree, so this diff is approximate)")
-    return stale
+    return stale, unstamped
 
 
 def main() -> int:
@@ -252,14 +288,20 @@ def main() -> int:
         for doc, what, literal, n in weak_checks:
             print(f"    {doc}: {what} - {literal!r} matches {n} lines")
 
-    stale = check_staleness()
+    stale, unstamped = check_staleness()
     print("-" * 74)
     if stale:
         print(f"  {len(stale)} result(s) were produced by code that has since")
         print(f"  changed: {', '.join(stale)}")
         print("  The numbers may still be right, but nothing currently proves it.")
         print("  Re-run those before treating them as reported results.")
-    else:
+    if unstamped:
+        # Never fold these into a clean bill of health. An unstamped result is
+        # UNKNOWN, not current, and saying otherwise is the failure this
+        # checker exists to prevent.
+        print(f"  {len(unstamped)} result(s) carry NO provenance and cannot be")
+        print(f"  checked at all: {', '.join(unstamped)}")
+    if not stale and not unstamped:
         print("  Every result was produced by the current code.")
     print("=" * 74)
     return 0

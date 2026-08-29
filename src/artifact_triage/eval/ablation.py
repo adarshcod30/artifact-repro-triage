@@ -29,6 +29,7 @@ from pathlib import Path
 from artifact_triage.corpus.fetch import _INLINE, _is_path
 from artifact_triage.eval.negative_control import falsify
 from artifact_triage.solution.verify import _index, check_claim, interesting
+from artifact_triage.common.provenance import stamp
 
 # The rule the first version used: any token containing a dot.
 _NAIVE = re.compile(r"[\w./\-]+\.[A-Za-z0-9]{1,6}")
@@ -133,7 +134,8 @@ def main() -> None:
 
     Path("results").mkdir(exist_ok=True)
     Path("results/ablation.json").write_text(json.dumps(
-        {"totals": tot, "per_artifact": rows}, indent=1))
+        {"_provenance": stamp("ablation"),
+         "totals": tot, "per_artifact": rows}, indent=1))
     print("-> results/ablation.json")
 
 

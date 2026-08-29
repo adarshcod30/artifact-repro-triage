@@ -107,7 +107,7 @@ make eval        # score both with the shared scorer
 Everything that needs **no credentials and costs nothing**:
 
 ```bash
-make test          # 131 regression tests, ~2s
+make test          # 133 regression tests, ~2s
 make report REPO=owner/name   # reviewer report for any repository
 make prevalence    # broken-claim prevalence across the harvested corpus
 make links         # link-rot scan
