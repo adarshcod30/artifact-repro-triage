@@ -6,3 +6,20 @@ comparing 60 flagged vs 60 clean repositories
   clean: 15/60
   clean: 30/60
   clean: 45/60
+  clean: 60/60
+
+======================================================================
+DO USERS COMPLAIN ABOUT WHAT THE VERIFIER DETECTS?
+======================================================================
+                                           flagged           clean
+----------------------------------------------------------------------
+repos with >=1 issue                            35               8
+repos with a complaint                          13               3
+share with a complaint                       0.371           0.375
+median issue count                              24            20.0
+mean complaint rate                         0.0499          0.0531
+----------------------------------------------------------------------
+NULL / REVERSED: flagged 37% vs clean 38%. The verifier detects something users do not report.
+Correlational only, small sample. Issue volume is reported alongside.
+======================================================================
+-> results/issue_validation.json

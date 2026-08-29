@@ -144,7 +144,23 @@ def main() -> None:
         else:
             print(f"NULL / REVERSED: flagged {fshare:.0%} vs clean {cshare:.0%}. "
                   f"The verifier detects something users do not report.")
-    print("Correlational only, small sample. Issue volume is reported alongside.")
+    # The engagement figure reframes the whole comparison, so it is printed
+    # with the result rather than buried in the JSON.
+    tot = len(out["flagged"]) + len(out["clean"])
+    with_any = sum(1 for g in ("flagged", "clean")
+                   for x in out[g] if x["n_issues"] > 0)
+    print()
+    print(f"ENGAGEMENT: only {with_any}/{tot} repositories "
+          f"({with_any/tot:.0%}) have ANY issues at all.")
+    print("This bounds what the comparison can show. A GitHub issue requires")
+    print("someone to try the artifact, hit a problem, and take the time to")
+    print("report it. Most research artifacts are published and never exercised,")
+    print("so silence is not evidence that they work - and user complaints are")
+    print("a weak instrument for validating a defect detector, whichever way")
+    print("the numbers fall.")
+    print()
+    print("Correlational only. Small n on the clean side; treat the point")
+    print("estimates as indistinguishable rather than as a measured equality.")
     print("=" * 70)
 
     OUT.write_text(json.dumps(

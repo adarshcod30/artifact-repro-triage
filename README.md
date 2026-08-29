@@ -193,6 +193,31 @@ post-hoc archaeology.
 *(Caveat reported with the result: the oldest bucket has n=8. Zenodo's recency
 sort skews the corpus toward new deposits.)*
 
+### A null result, reported as one
+
+I wanted an independent check that the defect matters to real people, so I
+compared GitHub reproduction-complaint rates ("file not found", "cannot
+reproduce") between repositories the verifier flags and those it does not. The
+falsification condition was written down **before** the measurement.
+
+| | Flagged | Clean |
+|---|---|---|
+| Share with a reproduction complaint | 37.1% | 37.5% |
+| Median issue count | 24 | 20 |
+
+**Indistinguishable.** The hypothesis is not supported.
+
+The reason is visible in the sample: **only 43 of 120 repositories (36%) have any
+issues at all**. A GitHub issue requires someone to try the artifact, hit the
+problem, and take the time to write it up. Most research artifacts are published
+and never exercised — so silence is not evidence that they work, and user
+complaints are a weak instrument for validating a defect detector regardless of
+which way the numbers fall.
+
+That is arguably the more useful finding: the artifacts are not being used enough
+for their defects to surface socially. Which is exactly why a mechanical check has
+to run at review time, when there is still a human paying attention.
+
 ## 4. Can another person reproduce the result?
 
 Yes, from a clean environment, in seconds and offline. See
