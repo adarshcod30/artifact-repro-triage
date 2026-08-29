@@ -1,0 +1,27 @@
+{
+ "artifact_id": "NWU-NISL-Fuzzing/upbeat#falsified",
+ "urls_found": 2,
+ "urls_checked": 2,
+ "urls_unverifiable": 0,
+ "urls_dead": 1,
+ "dead_ratio": 0.5,
+ "dead_urls": [
+  "https://hub.docker.com/repository/docker/weucodee/upbeat/general"
+ ],
+ "results": [
+  {
+   "url": "https://hub.docker.com/repository/docker/weucodee/upbeat/general",
+   "status": 302,
+   "ok": false,
+   "unverifiable": false,
+   "error": "HTTP 302"
+  },
+  {
+   "url": "https://github.com/NWU-NISL-Fuzzing/upbeat.git",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}

@@ -1,0 +1,74 @@
+{
+ "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact#falsified",
+ "urls_found": 9,
+ "urls_checked": 7,
+ "urls_unverifiable": 2,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://dl.acm.org/doi/abs/10.1145/3533767.3534388",
+   "status": null,
+   "ok": true,
+   "unverifiable": true,
+   "error": "host blocks automated checks"
+  },
+  {
+   "url": "https://gymnasium.farama.org/",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://gymnasium.farama.org/environments/toy_text/taxi/",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://www.python.org/",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://docs.docker.com/engine/install/",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://www.python.org/downloads/",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://docs.anaconda.com/miniconda/#quick-command-line-install",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/pytorch/pytorch/issues/1022",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container",
+   "status": 403,
+   "ok": false,
+   "unverifiable": true,
+   "error": "rejects automated requests"
+  }
+ ]
+}

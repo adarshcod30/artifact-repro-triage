@@ -1,0 +1,46 @@
+{
+ "artifact_id": "logpai/loghub-2.0#falsified",
+ "urls_found": 5,
+ "urls_checked": 5,
+ "urls_unverifiable": 0,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://github.com/logpai/loghub",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://zenodo.org/record/8275861",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://arxiv.org/abs/2008.06448",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://arxiv.org/abs/2308.10828",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://arxiv.org/abs/1811.03509",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}

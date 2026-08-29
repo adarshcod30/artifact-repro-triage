@@ -1,0 +1,101 @@
+{
+ "artifact_id": "trustdnn/issta2024#falsified",
+ "urls_found": 12,
+ "urls_checked": 12,
+ "urls_unverifiable": 0,
+ "urls_dead": 5,
+ "dead_ratio": 0.417,
+ "dead_urls": [
+  "https://www.kaggle.com/models/eduardpinconschi/bm",
+  "https://www.kaggle.com/models/eduardpinconschi/cifar10",
+  "https://www.kaggle.com/models/eduardpinconschi/gc",
+  "https://www.kaggle.com/models/eduardpinconschi/hp",
+  "https://www.kaggle.com/models/eduardpinconschi/pd"
+ ],
+ "results": [
+  {
+   "url": "https://hub.docker.com/layers/trustdnn/issta2024/replication_package/images/sha256-1d532853f0e005cf77a9f82288f58350a1130044cf96c8b0d50bfc118aaa1620?context=explore",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/epicosy/TrustDNN",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/epicosy/TrustBench",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/epicosy/ProphecyPlus",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/epicosy/DeepInferPlus",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/epicosy/SelfCheckerPlus",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://github.com/epicosy/TrustBench/tree/main/config/models",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://www.kaggle.com/models/eduardpinconschi/bm",
+   "status": 404,
+   "ok": false,
+   "unverifiable": false,
+   "error": "HTTP 404"
+  },
+  {
+   "url": "https://www.kaggle.com/models/eduardpinconschi/cifar10",
+   "status": 404,
+   "ok": false,
+   "unverifiable": false,
+   "error": "HTTP 404"
+  },
+  {
+   "url": "https://www.kaggle.com/models/eduardpinconschi/gc",
+   "status": 404,
+   "ok": false,
+   "unverifiable": false,
+   "error": "HTTP 404"
+  },
+  {
+   "url": "https://www.kaggle.com/models/eduardpinconschi/hp",
+   "status": 404,
+   "ok": false,
+   "unverifiable": false,
+   "error": "HTTP 404"
+  },
+  {
+   "url": "https://www.kaggle.com/models/eduardpinconschi/pd",
+   "status": 404,
+   "ok": false,
+   "unverifiable": false,
+   "error": "HTTP 404"
+  }
+ ]
+}

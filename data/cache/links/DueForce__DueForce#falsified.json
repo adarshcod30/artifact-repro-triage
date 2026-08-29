@@ -1,0 +1,25 @@
+{
+ "artifact_id": "DueForce/DueForce#falsified",
+ "urls_found": 2,
+ "urls_checked": 2,
+ "urls_unverifiable": 0,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://www.youwei.site/papers/ISSTA2024.pdf",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://zenodo.org/records/12669304",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}

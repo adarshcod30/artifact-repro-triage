@@ -16,12 +16,12 @@ artifact-triage owner/repo     # ~5 seconds, no API key, no cost
 
 | | |
 |---|---|
-| **Detecting a falsified README** | baseline **0%** → solution **97%** (3 trials, 90–100%) |
+| **Detecting a falsified README** | baseline **0%** → solution **100%** (3 trials, 100–100%) |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
 | **Prevalence in the wild** | **65.3%** of 376 research artifacts carry a broken README claim |
 | | **829 of 4,261** documented file references (19.5%) resolve to nothing |
 | **Is it decay?** | **No.** Flat with age — artifacts *ship* broken |
-| **Model spend, entire project** | **$0.49** — five of six checks need no model at all |
+| **Model spend, entire project** | **$1.12** of a $5 ceiling — five of six checks need no model at all |
 
 Two results are reported that do **not** flatter the project, because omitting
 them would make everything else less trustworthy:
@@ -143,9 +143,9 @@ Same model, same rubric, same input pair. Only the evidence differs.
 
 | Metric | Baseline | Solution |
 |---|---|---|
-| Noticed the falsified README | **0%** | **97%** |
-| Range over 3 trials | 0% – 0% | 90% – 100% |
-| Per-trial | `[0.0, 0.0, 0.0]` | `[1.0, 0.9, 1.0]` |
+| Noticed the falsified README | **0%** | **100%** |
+| Range over 3 trials | 0% – 0% | 100% – 100% |
+| Per-trial | `[0.0, 0.0, 0.0]` | `[1.0, 1.0, 1.0]` |
 | Deterministic verifier | — | **75/75 claims (100%), 0 false positives** |
 
 The baseline is *perfectly stable at zero*: across 45 opportunities it never once
@@ -159,7 +159,7 @@ Both raw and adjusted figures are reported and the excluded artifacts are named
 in `results/falsified_run.json`.
 
 Model: `us.amazon.nova-pro-v1:0` on AWS Bedrock. Total cost of the reported
-experiment: **$0.42**.
+experiment: **$0.42**. Cumulative project spend: **$1.12** of $5.
 
 ### A harder control: near-misses, not inventions
 

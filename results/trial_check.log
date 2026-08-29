@@ -1,0 +1,43 @@
+
+----- TRIAL 1/1 -----
+[ 1] verifier 5/5   baseline Available ->Functional  -    solution Available ->Available   -    DueForce/DueForce
+[ 2] verifier 5/5   baseline Functional->Functional  -    solution Functional->Available DOWN   HexHive/FishFuzz
+[ 3] verifier 5/5   baseline Functional->Functional  -    solution Available ->Available   -    NWU-NISL-Fuzzing/upbeat
+[ 4] verifier 5/5   baseline Functional->Functional  -    solution Functional->Available DOWN   QuentinMaz/MDPFuzz_Replicability_S
+[ 5] verifier 5/5   baseline Functional->Functional  -    solution Available ->Available   -    THU-WingTecher/DeepConstr
+[ 6] verifier 5/5   baseline Functional->Functional  -    solution Available ->Available   -    asub0/fonnx
+[ 7] verifier 5/5   baseline Functional->Functional  -    solution Available ->Available   -    dserfe/FlakyDoctor
+[ 8] verifier 5/5   baseline Functional->Functional  -    solution Functional->Available DOWN   emocat/VioHawk
+[ 9] verifier 5/5   baseline Functional->Functional  -    solution Functional->Available DOWN   jovyntls/inconsistencies-in-tex
+[10] verifier 5/5   baseline Functional->Functional  -    solution Functional->Available DOWN   logpai/loghub-2.0
+[11] verifier 5/5   baseline Functional->Functional  -    solution Functional->Available DOWN   lrtsuser/LRTS
+[12] verifier 5/5   baseline Functional->Functional  -    solution Available ->Available   -    nhuhuan/sba
+[13] verifier 5/5   baseline Functional->Functional  -    solution Functional->Available DOWN   sea-lab-wm/Toward-Automating-the-L
+[14] verifier 5/5   baseline Functional->Functional  -    solution Functional->Available DOWN   trustdnn/issta2024
+[15] verifier 5/5   baseline Functional->Functional  -    solution Available ->Available   -    zhangxiaosa/LPR
+
+========================================================================
+                                            baseline          solution
+------------------------------------------------------------------------
+noticed falsified README (raw)                0/15              8/15  
+  already at floor (excluded)                     1                 7
+downgradeable artifacts                          14                 8
+  of those, downgraded                        0/14              8/8   
+DETECTION RATE (floor-adjusted)                  0%              100%
+------------------------------------------------------------------------
+floor = already rated 'Available' on clean input, so it cannot be
+downgraded further. Excluded artifacts are named in the JSON.
+------------------------------------------------------------------------
+deterministic verifier: 75/75 injected claims found (100%) with 0 false positives
+cost: $0.1410   model: us.amazon.nova-pro-v1:0
+========================================================================
+
+########################################################################
+AGGREGATE OVER 1 TRIAL(S)   model=us.amazon.nova-pro-v1:0
+########################################################################
+  baseline detection : mean 0%   range 0%-0%   [0.0]
+  solution detection : mean 100%   range 100%-100%   [1.0]
+  verifier (deterministic) : {1.0} - identical every trial
+  total cost: $0.1410
+########################################################################
+-> results/falsified_run.json

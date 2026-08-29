@@ -461,6 +461,43 @@ def test_both_systems_share_one_rubric():
 
 
 # --------------------------------------------------------------------------
+# Spend must be append-only. The first version summed the cost fields in
+# results/*.json, so a re-run overwrote its file and the previous run's cost
+# vanished - it reported $0.49 against a true $1.12. Under-reporting against a
+# hard budget is the worst direction to be wrong.
+# --------------------------------------------------------------------------
+def test_ledger_accumulates_across_reruns(tmp_path=None):
+    import importlib
+    from artifact_triage.common import ledger
+    orig = ledger.LEDGER
+    try:
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        ledger.LEDGER = d / "l.jsonl"
+        ledger.record("falsified", 0.40, 180)
+        ledger.record("falsified", 0.40, 180)   # a re-run of the SAME kind
+        assert abs(ledger.total() - 0.80) < 1e-9, \
+            "a re-run must add to the total, never replace it"
+    finally:
+        ledger.LEDGER = orig
+
+
+def test_ledger_reports_threshold_crossings():
+    from artifact_triage.common import ledger
+    orig = ledger.LEDGER
+    try:
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        ledger.LEDGER = d / "l.jsonl"
+        ledger.record("x", 0.9, 1)
+        assert ledger.crossed() == []
+        ledger.record("x", 0.2, 1)
+        assert ledger.crossed() == [1.0]
+    finally:
+        ledger.LEDGER = orig
+
+
+# --------------------------------------------------------------------------
 # End-to-end: the verifier is deterministic. Same input, same output, always.
 # --------------------------------------------------------------------------
 def test_verifier_is_deterministic():

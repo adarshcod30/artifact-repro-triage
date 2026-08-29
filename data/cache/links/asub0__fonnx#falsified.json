@@ -1,0 +1,18 @@
+{
+ "artifact_id": "asub0/fonnx#falsified",
+ "urls_found": 1,
+ "urls_checked": 1,
+ "urls_unverifiable": 0,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://zenodo.org/record/7556031",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  }
+ ]
+}

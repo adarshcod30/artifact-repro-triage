@@ -1,27 +1,29 @@
 {
- "total_usd": 0.4889,
+ "total_usd": 1.1219,
  "budget_usd": 5.0,
- "remaining_usd": 4.5111,
- "total_calls": 210,
- "thresholds_crossed": [],
+ "remaining_usd": 3.8781,
+ "total_calls": 480,
+ "thresholds_crossed": [
+  1.0
+ ],
  "entries": [
   {
-   "source": "baseline run",
-   "usd": 0.0333,
-   "calls": 15,
-   "note": "one prompt per artifact"
+   "source": "baseline",
+   "usd": 0.06620000000000001,
+   "calls": 30,
+   "note": "2 run(s)"
   },
   {
-   "source": "solution run",
-   "usd": 0.0359,
-   "calls": 15,
-   "note": "verified facts per artifact"
+   "source": "falsified",
+   "usd": 0.9836,
+   "calls": 420,
+   "note": "3 run(s)"
   },
   {
-   "source": "falsified experiment",
-   "usd": 0.4197,
-   "calls": 180,
-   "note": "3 trials x 2 systems x clean+dirty"
+   "source": "solution",
+   "usd": 0.0721,
+   "calls": 30,
+   "note": "2 run(s)"
   }
  ]
 }

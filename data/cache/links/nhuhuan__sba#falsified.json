@@ -1,0 +1,39 @@
+{
+ "artifact_id": "nhuhuan/sba#falsified",
+ "urls_found": 4,
+ "urls_checked": 1,
+ "urls_unverifiable": 3,
+ "urls_dead": 0,
+ "dead_ratio": 0.0,
+ "dead_urls": [],
+ "results": [
+  {
+   "url": "https://doi.org/10.1145/3650212.3680301",
+   "status": 403,
+   "ok": false,
+   "unverifiable": true,
+   "error": "rejects automated requests"
+  },
+  {
+   "url": "https://doi.org/10.1145/3623278.3624766",
+   "status": 403,
+   "ok": false,
+   "unverifiable": true,
+   "error": "rejects automated requests"
+  },
+  {
+   "url": "https://www.usenix.org/system/files/usenixsecurity23-priyadarshan.pdf",
+   "status": 200,
+   "ok": true,
+   "unverifiable": false,
+   "error": null
+  },
+  {
+   "url": "https://doi.org/10.1145/3427228.3427292",
+   "status": 403,
+   "ok": false,
+   "unverifiable": true,
+   "error": "rejects automated requests"
+  }
+ ]
+}

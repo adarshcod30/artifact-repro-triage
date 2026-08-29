@@ -1,0 +1,7 @@
+{"at": "2026-08-29T07:02:21Z", "kind": "baseline", "usd": 0.0333, "calls": 15, "model": "us.amazon.nova-pro-v1:0", "note": "first run"}
+{"at": "2026-08-29T07:02:21Z", "kind": "solution", "usd": 0.0359, "calls": 15, "model": "us.amazon.nova-pro-v1:0", "note": "first run, path evidence only"}
+{"at": "2026-08-29T07:02:21Z", "kind": "falsified", "usd": 0.4197, "calls": 180, "model": "us.amazon.nova-pro-v1:0", "note": "3 trials, path evidence only"}
+{"at": "2026-08-29T07:02:21Z", "kind": "falsified", "usd": 0.141, "calls": 60, "model": "us.amazon.nova-pro-v1:0", "note": "1 trial, sanity check with full evidence"}
+{"at": "2026-08-29T07:02:21Z", "kind": "falsified", "usd": 0.4229, "calls": 180, "model": "us.amazon.nova-pro-v1:0", "note": "3 trials, full evidence - REPORTED RESULT"}
+{"at": "2026-08-29T07:02:21Z", "kind": "baseline", "usd": 0.0329, "calls": 15, "model": "us.amazon.nova-pro-v1:0", "note": "rerun for provenance"}
+{"at": "2026-08-29T07:02:21Z", "kind": "solution", "usd": 0.0362, "calls": 15, "model": "us.amazon.nova-pro-v1:0", "note": "rerun with full evidence"}

@@ -29,6 +29,29 @@ class Entry:
 
 
 def collect() -> list[Entry]:
+    """Cumulative spend from the append-only ledger.
+
+    An earlier version summed the cost fields in results/*.json, which measures
+    the cost of the CURRENT results rather than what was spent: a re-run
+    overwrites its file and the previous run's cost disappears. It reported
+    $0.49 against a true $1.12.
+    """
+    from artifact_triage.common.ledger import entries
+    led = entries()
+    if led:
+        agg: dict[str, Entry] = {}
+        for e in led:
+            k = e["kind"]
+            if k not in agg:
+                agg[k] = Entry(k, 0.0, 0, "")
+            agg[k].usd += e.get("usd", 0.0)
+            agg[k].calls += e.get("calls", 0)
+            agg[k].note = f"{sum(1 for x in led if x['kind'] == k)} run(s)"
+        return [agg[k] for k in sorted(agg)]
+    return _collect_from_results()
+
+
+def _collect_from_results() -> list[Entry]:
     out: list[Entry] = []
 
     def load(path: str):
@@ -62,11 +85,15 @@ def free_components() -> list[str]:
         "deterministic claim verifier (verify.py)",
         "negative control - 75 injected claims (negative_control.py)",
         "link-rot checking (links.py)",
-        "prevalence sweep across 398 artifacts (prevalence.py)",
+        "prevalence sweep across 376 artifacts (prevalence.py)",
         "GitHub issue validation (issue_validation.py)",
         "corpus build from cached fixtures (corpus/*)",
         "CLI default mode (cli.py, no --model)",
-        "regression test suite (tests/)",
+        "dependency + container pinning (pinning.py)",
+        "portability / environment leakage (portability.py)",
+        "subtle-mutation control (subtle_control.py)",
+        "extractor ablation (ablation.py)",
+        "regression test suite, 46 tests (tests/)",
     ]
 
 
