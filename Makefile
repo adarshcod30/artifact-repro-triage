@@ -5,6 +5,9 @@ help:
 setup:    ## Create venv and install pinned deps
 	uv sync
 
+dashboard: ## Render all results into one self-contained HTML page
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard
+
 spend:     ## Cumulative model spend against the $5 budget
 	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend
 
