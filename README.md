@@ -444,27 +444,42 @@ Two narrower limits, both measured rather than assumed:
 
 ## Hot take
 
-**Give an agent a control group before you give it a metric.**
+**Be as sceptical of your agent's bad news as of its good news.**
 
-Every genuine defect in this project was found by a control, and every one of them
-was invisible to the headline number:
+Everyone knows to distrust a result that flatters the system. That instinct is
+real and it works — when the falsified-detection rate came back at 97%, I ran it
+three times and reported the range.
 
-- The **negative control** — injecting claims I knew to be false — found two real
-  bugs in my own verifier. Detection went 84% → 96% → 100% as each surfaced. The
-  badge comparison could never have found them: it has no notion of a *known*
-  wrong answer.
-- The **constant predictor** — a control so trivial it needs no model, no input,
-  and four lines of code — invalidated the entire primary metric by beating both
-  systems.
-- A **surprising measurement** turned out to be my own truncation bug. Four of
-  fifteen file trees were capped at 4,000 paths, manufacturing phantom broken
-  claims in exactly the artifacts driving the result.
+The instinct fails in the other direction, and that is where this project kept
+getting hurt. **Every measurement bug I found skewed low**, and each survived
+review for the same reason:
 
-Without those controls this project would have shipped a confident, plausible,
-well-formatted number that meant nothing. Which is precisely the failure mode it
-was built to detect — *convincing rather than correct* — reproduced one level up,
-in the evaluation of the tool rather than in the tool itself.
+| Bug | Reported | Actually |
+|---|---|---|
+| File trees truncated at 4,000 paths | phantom broken claims | inflated by my own cap |
+| RFC1918 regex demanding 5 octets | 0 findings | pattern could never fire |
+| Escalation gated on model confidence | 0/15 escalations | gate wired to a signal carrying no information |
+| Suggestions scored by string equality | 39% accurate | **73%** |
 
-The practical rule: **an agent's evaluation deserves the same adversarial scrutiny
-as the agent.** If you cannot state what result would prove your metric worthless,
-you do not yet know what your metric measures.
+A suggester at 39% reads as *promising but limited* — plausible, modest,
+publishable. Nobody digs into a disappointing number. Had that same bug inflated
+it to 99%, I would have checked within a minute.
+
+So the asymmetry is in the reviewer, not the code: **I interrogated results that
+made the system look good and accepted results that made it look bad**, because
+accepting bad news feels like integrity. It is the cheapest possible way to be
+wrong while feeling rigorous.
+
+The practical rule: **a surprising number is a bug report until proven otherwise,
+in whichever direction it surprises you.** Every genuine defect here was found by
+a control — the negative control, the constant predictor, the subtle-mutation
+control — and not one was visible in the headline metric. If you cannot state
+what result would prove your metric worthless, you do not yet know what it
+measures.
+
+And the failure this project detects — *convincing rather than correct* — has an
+exact analogue one level up. A README that documents files it does not contain,
+and an evaluation that reports numbers it has not checked, are the same mistake.
+This repository shipped both: a Makefile documenting a module that was never
+written, and a report that listed five missing files then declared every path
+found.
