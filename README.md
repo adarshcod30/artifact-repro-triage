@@ -24,11 +24,12 @@ verified on a machine that is not mine.
 | | |
 |---|---|
 | **Detecting a falsified README** | baseline **0%** → solution **93%** (3 trials, 80–100%) |
+| **Causally isolated** | placebo evidence collapses solution detection to **0%** |
 | **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
 | **Prevalence in the wild** | **62.5%** of 732 research artifacts carry a broken README claim |
 | | **1,394 of 6,510** documented file references (21.4%) resolve to nothing |
 | **Is it decay?** | **No.** Flat across four years — artifacts *ship* broken |
-| **Model spend, entire project** | **$2.88** of a $5 ceiling — five of six checks need no model at all |
+| **Model spend, entire project** | **$3.03** of a $5 ceiling — five of six checks need no model at all |
 
 Two results are reported that do **not** flatter the project, because omitting
 them would make everything else less trustworthy:
@@ -217,7 +218,41 @@ experiment: **$0.42**.
 > The provenance check flagged the old numbers as stale and they were
 > re-measured rather than carried forward. **The reported figure went down as a
 > result, which is the point:** a number that survives only because nobody
-> re-ran it is not a result. Cumulative project spend: **$2.88** of $5.
+> re-ran it is not a result. Cumulative project spend: **$3.03** of $5.
+
+### Adversarial tests: two ways this claim could have been wrong
+
+A sceptical reviewer has two obvious objections. Both were tested, and both could
+have falsified the central claim rather than merely qualified it.
+
+**"Your baseline is a strawman — you never asked it to check consistency."**
+
+| Baseline variant | Detection |
+|---|---|
+| Plain (judge the artifact) | 0% |
+| **Explicitly told to hunt for internal contradictions** | **0/13 (0%)** |
+
+Given the same falsified README and an instruction to look specifically for
+instructions referencing files that appear nowhere else, it detects nothing.
+**Reading prose cannot find a fabricated path however hard you ask it to.**
+
+**"The solution is reading the README, not the evidence."**
+
+Maybe the injected text simply reads oddly and the evidence block is decorative.
+So the solution was given the falsified README with a **placebo evidence block** —
+identical structure and framing, content inverted to report that every path
+resolves.
+
+| Condition | Detection |
+|---|---|
+| Falsified README + real evidence | **93%** |
+| Falsified README + placebo evidence | **0/11 (0%)** |
+
+Identical model, rubric, README and block structure. Only the evidence *content*
+changed, and detection collapsed to zero. When the facts say clean, the solution
+says clean — while looking at a README it has every textual cue to distrust.
+
+That is a causal result, not a correlation: **the evidence is doing the work.**
 
 ### A harder control: near-misses, not inventions
 

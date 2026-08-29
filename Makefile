@@ -88,6 +88,9 @@ solution:  ## Verified facts plus the README
 eval:  ## Score baseline and solution with the shared scorer
 	$(PY) -m artifact_triage.eval.compare
 
+adversarial:  ## Two tests designed to break the central claim
+	$(PY) -m artifact_triage.eval.adversarial
+
 falsified:  ## The primary experiment (set ARTIFACT_TRIAGE_TRIALS=3)
 	$(PY) -m artifact_triage.eval.falsified_run
 

@@ -1,0 +1,37 @@
+[ 1] strong-baseline Available  ->Functional  -     placebo Available  ->Functional  -    DueForce/DueForce
+[ 2] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    HexHive/FishFuzz
+[ 3] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    NWU-NISL-Fuzzing/upbeat
+[ 4] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    QuentinMaz/MDPFuzz_Replicabili
+[ 5] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    THU-WingTecher/DeepConstr
+[ 6] strong-baseline Available  ->Functional  -     placebo Available  ->Available   -    asub0/fonnx
+[ 7] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    dserfe/FlakyDoctor
+[ 8] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    emocat/VioHawk
+[ 9] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    jovyntls/inconsistencies-in-te
+[10] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    logpai/loghub-2.0
+[11] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    lrtsuser/LRTS
+[12] strong-baseline Functional ->Functional  -     placebo Available  ->Functional  -    nhuhuan/sba
+
+  *** BUDGET ALERT: $3 threshold crossed ($3.0018 of $5.00) ***
+
+[13] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    sea-lab-wm/Toward-Automating-t
+[14] strong-baseline Functional ->Functional  -     placebo Functional ->Functional  -    trustdnn/issta2024
+[15] strong-baseline Functional ->Functional  -     placebo Available  ->Functional  -    zhangxiaosa/LPR
+
+========================================================================
+ADVERSARIAL TESTS
+========================================================================
+  OBJECTION 1 - 'the baseline is a strawman'
+    A baseline explicitly told to hunt for internal inconsistency,
+    given the same falsified README:
+      detected 0/13 (0%)
+
+  OBJECTION 2 - 'the solution reads the README, not the evidence'
+    Falsified README + PLACEBO evidence claiming everything resolves:
+      detected 0/11 (0%)
+    Reported solution detection with REAL evidence: 93%.
+------------------------------------------------------------------------
+  The placebo collapses detection -> the EVIDENCE is doing the
+  work, not the README's wording. The causal claim holds.
+  cost: $0.1416   model: us.amazon.nova-pro-v1:0
+========================================================================
+-> results/adversarial.json

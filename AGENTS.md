@@ -105,7 +105,7 @@ without touching the failure mode being addressed.
 The same principle set the boundary of what the model is used for at all. Of the
 project's six checks, five need no model — and those five produced the prevalence
 study across 732 artifacts, the link-rot replication, and the negative control.
-Total model spend is **$2.88** against a $5 ceiling. Pushing work *out* of the model made the system
+Total model spend is **$3.03** against a $5 ceiling. Pushing work *out* of the model made the system
 cheaper, faster, fully reproducible, and impossible to hallucinate — and left the
 model doing only the one thing it is genuinely better at than code: weighing
 evidence someone else established.

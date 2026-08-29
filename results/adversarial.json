@@ -1,0 +1,221 @@
+{
+ "model": "us.amazon.nova-pro-v1:0",
+ "n": 15,
+ "strong_baseline_detected": 0,
+ "strong_baseline_eligible": 13,
+ "placebo_detected": 0,
+ "placebo_eligible": 11,
+ "usd": 0.1416,
+ "per_artifact": [
+  {
+   "artifact_id": "DueForce/DueForce",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Available",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Available",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "HexHive/FishFuzz",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "NWU-NISL-Fuzzing/upbeat",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "QuentinMaz/MDPFuzz_Replicability_Study_Artifact",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "THU-WingTecher/DeepConstr",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "asub0/fonnx",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Available",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Available",
+    "dirty_with_placebo": "Available",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "dserfe/FlakyDoctor",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "emocat/VioHawk",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "jovyntls/inconsistencies-in-tex",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "logpai/loghub-2.0",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "lrtsuser/LRTS",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "nhuhuan/sba",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Available",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "sea-lab-wm/Toward-Automating-the-Localization-of-Buggy-UIs",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "trustdnn/issta2024",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Functional",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  },
+  {
+   "artifact_id": "zhangxiaosa/LPR",
+   "injected": 5,
+   "strong_baseline": {
+    "clean": "Functional",
+    "dirty": "Functional",
+    "downgraded": false
+   },
+   "placebo": {
+    "clean": "Available",
+    "dirty_with_placebo": "Functional",
+    "downgraded": false
+   }
+  }
+ ]
+}

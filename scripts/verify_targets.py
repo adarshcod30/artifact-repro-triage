@@ -29,6 +29,7 @@ GATED = {
     "solution": "needs a model provider",
     "eval": "needs results/baseline.json and results/solution.json",
     "falsified": "needs a model provider",
+    "adversarial": "needs a model provider",
     "links": "network - checks live URLs",
     "discover": "network - Zenodo harvest, several minutes",
     "prevalence": "network - GitHub API over 398 repos",
