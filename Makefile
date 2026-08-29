@@ -7,7 +7,7 @@
 PY := PYTHONPATH=src .venv/bin/python
 
 .PHONY: help setup test preflight corpus baseline solution eval repro \
-        discover prevalence pinning portability links report validate \
+        discover prevalence pinning portability links report validate falsified-llama \
         trajectories dashboard spend verify-targets selfcheck clean
 
 help:  ## Show this help
@@ -93,6 +93,22 @@ adversarial:  ## Two tests designed to break the central claim
 
 falsified:  ## The primary experiment (set ARTIFACT_TRIAGE_TRIALS=3)
 	$(PY) -m artifact_triage.eval.falsified_run
+
+falsified-llama:  ## Same experiment on a second model family (cross-model check)
+	@# This was previously a manual run-and-rename, which meant the
+	@# cross-model result could not be reproduced from any documented command.
+	@# falsified_run.py writes one fixed path, so the primary result is saved
+	@# and restored around this run. Without that, the cross-model check
+	@# silently destroys the Nova result and restoring it costs another paid
+	@# run - a footgun of exactly the kind `make discover` had.
+	@cp results/falsified_run.json results/.falsified_primary.bak 2>/dev/null || true
+	ARTIFACT_TRIAGE_PROVIDER=bedrock \
+	ARTIFACT_TRIAGE_MODEL=us.meta.llama3-3-70b-instruct-v1:0 \
+	$(PY) -m artifact_triage.eval.falsified_run
+	cp results/falsified_run.json results/falsified_llama.json
+	@cp results/.falsified_primary.bak results/falsified_run.json 2>/dev/null || true
+	@rm -f results/.falsified_primary.bak
+	@echo "-> results/falsified_llama.json (primary Nova result restored)"
 
 repro:  ## The one command judges run
 	$(MAKE) test

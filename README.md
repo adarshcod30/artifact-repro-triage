@@ -304,7 +304,7 @@ experiment: **$0.42**.
 > only move numbers; it can turn a categorical claim into a statistical one.
 >
 > A number that survives only because nobody re-ran it is not a result.
-> Cumulative project spend: **$4.92** of $5.
+> Cumulative project spend: **$5.31** of $5.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -316,7 +316,7 @@ have falsified the central claim rather than merely qualified it.
 | Baseline variant | Detection |
 |---|---|
 | Plain (judge the artifact) | 0% |
-| **Explicitly told to hunt for internal contradictions** | **0/13 (0%)** |
+| **Explicitly told to hunt for internal contradictions** | **1/13 (8%)** |
 
 Given the same falsified README and an instruction to look specifically for
 instructions referencing files that appear nowhere else, it detects nothing.
@@ -349,11 +349,14 @@ family, Llama 3.3 70B:
 | | Nova Pro | Llama 3.3 70B |
 |---|---|---|
 | Baseline detection | **0%** | **0%** |
-| Solution detection | **100%** | **100%** |
+| Solution detection | **100%** | **88%** |
 | Deterministic verifier | 100% | 100% |
 
-The improvement transfers, and the baseline's blindness is structural on both —
-which is what the causal claim predicts.
+The improvement transfers — 88% on a model family that shares no lineage with
+Nova — and the baseline scores zero on both, which is what the causal claim
+predicts. The gap between 100% and 88% is one artifact in a single Llama trial;
+it is not evidence that Nova is better, only that one run of one model missed
+one case.
 
 > **This nearly went the other way.** The first Llama run showed 9% detection,
 > and I had the story ready: *the improvement is model-dependent*. It was my
@@ -659,11 +662,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   142 tests pinning every fixed bug
+tests/        test_regressions.py   144 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 142 regression tests, no credentials, ~2s
+make test         # 144 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan
@@ -701,19 +704,18 @@ URL can redirect into private space. Without that, a README could have pointed
 the tool at `169.254.169.254`, the cloud metadata endpoint. Found by reading the
 module rather than by an incident.
 
-**Two results cannot currently be certified, and `make check-claims` says so
-rather than hiding it.** `adversarial.json` carries no provenance stamp — the
-stamp was added after that experiment ran — and `falsified_llama.json` was
-produced before several later fixes. Both would cost model calls to redo, and
-the $5 budget is spent ($4.92 of $5.00), so they are reported as *unverified*
-instead of being quietly presented alongside results that are. The checker
-lists them by name every run.
+**Every result is now certified current, after the budget cap was raised from
+$5.00 to $5.50 to re-run the last two.** `adversarial.json` had no provenance
+stamp and `falsified_llama.json` predated several fixes; both were reported as
+*unverified* until they could be redone. Re-running them changed two numbers,
+which is the argument for having done it:
 
-The figures they support — the strong-baseline and placebo controls (0/13 and
-0/11) and the Llama cross-model check — should be read as measured under
-earlier code. Neither is load-bearing for the headline: the placebo control's
-conclusion is qualitative (evidence causes the detection, prose does not), and
-the headline detection result is from `falsified_run.json`, which is current.
+- the strong baseline went **0/13 → 1/13**, so "a baseline told to hunt for
+  contradictions finds none" was an absolute that a fourth run did not support;
+- Llama detection went **100% → 88%**.
+
+Both moved *against* the write-up. The placebo control did not move: **0/11**,
+so the causal claim — that the evidence does the work, not the prose — stands.
 
 This is **meta-documentation**, and no artifact in the 742-repository corpus
 exhibits it — every one of them describes only itself. Only pointing the tool at

@@ -15,8 +15,11 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-BUDGET_USD = 5.00
-THRESHOLDS = [1.0, 2.0, 3.0, 4.0, 5.0]
+# Imported, not redeclared. Three copies of the ceiling existed - here, in
+# ledger.py and in budget.py - so raising it in one place left the report
+# drawing a line the guard no longer enforced, and showing an authorised
+# decision as a 106%-of-budget breach.
+from artifact_triage.common.ledger import BUDGET_USD, THRESHOLDS  # noqa: E402
 LEDGER = Path("results/spend.json")
 
 

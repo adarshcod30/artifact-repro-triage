@@ -154,6 +154,25 @@ def claims() -> list[tuple[str, str, str, str]]:
                     f"**{t['naive']['flagged']}** | **{t['strict']['flagged']}**",
                     "ablation: flagged", "ablation.json"))
 
+    adv = load("results/adversarial.json")
+    if adv:
+        out.append(("README.md",
+                    f"**{adv['strong_baseline_detected']}/"
+                    f"{adv['strong_baseline_eligible']} "
+                    f"({adv['strong_baseline_detected']/adv['strong_baseline_eligible']:.0%})**",
+                    "adversarial: strong baseline", "adversarial.json"))
+        out.append(("README.md",
+                    f"**{adv['placebo_detected']}/{adv['placebo_eligible']} "
+                    f"({adv['placebo_detected']/adv['placebo_eligible']:.0%})**",
+                    "adversarial: placebo control", "adversarial.json"))
+
+    ll = load("results/falsified_llama.json")
+    if ll and ll.get("solution_rates"):
+        r = ll["solution_rates"]
+        out.append(("README.md",
+                    f"| **100%** | **{sum(r)/len(r):.0%}** |",
+                    "cross-model: llama detection", "falsified_llama.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",

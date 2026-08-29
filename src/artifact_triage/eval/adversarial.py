@@ -36,6 +36,7 @@ from artifact_triage.solution.evidence import gather
 from artifact_triage.common.provenance import stamp
 
 OUT = Path("results/adversarial.json")
+CKPT = Path("results/adversarial_rows.jsonl")
 TIER_RANK = {"Available": 0, "Functional": 1, "Reusable": 2}
 
 # The baseline as it should have been written by someone trying to win.
@@ -117,6 +118,13 @@ def main() -> None:
         for a in (a_c, a_d, b_c, b_d):
             cost += (a.input_tokens * USD_IN + a.output_tokens * USD_OUT) / 1e6
         rows.append(row)
+        # Written after EVERY artifact, not once at the end. This experiment
+        # costs real tokens and previously wrote nothing until the final line,
+        # so any late failure discarded every call already paid for - exactly
+        # what a NameError did to a completed falsified trial.
+        CKPT.parent.mkdir(exist_ok=True)
+        with CKPT.open("a") as f:
+            f.write(json.dumps(row) + "\n")
         print(f"[{i:2}] strong-baseline {str(row['strong_baseline']['clean']):<11}->"
               f"{str(row['strong_baseline']['dirty']):<11}"
               f"{'DOWN' if row['strong_baseline']['downgraded'] else ' -  '}   "
@@ -146,7 +154,15 @@ def main() -> None:
     print(f"    Falsified README + PLACEBO evidence claiming everything resolves:")
     print(f"      detected {pl_d}/{pl_n} "
           f"({pl_d/pl_n:.0%})" if pl_n else "      no eligible artifacts")
-    print(f"    Reported solution detection with REAL evidence: 93%.")
+    # Was hardcoded at 93%, and the figure had moved to 100%. A comparison
+    # printed beside a live number must not quote a remembered one.
+    try:
+        fr = json.loads(Path("results/falsified_run.json").read_text())
+        sr = fr.get("solution_rates") or []
+        ref = f"{sum(sr) / len(sr):.0%}" if sr else "see falsified_run.json"
+    except Exception:
+        ref = "see falsified_run.json"
+    print(f"    Solution detection with REAL evidence, same corpus: {ref}.")
     print("-" * 72)
     if pl_n and pl_d / pl_n < 0.4:
         print("  The placebo collapses detection -> the EVIDENCE is doing the")

@@ -1960,6 +1960,32 @@ def test_table_rows_keep_their_column_count():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 107 - the ceiling was declared in three places
+#
+# `ledger.BUDGET_USD`, `budget.GUARD_USD` and `spend.BUDGET_USD` were three
+# independent constants for one number. Raising the cap in one left the spend
+# report drawing a line the guard no longer enforced, and reporting an
+# authorised decision as a 106%-of-budget breach.
+#
+# A report that misstates its own limit is no better than a number that has
+# drifted from its data.
+# --------------------------------------------------------------------------
+def test_the_budget_ceiling_is_declared_once():
+    from artifact_triage.common.budget import GUARD_USD
+    from artifact_triage.common.ledger import BUDGET_USD
+    from artifact_triage.eval.spend import BUDGET_USD as REPORTED
+    assert BUDGET_USD == REPORTED == GUARD_USD, (BUDGET_USD, REPORTED, GUARD_USD)
+
+
+def test_spend_report_does_not_redeclare_the_ceiling():
+    import inspect
+    from artifact_triage.eval import spend
+    src = inspect.getsource(spend)
+    assert "BUDGET_USD = 5" not in src, "the ceiling must be imported, not copied"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

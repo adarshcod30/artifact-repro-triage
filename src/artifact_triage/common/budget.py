@@ -24,7 +24,7 @@ from __future__ import annotations
 import os
 
 # A budget is only a budget if something enforces it. Set to 0 to disable.
-GUARD_USD = float(os.environ.get("ARTIFACT_TRIAGE_BUDGET_USD", "5.0"))
+GUARD_USD = float(os.environ.get("ARTIFACT_TRIAGE_BUDGET_USD", "5.50"))
 
 # Spend already on the ledger when this process started, plus what this process
 # has added. Tracked so the per-call guard costs no file I/O.

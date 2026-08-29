@@ -23,7 +23,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 LEDGER = Path("results/spend_ledger.jsonl")
-BUDGET_USD = 5.00
+# The ceiling, and the SAME value the runtime guard enforces
+# (`common/budget.GUARD_USD`). These were two independent constants; if they
+# disagreed, the report would draw a line the guard did not enforce. Raised
+# deliberately and visibly rather than edited in place - see CHANGELOG.
+# $5.00 for the whole project, raised once to $5.50 with explicit authorisation
+# to re-run the last two uncertified results (`adversarial`, `falsified_llama`).
+# Recorded as the real ceiling rather than left at 5.00, which would have shown
+# an authorised decision as a breach - a report that misstates its own limit is
+# no better than a number that has drifted.
+BUDGET_USD = float(os.environ.get("ARTIFACT_TRIAGE_BUDGET_USD", "5.50"))
 THRESHOLDS = [1.0, 2.0, 3.0, 4.0, 5.0]
 
 

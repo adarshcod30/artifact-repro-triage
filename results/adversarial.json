@@ -1,18 +1,24 @@
 {
+ "_provenance": {
+  "kind": "adversarial",
+  "commit": "0a49ceb-dirty",
+  "code_fingerprint": "e97a5a172334",
+  "corpus_fingerprint": "d7c75c847b77"
+ },
  "model": "us.amazon.nova-pro-v1:0",
  "n": 15,
- "strong_baseline_detected": 0,
+ "strong_baseline_detected": 1,
  "strong_baseline_eligible": 13,
  "placebo_detected": 0,
  "placebo_eligible": 11,
- "usd": 0.1416,
+ "usd": 0.1417,
  "per_artifact": [
   {
    "artifact_id": "DueForce/DueForce",
    "injected": 5,
    "strong_baseline": {
     "clean": "Available",
-    "dirty": "Functional",
+    "dirty": "Available",
     "downgraded": false
    },
    "placebo": {
@@ -87,7 +93,7 @@
    },
    "placebo": {
     "clean": "Available",
-    "dirty_with_placebo": "Available",
+    "dirty_with_placebo": "Functional",
     "downgraded": false
    }
   },
@@ -166,8 +172,8 @@
    "injected": 5,
    "strong_baseline": {
     "clean": "Functional",
-    "dirty": "Functional",
-    "downgraded": false
+    "dirty": "Available",
+    "downgraded": true
    },
    "placebo": {
     "clean": "Available",
