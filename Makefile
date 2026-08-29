@@ -35,6 +35,9 @@ links:     ## Check README URLs for link rot
 report:    ## Reviewer report for one repo: make report REPO=owner/name
 	PYTHONPATH=src .venv/bin/python -m artifact_triage.cli $(REPO)
 
+validate:  ## Do real users complain about what the verifier detects?
+	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.issue_validation
+
 trajectories: ## Export agent trajectories (product agents + build agent)
 	PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_trajectories
 	.venv/bin/python scripts/export_build_trajectory.py
