@@ -45,7 +45,25 @@ made autonomously when the evidence is thin.
 
 ---
 
-## 3. Claim verifier — `src/artifact_triage/solution/verify.py`
+## 3. Deterministic checks — no model involved
+
+Five checks, all ordinary Python, all free, all offline-capable. Each exists
+because it targets a failure mode with published evidence behind it.
+
+| Module | Checks | Evidence it targets |
+|---|---|---|
+| `solution/verify.py` | README file paths resolve | 65.3% of 376 artifacts fail this |
+| `solution/links.py` | README URLs resolve | link rot 9.4% avg, up to 29.8% |
+| `solution/pinning.py` | dependency versions pinned; container base image pinned | unpinned versions are the most-cited decay cause |
+| `solution/portability.py` | hard-coded machine-specific paths and hosts | "incomplete environments" |
+| `corpus/scrub.py` | README does not leak its own grade | measured at 27% of the labelled corpus |
+
+**Why deterministic.** These cannot hallucinate, cost nothing, run offline, return
+identical output on every machine, and every finding is citable by file and line.
+Asking a model *"does this file exist?"* would reintroduce the exact failure mode
+the project exists to detect.
+
+### `solution/verify.py` in detail
 
 **Not a model.** Ordinary deterministic Python, and that is the point.
 
@@ -58,7 +76,8 @@ model *"does this file exist?"* would reintroduce the exact failure mode the
 project exists to detect.
 
 **Verified behaviour.** 75/75 injected false claims detected, 0 false positives,
-identical across all trials (`eval/negative_control.py`).
+identical across all trials (`eval/negative_control.py`), and 29 regression tests
+pin every bug fixed along the way (`tests/`).
 
 ---
 
@@ -77,8 +96,16 @@ The capability menu in the challenge brief is context, tools, memory,
 verification, skills, and orchestration — and it notes that *purposeful choices
 matter more than the number of components*.
 
-This system deliberately uses **one model call and one deterministic tool**. No
-multi-agent orchestration, no memory, no retrieval. The measured improvement
+This system deliberately uses **one model call and a set of deterministic tools**.
+No multi-agent orchestration, no memory, no retrieval. The measured improvement
 (0% → 97% detection) comes entirely from changing *what the model is shown*, not
 from adding components. A second agent would have added cost and failure surface
 without touching the failure mode being addressed.
+
+The same principle set the boundary of what the model is used for at all. Of the
+project's six checks, five need no model — and those five produced the prevalence
+study across 376 artifacts, the link-rot replication, and the negative control.
+Total model spend is **$0.49**. Pushing work *out* of the model made the system
+cheaper, faster, fully reproducible, and impossible to hallucinate — and left the
+model doing only the one thing it is genuinely better at than code: weighing
+evidence someone else established.
