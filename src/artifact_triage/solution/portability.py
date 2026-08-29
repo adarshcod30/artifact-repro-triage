@@ -41,8 +41,15 @@ PATTERNS: list[tuple[str, re.Pattern, str]] = [
     ("localhost_port", re.compile(
         r"\b(?:127\.0\.0\.1|localhost):(\d{4,5})\b"),
      "hard-coded local service address"),
+    # Each RFC1918 range needs its own octet count: 10.x.x.x has three
+    # remaining octets, 192.168.x.x and 172.16-31.x.x only two. An earlier
+    # single alternation demanded three after every prefix, so the 192.168 and
+    # 172.x branches could never match anything - a pattern that silently never
+    # fired. A regression test caught it.
     ("private_host", re.compile(
-        r"\b((?:10|192\.168|172\.(?:1[6-9]|2\d|3[01]))\.\d{1,3}\.\d{1,3}\.\d{1,3})\b"),
+        r"\b(10\.\d{1,3}\.\d{1,3}\.\d{1,3}"
+        r"|192\.168\.\d{1,3}\.\d{1,3}"
+        r"|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})\b"),
      "private network address only reachable on the author's network"),
     ("conda_env_path", re.compile(
         r"[\"'`\s=(]((?:/opt/conda|/anaconda3|~/anaconda3|~/miniconda3)/envs/[^\s\"'`)]+)"),

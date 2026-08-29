@@ -22,3 +22,4 @@ discovered artifacts: 398
     ! user-attachments/assets: HTTPError
   [260/398] profiled 243
   [280/398] profiled 263
+  [300/398] profiled 283
