@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: artifact-repro-triage
+Version: 0.1.0
+Summary: Agentic triage of research-artifact reproducibility, scored against expert ACM artifact-evaluation badges
+Requires-Python: >=3.11
+License-File: LICENSE
+Requires-Dist: certifi>=2024.2.2
+Requires-Dist: boto3>=1.34.0
+Requires-Dist: botocore[crt]>=1.34.0
+Provides-Extra: direct
+Requires-Dist: anthropic>=0.40.0; extra == "direct"
+Requires-Dist: google-genai>=1.0.0; extra == "direct"
+Requires-Dist: openai>=1.40.0; extra == "direct"
+Dynamic: license-file

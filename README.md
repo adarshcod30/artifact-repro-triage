@@ -1,46 +1,113 @@
 # Artifact Reproducibility Triage
 
-**Does this research artifact actually do what its README says?**
+**An LLM shown a README containing fabricated file paths accepts it every time.
+Shown the same README plus verified facts, it catches the fabrication every
+time.** This repository is the experiment that establishes that, the control
+that proves the evidence — not the prose — is doing the work, and the tool that
+falls out of it.
 
-A coding-agent workflow that checks a research repository's own claims against
-its real file tree, and routes what it cannot settle to a human. Built for the
-micro1 Frontier Engineering Challenge 2026.
+Built for the micro1 Frontier Engineering Challenge 2026.
+
+---
+
+## The experiment
+
+Take a real research repository. Secretly inject file paths into its README that
+do **not** exist. Ground truth is exact by construction: we know what we faked.
+Now ask two systems to judge the artifact — same model, same rubric, same
+scrubbed input. The only difference is what they are given to reason over.
+
+| | Reads the README | Reads the README **plus verified facts** |
+|---|---|---|
+| Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |
+| On a second model family (Llama 3.3 70B) | **0%** | **88%** |
+| Cited the fabrication in its reasoning | **1/60** | **58/60** |
+
+Three ways this could have been wrong, all tested:
+
+| Objection | Test | Result |
+|---|---|---|
+| *"Your baseline is a strawman."* | Tell it explicitly to hunt for internal contradictions | **1/13 (8%)** — prompting recovers almost none of the gap |
+| *"It's reading the README, not the evidence."* | Give it the falsified README **plus a placebo report** claiming everything resolves | Detection collapses to **0/11**. The evidence is the cause. |
+| *"Your checker just flags everything."* | 75 injected false paths across the corpus | **75/75 found, 0 false positives** |
+
+The placebo is the one that matters. It could have falsified the project's
+central claim rather than merely qualifying it, and it is the reason this is a
+causal statement instead of a correlation.
+
+## Why this is worth knowing
+
+Because the checking half is **free, deterministic and exact**, and the model
+cannot do it at any price.
+
+Verifying a documented path costs nothing and cannot hallucinate. Judging
+whether an artifact is fit to publish needs a human. Everything in between is
+where a language model earns its keep — but only if you hand it facts instead of
+asking it to invent them. That division is the whole design.
+
+## How common is the defect?
+
+Across **742 published research artifacts** (6,840 documented file references):
+
+| | |
+|---|---|
+| Carry at least one broken README claim | **56.3%** |
+| Documented references resolving to nothing | **1,264 of 6,840 (18.5%)** |
+| Is it decay? | **No** — flat across four years. Artifacts *ship* broken. |
+| Ecosystems affected | All of them (Rust 0.36, Java 0.34 → Notebooks 0.10) |
+
+## The tool
 
 ```bash
-artifact-triage owner/repo     # ~5 seconds, no API key, no cost
+artifact-triage owner/repo                  # ~5 seconds, no API key, no cost
+artifact-triage owner/repo --json           # sortable record, for triaging a venue
+artifact-triage owner/repo --fail-on-findings   # exits non-zero: drop it in CI
 ```
 
 [![checks](https://github.com/adarshcod30/artifact-repro-triage/actions/workflows/checks.yml/badge.svg)](https://github.com/adarshcod30/artifact-repro-triage/actions/workflows/checks.yml)
 
-CI runs the regression suite, the deterministic verifier, and the negative
-control on a clean Ubuntu runner with **no credentials**, asserting the control
-still reports 75/75 with 0 false positives. The core claims are therefore
-verified on a machine that is not mine.
+CI runs the regression suite, the deterministic verifier and the negative control
+on a clean Ubuntu runner with **no credentials**, asserts the control still
+reports 75/75 with 0 false positives, and **runs the tool against this repository
+with the CI gate on**. The core claims are verified on a machine that is not mine.
 
----
+## What is not new here, stated up front
 
-## Results at a glance
+**The path-checking mechanism is prior art.**
+[READU](https://arxiv.org/abs/2607.15780) (2026) detects README-vs-repository
+inconsistencies at 75% precision over 6,000 commits from Linux and Spring Boot —
+**and repairs them**, with 44 confirmed real-world fixes.
+[Tan, Wagner & Treude](https://doi.org/10.1007/s10664-023-10397-6) (EMSE 2023)
+detect outdated code-element references across 3,000+ projects. A reviewer who
+knows this literature will recognise the verifier immediately, and should.
 
-| | |
-|---|---|
-| **Detecting a falsified README** | baseline **0%** → solution **100%** (3 trials, no variance) |
-| **Causally isolated** | placebo evidence collapses solution detection to **0%** |
-| **Floor-free metric** | baseline cites the fabrication **1/60**; solution **58/60** |
-| **Deterministic verifier** | **75/75** injected false claims, **0** false positives |
-| **Prevalence in the wild** | **56.3%** of 742 research artifacts carry a broken README claim |
-| | **1,264 of 6,840** documented file references (18.5%) resolve to nothing |
-| **Is it decay?** | **No.** Flat across four years — artifacts *ship* broken |
-| **Model spend, entire project** | **$3.23** of a $5 ceiling — five of six checks need no model at all |
+What remains after removing everything prior work established:
 
-Two results are reported that do **not** flatter the project, because omitting
-them would make everything else less trustworthy:
+1. **The causal comparison above.** Neither prior system tests whether a language
+   model can substitute for verification, and neither has a placebo control.
+2. **Prevalence in research artifacts at population scale.** Prior work measures
+   general open source, or detection precision on a commit sample. Nobody reports
+   the rate for research artifacts.
+3. **Output addressed to the artifact-evaluation reviewer**, mapped onto the
+   named ACM criteria — including the one criterion the tool **refuses** to
+   answer, because settling it requires reading the paper.
 
-- A **zero-skill constant predictor beats both systems** on ACM badge agreement.
-  Badge agreement is uninformative here, and the write-up says so.
+The contribution is **measurement and framing, not the detector**.
+[RELATED_WORK.md](RELATED_WORK.md) is the long version.
+
+## Results that do not flatter the project
+
+Reported because omitting them would make everything else less trustworthy:
+
+- A **zero-skill constant predictor beats both systems** on ACM badge agreement
+  (0.667 vs 0.733 and 0.800). That evaluation is uninformative here, and the
+  original experiment was abandoned rather than quietly dropped.
 - The **external validation returned null.** Repositories we flag are no more
-  likely to carry a user complaint than ones we do not — and on the latest
-  sample the point estimate runs the *other* way. Only 29% of repositories have
-  any issues at all, so the instrument cannot resolve it in either direction.
+  likely to carry a user complaint than ones we do not — and on the latest sample
+  the point estimate runs the *other* way. Only 29% of repositories have any
+  issues at all, so the instrument cannot resolve it in either direction.
+- **Model spend for the entire project: $5.31** against a $5.50 ceiling, because
+  five of six checks need no model at all.
 
 ---
 

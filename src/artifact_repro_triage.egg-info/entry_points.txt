@@ -1,0 +1,2 @@
+[console_scripts]
+artifact-triage = artifact_triage.cli:main

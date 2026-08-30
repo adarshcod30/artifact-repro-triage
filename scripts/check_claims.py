@@ -39,9 +39,13 @@ def claims() -> list[tuple[str, str, str, str]]:
         # Anchored to the headline row. Bare "100%" matched 11 lines and bare
         # "0%" matched 21 - a pass proved only that the digits exist somewhere.
         if sr and br:
+            # Anchored to the headline table row. The previous anchor was a
+            # sentence that a rewrite deleted - the checker caught it, which is
+            # the point, but an anchor tied to prose breaks on every edit.
+            # A table row is structural and survives rewording.
             out.append(("README.md",
-                        f"baseline **{sum(br)/len(br):.0%}** → "
-                        f"solution **{sum(sr)/len(sr):.0%}**",
+                        f"| Noticed the fabrication | **{sum(br)/len(br):.0%}** "
+                        f"| **{sum(sr)/len(sr):.0%}**",
                         "detection, baseline vs solution", "falsified_run.json"))
         if sr:
             out.append(("README.md", f"| **0%** | **{sum(sr)/len(sr):.0%}** |",

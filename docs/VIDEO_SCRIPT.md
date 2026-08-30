@@ -1,4 +1,4 @@
-# Solution Video — Script (target 4:30, hard cap 5:00)
+# Solution Video — Script (target 4:50, hard cap 5:00)
 
 The brief requires, in order: the problem and the simple baseline → one realistic
 execution start to finish → the final comparison → the changelog briefly → the
@@ -8,33 +8,51 @@ This script covers all six. Timings are cumulative.
 
 ---
 
-## 0:00 – 0:40 — The problem, and how big it is
+## 0:00 – 0:35 — The finding
 
-> "A research paper's README is a set of promises. Install with
-> `requirements.txt`. Run `scripts/run_experiments.sh`. See
-> `configs/default.yaml`. Nothing checks whether those files exist.
+> "I took a real research repository and secretly added file paths to its README
+> that do not exist. Then I asked a language model to judge the artifact.
 >
-> I checked. Across seven hundred and thirty-two research artifacts harvested
-> from Zenodo — six thousand six hundred documented file references — **almost
-> twenty-two percent point at nothing at all**. Sixty-four percent of artifacts
-> have at least one.
+> It accepted it. Every time. Zero out of fifteen.
 >
-> And here is the part I didn't expect. The literature says artifacts *decay* —
-> dependencies drift, environments rot. So older artifacts should be worse. They
-> aren't. The rate is flat across four years: point two-six under three months,
-> point two-five for artifacts last touched almost four years ago.
+> Then I gave the *same* model the *same* README — plus a list of which of those
+> paths actually exist in the repository, checked by twenty lines of ordinary
+> Python. It caught the fabrication every time. Three trials, no variance.
 >
-> **These artifacts shipped broken.** A reviewer could have caught every one of
-> them on day one, in about five seconds, for free. Nobody did, because nobody
-> had a tool that looks."
+> **Nought percent to one hundred percent, and the model never changed.** Only
+> what it was allowed to reason over.
+>
+> That is the whole project: find the part of the job a model cannot do at any
+> price, do it deterministically for free, and hand over facts instead of asking
+> for a guess."
 
-**On screen:** the prevalence table, then the age-bucket table showing the flat
-line. Then the LPR verifier output: *15 of 17 referenced paths do not exist* — in
-an artifact badged **Reusable**.
+**On screen:** the two-column table — *Reads the README: 0%* / *Reads the README
+plus verified facts: 100%*. Then the LPR verifier output: *15 of 17 referenced
+paths do not exist* — in an artifact badged **Reusable**.
 
 ---
 
-## 0:40 – 1:10 — The baseline
+## 0:35 – 0:55 — Why it is worth doing, and how common the defect is
+
+> "This matters because the defect is everywhere. Across seven hundred and
+> forty-two research artifacts harvested from Zenodo — six thousand eight
+> hundred and forty documented file references — **eighteen and a half percent
+> point at nothing at all**. Fifty-six percent of artifacts have at least one.
+>
+> And the part I did not expect: the literature says artifacts *decay* —
+> dependencies drift, environments rot — so older ones should be worse. They
+> aren't. The rate is flat across four years: point two-oh under three months,
+> point one-nine for artifacts last touched four years ago.
+>
+> **These artifacts shipped broken.** A reviewer could have caught every one on
+> day one, in five seconds, for free."
+
+**On screen:** the prevalence table, then the age-bucket table showing the flat
+line.
+
+---
+
+## 0:55 – 1:15 — The baseline
 
 > "The baseline is what a reviewer does today: one prompt, the README, the ACM
 > rubric, asked for a tier.
@@ -48,7 +66,7 @@ for 13 of 15 artifacts.
 
 ---
 
-## 1:10 – 2:15 — One realistic execution
+## 1:15 – 2:15 — One realistic execution
 
 Run the solution on a single artifact and narrate the pipeline.
 
