@@ -58,19 +58,48 @@ class Bundle:
                     L.append(f"  - MISSING: {p}   (nothing similar exists)")
             if not ev.broken_paths:
                 L.append("  All referenced paths were found.")
+        # Case mismatches were structurally unreachable from the prompt: this
+        # block reads only `broken_paths`, and `check_claim` deliberately marks
+        # a case mismatch as EXISTING so it is not counted as broken. So a real
+        # portability defect - a path that resolves on macOS and fails on Linux
+        # - was verified, reported in the CLI, and never shown to the model.
+        if getattr(ev, "case_mismatches", None):
+            L.append(f"  {len(ev.case_mismatches)} path(s) exist only under a "
+                     f"DIFFERENT case. These resolve on macOS/Windows and fail "
+                     f"on Linux:")
+            for p in ev.case_mismatches[:6]:
+                L.append(f"  - case-mismatch: {p}")
         if getattr(ev, "ignored", 0):
             L.append(f"({ev.ignored} author-declared exception(s) applied.)")
 
         L.append("")
         L.append("== Environment reproducibility ==")
+        # "Not assessed" is not "not present", and this block's whole premise
+        # is facts. The analysers only look at the shallowest manifest and stop
+        # beyond two directories deep, while `signals_present` records whether
+        # the repository contains one ANYWHERE. Reporting the narrow result as
+        # an absolute told the model "Container: no Dockerfile present." for a
+        # repository holding 14 Dockerfiles, and "no dependency manifest found"
+        # for 114 artifacts whose root carries a pyproject.toml or pom.xml.
         if self.pins is None:
             L.append("Dependency pinning: not checked.")
+        elif self.pins.manifest is None and ev.has_dependency_manifest:
+            L.append("Dependencies: a manifest exists in this repository, but "
+                     "not one this checker assesses (it reads requirements.txt, "
+                     "constraints.txt and conda environment files near the "
+                     "root). Pinning was NOT evaluated - treat it as unknown, "
+                     "not as absent.")
         else:
             L.append(f"Dependencies: {self.pins.summary()}")
             for d in self.pins.floating_examples[:6]:
                 L.append(f"  - unpinned: {d}")
         if self.docker is None:
             L.append("Container: not checked.")
+        elif self.docker.dockerfile is None and ev.has_container:
+            L.append("Container: a Dockerfile exists in this repository but "
+                     "only more than two directories deep, where this checker "
+                     "treats it as vendored. Base-image pinning was NOT "
+                     "evaluated - unknown, not absent.")
         elif self.docker.dockerfile is None:
             L.append("Container: no Dockerfile present.")
         else:

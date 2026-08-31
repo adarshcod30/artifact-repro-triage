@@ -2642,6 +2642,64 @@ def test_genuine_machine_specific_mounts_are_still_flagged():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 136 - the evidence block stated things that were not true
+#
+# This block's entire premise is "facts, not verdicts", and it was asserting
+# three falsehoods to the model:
+#
+#   1. "Container: no Dockerfile present." for repositories holding 11-14
+#      Dockerfiles. `_shallowest` stops beyond two directories deep by design,
+#      and `analyse_docker` returns None - which the block reported as ABSENCE.
+#   2. "no dependency manifest found" for artifacts whose ROOT carries a
+#      pyproject.toml or pom.xml. Measured: 431 of 742 artifacts receive that
+#      line, and 114 of them do have a manifest.
+#   3. Case mismatches were structurally unreachable: `check_claim` marks them
+#      as EXISTING so they are not broken, and the block reads only
+#      `broken_paths`. A path that resolves on macOS and fails on Linux was
+#      verified, shown in the CLI, and never shown to the model.
+#
+# "Not assessed" is not "not present". The distinction is the whole point of a
+# block that claims to carry only established fact.
+# --------------------------------------------------------------------------
+def _bundle_with(**kw):
+    import json as _json
+    from artifact_triage.solution.evidence import Bundle
+    from artifact_triage.solution.pinning import DockerReport, PinReport
+    from artifact_triage.solution.verify import verify
+    fixtures = sorted(Path("data/fixtures").glob("*.json"))
+    ev = verify(_json.loads(fixtures[0].read_text()))
+    for k, v in kw.items():
+        setattr(ev, k, v)
+    return Bundle(paths=ev,
+                  pins=PinReport(None, 0, 0, 0, 0, [], False, 0.0, "none"),
+                  docker=DockerReport(None, [], []))
+
+
+def test_a_nested_dockerfile_is_not_reported_as_absent():
+    blk = _bundle_with(has_container=True).as_prompt_block()
+    assert "no Dockerfile present" not in blk
+    assert "not absent" in blk or "NOT evaluated" in blk
+
+
+def test_an_unassessed_manifest_is_not_reported_as_missing():
+    blk = _bundle_with(has_dependency_manifest=True).as_prompt_block()
+    assert "unknown, not as absent" in blk or "not as absent" in blk
+
+
+def test_genuine_absence_is_still_stated_plainly():
+    """The hedge must not swallow the real 'there is nothing here' case."""
+    blk = _bundle_with(has_container=False).as_prompt_block()
+    assert "Container: no Dockerfile present." in blk
+
+
+def test_case_mismatches_reach_the_model():
+    blk = _bundle_with(case_mismatches=["README.MD"]).as_prompt_block()
+    assert "case-mismatch: README.MD" in blk
+    assert "fail on Linux" in blk
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
