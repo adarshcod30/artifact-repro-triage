@@ -21,7 +21,35 @@ scrubbed input. The only difference is what they are given to reason over.
 |---|---|---|
 | Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |
 | On a second model family (Llama 3.3 70B) | **0%** | **88%** |
+| On a model **13× cheaper** (Nova 2 Lite) | **0%** | **100%** (3 trials, no variance) |
 | Cited the fabrication in its reasoning | **1/60** | **58/60** |
+
+### The improvement is not model capability
+
+The rows above hold capability constant — same model on both sides — so a
+sceptic can still say *"you prompted it better."* So we varied capability
+instead, across a **13× price gap**:
+
+| | reads the README | reads README + verified facts | price /1M in–out |
+|---|---|---|---|
+| Nova Pro | **0%** | 100% | $0.80 – $3.20 |
+| **Nova 2 Lite** | 0% | **100%** | **$0.06 – $0.24** |
+
+**The expensive model reading prose catches nothing. A model 13× cheaper reading
+verified facts catches everything.** Whatever produces the improvement, it is
+not the model — it is what the model is allowed to reason over. That is the
+placebo result confirmed from the opposite direction.
+
+It also makes the tool affordable at the scale the problem actually has:
+
+| Screening cost, verified-evidence pipeline | |
+|---|---|
+| One judgement | **$0.000323** |
+| A 100-artifact conference track | **$0.032** |
+| All 742 artifacts profiled here | **$0.24** |
+
+A programme chair can screen an entire conference for **three cents**.
+Reproduce with `make falsified-cheap`.
 
 Three ways this could have been wrong, all tested:
 
@@ -106,7 +134,7 @@ Reported because omitting them would make everything else less trustworthy:
   likely to carry a user complaint than ones we do not — and on the latest sample
   the point estimate runs the *other* way. Only 29% of repositories have any
   issues at all, so the instrument cannot resolve it in either direction.
-- **Model spend for the entire project: $5.31** against a $5.50 ceiling, because
+- **Model spend for the entire project: $5.34** against a $5.50 ceiling, because
   five of six checks need no model at all.
 
 ---
@@ -371,7 +399,7 @@ experiment: **$0.42**.
 > only move numbers; it can turn a categorical claim into a statistical one.
 >
 > A number that survives only because nobody re-ran it is not a result.
-> Cumulative project spend: **$5.31** of $5.
+> Cumulative project spend: **$5.34** of $5.50.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -740,11 +768,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   148 tests pinning every fixed bug
+tests/        test_regressions.py   152 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 148 regression tests, no credentials, ~2s
+make test         # 152 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

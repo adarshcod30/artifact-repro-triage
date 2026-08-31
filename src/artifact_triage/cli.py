@@ -128,7 +128,12 @@ def _exit_code(criteria, strict: bool) -> int:
     """
     if not strict:
         return 0
-    return 2 if any(c.verdict == "concerns" for c in criteria) else 0
+    # Fail only on a POSITIVE finding - something checked and found wanting.
+    # A concern raised because there was nothing to check is a limit of the
+    # instrument, and failing someone's build for it is a false positive.
+    # Measured: that case is 17.9% of real research repositories.
+    return 2 if any(c.verdict == "concerns" and not c.from_absence
+                    for c in criteria) else 0
 
 
 def render(fx: dict, ev, links: dict | None, model: dict | None,

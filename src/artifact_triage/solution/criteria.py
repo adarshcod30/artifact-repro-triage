@@ -57,6 +57,13 @@ class CriterionFinding:
     mechanical: bool      # can a machine settle this at all?
     evidence: list[str]
     needs_human: str      # what a reviewer must still do
+    # True when the concern is "we found nothing to check", not "we checked and
+    # it is missing". Absence of evidence is a limit of THIS INSTRUMENT; evidence
+    # of absence is a defect in the artifact. Conflating them made the CI gate
+    # fail 133 of 742 real repositories (17.9%) that have no broken path at all,
+    # purely for having a prose README. From a tool that advertises zero false
+    # positives, that is the worst possible first impression.
+    from_absence: bool = False
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -78,13 +85,18 @@ def assess(ev, pins=None, docker=None, port=None, links=None) -> list[CriterionF
                 "provides no checkable description of how to exercise the artifact")
         else:
             doc_ev.append(f"{ev.claims_total} concrete file/directory references")
+    # A README with no extractable references is not a broken artifact; it is
+    # one this tool cannot speak to. Say so, and do not fail anyone's build for
+    # it.
+    doc_absence = bool(ev.readme_bytes) and ev.claims_total == 0
     out.append(CriterionFinding(
         "Documented", ACM["Documented"],
         "concerns" if doc_bad else "supported", True,
         doc_ev + doc_bad,
         "Read the README and judge whether the description is *sufficient* to "
         "exercise the artifact. Presence of instructions is checkable; their "
-        "adequacy is not."))
+        "adequacy is not.",
+        from_absence=doc_absence))
 
     # ---- Consistent -------------------------------------------------------
     # Deliberately not attempted. Answering it requires reading the paper.

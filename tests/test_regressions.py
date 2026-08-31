@@ -2083,6 +2083,62 @@ def test_published_trajectory_contains_no_foreign_project_body():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 114 - the CI gate failed 17.9% of real repositories for nothing
+#
+# `criteria.assess` marks `Documented` as "concerns" whenever a README yields no
+# extractable path references, and `_exit_code` failed the build on ANY concern.
+# Measured against this project's own corpus: **133 of 742 artifacts (17.9%)**
+# have a README and zero extractable claims. Every one of them failed
+# `--fail-on-findings` with no broken path anywhere.
+#
+# "We found nothing to check" is a limit of THIS INSTRUMENT. "We checked and it
+# is missing" is a defect in the ARTIFACT. Conflating them means a researcher
+# with a prose README pastes in our CI check and gets a red X telling them their
+# README is inadequate - a false positive, from a tool whose headline is 75/75
+# with zero false positives.
+#
+# The concern is still REPORTED. It just no longer fails anyone's build.
+# --------------------------------------------------------------------------
+def test_nothing_to_check_does_not_fail_a_build():
+    from artifact_triage.cli import _exit_code
+    from artifact_triage.solution.criteria import assess
+    prose = _fake_evidence(readme_bytes=1800, claims_total=0, claims_broken=0,
+                           broken_paths=[])
+    assert _exit_code(assess(prose), True) == 0, \
+        "a prose-only README is not a broken artifact"
+
+
+def test_a_real_broken_claim_still_fails_the_build():
+    from artifact_triage.cli import _exit_code
+    from artifact_triage.solution.criteria import assess
+    broken = _fake_evidence(claims_total=17, claims_broken=15,
+                            broken_paths=["gone.py"] * 15)
+    assert _exit_code(assess(broken), True) == 2
+
+
+def test_absence_is_still_reported_even_though_it_does_not_gate():
+    """Not failing the build must not mean staying silent about it."""
+    from artifact_triage.solution.criteria import assess
+    prose = _fake_evidence(readme_bytes=1800, claims_total=0, claims_broken=0,
+                           broken_paths=[])
+    doc = [c for c in assess(prose) if c.criterion == "Documented"][0]
+    assert doc.verdict == "concerns"
+    assert doc.from_absence is True
+    assert any("no checkable description" in e for e in doc.evidence)
+
+
+def test_evidence_of_absence_is_never_marked_as_absence_of_evidence():
+    """A missing file is a positive finding and must keep gating."""
+    from artifact_triage.solution.criteria import assess
+    broken = _fake_evidence(claims_total=17, claims_broken=15,
+                            broken_paths=["gone.py"] * 15)
+    for c in assess(broken):
+        if c.verdict == "concerns":
+            assert not c.from_absence, f"{c.criterion} wrongly excused as absence"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

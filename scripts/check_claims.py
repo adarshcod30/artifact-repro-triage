@@ -177,6 +177,17 @@ def claims() -> list[tuple[str, str, str, str]]:
                     f"| **100%** | **{sum(r)/len(r):.0%}** |",
                     "cross-model: llama detection", "falsified_llama.json"))
 
+    # The cross-TIER run: a 13x cheaper model on the same experiment. This is
+    # the claim that the improvement is not model capability, so its number
+    # must not be allowed to drift.
+    cheap = load("results/falsified_nova2lite.json")
+    if cheap and cheap.get("solution_rates"):
+        r = cheap["solution_rates"]
+        out.append(("README.md",
+                    f"| **Nova 2 Lite** | 0% | **{sum(r)/len(r):.0%}** |",
+                    "cross-tier: cheap model detection",
+                    "falsified_nova2lite.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",
