@@ -122,7 +122,7 @@ take 5%.
 | A baseline **and** an advanced solution | Same model, same rubric, same scrubbed input. The only difference is verified evidence. |
 | A **meaningful, non-cosmetic** measured gain | 0% → 100% detection, with a placebo control isolating the cause |
 | Reproducibility as a pass/fail gate | 12 credential-free `make` targets pass from a clean clone; CI runs them with no secrets |
-| Integrity of reported numbers | 64 documented figures machine-verified against `results/*.json` on every run, across README, CHANGELOG, AGENTS and the video script |
+| Integrity of reported numbers | 73 documented figures machine-verified against `results/*.json` on every run, across README, CHANGELOG, AGENTS and the video script |
 | Credentials kept out of the submission | `.env` gitignored; the trajectory exporter refuses to write if any secret pattern survives redaction |
 
 
@@ -141,7 +141,7 @@ directly rather than left to be inferred.
 | 6 | A legal and ethical use case treating people's data responsibly | Public research artifacts, analysed for whether their own documentation matches their own contents. No personal data. Findings cite file and line so an author can check any claim made about their work |
 | 7 | Use information you are allowed to share | Public and citable throughout: badges from published AE pages, repositories from public Zenodo deposits, README text from the public GitHub API |
 | 8 | Keep credentials and private information out of the submission | `.env` is gitignored and never read into any artifact. The trajectory exporter **refuses to write** if any known secret pattern survives redaction |
-| 9 | **Connect every claim to the evidence you submit** | `make check-claims` re-derives **64 documented figures** from `results/*.json` and exits non-zero on drift, and every result carries a provenance fingerprint so a number produced by since-changed code is reported as stale rather than trusted |
+| 9 | **Connect every claim to the evidence you submit** | `make check-claims` re-derives **73 documented figures** from `results/*.json` and exits non-zero on drift, and every result carries a provenance fingerprint so a number produced by since-changed code is reported as stale rather than trusted |
 | 10 | Give judges enough access to reproduce the main result | 12 credential-free `make` targets run from a clean clone in seconds; `make repro` is the single command. Model-dependent steps are listed with their runtime and cost in [`REPRODUCTION.md`](REPRODUCTION.md) |
 
 ---
@@ -510,7 +510,7 @@ artifacts should be worse. They are not.
 |---|---|---|---|---|
 | under 3 months | 307 | 4d | 0.195 | 61% |
 | 3-12 months | 86 | 194d | 0.198 | 63% |
-| 1-2 years | 44 | 623d | 0.190 | 48% |
+| 1-2 years | 44 | 624d | 0.190 | 48% |
 | **over 2 years** | **171** | **1,462d** | **0.193** | 46% |
 
 Flat — delta -0.002 across four years, with 171 artifacts averaging four years
@@ -525,7 +525,7 @@ since their last push. A measured null, not an absence of data.
 | C/C++ | 98 | 0.256 | 65% |
 | R | 30 | 0.264 | 63% |
 | JS/TS | 36 | 0.292 | 67% |
-| Shell | 48 | 0.302 | 63% |
+| Shell | 48 | 0.302 | 62% |
 | Java | 59 | 0.340 | 78% |
 | Rust | 19 | 0.364 | 74% |
 

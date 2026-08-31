@@ -226,32 +226,19 @@ def claims() -> list[tuple[str, str, str, str]]:
                         f"| **broken — not found at all** | **{ra['broken']:,}** |",
                         "resolution audit: broken row", "resolution_audit.json"))
 
-    # The decay table backs the "artifacts ship broken, they do not rot" claim
-    # and was never under this checker. It had drifted on every cell.
+    # The decay table backs the "artifacts ship broken, they do not rot" claim.
+    # It was covered by SAMPLING two rows, which is how a hand-typed 623d sat
+    # against a measured 624d in a row nobody checked. Every cell of both tables
+    # is registered below; only the derived delta lives here, because no single
+    # cell contains it.
     pvd = load("results/prevalence.json")
-    if pvd and pvd.get("decay"):
-        dc = pvd["decay"]
-        buckets = dc["buckets"] if isinstance(dc, dict) and "buckets" in dc else dc
-        if buckets:
-            old, new = buckets[-1], buckets[0]
-            out.append(("README.md",
-                        f"| **{old['label']}** | **{old['n']}** | "
-                        f"**{old['median_days']:,}d** | "
-                        f"**{old['mean_broken_ratio']:.3f}** |",
-                        "decay: oldest bucket", "prevalence.json"))
-            out.append(("README.md",
-                        f"delta {old['mean_broken_ratio'] - new['mean_broken_ratio']:+.3f} "
-                        f"across four years",
-                        "decay: delta across four years", "prevalence.json"))
-
-    # The ecosystem table, likewise never covered and likewise drifted.
-    if pvd and pvd.get("by_language"):
-        langs = sorted(pvd["by_language"], key=lambda x: x["mean_broken_ratio"])
-        for x in (langs[0], langs[-1]):
-            out.append(("README.md",
-                        f"| {x['language']} | {x['n']} | "
-                        f"{x['mean_broken_ratio']:.3f} | {x['share_with_broken']:.0%} |",
-                        f"ecosystem: {x['language']}", "prevalence.json"))
+    if pvd and (pvd.get("decay") or {}).get("buckets"):
+        buckets = pvd["decay"]["buckets"]
+        oldest, newest = buckets[-1], buckets[0]
+        out.append(("README.md",
+                    f"delta {oldest['mean_broken_ratio'] - newest['mean_broken_ratio']:+.3f} "
+                    f"across four years",
+                    "decay: delta across four years", "prevalence.json"))
 
     # The video script quotes figures aloud. A spoken number cannot be matched,
     # so the script carries a digits table at the top and that is checked.
@@ -399,6 +386,37 @@ def claims() -> list[tuple[str, str, str, str]]:
                         f"| {bestc['mae']:.3f} | {bestc['mae']:.3f} |",
                         "changelog negative result: constant control",
                         "comparison.json"))
+
+    # The decay table is the project's headline NULL result, and it was
+    # registered by sampling two rows. A hand-typed 623d sat against a measured
+    # 624d in the one row nobody checked - the fifth drift this audit found, and
+    # the fifth in a cell no claim covered. Register every cell, not a sample.
+    if pv and (pv.get("decay") or {}).get("buckets"):
+        for bk in pv["decay"]["buckets"]:
+            label = f"**{bk['label']}**" if bk["label"] == "over 2 years" \
+                else bk["label"]
+            n = f"**{bk['n']}**" if bk["label"] == "over 2 years" else bk["n"]
+            md = f"**{bk['median_days']:,}d**" if bk["label"] == "over 2 years" \
+                else f"{bk['median_days']:,}d"
+            ratio = f"**{bk['mean_broken_ratio']:.3f}**" \
+                if bk["label"] == "over 2 years" else f"{bk['mean_broken_ratio']:.3f}"
+            out.append(("README.md",
+                        f"| {label} | {n} | {md} | {ratio} | "
+                        f"{bk['share_with_broken']:.0%} |",
+                        f"decay bucket: {bk['label']}", "prevalence.json"))
+
+    # Same treatment for the ecosystem table, and it found the same class of
+    # defect: Shell sits at exactly 0.625, which every other cell's formatter
+    # renders 62% and a hand-typed cell rendered 63%. Half-way values are where
+    # two rounding paths diverge - Iteration 61 was the same bug on 63.8/63.7.
+    # One formatter, one number.
+    if pv and pv.get("by_language"):
+        for row in pv["by_language"]:
+            out.append(("README.md",
+                        f"| {row['language']} | {row['n']} | "
+                        f"{row['mean_broken_ratio']:.3f} | "
+                        f"{row['share_with_broken']:.0%} |",
+                        f"ecosystem: {row['language']}", "prevalence.json"))
 
     sp = load("results/spend.json")
     if sp:
