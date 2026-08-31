@@ -2935,6 +2935,60 @@ def test_no_committed_cache_file_is_corrupt():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 144 - the label-quality caveat was not where dataset users read it
+#
+# The dataset is published CC0 for other people to benchmark against, and the
+# fact that an `exists=true` label does NOT mean the path works as written -
+# 38.1% of resolutions are lenient - lived only in the README. Someone who
+# downloads the CSV never sees it, and would score a correct detector as
+# producing false positives against our labels.
+#
+# The DATASHEET also stated no totals at all, so a consumer could not check that
+# the file they had matched the corpus it describes.
+# --------------------------------------------------------------------------
+def test_datasheet_totals_match_the_corpus():
+    import json as _json
+    import re
+    root = Path(__file__).resolve().parents[1]
+    ds = root / "dataset" / "DATASHEET.md"
+    pv = root / "results" / "prevalence.json"
+    if not (ds.exists() and pv.exists()):
+        return
+    text, data = ds.read_text(), _json.loads(pv.read_text())
+    assert f"{data['total_claims']:,}" in text, "claims total absent or stale"
+    assert f"{data['total_broken']:,}" in text, "broken total absent or stale"
+
+
+def test_datasheet_warns_benchmarkers_about_lenient_labels():
+    root = Path(__file__).resolve().parents[1]
+    ds = root / "dataset" / "DATASHEET.md"
+    if not ds.exists():
+        return
+    import re
+    # Whitespace-insensitive: the prose wraps, and a line break is not a
+    # missing warning. Asserting the raw substring made the test fail on
+    # formatting rather than on content.
+    text = re.sub(r"\s+", " ", ds.read_text())
+    assert "does NOT mean the path works as written" in text
+    assert "LOWER BOUND" in text
+    assert "false positive against these labels" in text, (
+        "a benchmarker must be told our labels are lenient before using them")
+
+
+def test_datasheet_leniency_figure_matches_the_audit():
+    import json as _json
+    root = Path(__file__).resolve().parents[1]
+    ds, ra = root / "dataset" / "DATASHEET.md", root / "results" / "resolution_audit.json"
+    if not (ds.exists() and ra.exists()):
+        return
+    import re
+    a = _json.loads(ra.read_text())
+    text = re.sub(r"\s+", " ", ds.read_text())
+    assert f"{a['resolved_leniently']:,} of {a['resolved']:,}" in text
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

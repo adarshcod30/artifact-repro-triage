@@ -52,6 +52,46 @@ was built to measure.
 | `stars`, `archived` | repository metadata |
 | `leaked_tier` | README disclosed an ACM artifact tier |
 
+## What is in it
+
+| | |
+|---|---|
+| Artifacts | 742 |
+| Documented file references checked | 6,815 |
+| References resolving to nothing (`broken`) | 1,254 (18.4%) |
+| Artifacts with at least one broken reference | 340 of 608 (55.9%) |
+
+## READ THIS BEFORE BENCHMARKING AGAINST THESE LABELS
+
+**An `exists=true` label does NOT mean the path works as written.** The checker
+that produced these labels is deliberately lenient: it accepts a path if it
+exists exactly, **or if any real path ends with it**, or if any file anywhere in
+the tree shares its basename. A README saying `src/train.py` is labelled correct
+when the file actually lives at `experiments/train.py`.
+
+Measured across this corpus:
+
+| How a reference resolved | | |
+|---|---|---|
+| `exact` — works as written | 2,833 | 41.6% |
+| `directory` — a directory reference matched a directory | 602 | 8.8% |
+| `suffix` — found somewhere else in the tree | 2,007 | 29.4% |
+| `basename` — a file of that name exists *somewhere* | 111 | 1.6% |
+| **broken — not found at all** | **1,254** | **18.4%** |
+
+**2,118 of 5,561 resolutions (38.1%) did not work as
+written.** Two consequences:
+
+1. **The broken rate here is a LOWER BOUND.** The rate at which a documented
+   path fails *as a reader would follow it* is materially higher.
+2. **A detector that correctly flags a relocated file will be scored a false
+   positive against these labels.** If you are benchmarking, either re-derive
+   the labels with your own resolution rule, or restrict to the `exact` subset.
+
+The leniency is deliberate — flagging a file that plainly exists somewhere is
+the most annoying error a checker can make — but it is a *choice*, and it is
+measured rather than assumed. Reproduce with `make resolution`.
+
 ## Limitations — read these before drawing conclusions
 
 - **Sampling is not random.** Zenodo's search is keyword-based. The corpus was

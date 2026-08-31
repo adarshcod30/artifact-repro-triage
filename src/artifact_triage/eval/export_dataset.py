@@ -84,6 +84,46 @@ was built to measure.
 | `stars`, `archived` | repository metadata |
 | `leaked_tier` | README disclosed an ACM artifact tier |
 
+## What is in it
+
+| | |
+|---|---|
+| Artifacts | {n} |
+| Documented file references checked | {claims:,} |
+| References resolving to nothing (`broken`) | {broken:,} ({rate:.1%}) |
+| Artifacts with at least one broken reference | {with_broken} of {checkable} ({prevalence:.1%}) |
+
+## READ THIS BEFORE BENCHMARKING AGAINST THESE LABELS
+
+**An `exists=true` label does NOT mean the path works as written.** The checker
+that produced these labels is deliberately lenient: it accepts a path if it
+exists exactly, **or if any real path ends with it**, or if any file anywhere in
+the tree shares its basename. A README saying `src/train.py` is labelled correct
+when the file actually lives at `experiments/train.py`.
+
+Measured across this corpus:
+
+| How a reference resolved | | |
+|---|---|---|
+| `exact` — works as written | {r_exact:,} | {r_exact_pct:.1%} |
+| `directory` — a directory reference matched a directory | {r_dir:,} | {r_dir_pct:.1%} |
+| `suffix` — found somewhere else in the tree | {r_suffix:,} | {r_suffix_pct:.1%} |
+| `basename` — a file of that name exists *somewhere* | {r_base:,} | {r_base_pct:.1%} |
+| **broken — not found at all** | **{broken:,}** | **{rate:.1%}** |
+
+**{lenient:,} of {resolved:,} resolutions ({lenient_pct:.1%}) did not work as
+written.** Two consequences:
+
+1. **The broken rate here is a LOWER BOUND.** The rate at which a documented
+   path fails *as a reader would follow it* is materially higher.
+2. **A detector that correctly flags a relocated file will be scored a false
+   positive against these labels.** If you are benchmarking, either re-derive
+   the labels with your own resolution rule, or restrict to the `exact` subset.
+
+The leniency is deliberate — flagging a file that plainly exists somewhere is
+the most annoying error a checker can make — but it is a *choice*, and it is
+measured rather than assumed. Reproduce with `make resolution`.
+
 ## Limitations — read these before drawing conclusions
 
 - **Sampling is not random.** Zenodo's search is keyword-based. The corpus was
@@ -119,6 +159,13 @@ def main() -> None:
     if not SRC.exists():
         raise SystemExit(f"{SRC} missing - run `make prevalence` first")
     data = json.loads(SRC.read_text())
+    pv = data
+    # The label-quality breakdown belongs WITH the dataset, not only in the
+    # README. Someone benchmarking against these labels reads this file.
+    ra_path = Path("results/resolution_audit.json")
+    ra = json.loads(ra_path.read_text()) if ra_path.exists() else {}
+    by = ra.get("by_resolution", {})
+    tot = max(ra.get("total_claims", 1), 1)
     rows = data["per_artifact"]
     OUT_DIR.mkdir(exist_ok=True)
 
@@ -142,7 +189,21 @@ def main() -> None:
     discovered = sum(1 for _ in open("data/discovered.jsonl")) \
         if Path("data/discovered.jsonl").exists() else len(rows)
     (OUT_DIR / "DATASHEET.md").write_text(
-        DATASHEET.format(n=len(rows), fresh=fresh, discovered=discovered))
+        DATASHEET.format(
+            n=len(rows), fresh=fresh, discovered=discovered,
+            claims=pv.get("total_claims", 0), broken=pv.get("total_broken", 0),
+            rate=pv.get("broken_claim_rate", 0.0),
+            with_broken=pv.get("n_with_broken", 0),
+            checkable=pv.get("n_checkable", 0),
+            prevalence=pv.get("prevalence", 0.0),
+            r_exact=by.get("exact", 0), r_exact_pct=by.get("exact", 0) / tot,
+            r_dir=by.get("directory", 0), r_dir_pct=by.get("directory", 0) / tot,
+            r_suffix=by.get("suffix", 0), r_suffix_pct=by.get("suffix", 0) / tot,
+            r_base=by.get("basename", 0), r_base_pct=by.get("basename", 0) / tot,
+            lenient=ra.get("resolved_leniently", 0),
+            resolved=ra.get("resolved", 1),
+            lenient_pct=ra.get("resolved_leniently", 0) / max(ra.get("resolved", 1), 1),
+        ))
 
     print(f"  {csv_path}    {csv_path.stat().st_size:,} bytes")
     print(f"  {jsonl_path}  {jsonl_path.stat().st_size:,} bytes")
