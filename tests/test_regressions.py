@@ -2700,6 +2700,64 @@ def test_case_mismatches_reach_the_model():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 137 - documentation described an escalation gate the code removed
+#
+# `decide()` does not read `confidence` at all - the confidence gate was
+# replaced for being anti-calibrated (mean 0.700 when right, 0.750 when wrong,
+# fired 0/15). The README and CHANGELOG recorded that. AGENTS.md still stated
+# the old contract, and the trajectory exporter still narrated "Confidence fell
+# below the escalation threshold" over rows whose recorded confidence was 0.9.
+# --------------------------------------------------------------------------
+def test_decide_never_reads_confidence():
+    from artifact_triage.solution.escalate import decide
+    ev = _fake_evidence(claims_total=10, claims_broken=0, broken_paths=[])
+    ev.broken_ratio = 0.0
+    ev.has_dependency_manifest = True
+    ev.has_container = True
+    lo = decide(ev, "Functional", 0.0, True)
+    hi = decide(ev, "Functional", 1.0, True)
+    assert lo.escalate == hi.escalate and lo.reasons == hi.reasons
+
+
+def test_no_surface_still_claims_a_confidence_threshold():
+    root = Path(__file__).resolve().parents[1]
+    for name in ("AGENTS.md", "src/artifact_triage/eval/export_trajectories.py"):
+        t = (root / name).read_text()
+        assert "Confidence fell below" not in t, name
+        # AGENTS.md may mention the removed gate only while saying it was removed
+        if "ESCALATE_BELOW" in t:
+            assert "removed" in t or "previously" in t, name
+
+
+# --------------------------------------------------------------------------
+# Iteration 138 - the self-audit could not name its own rules
+#
+# It took the SECOND WORD of a hand-written label and substring-matched it
+# against the fired reasons. "no README - nothing to assess" yielded "README",
+# which matches the DIFFERENT rule "README makes no checkable file references" -
+# so a rule that never fired was reported as fired and vanished from both the
+# "untriggered" and "fired" lists.
+# --------------------------------------------------------------------------
+def test_every_escalation_rule_is_named_in_the_audit_table():
+    import inspect
+    from artifact_triage.solution import escalate
+    src = inspect.getsource(escalate.decide)
+    # every reason the code can emit must have a RULES prefix that matches it
+    for prefix in escalate.RULES.values():
+        assert prefix in src, f"RULES lists {prefix!r}, which decide() never emits"
+
+
+def test_rule_prefixes_are_unambiguous():
+    """The old bug was one label matching another rule's text."""
+    from artifact_triage.solution.escalate import RULES
+    for a_id, a in RULES.items():
+        for b_id, b in RULES.items():
+            if a_id != b_id:
+                assert not b.startswith(a), f"{b_id!r} starts with {a_id!r}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

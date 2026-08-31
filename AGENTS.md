@@ -37,11 +37,22 @@ improvement and would be caught by a judge reading both prompts.
 **Input.** The same scrubbed README, preceded by a block of verified repository
 facts produced by the tool below.
 
-**Human checkpoint.** Any answer with confidence below
-`ARTIFACT_TRIAGE_ESCALATE_BELOW` (default `0.55`) is **escalated to a qualified
-human reviewer** and is not scored as a prediction. This satisfies ground rules 4
-and 5: the consequential judgement — one that affects an author's work — is never
-made autonomously when the evidence is thin.
+**Human checkpoint.** Escalation is decided by **evidence-based rules**, not by
+the model's self-reported confidence. `decide()` does not read `confidence` at
+all. An artifact is routed to a qualified human reviewer when the *evidence* is
+thin or self-contradictory — no README, no checkable references, a tier that
+contradicts the verified paths, a README too short to support a judgement, or
+neither a dependency manifest nor a container.
+
+This paragraph previously described a confidence gate at
+`ARTIFACT_TRIAGE_ESCALATE_BELOW = 0.55`. That design was **removed**: measured
+over the corpus it fired 0 times out of 15, and self-reported confidence was
+*anti-calibrated* — mean 0.700 when the answer was right, 0.750 when it was
+wrong. The README and CHANGELOG recorded the replacement; this file did not, and
+so documented a contract the code does not implement.
+
+Two criteria are escalated **by construction, always**: ACM's `Consistent`
+(it requires reading the paper) and actually executing the artifact.
 
 ---
 
@@ -76,7 +87,7 @@ model *"does this file exist?"* would reintroduce the exact failure mode the
 project exists to detect.
 
 **Verified behaviour.** 75/75 injected false claims detected, 0 false positives,
-identical across all trials (`eval/negative_control.py`), and 188 regression tests
+identical across all trials (`eval/negative_control.py`), and 192 regression tests
 pin every bug fixed along the way (`tests/`).
 
 ---

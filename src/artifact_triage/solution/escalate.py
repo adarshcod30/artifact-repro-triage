@@ -47,6 +47,23 @@ class Decision:
 # missing is the specific contradiction this project exists to surface.
 CONTRADICTION_RATIO = 0.30
 
+# The exact opening of every reason `decide()` can produce. The self-audit below
+# compares against these rather than guessing.
+#
+# It used to take the SECOND WORD of a hand-written label and substring-match it
+# against the fired reasons. "no README - nothing to assess" yielded "README",
+# which matches the DIFFERENT rule "README makes no checkable file references",
+# so a rule that never fired was reported as fired and vanished from both lists.
+# A self-audit that cannot name its own rules is not an audit.
+RULES = {
+    "no_readme": "no README",
+    "no_answer": "model returned no usable answer",
+    "no_claims": "README makes no checkable file references",
+    "contradiction": "rated",
+    "readme_tiny": "README is only",
+    "no_environment": "neither a dependency manifest nor a container",
+}
+
 
 def decide(evidence, tier: str | None, confidence: float,
            readme_present: bool = True) -> Decision:
@@ -142,18 +159,19 @@ if __name__ == "__main__":
     print(f"  previous confidence-threshold design escalated 0/15 (0%)")
     print()
     print("  UNTRIGGERED RULES. These are guards, not demonstrated capabilities:")
-    fired = set(rule_counts)
-    for name in ("no README - nothing to assess mechanically",
-                 "model returned no usable answer",
-                 "rated ... while ... do not exist (contradiction)",
-                 "README is only ... bytes"):
-        if not any(name.split(" ")[1] in f for f in fired):
-            print(f"    - {name}")
-    print("    The contradiction rule has never fired on this corpus, because")
-    print("    the model shown verified evidence already downgrades the")
-    print("    contradictory artifacts itself (LPR: 88% broken -> Available).")
-    print("    That is a good sign about the solution and leaves the rule")
-    print("    unvalidated on real data. It is exercised only by tests.")
+    fired_keys = set(rule_counts)
+    untriggered = [rid for rid, prefix in RULES.items()
+                   if not any(k.startswith(prefix) for k in fired_keys)]
+    for rid in untriggered:
+        print(f"    - {rid}: reasons starting \"{RULES[rid]}...\"")
+    if not untriggered:
+        print("    (none - every rule fired at least once)")
+    if "contradiction" in untriggered:
+        print("    The contradiction rule has never fired on this corpus, because")
+        print("    the model shown verified evidence already downgrades the")
+        print("    contradictory artifacts itself (LPR: 88% broken -> Available).")
+        print("    That is a good sign about the solution and leaves the rule")
+        print("    unvalidated on real data. It is exercised only by tests.")
     print("\n  Rules that fired:")
     for k, v in sorted(rule_counts.items(), key=lambda x: -x[1]):
         print(f"    {v:>3}x  {k}")

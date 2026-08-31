@@ -98,8 +98,12 @@ def render(fixture: dict, baseline_row: dict | None,
              "reasons": row.get("reasons"),
              "escalated_to_human": row.get("escalated", False)}, indent=2), "json"))
         if row.get("escalated"):
-            L.append("\n> **Human checkpoint.** Confidence fell below the "
-                     "escalation threshold, so this artifact is routed to a "
+            # NOT a confidence threshold. `decide()` never reads confidence -
+            # that gate was removed for being anti-calibrated - so this line
+            # narrated a mechanism the code does not have, under rows whose
+            # recorded confidence was 0.9.
+            L.append("\n> **Human checkpoint.** An evidence-based rule fired, "
+                     "so this artifact is routed to a "
                      "qualified reviewer rather than recorded as a guess.\n")
         L.append("")
 
