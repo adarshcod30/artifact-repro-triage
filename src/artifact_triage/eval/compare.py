@@ -112,8 +112,25 @@ def main() -> None:
                   f"mean {sum(vals)/len(vals):.3f}  "
                   f"range {min(vals):.3f}-{max(vals):.3f}")
 
+    # Also score every system over the FULL corpus, counting each escalated
+    # item at the tier it actually predicted. The headline rates exclude
+    # escalations, which flatters whichever system escalates more - here the
+    # solution, at 5 of 15. Both numbers are recorded so the write-up can show
+    # both rather than choosing the flattering one.
+    full = {}
+    for name, path in (("baseline", BASELINE), ("solution", SOLUTION)):
+        try:
+            raw = json.loads(Path(path).read_text())
+            labels = {r["artifact_id"]: r["truth"] for r in raw["report"]["per_item"]}
+            preds = [Prediction(r["artifact_id"], r["tier"], r["confidence"])
+                     for r in raw["raw"]]
+            full[name] = round(score(name, preds, labels, 0.0, 0.0).mae, 3)
+        except Exception:
+            full[name] = None
+
     OUT.write_text(json.dumps({
         "_provenance": stamp("comparison"),
+        "mae_full_coverage": full,
         "baseline": rb.to_dict(), "solution": rs.to_dict(),
         "runs_recorded": len(hist),
         "baseline_mae_range": [min(h["baseline_mae"] for h in hist),

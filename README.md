@@ -593,15 +593,26 @@ them is not polish — it is the job.
 The evaluation this project *started* with — predicting ACM badge tier — does not
 work, and the write-up keeps it visible rather than quietly dropping it.
 
-| System | MAE (badge tiers, lower better) | Deterministic? |
-|---|---|---|
-| Constant predictor, always `"Functional"` | **0.667** | yes — no model, no input |
-| Baseline | 0.733 | no |
-| Solution | 0.700 | no |
+| System | MAE, scored answers only | MAE, full coverage | Deterministic? |
+|---|---|---|---|
+| Constant predictor, always `"Functional"` | **0.667** | **0.667** | yes — no model, no input |
+| Baseline | 0.733 (15 of 15) | 0.733 | no |
+| Solution | 0.700 (10 of 15) | **1.000** | no |
 
-**A zero-skill constant beats both systems.** It wins by collapsing onto the
-middle class, which MAE rewards on a 3-class ordinal problem — and the baseline
-does nearly the same thing, predicting `Functional` for 14 of 15 artifacts.
+**Read the second column.** The first one is not like-for-like: every rate here
+excludes escalated items, and the solution escalates **5 of 15**. It is scored on
+the 10 it chose to answer while the baseline is scored on all 15 — so it looks
+better partly for answering fewer questions. Scoring its *identical* answers over
+the full corpus gives **1.000**, not 0.700.
+
+Escalation is a real feature of the product, but it is not free in a comparison,
+and a table that hides the denominator rewards it silently. `make eval` now
+prints both denominators and refuses to present the columns as comparable.
+
+**A zero-skill constant beats both systems either way** — and by more, not less,
+once coverage is accounted for. It wins by collapsing onto the middle class,
+which MAE rewards on a 3-class ordinal problem, and the baseline does nearly the
+same thing, predicting `Functional` for 14 of 15 artifacts.
 
 > **These two figures are single-run point estimates, and they move.** Across
 > three same-day runs baseline scored 0.733–0.800 and solution 0.700–0.800; the
@@ -846,11 +857,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   166 tests pinning every fixed bug
+tests/        test_regressions.py   169 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 166 regression tests, no credentials, ~2s
+make test         # 169 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

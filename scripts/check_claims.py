@@ -87,16 +87,21 @@ def claims() -> list[tuple[str, str, str, str]]:
             if cp.get(sysname):
                 # The video script quotes these too. A spoken number is still a
                 # claim, and it had drifted there as well.
-                # Anchored to the table row in the README: a bare "0.700"
-                # also matches the anti-calibrated-confidence sentence, which
-                # is a coincidence, not a verification.
-                out.append(("README.md",
-                            f"| {sysname.capitalize()} | "
-                            f"{cp[sysname]['mae']:.3f} |",
-                            f"{sysname} MAE (badge agreement)",
-                            "comparison.json"))
+                # The README row now carries its denominator, which is the
+                # honest form; that literal is registered below.
                 out.append(("docs/VIDEO_SCRIPT.md", f"{cp[sysname]['mae']:.3f}",
                             f"{sysname} MAE (spoken)", "comparison.json"))
+        fc = cp.get("mae_full_coverage") or {}
+        if fc.get("solution") is not None:
+            out.append(("README.md", f"**{fc['solution']:.3f}**",
+                        "solution MAE at full coverage", "comparison.json"))
+        for sysname in ("baseline", "solution"):
+            if fc.get(sysname) is not None and cp.get(sysname):
+                out.append(("README.md",
+                            f"| {sysname.capitalize()} | "
+                            f"{cp[sysname]['mae']:.3f} "
+                            f"({cp[sysname]['n_scored']} of {cp[sysname]['n']}) |",
+                            f"{sysname} MAE with its denominator", "comparison.json"))
         best = next((c for c in cp.get("controls", [])
                      if c["system"] == cp.get("best_control")), None)
         if best:

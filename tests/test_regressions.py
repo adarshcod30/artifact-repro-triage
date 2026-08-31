@@ -2388,6 +2388,64 @@ def test_the_patterns_themselves_are_printed():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 129 - our own comparison was not like-for-like
+#
+# Every rate in `score()` is computed over `n_scored`, which EXCLUDES escalated
+# items. The solution escalates 5 of 15, so it was scored on 10 while the
+# baseline was scored on all 15 - and `comparison_table` printed them side by
+# side under a single footer reading "n = 15 artifacts".
+#
+# Scoring the solution's IDENTICAL answers over the full corpus gives MAE
+# **1.000**, not the published 0.700. A system that answers fewer questions is
+# not thereby better. This sat inside the "honest negative result" section,
+# which is meant to be the most trustworthy part of the write-up.
+#
+# The conclusion is unchanged and in fact strengthened: the zero-skill constant
+# at 0.667 beats both by MORE once coverage is accounted for.
+# --------------------------------------------------------------------------
+def test_comparison_table_shows_each_denominator():
+    from artifact_triage.eval.metrics import Report, comparison_table
+    import json as _json
+    b = Path("results/baseline.json")
+    d = Path("results/solution.json")
+    if not (b.exists() and d.exists()):
+        return
+    reports = [Report(**_json.loads(x.read_text())["report"]) for x in (b, d)]
+    table = comparison_table(reports)
+    assert "Scored over" in table, "each column must show its denominator"
+    if len({r.n_scored for r in reports}) > 1:
+        assert "NOT LIKE FOR LIKE" in table, \
+            "differing denominators must be called out, not merely printed"
+
+
+def test_full_coverage_score_is_recorded():
+    """Both numbers must exist so the write-up cannot pick the flattering one."""
+    import json as _json
+    p = Path("results/comparison.json")
+    if not p.exists():
+        return
+    fc = _json.loads(p.read_text()).get("mae_full_coverage") or {}
+    assert fc.get("solution") is not None and fc.get("baseline") is not None
+
+
+def test_escalation_cannot_silently_improve_a_score():
+    """Dropping the hard cases must show up as a coverage cost."""
+    from artifact_triage.eval.metrics import Prediction, score
+    labels = {f"a{i}": "Functional" for i in range(10)}
+    # answers everything, half wrong
+    all_ans = [Prediction(f"a{i}", "Reusable" if i < 5 else "Functional", 0.8)
+               for i in range(10)]
+    # answers only the ones it gets right, escalates the rest
+    few_ans = [Prediction(f"a{i}", "Functional", 0.8) for i in range(5, 10)]
+    a = score("answers-all", all_ans, labels, 0.0, 0.0)
+    b = score("answers-half", few_ans, labels, 0.0, 0.0)
+    assert b.mae < a.mae, "the selective system scores better on rates"
+    assert b.n_scored < a.n_scored, \
+        "so its denominator must differ, and be reported"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

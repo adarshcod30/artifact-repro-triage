@@ -1,9 +1,13 @@
 {
  "_provenance": {
   "kind": "comparison",
-  "commit": "33d8ea5",
-  "code_fingerprint": "de9c648d3715",
-  "corpus_fingerprint": "b23efbc43339"
+  "commit": "b395ef0-dirty",
+  "code_fingerprint": "7ae8d2968da9",
+  "corpus_fingerprint": "5eddc63561f2"
+ },
+ "mae_full_coverage": {
+  "baseline": 0.733,
+  "solution": 1.0
  },
  "baseline": {
   "system": "baseline",
@@ -308,7 +312,7 @@
    }
   ]
  },
- "runs_recorded": 5,
+ "runs_recorded": 9,
  "baseline_mae_range": [
   0.733,
   0.8

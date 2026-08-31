@@ -132,7 +132,18 @@ def comparison_table(reports: list[Report]) -> str:
     def fmt(v, nd=3, suffix=""):
         return "n/a" if v is None else f"{v:.{nd}f}{suffix}"
 
+    # Every rate below is computed over `n_scored`, which EXCLUDES escalated
+    # items - so the columns do not share a denominator. The solution escalates
+    # 5 of 15 and is scored on 10; the baseline is scored on all 15. Printing
+    # them side by side under a single "n = 15" footer let a system look better
+    # for answering fewer questions. Scoring the solution's identical answers
+    # over all 15 gives MAE 1.000, not 0.700.
+    #
+    # The denominator is now printed per column, and the row is labelled, so the
+    # comparison cannot be read as like-for-like when it is not.
     rows = [
+        ("Scored over (excludes escalated)",
+         [f"{r.n_scored} of {r.n}" for r in reports]),
         ("PRIMARY  MAE (tiers, lower better)",
          [fmt(r.mae) for r in reports]),
         ("Exact tier accuracy", [fmt(r.exact_accuracy) for r in reports]),
@@ -148,5 +159,18 @@ def comparison_table(reports: list[Report]) -> str:
     for name, vals in rows:
         out.append(f"{name:<36}" + "".join(f"{v:>{w}}" for v in vals))
     out.append("")
-    out.append(f"n = {head.n} artifacts, labels = ACM artifact-evaluation badges (ISSTA 2024)")
+    out.append(f"corpus = {head.n} artifacts, labels = ACM artifact-evaluation "
+               f"badges (ISSTA 2024)")
+    if len({r.n_scored for r in reports}) > 1:
+        out.append("")
+        out.append("  NOT LIKE FOR LIKE. The rate rows above use different"
+                   " denominators:")
+        for r in reports:
+            out.append(f"    {r.system:<12} scored {r.n_scored} of {r.n}"
+                       f"  ({r.escalation_rate:.0%} escalated and excluded)")
+        out.append("  A system that answers fewer questions is not thereby"
+                   " better. Escalation")
+        out.append("  is a feature of the product, but it is not free in a"
+                   " comparison, and this")
+        out.append("  table would otherwise reward it silently.")
     return "\n".join(out)
