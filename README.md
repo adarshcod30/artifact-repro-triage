@@ -891,6 +891,20 @@ example output; `configs/default.yaml` comes from the negative-control injection
 list. The checker cannot tell a claim about *this* repository from a quotation
 about another one.
 
+**Five model-dependent results are currently stale, and `make check-claims`
+names them every run.** Fixing the dotfile false positive changed two fixtures
+(`env` → `.env`, `trustbench/models` → `.trustbench/models`, both now correctly
+excluded as files a README tells you to *create*), which changes the corpus those
+experiments consumed. Re-validating all of them on their original models costs
+**$0.77** against **$0.15** of remaining budget.
+
+They are left stale **together** rather than partly refreshed: re-running the
+cheap ones would put some results on the new corpus and the headline on the old
+one, and a comparison across mixed corpora is a worse defect than a uniform,
+declared staleness. The deterministic results — prevalence, the leniency audit,
+the link-checker gap, the negative control, subtle control and ablation — are all
+current, because they cost nothing to re-run.
+
 **Exceptions are disclosed by how much they hide, not by how many there are.**
 A repository can declare `.artifact-triage-ignore` exceptions — necessary, since
 a README may legitimately quote another project's files. But the tool is aimed

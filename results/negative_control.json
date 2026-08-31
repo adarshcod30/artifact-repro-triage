@@ -1,8 +1,8 @@
 {
  "_provenance": {
   "kind": "negative_control",
-  "commit": "b9023bc",
-  "code_fingerprint": "32cff5af895a",
+  "commit": "5dc0bdb",
+  "code_fingerprint": "8e100ba22701",
   "corpus_fingerprint": "5eddc63561f2"
  },
  "injected": 75,
