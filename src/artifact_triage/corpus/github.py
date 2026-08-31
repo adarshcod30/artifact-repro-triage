@@ -48,7 +48,15 @@ def _get(url: str, cache_key: str) -> dict:
     CACHE.mkdir(parents=True, exist_ok=True)
     path = CACHE / f"{cache_key}.json"
     if path.exists():
-        return json.loads(path.read_text())
+        try:
+            return json.loads(path.read_text())
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            # A truncated or empty entry used to raise straight out of here,
+            # poisoning that key permanently: every later run hit the same
+            # unparseable file and crashed with a JSONDecodeError that named the
+            # column, not the cause. These files are COMMITTED, so a poisoned
+            # entry would ship. Treat an unreadable entry as a miss and refetch.
+            path.unlink(missing_ok=True)
     headers = {"User-Agent": "artifact-repro-triage/0.1",
                "Accept": "application/vnd.github+json"}
     tok = _token()
@@ -60,7 +68,12 @@ def _get(url: str, cache_key: str) -> dict:
         try:
             with urllib.request.urlopen(req, timeout=30, context=_SSL) as r:
                 data = json.loads(r.read().decode())
-            path.write_text(json.dumps(data))
+            # Write atomically. `write_text` truncates in place, so a process
+            # killed mid-write leaves a partial file - which is exactly how a
+            # cache entry becomes permanently unreadable.
+            tmp = path.with_suffix(".json.tmp")
+            tmp.write_text(json.dumps(data))
+            tmp.replace(path)
             # /search/* is capped at 30 req/min; the rest of the REST API allows
             # 5000/hr authenticated. Throttling both at search speed made a
             # 60-call corpus build take over two minutes for no reason.

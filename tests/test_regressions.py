@@ -2894,6 +2894,47 @@ def test_real_kinds_still_fingerprint():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 143 - a half-written cache entry poisoned its key forever
+#
+# `_get` did `json.loads(path.read_text())` with no guard, and wrote with
+# `write_text`, which truncates in place. A process killed mid-write left a
+# partial file, and every later run hit the same unparseable entry and crashed
+# with a JSONDecodeError naming the column rather than the cause. There was no
+# path back: the cache never refetches a key it already has.
+#
+# These files are COMMITTED, so a poisoned entry would ship to every clone.
+# --------------------------------------------------------------------------
+def test_an_unreadable_cache_entry_is_treated_as_a_miss():
+    import inspect
+    from artifact_triage.corpus import github
+    src = inspect.getsource(github._get)
+    assert "JSONDecodeError" in src, "an unparseable entry must not raise"
+    assert "unlink" in src, "and must be discarded so the next run can refetch"
+
+
+def test_cache_writes_are_atomic():
+    import inspect
+    from artifact_triage.corpus import github
+    src = inspect.getsource(github._get)
+    assert ".replace(path)" in src or "os.replace" in src, (
+        "write_text truncates in place; an interrupted write leaves a partial "
+        "file, which is how an entry becomes permanently unreadable")
+
+
+def test_no_committed_cache_file_is_corrupt():
+    import json as _json
+    root = Path(__file__).resolve().parents[1]
+    bad = []
+    for f in (root / "data" / "cache").rglob("*.json"):
+        try:
+            _json.loads(f.read_text())
+        except Exception:
+            bad.append(f.name)
+    assert not bad, f"corrupt cache files would ship to every clone: {bad[:5]}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
