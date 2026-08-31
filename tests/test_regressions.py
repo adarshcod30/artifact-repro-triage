@@ -3525,6 +3525,45 @@ def test_demo_app_contains_no_emoji():
 
 
 
+def test_rendered_readme_fetches_nothing_from_the_internet():
+    """Every page of the app claims it makes no network request.
+
+    Rendering a third-party README quietly breaks that: `![](https://.../badge.svg)`
+    fires a GET the moment markdown is drawn, and research READMEs are full of
+    build badges. Two such images exist across the 15 demo fixtures. The renderer
+    replaces images with their alt text so the claim stays true.
+    """
+    import importlib.util
+    import json
+    spec = importlib.util.spec_from_file_location("demo_app", _REPO / "app.py")
+    # Importing app.py executes Streamlit calls, so pull the helper out by
+    # source rather than importing the module.
+    src = (_REPO / "app.py").read_text()
+    ns: dict = {}
+    start = src.index("_IMG_MD = re.compile")
+    end = src.index("def pct(x)")
+    exec("import re\n" + src[start:end], ns)
+    strip = ns["strip_remote_images"]
+
+    for bad in ('![Build](https://img.shields.io/badge/b.svg)',
+                '![](http://example.com/track.png)',
+                '![logo][ref]',
+                '<img src="https://x/y.png">'):
+        out = strip(bad)
+        assert "http" not in out, f"{bad!r} still fetches: {out!r}"
+
+    # Links and code spans must survive - they fetch nothing until clicked.
+    assert strip("[t](https://a/b)") == "[t](https://a/b)"
+    assert strip("see `configs/x.yaml`") == "see `configs/x.yaml`"
+
+    # And the real fixtures must come out clean.
+    for f in sorted((_REPO / "data" / "fixtures").glob("*.json")):
+        readme = json.loads(f.read_text()).get("readme", "")
+        rendered = strip(readme)
+        assert "![" not in rendered, f"{f.name} renders an auto-fetching image"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

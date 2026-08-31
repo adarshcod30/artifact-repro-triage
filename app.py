@@ -11,6 +11,7 @@ on mine - which is the same property the project argues artifacts should have.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -130,6 +131,25 @@ def kpi(col, n, label, caption="", cls=""):
         f"<div class='l'>{label}</div>"
         f"<div class='c'>{caption}</div></div>",
         unsafe_allow_html=True)
+
+
+_IMG_MD = re.compile(r"!\[([^\]]*)\]\([^)]*\)")
+_IMG_REF = re.compile(r"!\[([^\]]*)\]\[[^\]]*\]")
+_IMG_TAG = re.compile(r"<img\b[^>]*>", re.I)
+
+
+def strip_remote_images(md: str) -> str:
+    """Render a README without fetching anything from the internet.
+
+    Every page of this app states that it makes no network request. Rendering a
+    third-party README would quietly break that: `![](https://.../badge.svg)`
+    fires a GET the moment the markdown is drawn, and research READMEs are full
+    of build badges. Images are replaced with their alt text so the claim stays
+    true and the reader still sees what was there.
+    """
+    md = _IMG_MD.sub(lambda m: f"`[image: {m.group(1) or 'unnamed'}]`", md)
+    md = _IMG_REF.sub(lambda m: f"`[image: {m.group(1) or 'unnamed'}]`", md)
+    return _IMG_TAG.sub("`[image]`", md)
 
 
 def pct(x) -> str:
@@ -481,9 +501,16 @@ elif page == PAGES[1]:
         if falsify and injected:
             st.caption("Fabricated lines appended for the demo:")
             st.code("\n".join(f"- Run `{p}`" for p in injected), language="markdown")
-        st.text_area("README as the model sees it (badge-scrubbed)",
-                     fx.get("readme", "")[:6000], height=340,
-                     label_visibility="collapsed")
+        readme = fx.get("readme", "")
+        st.caption("Rendered the way a reviewer reads it on GitHub. The model "
+                   "receives this same text unrendered — the raw form is below.")
+        with st.container(height=420, border=True):
+            # `unsafe_allow_html` stays off: this is a stranger's README, and
+            # rendering their HTML in our page is not a risk worth taking for a
+            # demo. Streamlit escapes it, which is the correct behaviour here.
+            st.markdown(strip_remote_images(readme[:9000]))
+        with st.expander("The exact text the model receives"):
+            st.text(readme[:9000])
         st.caption("Badge announcements are redacted before any model sees this. "
                    "4 of these 15 READMEs state their own tier — feeding that to "
                    "a model measures reading comprehension, not judgement.")
