@@ -424,6 +424,18 @@ def claims() -> list[tuple[str, str, str, str]]:
             out.append((doc, f"${sp['total_usd']:.2f}",
                         "total model spend", "spend.json"))
 
+    # The README states how many iterations the changelog holds. Hand-counted,
+    # so it was wrong within one commit of the changelog growing. Derived from
+    # the changelog itself: the two documents cannot disagree about a number one
+    # of them contains.
+    ch = ROOT / "CHANGELOG.md"
+    if ch.exists():
+        n_iter = sum(1 for ln in ch.read_text().splitlines()
+                     if ln.startswith("| Iteration "))
+        if n_iter:
+            out.append(("README.md", f"{n_iter} iterations",
+                        "changelog iteration count", "CHANGELOG.md"))
+
     # The README states how many figures this checker verifies. That sentence is
     # itself a claim about the checker, and it went stale the moment a claim was
     # added - it read 46 while the checker verified 59. Rather than remember to

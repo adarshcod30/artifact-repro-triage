@@ -110,7 +110,7 @@ take 5%.
 
 | # | Requirement | Where it is | Status |
 |---|---|---|---|
-| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 152 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
+| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 153 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
 | 2 | **Reproduction guide** from a clean environment | [`REPRODUCTION.md`](REPRODUCTION.md) — verified from a fresh clone of the published repo | Complete |
 | 3 | **Video ≤ 5 minutes** | [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md) — timed to 4:50, figures under the claim checker | Script ready |
 | 4 | **Agent trajectories** for every agent used | [`trajectories/`](trajectories/) — 3 product-agent runs + the full build agent, secrets redacted | Complete |
@@ -122,7 +122,7 @@ take 5%.
 | A baseline **and** an advanced solution | Same model, same rubric, same scrubbed input. The only difference is verified evidence. |
 | A **meaningful, non-cosmetic** measured gain | 0% → 100% detection, with a placebo control isolating the cause |
 | Reproducibility as a pass/fail gate | 12 credential-free `make` targets pass from a clean clone; CI runs them with no secrets |
-| Integrity of reported numbers | 73 documented figures machine-verified against `results/*.json` on every run, across README, CHANGELOG, AGENTS and the video script |
+| Integrity of reported numbers | 74 documented figures machine-verified against `results/*.json` on every run, across README, CHANGELOG, AGENTS and the video script |
 | Credentials kept out of the submission | `.env` gitignored; the trajectory exporter refuses to write if any secret pattern survives redaction |
 
 
@@ -141,7 +141,7 @@ directly rather than left to be inferred.
 | 6 | A legal and ethical use case treating people's data responsibly | Public research artifacts, analysed for whether their own documentation matches their own contents. No personal data. Findings cite file and line so an author can check any claim made about their work |
 | 7 | Use information you are allowed to share | Public and citable throughout: badges from published AE pages, repositories from public Zenodo deposits, README text from the public GitHub API |
 | 8 | Keep credentials and private information out of the submission | `.env` is gitignored and never read into any artifact. The trajectory exporter **refuses to write** if any known secret pattern survives redaction |
-| 9 | **Connect every claim to the evidence you submit** | `make check-claims` re-derives **73 documented figures** from `results/*.json` and exits non-zero on drift, and every result carries a provenance fingerprint so a number produced by since-changed code is reported as stale rather than trusted |
+| 9 | **Connect every claim to the evidence you submit** | `make check-claims` re-derives **74 documented figures** from `results/*.json` and exits non-zero on drift, and every result carries a provenance fingerprint so a number produced by since-changed code is reported as stale rather than trusted |
 | 10 | Give judges enough access to reproduce the main result | 12 credential-free `make` targets run from a clean clone in seconds; `make repro` is the single command. Model-dependent steps are listed with their runtime and cost in [`REPRODUCTION.md`](REPRODUCTION.md) |
 
 ---
