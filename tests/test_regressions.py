@@ -2524,6 +2524,55 @@ def test_a_foreign_lock_alone_is_reported_as_not_assessed():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 132 - badge scraping dropped rows and corrupted titles
+#
+# `parse()` took `_BADGE.search(row)` - the FIRST badge in DOM order - and then
+# discarded the whole row when it was not a tier. So a row carrying
+# "Best Artifact Award" before "Reusable" lost its real tier badge entirely.
+# ISSTA 2024 happens to emit the tier first, so the correct label was picked by
+# luck of DOM ordering rather than by logic.
+#
+# It also stripped only ONE badge label from the anchor text, while the theme
+# appends a span for EVERY badge - so a multi-badge row kept the surplus label
+# words inside the title, which then failed to match its Zenodo deposit.
+# --------------------------------------------------------------------------
+def _badge_row(title, badges):
+    spans = "".join(f'<span data-facet-badge="{b}">{b}</span>' for b in badges)
+    return f'<tr><td><a href="/x" data-event-modal="m">{title}{spans}</a></td></tr>'
+
+
+def test_a_tier_badge_is_found_even_behind_an_accolade():
+    from artifact_triage.corpus.sources import parse
+    got = parse("ISSTA 2024", _badge_row("T", ["Best Artifact Award", "Reusable"]))
+    assert [(a.title, a.badge) for a in got] == [("T", "Reusable")]
+
+
+def test_every_badge_label_is_stripped_from_the_title():
+    from artifact_triage.corpus.sources import parse
+    for badges in (["Best Artifact Award", "Reusable"],
+                   ["Available", "Functional", "Reusable"]):
+        got = parse("ISSTA 2024", _badge_row("Clean Title", badges))
+        assert got and got[0].title == "Clean Title", got[0].title
+
+
+def test_an_accolade_only_row_is_still_skipped():
+    from artifact_triage.corpus.sources import parse
+    assert parse("ISSTA 2024", _badge_row("X", ["Best Artifact Award"])) == []
+
+
+def test_label_rebuild_refuses_to_write_an_empty_corpus():
+    """collect() returns [] on any silent scrape failure; the old code then
+    truncated data/labels.jsonl to zero bytes and exited 0 - and it is the
+    FIRST command the reproduction guide tells a reproducer to run."""
+    import inspect
+    from artifact_triage.corpus import sources
+    src = inspect.getsource(sources)
+    assert "REFUSING to write an empty" in src
+    assert "REFUSING to shrink the label set" in src
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
