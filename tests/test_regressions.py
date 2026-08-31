@@ -620,8 +620,13 @@ def test_mermaid_diagrams_are_well_formed():
     if not src.exists():
         return
     for block in re.findall(r"```mermaid\n(.*?)```", src.read_text(), re.S):
-        assert block.count("subgraph") == len(
-            re.findall(r"^\s*end\s*$", block, re.M)), "unclosed subgraph"
+        # `subgraph` is not the only construct that closes with `end`:
+        # sequenceDiagram's alt/opt/loop/par do too. Counting only subgraphs
+        # made a perfectly valid sequence diagram look unbalanced.
+        openers = len(re.findall(r"^\s*(?:subgraph|alt|opt|loop|par)\b",
+                                 block, re.M))
+        assert openers == len(
+            re.findall(r"^\s*end\s*$", block, re.M)), "unclosed block"
         for o, c in (("[", "]"), ("(", ")"), ("{", "}")):
             assert block.count(o) == block.count(c), f"unbalanced {o}{c}"
 
@@ -2286,9 +2291,6 @@ UNCHECKED_FIGURES = {
     "39.70%": "Guevara-Vega et al., JSS 2024",
     "49.8%": "Research Artifacts in SE Publications (arXiv 2404.06852)",
     "71.1%": "Mukherjee et al., ISSTA 2021",
-    # A historical record of a fixed bug, in the 'bugs found' table. Like the
-    # CHANGELOG, it records what was true then, not what is true now.
-    "73%": "historical: the suggester's real accuracy when that bug was found",
 }
 
 
