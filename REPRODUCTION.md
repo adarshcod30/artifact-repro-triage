@@ -116,14 +116,14 @@ make eval        # score both with the shared scorer
 Everything that needs **no credentials and costs nothing**:
 
 ```bash
-make test          # 222 regression tests, ~2s
+make test          # 225 regression tests, ~2s
 make report REPO=owner/name   # reviewer report for any repository
 make prevalence    # broken-claim prevalence across the harvested corpus
 make links         # link-rot scan
 make pinning       # dependency + container pinning
 make portability   # hard-coded machine-specific values
 make dashboard     # render all results to one self-contained HTML page
-make spend         # model spend against the $5 budget
+make spend         # model spend against the $7.00 budget
 ```
 
 The two headline experiments:

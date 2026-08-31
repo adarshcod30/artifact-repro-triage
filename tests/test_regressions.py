@@ -3222,7 +3222,13 @@ def test_expected_sources_covers_every_registered_claim():
     used = set()
     for _, _, _, src in cc.claims():
         for f in src.split("+"):
-            used.add(f.strip())
+            f = f.strip()
+            # EXPECTED_SOURCES is a list of results FILES. The checker's own
+            # coverage count is derived from the claim list itself and has no
+            # results file behind it, so it is labelled "self" and skipped here
+            # rather than being given a fake filename to satisfy this test.
+            if f.endswith(".json"):
+                used.add(f)
     unguarded = sorted(used - set(cc.EXPECTED_SOURCES))
     assert not unguarded, f"claims drawn from unguarded sources: {unguarded}"
 
@@ -3258,6 +3264,59 @@ def test_longer_dotted_calls_are_still_rejected():
     for t in ("see `df.to_csv()`", "call `os.path.join()`",
               "use `com.example.Foo`"):
         assert referenced_paths(t) == [], f"{t} -> {referenced_paths(t)}"
+
+
+
+# ---------------------------------------------------------------------------
+# The four graded deliverables are structural requirements, not prose. Nothing
+# checked that they were still present and still closed the way the brief asks,
+# and the pre-submission audit found the changelog had drifted from its own
+# headline for 124 iterations. These tests are cheap and they fail loudly.
+# ---------------------------------------------------------------------------
+
+_REPO = Path(__file__).resolve().parents[1]
+
+
+def test_all_four_deliverables_exist():
+    """The brief lists four; a missing one is a disqualification, not a defect."""
+    for rel in ("CHANGELOG.md", "REPRODUCTION.md", "AGENTS.md",
+                "docs/VIDEO_SCRIPT.md", "trajectories/README.md",
+                "trajectories/build-agent.md"):
+        assert (_REPO / rel).exists(), f"required deliverable missing: {rel}"
+    prod = list((_REPO / "trajectories").glob("product-agent__*.md"))
+    assert len(prod) >= 3, f"expected >=3 product trajectories, found {len(prod)}"
+
+
+def test_changelog_closes_with_failure_mode_and_hot_take():
+    """"Close with the main failure mode and your hot take" - the brief, item 1."""
+    text = (_REPO / "CHANGELOG.md").read_text()
+    for heading in ("## The main failure mode", "## Hot take", "## Final result"):
+        assert heading in text, f"CHANGELOG.md no longer contains {heading!r}"
+    # Ordering matters: the two closing sections must come after the iteration
+    # tables, not be buried in the middle where the stale "Final result" was.
+    assert text.index("## Final result") < text.index("## The main failure mode")
+    assert text.index("## The main failure mode") < text.index("## Hot take")
+
+
+def test_no_document_still_reports_the_superseded_detection_figure():
+    """97% was the Iteration 26 figure; 100% has been the result since 53.
+
+    It survived in the changelog's own `Final result` table and in AGENTS.md.
+    Historical mentions are legitimate - an iteration row records what was true
+    at the time - so this pins the two shapes that are NOT legitimate: a bare
+    headline, and the design-principle sentence in AGENTS.md.
+    """
+    assert "0% → 97% detection" not in (_REPO / "AGENTS.md").read_text()
+    changelog = (_REPO / "CHANGELOG.md").read_text()
+    start = changelog.index("## Final result")
+    # Bound the slice at the next top-level heading. Reading to end-of-file also
+    # swept in "The main failure mode", which cites the 97% ON PURPOSE as the
+    # bug it is describing - a guard that cannot tell a defect from an account
+    # of the defect will be switched off, which is this project's whole thesis.
+    nxt = changelog.find("\n## ", start + 1)
+    final = changelog[start:nxt if nxt != -1 else len(changelog)]
+    assert "97%" not in final, (
+        "the changelog's final-result section quotes a superseded figure")
 
 
 

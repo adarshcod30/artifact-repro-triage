@@ -75,7 +75,7 @@ dataset:  ## Export the 742-artifact measurements as CSV + JSONL + datasheet
 dashboard:  ## Render every result into one self-contained HTML page
 	$(PY) -m artifact_triage.eval.dashboard
 
-spend:  ## Cumulative model spend against the $5 budget
+spend:  ## Cumulative model spend against the $7.00 budget
 	$(PY) -m artifact_triage.eval.spend
 
 trajectories:  ## Export agent trajectories (product agents + build agent)

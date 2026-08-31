@@ -110,7 +110,7 @@ take 5%.
 
 | # | Requirement | Where it is | Status |
 |---|---|---|---|
-| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 150 iterations, each an evidence-driven decision | Complete |
+| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 152 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
 | 2 | **Reproduction guide** from a clean environment | [`REPRODUCTION.md`](REPRODUCTION.md) — verified from a fresh clone of the published repo | Complete |
 | 3 | **Video ≤ 5 minutes** | [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md) — timed to 4:50, figures under the claim checker | Script ready |
 | 4 | **Agent trajectories** for every agent used | [`trajectories/`](trajectories/) — 3 product-agent runs + the full build agent, secrets redacted | Complete |
@@ -122,8 +122,27 @@ take 5%.
 | A baseline **and** an advanced solution | Same model, same rubric, same scrubbed input. The only difference is verified evidence. |
 | A **meaningful, non-cosmetic** measured gain | 0% → 100% detection, with a placebo control isolating the cause |
 | Reproducibility as a pass/fail gate | 12 credential-free `make` targets pass from a clean clone; CI runs them with no secrets |
-| Integrity of reported numbers | 46 documented figures machine-verified against `results/*.json` on every run |
+| Integrity of reported numbers | 64 documented figures machine-verified against `results/*.json` on every run, across README, CHANGELOG, AGENTS and the video script |
 | Credentials kept out of the submission | `.env` gitignored; the trajectory exporter refuses to write if any secret pattern survives redaction |
+
+
+### The ten ground rules
+
+The brief makes these baseline requirements for eligibility, so each is answered
+directly rather than left to be inferred.
+
+| # | Ground rule | How this project meets it |
+|---|---|---|
+| 1 | Build with tools you already know | Python standard library, `boto3` for Bedrock, `certifi`. Three runtime dependencies, all listed in [`pyproject.toml`](pyproject.toml) |
+| 2 | **Make clear what existed before and what you added** | **Nothing existed before.** The repository was created on 2026-08-29 and every one of its 129 commits falls inside the competition window — `git log --reverse` shows the first commit is the project skeleton. What existed *in the world* before is disclosed separately and at length in [Prior art, stated up front](#prior-art-stated-up-front) and [`RELATED_WORK.md`](RELATED_WORK.md): link checkers, READU, and the reproducibility literature this builds on |
+| 3 | Use every tool within its licence and terms | MIT licensed. Data comes from public conference artifact-evaluation pages, the Zenodo REST API and the GitHub REST API, each used read-only within its documented rate limits, with backoff and on-disk caching so a re-run does not re-request |
+| 4 | Keep consequential actions sandboxed, with human approval | The system performs **no consequential action at all** — it reads public repositories and writes a report. The only spend is model tokens, guarded by a fail-closed ledger (`common/budget.py`) that raises rather than warns |
+| 5 | A qualified human reviewer in any solution that affects someone | Non-negotiable and structural. ACM's `Consistent` criterion and actually executing the artifact are **escalated to a human by construction**, never by a confidence threshold. The system fills in a reviewer's decision; it does not make it |
+| 6 | A legal and ethical use case treating people's data responsibly | Public research artifacts, analysed for whether their own documentation matches their own contents. No personal data. Findings cite file and line so an author can check any claim made about their work |
+| 7 | Use information you are allowed to share | Public and citable throughout: badges from published AE pages, repositories from public Zenodo deposits, README text from the public GitHub API |
+| 8 | Keep credentials and private information out of the submission | `.env` is gitignored and never read into any artifact. The trajectory exporter **refuses to write** if any known secret pattern survives redaction |
+| 9 | **Connect every claim to the evidence you submit** | `make check-claims` re-derives **64 documented figures** from `results/*.json` and exits non-zero on drift, and every result carries a provenance fingerprint so a number produced by since-changed code is reported as stale rather than trusted |
+| 10 | Give judges enough access to reproduce the main result | 12 credential-free `make` targets run from a clean clone in seconds; `make repro` is the single command. Model-dependent steps are listed with their runtime and cost in [`REPRODUCTION.md`](REPRODUCTION.md) |
 
 ---
 
@@ -335,6 +354,31 @@ whether they receive verified facts.
 
 ## Results
 
+### What a good result was defined to look like — and when
+
+The brief asks for this to be fixed *before* the evaluation runs, so here is the
+honest version, including the part that reflects badly.
+
+**The primary metric was replaced once.** The original one — agreement with the
+ISSTA 2024 committee's badge — was abandoned at Iteration 24, *after* it had been
+run. It was not abandoned because it was unflattering (it was), but because
+Iteration 22's zero-skill control proved it uninformative: a constant predictor
+that ignores its input beats both systems on it. Changing a metric after seeing
+the result is exactly how projects launder a bad number, so the replaced metric is
+still reported, with its control, under
+[Results that do not flatter this project](#results-that-do-not-flatter-this-project).
+
+**Everything after that point was fixed in advance.** The success criterion for
+the replacement experiment, set before it ran:
+
+| Fixed in advance | Commitment |
+|---|---|
+| **Primary metric** | Does the system notice that a README references a file which does not exist? Ground truth is exact by construction — we inject the fabrications, so we know every answer |
+| **What counts as success** | The baseline near 0% and the solution near 100%. A gap under ~50 points would not have been worth reporting as a mechanism, and a solution below the baseline would have falsified the idea outright |
+| **Cases** | All 15 artifacts, 5 fabricated paths each = 75 injected claims. No case is dropped for being inconvenient; artifacts excluded by the floor effect are **named** in the output |
+| **How it is reported** | Mean **and range** across repeat trials, never a single run (Iteration 26: the same experiment returned 100% then 90%, because the model is not deterministic at `temperature: 0`) |
+| **What would have refuted it** | A placebo: the same falsified README with an evidence block of identical *structure* whose *content* says every path resolves. If detection survived that, the system would be reacting to formatting, not facts. It was run, and detection collapsed to **0/12** |
+
 ### The headline experiment
 
 Inject fabricated paths into a real README; ask each system to judge the artifact.
@@ -349,6 +393,67 @@ Stated as the head-to-head a reviewer would make:
 | Detected the falsified README | Baseline | Solution |
 |---|---|---|
 | 3 trials, 15 artifacts each | **0%** | **100%** |
+
+### The brief's metric table
+
+The brief suggests primary outcome, human time per task and cost per task.
+Rendered by `make eval` — with one row explicitly labelled as a model rather than
+a measurement, because it is one:
+
+| Metric | Simple baseline | Agent solution | Change |
+|---|---|---|---|
+| **Primary outcome** — noticed the fabricated claim | 0% | **100%** | **+100 points** |
+| Cited the fabrication in its reasoning | 0/60 | 58/60 | +58 |
+| Scored over (escalated items excluded) | 15 of 15 | 10 of 15 | −5, escalated to a human |
+| Human minutes per task *(modelled, not measured)* | 8.0 | 20.3 | +12.3 |
+| Cost per artifact *(both systems, not separable — see below)* | — | **$0.0095** | — |
+
+Three things in that table are deliberately unflattering, and all three are real.
+
+**The human-time row is a model, not a result.** It assumes 45 minutes for an
+unaided review and 8 minutes to check an evidence-backed recommendation. Both
+constants are the author's estimates; no user study backs them, and an earlier
+version of the code claimed a published source for the 45 minutes that did not
+exist. The solution *costs more* human time than the baseline on this model
+precisely because it escalates 5 of 15 artifacts to a person instead of answering
+confidently — which is the intended behaviour, and it is not free. Measuring
+reviewer speed-up for real is a [roadmap](#roadmap) item, not a claim made here.
+
+**Cost per task cannot be split between the two systems, so it is not split.**
+Token counts were never instrumented on the baseline/solution scoring path, which
+is why `comparison.json` records `$0.00` for both — that is an *absence of
+measurement, not a measurement of zero*, and reporting it as a $0 baseline would
+have been the flattering lie. What is metered is the primary experiment as a
+whole: **$0.4269** for 3 trials × 15 artifacts × both systems × clean and
+falsified inputs, which is **$0.0095 per artifact per trial** and an upper bound
+on the solution's own share. On Nova 2 Lite the same experiment costs **13×
+less** and still detects **94%**. The deterministic checks — which produced the
+742-artifact prevalence study, the link-rot replication and the negative
+control — cost nothing at all.
+
+### The challenging case
+
+`zhangxiaosa/LPR` — an artifact the ISSTA 2024 committee awarded **`Reusable`**,
+the highest tier.
+
+The verifier extracted 17 file paths from its README and found that **15 of them
+do not exist** in the repository. The baseline read the same README and predicted
+`Functional`. The solution, shown the 15 missing paths by name, predicted
+`Available` — moving *away* from the expert label, and scored as an error.
+
+This one case is what redirected the project. The obvious reading is that the
+tool is wrong. The correct reading, established at Iteration 23, is that **the
+badge and the repository describe different objects**: the committee reviewed a
+curated Zenodo deposit in 2024, and we analyse the living GitHub mirror in 2026,
+where README drift is normal. The verifier is right, and the metric was punishing
+it for being right.
+
+That is why the primary metric was replaced with one whose ground truth we author
+ourselves — and it is also the finding that turned a classifier into a measurement
+instrument, because the gap between a 2024 badge and today's repository *is* the
+phenomenon the literature calls artifact decay. The full trajectory for this
+artifact, tool call and both agents' reasoning included, is in
+[`trajectories/product-agent__zhangxiaosa__LPR.md`](trajectories/product-agent__zhangxiaosa__LPR.md).
 
 ### The improvement is not model capability
 
@@ -778,7 +883,7 @@ artifact-triage owner/repo --model               # adds a tier assessment (needs
 ## Testing
 
 ```bash
-make test          # 222 regression tests, no credentials, ~1s
+make test          # 225 regression tests, no credentials, ~1s
 make check-claims  # 46 documented numbers verified against results/*.json
 make verify-targets
 ```
@@ -820,6 +925,7 @@ and names anything stale otherwise.
 
 | | |
 |---|---|
+| **A behavioural provenance fingerprint** | The staleness check hashes module source, so it cannot tell a reworded docstring from a changed decision boundary and reports a cosmetic edit as a stale result. A false positive in an integrity check is how integrity checks get switched off. Deferred only because changing `provenance.py` invalidates all twelve results at once |
 | **Repair, not just detection** | READU repairs what it finds; this only reports and suggests |
 | **A user study** | Measure whether a reviewer is actually faster, which is currently unevidenced |
 | **`--local` mode** | Check a working tree pre-commit, without the GitHub API |

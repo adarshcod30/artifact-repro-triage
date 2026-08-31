@@ -290,11 +290,129 @@ def claims() -> list[tuple[str, str, str, str]]:
             if val:
                 out.append(("README.md", val, label, "prevalence.json"))
 
+    # ---- The brief's metric table ----------------------------------------
+    # Cost per task was hand-written as $0.0094 against a comparison.json that
+    # records $0.00 - a number with no source, published in the same pass that
+    # removed an invented citation from metrics.py. Derived from the metered
+    # experiment now, so the two cannot disagree.
+    if fr and fr.get("total_usd") and fr.get("trials"):
+        n_art = 15
+        per = fr["total_usd"] / (fr["trials"] * n_art)
+        out.append(("README.md", f"**${fr['total_usd']:.4f}**",
+                    "primary experiment total cost", "falsified_run.json"))
+        out.append(("README.md", f"**${per:.4f}**",
+                    "cost per artifact per trial", "falsified_run.json"))
+    # The human-time row is a model, but the arithmetic still has to be right.
+    if cp:
+        for sysname in ("baseline", "solution"):
+            r = cp.get(sysname)
+            if r and r.get("human_minutes") is not None and r.get("n"):
+                out.append(("README.md", f"| {r['human_minutes'] / r['n']:.1f} |"
+                            if sysname == "baseline"
+                            else f"{r['human_minutes'] / r['n']:.1f} |",
+                            f"human minutes per task, {sysname}",
+                            "comparison.json"))
+
+    # ---- The changelog's own final-result table --------------------------
+    # Registered because it drifted. The section headed "Final result" reported
+    # 97% for 124 iterations after Iteration 53 moved the figure to 100%, and
+    # its MAE line still quoted 0.733 / 1.000 after a re-run put both at 0.800.
+    # The changelog is a graded deliverable and the only document a reader is
+    # invited to skim for "where did this end up" - and it was the one document
+    # nothing checked. Same defect class the project exists to detect, in the
+    # project's own record of detecting it.
+    if fr:
+        srr, brr = fr.get("solution_rates") or [], fr.get("baseline_rates") or []
+        if srr and brr:
+            out.append(("CHANGELOG.md",
+                        f"| Detected the fabrication (mean) | "
+                        f"**{sum(brr)/len(brr):.0%}** | **{sum(srr)/len(srr):.0%}** |",
+                        "changelog final result: detection",
+                        "falsified_run.json"))
+            out.append(("CHANGELOG.md",
+                        f"| Range across {fr['trials']} trials | "
+                        f"{min(brr):.0%} - {max(brr):.0%} | "
+                        f"{min(srr):.0%} - {max(srr):.0%} |",
+                        "changelog final result: range", "falsified_run.json"))
+            out.append(("AGENTS.md",
+                        f"({sum(brr)/len(brr):.0%} → {sum(srr)/len(srr):.0%} detection)",
+                        "design principle: measured improvement",
+                        "falsified_run.json"))
+        if tn:
+            out.append(("CHANGELOG.md", f"| {tb}/{tn} | {ts}/{tn} |",
+                        "changelog final result: floor-free",
+                        "falsified_run.json + falsified_llama.json"))
+
+    # The generalisation table. Each model is its own results file, so a single
+    # stale row is exactly what would survive an eyeball pass.
+    for fname, label in (("results/falsified_run.json", "Nova Pro"),
+                         ("results/falsified_llama.json", "Llama 3.3 70B"),
+                         ("results/falsified_nova2lite.json", "Nova 2 Lite")):
+        d = load(fname)
+        if not d:
+            continue
+        srr, brr = d.get("solution_rates") or [], d.get("baseline_rates") or []
+        if srr and brr:
+            out.append(("CHANGELOG.md",
+                        f"| {sum(brr)/len(brr):.0%} | {sum(srr)/len(srr):.0%} "
+                        f"| {d['trials']} |",
+                        f"changelog generalisation: {label}",
+                        Path(fname).name))
+
+    # The controls table.
+    adv = load("results/adversarial.json")
+    if adv:
+        out.append(("CHANGELOG.md",
+                    f"| {adv['placebo_detected']}/{adv['placebo_eligible']} |",
+                    "changelog controls: placebo", "adversarial.json"))
+        out.append(("CHANGELOG.md",
+                    f"| {adv['strong_baseline_detected']}/"
+                    f"{adv['strong_baseline_eligible']} |",
+                    "changelog controls: strong baseline", "adversarial.json"))
+    sc = load("results/subtle_control.json")
+    if sc:
+        out.append(("CHANGELOG.md",
+                    f"{sc['detected']}/{sc['mutations']} detected, "
+                    f"{sc['correctly_suggested']}/{sc['mutations']} correctly "
+                    f"suggested",
+                    "changelog controls: subtle mutation",
+                    "subtle_control.json"))
+
+    # The negative result, restated in the changelog. It is the figure most
+    # likely to be quietly dropped, so it is the figure most worth pinning.
+    if cp:
+        fcv = cp.get("mae_full_coverage") or {}
+        for sysname in ("baseline", "solution"):
+            if fcv.get(sysname) is not None and cp.get(sysname):
+                bold = "**" if sysname == "solution" else ""
+                out.append(("CHANGELOG.md",
+                            f"| {sysname.capitalize()} | "
+                            f"{cp[sysname]['mae']:.3f} "
+                            f"({cp[sysname]['n_scored']} of {cp[sysname]['n']}) "
+                            f"| {bold}{fcv[sysname]:.3f}{bold} |",
+                            f"changelog negative result: {sysname} MAE",
+                            "comparison.json"))
+        bestc = next((c for c in cp.get("controls", [])
+                      if c["system"] == cp.get("best_control")), None)
+        if bestc:
+            out.append(("CHANGELOG.md",
+                        f"| {bestc['mae']:.3f} | {bestc['mae']:.3f} |",
+                        "changelog negative result: constant control",
+                        "comparison.json"))
+
     sp = load("results/spend.json")
     if sp:
         for doc in ("README.md", "AGENTS.md"):
             out.append((doc, f"${sp['total_usd']:.2f}",
                         "total model spend", "spend.json"))
+
+    # The README states how many figures this checker verifies. That sentence is
+    # itself a claim about the checker, and it went stale the moment a claim was
+    # added - it read 46 while the checker verified 59. Rather than remember to
+    # edit it, the count checks itself: `+1` accounts for this very claim, so the
+    # number in the README must equal the number of rows including this row.
+    out.append(("README.md", f"{len(out) + 1} documented figures",
+                "the checker's own coverage count", "self"))
 
     return out
 

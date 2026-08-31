@@ -74,19 +74,33 @@ of how well either system predicts an expert badge.
 | Iteration 25 | First falsified run reported solution 10/15, apparently missing 5. | Every "miss" was already rated `Available` on the clean input - the lowest tier, so it **cannot be downgraded further**. A floor effect, not a failure. | Report raw *and* floor-adjusted rates, with the excluded artifacts named in the output, so the exclusion is auditable rather than a convenient filter. |
 | Iteration 26 | Re-ran the identical experiment and got a different number (100% then 90%). | The model is not deterministic even at `temperature: 0`. | **A single run is not a reportable result.** Added repeat trials; the headline figure is a mean with its range. The deterministic components are byte-identical every run, and the contrast between the two is itself part of the finding. |
 
-## Final result
+## Result at Iteration 26 - since superseded
+
+This was the headline for most of the project's life, and it is kept here because
+a changelog records what happened rather than summarising where it ended. **These
+numbers are not the current ones.** Iteration 53 supersedes the detection figures
+and Iteration 62-64 the MAE figures; both are restated, with sources, under
+[Final result](#final-result) at the end of this document.
 
 Model `us.amazon.nova-pro-v1:0` (AWS Bedrock), 3 trials, $0.42 total.
 
-| Metric | Baseline | Solution |
+| Metric | Baseline | Solution (as of Iteration 26) |
 |---|---|---|
-| Detected falsified README (mean) | **0%** | **97%** |
+| Detected falsified README (mean) | 0% | 97% |
 | Range across trials | 0% - 0% | 90% - 100% |
 | Deterministic verifier | - | 75/75 claims, 0 false positives |
 
 Reported alongside the negative finding it replaced: a constant predictor
-(`always "Functional"`, MAE 0.667) beats both the baseline (0.733) and the
-solution (1.000) on badge agreement. Both results are in the README.
+(`always "Functional"`, MAE 0.667) beat both the baseline (0.733 at the time) and
+the solution (1.000 at the time) on badge agreement. Both results are in the
+README, at their current values.
+
+*This section carried the heading "Final result" while 124 further iterations ran
+below it, and it reported 97% after Iteration 53 had moved the figure to 100%.
+Caught during the pre-submission audit - the project's own subject, in the
+project's own changelog. The fix is not the retitle; it is that the numbers below
+are now registered with `scripts/check_claims.py`, which fails if they drift
+again.*
 
 ## Extension - from a classifier to a measurement instrument
 
@@ -241,6 +255,59 @@ with evidence rather than assertion.
 | Iteration 148 | Read the **product trajectories** - a required deliverable - as a reviewer would. | The human-checkpoint note said only *"an evidence-based rule fired"*, **without naming the rule**. That is less informative than the CLI report the trajectory is meant to document, and the reasons were sitting in `escalation_reasons` in the results file the whole time, unrendered. | The checkpoint now lists every rule that fired, and the JSON block carries `escalation_reasons` alongside the verdict. A second test asserts no escalated row exists **without** a recorded reason - so the trajectory cannot go quiet again because the data went missing. |
 | Iteration 149 | Final sweep: could the claim checker's own **coverage** shrink silently? | **Yes.** Claims are registered per results file, so deleting one made its claims vanish from `claims()` and the summary reported *"All 44 documented numbers match"* over a **smaller 44** - success printed over shrunken coverage. This is the **third instance of one failure**: the floor-free claim skipped because it read a key never written; `verify_targets` reporting success over targets it never ran; and now the checker itself. Each time the mechanism was correct about what it looked at and blind to what had left the room. | `EXPECTED_SOURCES` declares every results file the claims draw on. A missing one is reported loudly and **exits non-zero**, and a third test asserts the list cannot fall behind the claims it guards. |
 | Iteration 150 | Ran the CLI as a judge would and noticed `psf/requests` exiting 2. | **A method call that looks like a filename is read as one**: `r.json()` in a Python example becomes the path `r.json`, reported missing. Measured across the corpus: **1 of 1,254 broken claims (0.08%)** - research READMEs rarely carry API-call examples, so it is close to absent here, though plainly visible on a general-purpose library. | **Documented, not fixed - deliberately.** `fetch.py` is a provenance influencer, so changing it would invalidate all twelve results, and the remaining $0.13 cannot re-certify them. Trading a 0.08% precision gain for uncertified headline numbers is the wrong trade. A **characterisation test** pins the current behaviour so it stays recorded rather than becoming a surprise, and the README states it as a known limitation with the measured rate. |
+| Iteration 151 | Pre-submission audit: read the four deliverables the way a judge will, in the order they are listed. | The changelog's own section headed **"Final result"** reported **97%** - the figure from Iteration 26 - while Iteration 53, *seventeen rows below it*, recorded the move to **100%**, and the README, video script and results file all said 100%. Its MAE line still quoted 0.733 / 1.000 after a re-run had put both at 0.800. `AGENTS.md` repeated the 97%. | **The project's own subject, in the project's own record of it.** Nothing checked the changelog: `check_claims.py` guarded the README and the video script, because those were the documents I thought of as making claims. A changelog is the one document a reader skims for *"where did this end up"*, and it was the one document with no guard on it. Retitled the superseded section as history, added a `Final result` section at the end, and **registered all 13 of its figures** with the checker - claims 46 -> 59. |
+| Iteration 152 | Cleaned two `SyntaxWarning: invalid escape sequence` warnings that surface on every test run, by making the two docstrings raw strings. | The `llm.py` docstring is inside a **provenance influencer**. A three-character edit that changed no behaviour at all de-certified `baseline` and `solution`, and at **$6.87 of $7.00** there was no budget to re-run them. | **Reverted `llm.py`; kept the `cli.py` fix, which is not an influencer.** Two lessons, and the second is the one worth having. The cheap one: a cosmetic warning is not worth an uncertified headline number - the same trade Iteration 150 declined. The real one: **the fingerprint is over-sensitive.** It hashes source text, so it cannot tell a docstring from a decision boundary, and it will cry stale on comments and formatting forever. That is a false-positive rate in an integrity check - the exact failure this project argues gets a tool switched off. It stays as-is only because fixing it means changing `provenance.py`, which would invalidate all twelve results at once. **Recorded as the top item on the roadmap rather than quietly tolerated.** |
+
+## Final result
+
+**Read the iteration tables above as a record, not a summary.** Each row reports
+what was measured *at that iteration*, so a figure there may have been superseded
+by a later row - that is the point of a changelog. This section is the only place
+in this document that states where the project actually ended, and every number in
+it is registered with `scripts/check_claims.py`, which reads the results file named
+beside it and exits non-zero on drift.
+
+**Primary experiment** - falsified READMEs, ground truth authored by us, same
+model, same rubric, same README for both systems; only the evidence differs.
+
+| Metric | Baseline | Solution | Source |
+|---|---|---|---|
+| Detected the fabrication (mean) | **0%** | **100%** | `falsified_run.json` |
+| Range across 3 trials | 0% - 0% | 100% - 100% | `falsified_run.json` |
+| Cited the fabrication in its reasoning (no floor effect) | 0/60 | 58/60 | `falsified_run.json` + `falsified_llama.json` |
+| Deterministic verifier | - | 75/75 injected claims, 0 false positives | `negative_control.json` |
+
+**Generalisation** - the improvement is not a property of one model.
+
+| Model | Baseline | Solution | Trials | Source |
+|---|---|---|---|---|
+| Nova Pro | 0% | 100% | 3 | `falsified_run.json` |
+| Llama 3.3 70B | 0% | 100% | 1 | `falsified_llama.json` |
+| Nova 2 Lite (13x cheaper) | 0% | 94% | 3 | `falsified_nova2lite.json` |
+
+**Controls** - each one could have destroyed the claim.
+
+| Control | Result | What it rules out | Source |
+|---|---|---|---|
+| Placebo evidence block (same structure, content says "all paths resolve") | 0/12 | That the model is reacting to the block's *format* rather than its *content* | `adversarial.json` |
+| Strong baseline (explicitly told to hunt for contradictions) | 0/13 | That the baseline is a strawman | `adversarial.json` |
+| Subtle mutation (`run.py` -> `run_v2.py`) | 39/43 detected, 32/43 correctly suggested | That detection only works on obviously fake paths | `subtle_control.json` |
+
+**The negative result, kept visible.** On badge agreement a zero-skill constant
+predictor still beats both systems, and the solution is worst of the three when
+scored over full coverage:
+
+| System | MAE (scored) | MAE (full coverage) | Source |
+|---|---|---|---|
+| Constant predictor, always `"Functional"` | 0.667 | 0.667 | `comparison.json` |
+| Baseline | 0.800 (15 of 15) | 0.800 | `comparison.json` |
+| Solution | 0.800 (10 of 15) | **1.067** | `comparison.json` |
+
+Neither system has demonstrated skill at predicting a 2024 committee's badge from
+a 2026 repository. That is a real finding about the *label*, not a footnote:
+Iteration 23 established the badge describes the curated Zenodo deposit while we
+analyse the living GitHub mirror. The falsified-README experiment exists because
+this comparison is uninformative, and both are reported.
 
 ## Experiments removed
 
@@ -252,3 +319,61 @@ with evidence rather than assertion.
 
 - The badge was awarded to the Zenodo deposit; we analyse the GitHub mirror, which may have drifted since. Mitigated by pinning to a commit and recording it.
 - 12 of 43 artifacts never resolved to Zenodo. Corpus is therefore a subset, not the full venue.
+
+---
+
+## The main failure mode
+
+Not the model's. **Mine.**
+
+Seven times in this project a number was wrong, and **all seven were wrong in the
+same direction** - they under-reported. The spend ledger said $0.49 against a
+true $1.12 (Iteration 54), then $1.12 against an AWS-billed $2.39 (Iteration 55).
+The Llama result read 9% when the model had answered correctly every time
+(Iterations 67-68). The claim checker printed *"All 44 documented numbers match"*
+over a **shrinking 44** (Iteration 149). The staleness detector certified a result
+it could not see (Iteration 60). The changelog's own `Final result` said 97% for
+seventeen rows after it became 100% (Iteration 151).
+
+Every one of them passed its own tests. Every one was internally consistent. Not
+one was caught by looking harder at the thing itself - each surfaced only when an
+*external* source of truth existed: an AWS bill, a raw model response, a declared
+list of expected files, a second document saying a different number.
+
+The shipped system's own failure mode is the honest version of the same shape: it
+establishes **necessary conditions, never sufficient ones**. Every path can
+resolve, every dependency can be pinned, and the artifact can still not run. Two
+of ACM's four Functional criteria - `Consistent` and actually executing the
+thing - are escalated to a human by construction, not because a threshold fired.
+And on the task of predicting a committee's badge, a zero-skill constant predictor
+(MAE **0.667**) still beats both the baseline (**0.800**) and this solution
+(**1.067** at full coverage). It is a defect detector. It is not a quality scorer,
+and the numbers saying so are in this document rather than omitted from it.
+
+## Hot take
+
+**Give an agent a control group before you give it a metric.**
+
+The instinct when an agent scores badly is to improve the agent. Iteration 21 said
+the solution was *worse* than the baseline, and the fix was not prompt tuning - it
+was Iteration 22's constant predictor, which revealed the metric itself was
+uninformative and that neither system had demonstrable skill. One control
+invalidated the primary experiment and saved the project from confidently
+optimising a number that meant nothing.
+
+The pattern held every time it was applied. The placebo (Iteration 66) - same
+model, same rubric, same falsified README, an evidence block of identical
+structure whose content claimed every path resolved - collapsed detection to
+**0/12**. That could have destroyed the central claim; instead it converted a
+correlation into a causal one. The strong baseline (Iteration 65), explicitly told
+to hunt for contradictions, still scored **0/13**, which is what turned "my
+baseline is weak" from an accusation into a measured structural limit. The
+precision audit (Iteration 62) found the real-corpus precision was **78%**, not
+the ~100% the negative control implied - because a control validates the
+*mechanism*, and only auditing real output validates the *result*.
+
+For anyone building agents: a passing evaluation tells you your agent agrees with
+your harness. It does not tell you your harness measures anything. The cheapest
+possible control - a constant that ignores the input entirely - costs nothing, and
+it is the only thing that would have told me, on day one, that I was about to
+spend a week tuning against a metric a rock could beat.

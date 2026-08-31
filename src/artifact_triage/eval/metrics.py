@@ -24,10 +24,21 @@ from dataclasses import dataclass, field, asdict
 TIERS = {"Available": 0, "Functional": 1, "Reusable": 2}
 RANK_TO_TIER = {v: k for k, v in TIERS.items()}
 
-# Minutes a human artifact reviewer spends assessing one artifact unaided.
-# Sourced from published AE committee guidance; see README for provenance.
+# DECLARED ASSUMPTIONS, NOT MEASUREMENTS.
+#
+# The brief asks for a "human time per task" row, and these two constants are
+# what produce it. They are estimates chosen by the author. No user study backs
+# them, and none is cited: an earlier version of this comment claimed they were
+# "sourced from published AE committee guidance; see README for provenance", and
+# that provenance existed in neither the README nor anywhere else. An invented
+# citation in a project about unverifiable claims is the worst possible defect,
+# so it is recorded here rather than quietly deleted.
+#
+# Consequently the human-time row is a MODEL, not a result. It is reported with
+# that label attached, it is excluded from every headline figure, and closing it
+# is a roadmap item ("A user study"). The primary metric - detection of a
+# fabricated claim - depends on neither constant.
 HUMAN_MINUTES_PER_ARTIFACT = 45.0
-# Minutes to check an agent's evidence-backed recommendation instead.
 REVIEW_MINUTES_WITH_EVIDENCE = 8.0
 
 

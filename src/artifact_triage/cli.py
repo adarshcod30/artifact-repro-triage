@@ -122,13 +122,13 @@ def build_factsheet(slug: str) -> dict:
 
 
 def cell(text: str) -> str:
-    """Make an untrusted string safe to place in a markdown table cell.
+    r"""Make an untrusted string safe to place in a markdown table cell.
 
     The report prints strings taken from other people's READMEs. Today the
     extractor cannot emit one containing "|", a newline or a backtick - it
     anchors on `^[\w./\-]+\.(ext)$` - so nothing here is reachable, and this
     is not a live defect.
-    
+
     But that safety is an IMPLICIT COUPLING: the report is safe only because a
     regex three modules away happens to be strict, and nothing says so. Worse,
     `verify()` reads a STORED field, so a hand-edited fixture bypasses the

@@ -87,7 +87,7 @@ model *"does this file exist?"* would reintroduce the exact failure mode the
 project exists to detect.
 
 **Verified behaviour.** 75/75 injected false claims detected, 0 false positives,
-identical across all trials (`eval/negative_control.py`), and 222 regression tests
+identical across all trials (`eval/negative_control.py`), and 225 regression tests
 pin every bug fixed along the way (`tests/`).
 
 ---
@@ -109,7 +109,7 @@ matter more than the number of components*.
 
 This system deliberately uses **one model call and a set of deterministic tools**.
 No multi-agent orchestration, no memory, no retrieval. The measured improvement
-(0% → 97% detection) comes entirely from changing *what the model is shown*, not
+(0% → 100% detection) comes entirely from changing *what the model is shown*, not
 from adding components. A second agent would have added cost and failure surface
 without touching the failure mode being addressed.
 
