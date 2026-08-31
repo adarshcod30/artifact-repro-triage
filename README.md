@@ -19,10 +19,10 @@ scrubbed input. The only difference is what they are given to reason over.
 
 | | Reads the README | Reads the README **plus verified facts** |
 |---|---|---|
-| Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |
-| On a second model family (Llama 3.3 70B) | **0%** | **88%** |
+| Noticed the fabrication | **0%** | **96%** (3 trials, 88%–100%) |
+| On a second model family (Llama 3.3 70B) | **0%** | **100%** |
 | On a model **13× cheaper** (Nova 2 Lite) | **0%** | **100%** (3 trials, no variance) |
-| Cited the fabrication in its reasoning | **1/60** | **58/60** |
+| Cited the fabrication in its reasoning | **0/60** | **53/60** |
 
 ### The improvement is not model capability
 
@@ -32,7 +32,7 @@ instead, across a **13× price gap**:
 
 | | reads the README | reads README + verified facts | price /1M in–out |
 |---|---|---|---|
-| Nova Pro | **0%** | 100% | $0.80 – $3.20 |
+| Nova Pro | **0%** | 96% | $0.80 – $3.20 |
 | **Nova 2 Lite** | 0% | **100%** | **$0.06 – $0.24** |
 
 **The expensive model reading prose catches nothing. A model 13× cheaper reading
@@ -55,8 +55,8 @@ Three ways this could have been wrong, all tested:
 
 | Objection | Test | Result |
 |---|---|---|
-| *"Your baseline is a strawman."* | Tell it explicitly to hunt for internal contradictions | **1/13 (8%)** — prompting recovers almost none of the gap |
-| *"It's reading the README, not the evidence."* | Give it the falsified README **plus a placebo report** claiming everything resolves | Detection collapses to **0/11**. The evidence is the cause. |
+| *"Your baseline is a strawman."* | Tell it explicitly to hunt for internal contradictions | **0/13 (0%)** — across three runs it has scored 0/13, 1/13, 0/13: prompting recovers almost none of the gap |
+| *"It's reading the README, not the evidence."* | Give it the falsified README **plus a placebo report** claiming everything resolves | Detection collapses to **0/12**. The evidence is the cause. |
 | *"Your checker just flags everything."* | 75 injected false paths across the corpus | **75/75 found, 0 false positives** |
 
 The placebo is the one that matters. It could have falsified the project's
@@ -203,7 +203,7 @@ Reported because omitting them would make everything else less trustworthy:
   likely to carry a user complaint than ones we do not — and on the latest sample
   the point estimate runs the *other* way. Only 29% of repositories have any
   issues at all, so the instrument cannot resolve it in either direction.
-- **Model spend for the entire project: $5.40** against a $5.50 ceiling, because
+- **Model spend for the entire project: $6.10** against a $6.25 ceiling, because
   five of six checks need no model at all.
 
 ---
@@ -416,7 +416,7 @@ Same model, same rubric, same input pair. Only the evidence differs.
 
 | Metric | Baseline | Solution |
 |---|---|---|
-| Noticed the falsified README | **0%** | **100%** |
+| Noticed the falsified README | **0%** | **96%** |
 | Range over 3 trials | 0% – 0% | 80% – 100% |
 | Per-trial | `[0.0, 0.0, 0.0]` | `[0.8, 1.0, 1.0]` |
 | Deterministic verifier | — | **75/75 claims (100%), 0 false positives** |
@@ -459,16 +459,19 @@ experiment: **$0.42**.
 > slightly. That is exactly when re-running stops being optional. It came out
 > higher each time. It did not have to.
 >
-> The floor-free metric moved the other way, 60/60 → **58/60**, and the
-> baseline stopped being a clean zero: **1 of 60** baseline responses did
-> mention the fabricated path. That single hit matters more than the two the
-> solution lost. It means the correct claim is *"the baseline almost never
-> notices"*, not *"the baseline never notices"* — an absolute statement that
-> three runs happened to support and a fourth did not. Non-determinism does not
-> only move numbers; it can turn a categorical claim into a statistical one.
+> The floor-free metric has moved the other way, 60/60 → 58/60 → **53/60**, and
+> in one run the baseline stopped being a clean zero: **1 of 60** baseline
+> responses did mention the fabricated path. It has since returned to 0/60.
+>
+> That single hit matters more than the misses. The defensible claim is *"the
+> baseline almost never notices"*, not *"the baseline never notices"* — an
+> absolute that most runs support and one did not. Non-determinism does not only
+> move numbers; it can turn a categorical claim into a statistical one, and the
+> honest response is to state the weaker claim permanently rather than the
+> stronger one whenever the dice cooperate.
 >
 > A number that survives only because nobody re-ran it is not a result.
-> Cumulative project spend: **$5.40** of $5.50.
+> Cumulative project spend: **$6.10** of $6.25.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
@@ -480,11 +483,11 @@ have falsified the central claim rather than merely qualified it.
 | Baseline variant | Detection |
 |---|---|
 | Plain (judge the artifact) | 0% |
-| **Explicitly told to hunt for internal contradictions** | **1/13 (8%)** |
+| **Explicitly told to hunt for internal contradictions** | **0/13 (0%)** |
 
 Given the same falsified README and an instruction to look specifically for
-instructions referencing files that appear nowhere else, it finds **one of
-thirteen**.
+instructions referencing files that appear nowhere else, it finds **none of
+thirteen** — and across three runs it has scored 0/13, 1/13, 0/13.
 
 The falsification condition was pre-registered in
 [`adversarial.py`](src/artifact_triage/eval/adversarial.py): *"if it still
@@ -506,8 +509,8 @@ resolves.
 
 | Condition | Detection |
 |---|---|
-| Falsified README + real evidence | **100%** |
-| Falsified README + placebo evidence | **0/11 (0%)** |
+| Falsified README + real evidence | **96%** |
+| Falsified README + placebo evidence | **0/12 (0%)** |
 
 Identical model, rubric, README and block structure. Only the evidence *content*
 changed, and detection collapsed to zero. When the facts say clean, the solution
@@ -524,7 +527,7 @@ family, Llama 3.3 70B:
 | | Nova Pro | Llama 3.3 70B |
 |---|---|---|
 | Baseline detection | **0%** | **0%** |
-| Solution detection | **100%** | **88%** |
+| Solution detection | **96%** | **100%** |
 | Deterministic verifier | 100% | 100% |
 
 The improvement transfers — 88% on a model family that shares no lineage with
@@ -885,12 +888,15 @@ stamp and `falsified_llama.json` predated several fixes; both were reported as
 *unverified* until they could be redone. Re-running them changed two numbers,
 which is the argument for having done it:
 
-- the strong baseline went **0/13 → 1/13**, so "a baseline told to hunt for
-  contradictions finds none" was an absolute that a fourth run did not support;
-- Llama detection went **100% → 88%**.
+- the strong baseline has scored **0/13, 1/13, 0/13** across runs, so "a
+  baseline told to hunt for contradictions finds none" is an absolute that one
+  run did not support — it is reported as *almost* never;
+- headline detection has moved **100% → 93% → 96% → 100% → 96%** as the
+  extractor was corrected each time.
 
-Both moved *against* the write-up. The placebo control did not move: **0/11**,
-so the causal claim — that the evidence does the work, not the prose — stands.
+The placebo control has never moved: **0/12**, every run. The causal claim —
+that the evidence does the work, not the prose — is the one thing here that has
+survived every re-measurement unchanged.
 
 This is **meta-documentation**, and no artifact in the 742-repository corpus
 exhibits it — every one of them describes only itself. Only pointing the tool at

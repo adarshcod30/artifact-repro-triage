@@ -1,9 +1,9 @@
 {
  "_provenance": {
   "kind": "falsified",
-  "commit": "ef56a19",
-  "code_fingerprint": "6ae6c052b01a",
-  "corpus_fingerprint": "d7c75c847b77"
+  "commit": "7fe4422",
+  "code_fingerprint": "87268f8cae65",
+  "corpus_fingerprint": "b23efbc43339"
  },
  "model": "us.amazon.nova-2-lite-v1:0",
  "provider": "bedrock",
@@ -33,7 +33,7 @@
    "verifier_detected": 75,
    "verifier_detection_rate": 1.0,
    "baseline_noticed": 0,
-   "solution_noticed": 5,
+   "solution_noticed": 6,
    "baseline_mentions_absence": 0,
    "solution_mentions_absence": 15,
    "baseline_eligible": 11,
@@ -44,12 +44,11 @@
     "asub0/fonnx",
     "nhuhuan/sba"
    ],
-   "solution_eligible": 5,
-   "solution_downgraded_eligible": 5,
+   "solution_eligible": 6,
+   "solution_downgraded_eligible": 6,
    "solution_at_floor": [
     "DueForce/DueForce",
     "NWU-NISL-Fuzzing/upbeat",
-    "THU-WingTecher/DeepConstr",
     "asub0/fonnx",
     "dserfe/FlakyDoctor",
     "jovyntls/inconsistencies-in-tex",
@@ -82,16 +81,16 @@
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.95,
-       "dirty_conf": 0.95,
+       "dirty_conf": 0.7,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "Artifact is hosted in a public repository (GitHub)",
-        "README provides basic instructions for reproduction",
-        "References to external resources (paper, Zenodo artifact)",
-        "No evidence of verification or validation provided",
-        "Lack of detailed documentation for setup and execution",
-        "No indication of reusability or extensibility features"
+        "README provides basic instructions but lacks detailed documentation",
+        "No evidence of verification or validation provided in the repository",
+        "Pre-compiled Docker mentioned but not directly accessible from repository",
+        "Insufficient details for a reviewer to independently exercise the artifact",
+        "Lacks comprehensive documentation needed for reuse and repurposing"
        ]
       },
       "solution": {
@@ -105,10 +104,10 @@
        "dirty_reasons": [
         "README references non-existent files, indicating severe documentation inconsistency",
         "No dependency manifest or Dockerfile for environment reproducibility",
-        "Missing critical files referenced in README prevents functional verification",
-        "Despite CI configuration and tests, artifact cannot be exercised as described",
-        "Lack of complete documentation and required files fails Functional tier criteria",
-        "Artifact only meets archival requirement without functional evidence"
+        "Despite CI configuration and tests, missing key files prevent functional verification",
+        "Artifact lacks essential components needed to exercise or validate functionality",
+        "Repository contains many files but lacks structural coherence for reuse",
+        "Archival presence does not compensate for missing executable components"
        ]
       }
      }
@@ -140,11 +139,11 @@
        "delta": 0,
        "dirty_reasons": [
         "The repository includes detailed documentation and step-by-step instructions for building and running the tool.",
-        "The structure of the repository is clearly defined, with separate directories for different components (FF_AFL, FF_AFL++).",
-        "The README provides examples for both wrapper usage and manual compilation, enhancing reproducibility.",
-        "The artifact includes scripts and tools necessary for distance calculation and fuzzing.",
-        "There is a mention of attached raw data for evaluation, though the integration with FuzzBench is noted as work-in-progress.",
-        "Contact information is provided for further assistance, indicating support for users encountering issues."
+        "It provides both an automated wrapper (`ff-all-in-one`) and manual compilation steps, catering to different user preferences.",
+        "The structure of the repository is clearly outlined, with separate directories for AFL and AFL++ versions, scripts, and Dockerfiles.",
+        "Examples are provided for both automated and manual compilation processes, enhancing reproducibility.",
+        "Contact information is available for users encountering issues or needing further assistance.",
+        "The repository includes raw evaluation data and scripts intended for reproducing the paper's results, though some parts are marked as work-in-progress."
        ]
       },
       "solution": {
@@ -156,12 +155,12 @@
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
-        "Repository exists in a public location (HexHive/FishFuzz#falsified)",
-        "No dependency manifest found, making environment reproducibility impossible",
-        "README references multiple non-existent files, indicating documentation inconsistency",
+        "No dependency manifest found, making environment reproducibility difficult",
+        "README references non-existent files, indicating documentation inconsistency",
         "No tests present to verify functionality",
-        "Container setup incomplete (Dockerfile lacks FROM directive)",
-        "Licence present but artifact lacks sufficient structure for functional verification"
+        "Dockerfile lacks FROM directive, preventing container-based reproduction",
+        "Repository structure described in README does not match actual files",
+        "Missing key configuration and script files referenced in reproduction steps"
        ]
       }
      }
@@ -192,12 +191,12 @@
        "downgraded": false,
        "delta": 1,
        "dirty_reasons": [
-        "The artifact includes a Docker image for out-of-the-box execution, simplifying setup and verification.",
-        "Installation instructions and dependencies are clearly listed, aiding reproducibility.",
-        "Documentation references specific scripts and notebooks for running the pipeline and analyzing results.",
-        "The repository structure is organized, with separate directories for source code, data, and documentation.",
-        "The inclusion of troubleshooting guidance indicates anticipation of user issues, enhancing usability.",
-        "Evidence of verification and validation is implied through reproducible result scripts and analysis notebooks."
+        "The artifact includes detailed installation instructions for both Docker and local setups.",
+        "The repository provides a clear usage guide and links to additional documentation.",
+        "It includes scripts to reproduce the results, indicating the pipeline is exercisable.",
+        "The presence of troubleshooting documentation suggests consideration for user experience.",
+        "The artifact is structured with separate directories for source, data, and notebooks, showing organization.",
+        "However, lack of explicit verification and validation evidence slightly reduces confidence."
        ]
       },
       "solution": {
@@ -209,12 +208,10 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "README references non-existent files, indicating documentation inconsistency",
-        "No dependency manifest or Dockerfile with FROM directive found, hindering reproducibility",
-        "No tests present to verify functionality",
-        "CI configuration missing, preventing automated verification",
-        "Dead external link to Docker repository reduces accessibility",
-        "Despite archival presence, lack of functional evidence and reproducibility barriers prevent higher tier classification"
+        "README references non-existent files, indicating inconsistency",
+        "No dependency manifest or Dockerfile with FROM directive found",
+        "No tests or CI configuration present to verify functionality",
+        "Dead external link to Docker repository reduces reproducibility"
        ]
       }
      }
@@ -241,16 +238,16 @@
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.85,
-       "dirty_conf": 0.85,
+       "dirty_conf": 0.75,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact includes detailed step-by-step instructions for reproducing both the reproduction and replication studies.",
-        "It provides a Docker image with pre-configured environments, simplifying the setup process for users.",
-        "The documentation outlines how to handle different use cases, including special notes for the CARLA environment.",
-        "There are clear instructions for running a demonstration experiment to verify functionality.",
-        "The structure is well-organized with separate folders for reproduction and replication studies, each containing their own README files.",
-        "Despite the computational intensity of some experiments, the artifact provides strategies for partial execution and result processing."
+        "It provides a Docker image with pre-configured environments, simplifying setup for users.",
+        "The documentation outlines how to run experiments, process logs, and generate results, indicating a complete and exercisable workflow.",
+        "Includes a demonstration for a small-scale experiment to verify functionality.",
+        "Despite challenges with the CARLA use case, the majority of the experiments are supported and replicable.",
+        "The structure is well-organized with separate folders for reproduction and replication studies, each containing relevant README files."
        ]
       },
       "solution": {
@@ -266,8 +263,8 @@
         "Missing critical execution scripts and data preparation files",
         "No executable tests or CI configuration present",
         "Dependencies file lists no requirements, making environment recreation impossible",
-        "Dockerfile lacks FROM directive, rendering container build impossible",
-        "Artifact lacks evidence of verification/validation processes"
+        "Dockerfile lacks essential FROM directive, rendering container build impossible",
+        "Artifact lacks evidence of verification/validation procedures"
        ]
       }
      }
@@ -298,28 +295,29 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is placed in a public repository (GitHub)",
-        "Comprehensive documentation including setup, usage examples, and experiment reproduction steps",
-        "Includes test scripts and evidence of bug finding (bug_list.md)",
-        "Provides Docker support for consistent environment setup",
-        "Contains clear command-line interfaces and parameter documentation",
-        "Demonstrates verification through comparative experiments and constraint assessment"
+        "Artifact is publicly available in a GitHub repository",
+        "Comprehensive README provides clear setup, usage, and example instructions",
+        "Includes both fuzzing and constraint extraction workflows with concrete command examples",
+        "Provides Docker support for reproducible environment",
+        "Contains test scripts and evidence of bug finding (docs/bug_list.md)",
+        "Structure indicates complete implementation with separate directories for core logic, experiments, and data"
        ]
       },
       "solution": {
        "mentions_absence": true,
-       "clean_tier": "Available",
+       "clean_tier": "Functional",
        "dirty_tier": "Available",
-       "clean_conf": 0.4,
+       "clean_conf": 0.7,
        "dirty_conf": 0.3,
-       "downgraded": false,
-       "delta": 0,
+       "downgraded": true,
+       "delta": -1,
        "dirty_reasons": [
-        "Repository lacks Docker container and CI configuration, making reproducibility difficult",
-        "README references multiple non-existent files and directories, indicating documentation-artifact mismatch",
-        "Requirements file is empty (lists no dependencies), preventing proper environment setup",
-        "Dead external link to Docker Hub repository reduces accessibility",
-        "Despite having tests and a license, missing key reproducibility components prevents functional verification"
+        "README references multiple non-existent files and directories, indicating documentation inconsistency",
+        "No Dockerfile present despite README claiming Docker usage is required",
+        "Requirements file exists but contains no dependencies",
+        "Critical paths mentioned in README (data/records, results/tf_exp.csv, etc.) do not exist in repository",
+        "CI configuration missing, making automated verification difficult",
+        "Dead external link to Docker Hub repository"
        ]
       }
      }
@@ -350,12 +348,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is placed in a public repository (GitHub)",
-        "README provides high-level structure of the repository",
-        "No evidence of verification or validation provided in the README",
-        "No detailed instructions for reproducing experiments beyond basic commands",
-        "Lack of explicit documentation on dependencies, environment setup, or expected outputs",
-        "Reference to external dataset (HFTorrent) but no integration or validation steps described"
+        "Artifact is placed in a public repository (GitHub) but lacks detailed documentation for verification and validation.",
+        "README provides high-level structure but does not include sufficient instructions to fully exercise or validate the artifact.",
+        "No evidence of verification or validation processes is provided in the repository.",
+        "Dependencies and environment setup may not be fully reproducible without additional details.",
+        "The repository structure is outlined, but individual components (e.g., `Theme1`, `Theme2`, `Theme3`) may require separate READMEs that are not assessed here.",
+        "The provided commands are minimal and may not cover all use cases or edge cases needed for a Functional or Reusable tier."
        ]
       },
       "solution": {
@@ -369,7 +367,7 @@
        "dirty_reasons": [
         "README references non-existent files, indicating inconsistency",
         "No dependency manifest or container for reproducibility",
-        "No CI configuration or tests present",
+        "No tests or CI configuration present",
         "Missing key files required to reproduce results as described in README"
        ]
       }
@@ -403,10 +401,10 @@
        "dirty_reasons": [
         "The README provides clear, step-by-step instructions for setting up the environment and reproducing results, including required dependencies and commands.",
         "The repository includes organized directories for datasets, patches, results, and source code, indicating a structured approach.",
-        "Evidence of verification is shown through accepted pull requests and detailed logs and outputs described in the README.",
-        "The artifact is exercisable following the documented steps, though running it requires specific setups (e.g., OpenAI key, Magicoder checkpoints).",
-        "The README acknowledges variability due to LLM non-determinism, showing awareness of validation challenges.",
-        "The repository includes scripts for cloning, building, and running the tool, suggesting completeness for functional evaluation."
+        "Evidence of verification is shown through the list of accepted and opened pull requests, demonstrating that the tool has produced functional patches.",
+        "The documentation is sufficient for a reviewer to follow along and exercise the artifact, though some details (like exact paths) are left to the user.",
+        "The inclusion of scripts for setup, installation, and running experiments suggests the artifact is complete and exercisable.",
+        "The note about non-determinism due to LLMs is a transparent acknowledgment of limitations, but does not detract from the functional nature of the artifact."
        ]
       },
       "solution": {
@@ -418,12 +416,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Repository lacks dependency manifest and containerization, making environment reproducibility impossible",
-        "README references multiple non-existent files, indicating documentation inconsistency",
-        "Critical setup scripts (src/setup.sh, src/install.sh) referenced but not verified to exist",
+        "No dependency manifest or container definition present, making environment reproducibility impossible",
+        "README references multiple nonexistent files, indicating documentation-artifact inconsistency",
+        "Critical paths mentioned in README (e.g., configs/experiment_grid.json, docker/build_image.sh) are missing from repository",
         "No tests or CI configuration present to verify functionality",
-        "External links are dead, reducing accessibility and verifiability",
-        "License absence raises redistribution and usage concerns"
+        "Three external links are dead, reducing accessibility of referenced resources",
+        "License absence raises permissions concerns for reuse"
        ]
       }
      }
@@ -457,9 +455,9 @@
         "The artifact includes a detailed README with clear instructions for installation, setup, and usage.",
         "The project is well-structured with distinct directories for different functionalities, indicating organization and completeness.",
         "The README provides command-line examples for key functionalities (simulation-based fuzzing, violation detection, scenario mutation, visualization), allowing a reviewer to exercise the artifact.",
-        "The inclusion of a Docker environment for experiments suggests evidence of verification and validation, though some functionalities require GPU which is not provided in the Docker environment.",
-        "The artifact includes scripts and configuration files necessary to run the tool, indicating it is exercisable.",
-        "The documentation guides users on how to contribute, indicating an intention for others to interact with and potentially extend the tool."
+        "The artifact includes a Docker environment for reproducing experiments, which supports verification and validation of the tool's capabilities.",
+        "The documentation specifies dependencies and system requirements, which aids in reproducibility.",
+        "The artifact provides evidence of verification and validation through the described functionalities and the ability to run tests and generate outputs."
        ]
       },
       "solution": {
@@ -471,12 +469,12 @@
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
-        "README references multiple non-existent files, indicating documentation inconsistency",
+        "README references non-existent files, indicating documentation inconsistency",
         "No Dockerfile present despite README claiming Docker support",
-        "requirements.txt exists but lists no dependencies",
-        "Missing key files referenced in usage examples (e.g., configs/experiment_grid.json)",
-        "Cannot verify functional claims due to missing dependencies and files",
-        "License present but overall structure lacks completeness for functional verification"
+        "requirements.txt lists no dependencies, making environment reproduction difficult",
+        "Missing key files referenced in README (e.g., build script, experiment config, analysis notebook)",
+        "Artifact lacks complete exercisability due to missing components",
+        "Insufficient evidence of verification and validation processes"
        ]
       }
      }
@@ -507,12 +505,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact includes detailed setup instructions and requirements.",
-        "The README provides clear guidance on running the main pipeline and analysis scripts.",
-        "The artifact includes multiple scripts for different functionalities (pipeline, analysis, comparison).",
-        "Evidence of verification and validation is suggested by the analysis scripts and comparison tools.",
-        "The documentation is consistent and complete for a reviewer to follow and exercise the artifact.",
-        "The inclusion of Dockerfiles and configuration files supports reproducibility."
+        "The artifact includes detailed setup and execution instructions, allowing reviewers to follow along.",
+        "It provides scripts for the main pipeline and various analyses, indicating exercisability.",
+        "The inclusion of configuration files and Docker support suggests consistency and reproducibility.",
+        "Evidence of verification and validation is implied through the analysis scripts and comparison tools.",
+        "The README is comprehensive but could benefit from more explicit examples of expected outputs or test cases.",
+        "Some aspects like handling of compilation hangs and specific environment setups might require further clarification for full reproducibility."
        ]
       },
       "solution": {
@@ -527,7 +525,7 @@
         "README references non-existent files, indicating inconsistency",
         "No Dockerfile or CI configuration present, hindering reproducibility",
         "No tests present to verify functionality",
-        "Dependencies listed in requirements.txt but no actual requirements specified",
+        "Requirements file exists but lists no dependencies",
         "Missing key scripts referenced in README (e.g., train_model.py, figure4.ipynb)",
         "Lack of evidence that the artifact can be exercised as described"
        ]
@@ -560,12 +558,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is documented with clear README and structure",
-        "Includes executable scripts for running benchmarks",
-        "Provides evidence of verification through benchmark results",
-        "Contains source code for specific log parsers (LogPPT, UniParser)",
-        "Detailed dataset characteristics and organization described",
-        "Instructions for environment setup and result reproduction provided"
+        "The artifact is documented with clear instructions for installation and usage.",
+        "It includes scripts for running experiments and evaluations, indicating exercisability.",
+        "There is evidence of verification and validation through the provided benchmark results.",
+        "The repository structure is organized, with separate directories for datasets, benchmarks, and results.",
+        "The artifact includes source code for specific log parsers (LogPPT and UniParser).",
+        "The README provides citation information and acknowledges contributions, enhancing reproducibility."
        ]
       },
       "solution": {
@@ -577,12 +575,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "README references multiple non-existent files, indicating documentation inconsistency",
-        "No requirements listed in requirements.txt, making environment reproducibility difficult",
-        "No Dockerfile present, limiting container-based reproducibility",
-        "No CI configuration or tests present, reducing verification capability",
-        "Missing key scripts and configuration files referenced in README",
-        "Large dataset dependency requires external download via Zenodo"
+        "Repository exists in a public archival location (GitHub)",
+        "README references multiple non-existent files (configs/default.yaml, experiments/rq2_analysis.py, scripts/run_experiments.sh, setup/install_deps.sh, src/train_model.py)",
+        "No dependency management (requirements.txt empty, no Dockerfile)",
+        "No tests or CI configuration present",
+        "Missing executable scripts referenced in README for reproducing results",
+        "Cannot verify functionality due to missing essential components"
        ]
       }
      }
@@ -616,9 +614,9 @@
         "Artifact includes detailed, step-by-step instructions for setup and execution",
         "Provides both Docker and local environment setup options",
         "Includes example project configuration and data collection scripts",
-        "Contains evaluation scripts that produce the results presented in the paper",
-        "Documentation covers both basic functionality and extended dataset usage",
-        "Artifact structure allows for verification and validation of the implemented TCP techniques"
+        "Contains evaluation scripts that produce results matching paper's figures and tables",
+        "Demonstrates verification of TCP technique performance through eval_main.py",
+        "Includes mechanisms for extending dataset with additional builds"
        ]
       },
       "solution": {
@@ -631,11 +629,11 @@
        "delta": -1,
        "dirty_reasons": [
         "Repository exists in a public archival location",
-        "README references many non-existent files (33 referenced, 10 missing)",
+        "README references many non-existent files (33 referenced paths missing)",
         "No executable tests or CI configuration present",
-        "Requirements file exists but lists no dependencies",
-        "Dockerfile lacks FROM directive, making container reproduction impossible",
-        "Artifact cannot be exercised as documented due to missing files and scripts"
+        "Dependencies file exists but lists no requirements",
+        "Dockerfile lacks FROM directive, making container setup impossible",
+        "Critical setup scripts (bin/reproduce_table3.sh, setup/install_deps.sh) are missing"
        ]
       }
      }
@@ -669,9 +667,8 @@
         "The artifact is hosted on GitHub (nhuhuan/sba#falsified), a public archival repository.",
         "The README provides installation instructions and build steps, indicating it is archived and accessible.",
         "The repository appears to be under active development ('undergoing a significant overhaul'), but this does not affect its archival status.",
-        "No evidence of functional testing or reusable documentation quality is provided in the README; it only states intended capabilities and future work.",
-        "The current state suggests it may not yet be functional or reusable, but it is definitively available for archival purposes.",
-        "Reproducing results scripts are mentioned but may not be fully operational given the framework overhaul."
+        "No evidence of functional testing or reusable documentation quality is provided in the README; it only states intended features and dependencies.",
+        "The current state suggests it may not yet be functional or reusable, but it meets the criteria for 'Available' as it is publicly stored."
        ]
       },
       "solution": {
@@ -688,7 +685,7 @@
         "No tests present to verify functionality",
         "CI configuration missing, preventing automated verification",
         "Artifact lacks evidence of verification and validation",
-        "Repository does not provide means to exercise the artifact as described"
+        "Repository structure does not support exercising the artifact as described"
        ]
       }
      }
@@ -720,11 +717,11 @@
        "delta": null,
        "dirty_reasons": [
         "The repository includes detailed instructions for setting up the environment and reproducing experiments for both studies.",
-        "It provides scripts and code for running experiments with multiple models (LUCENE, SBERT, CLIP, BLIP) for Buggy UI Localization.",
+        "It provides scripts and code for running experiments with different models (LUCENE, SBERT, CLIP, BLIP) for Buggy UI Localization.",
         "Results are already provided, and rerunning experiments will overwrite them, indicating reproducibility.",
-        "Directory structure is clearly documented, with separate folders for each model and experiment type.",
-        "There are specific README files within subdirectories for study_2, guiding users through more complex experiments.",
-        "The inclusion of a run script (run_cmnd.sh) simplifies execution for users, enhancing exercisability."
+        "Directory structure is well-documented, with clear separation of code, data, and results for each model and experiment type.",
+        "The repository includes a script (run_cmnd.sh) to run all experiments for Study 1, facilitating easy replication.",
+        "Although Study 2 requires following separate READMEs, the overall structure supports reproducibility of the main focus (Study 1)."
        ]
       },
       "solution": {
@@ -740,7 +737,7 @@
         "README references many non-existent files, indicating inconsistency",
         "No Dockerfile or CI configuration present, affecting reproducibility",
         "Requirements file exists but lists no dependencies",
-        "Licence is missing from the repository",
+        "License is missing from the repository",
         "Tests are present but environment setup is incomplete"
        ]
       }
@@ -775,7 +772,7 @@
         "The artifact is placed in a public Docker repository, making it accessible and exercisable.",
         "Comprehensive documentation is provided, including installation steps, usage instructions, and details about the contents of the Docker image.",
         "The replication package includes scripts (`replicate.sh` and `compare.sh`) that automate the execution of experiments, facilitating verification.",
-        "Evidence of verification and validation is present through the expected outputs (`efficiency.csv`, `effectiveness.csv`) and mappings to tables in the paper.",
+        "Evidence of verification and validation is present through the inclusion of expected results (`efficiency.csv` and `effectiveness.csv`) and mappings to tables in the paper.",
         "The artifact is self-contained within a Docker container, ensuring consistency across different environments.",
         "Detailed descriptions of dataset and model configurations, as well as links to external repositories, enhance reproducibility."
        ]
@@ -789,12 +786,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "No dependency manifest found, making environment reproducibility impossible",
-        "Dockerfile lacks FROM directive, preventing container build",
-        "README references multiple non-existent files (8 out of 17)",
-        "Critical external dataset links are dead (5/12 URLs)",
-        "No CI configuration or tests present for verification",
-        "Missing key replication scripts mentioned in README"
+        "Repository exists in a public archival location",
+        "README references multiple non-existent files (7 missing paths)",
+        "No dependency manifest or container definition found",
+        "No CI configuration or tests present",
+        "Dead external links to dataset sources",
+        "Insufficient documentation to verify functionality"
        ]
       }
      }
@@ -826,10 +823,10 @@
        "delta": 0,
        "dirty_reasons": [
         "Artifact includes detailed, step-by-step instructions for environment setup and execution",
-        "Provides precomputed results to facilitate evaluation without requiring live LLM access",
+        "Provides precomputed results to validate claims without requiring live LLM access",
         "Includes scripts for running all major experiments (Perses, Vulcan, C-Reduce, LPR)",
         "Documentation covers both API-based and local LLM execution options",
-        "Contains analysis scripts for reproducing figures from the paper",
+        "Contains analysis scripts for generating figures from results",
         "Structure includes benchmark suites, tools, and result organization"
        ]
       },
@@ -842,12 +839,11 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "No dependency manifest or container definition present, making environment reproducibility impossible",
-        "README references multiple non-existent files (22 out of 20 referenced paths missing)",
-        "Critical scripts and tools referenced in README are absent from repository",
-        "No tests or CI configuration present to verify functionality",
-        "License absent, raising redistribution and usage concerns",
-        "Despite precomputed results, core execution scripts are missing, preventing verification of claims"
+        "No dependency manifest or container definition present, making reproducibility impossible",
+        "README references many non-existent files, indicating severe documentation inconsistency",
+        "No tests or CI configuration to verify functionality",
+        "License absent, raising reuse concerns",
+        "Artifact merely provides precomputed results without executable code pathways"
        ]
       }
      }
@@ -937,7 +933,7 @@
         "Repository contains many files but lacks essential components mentioned in README",
         "Missing critical components prevents functional verification",
         "Despite CI configuration and tests, artifact cannot be exercised as described",
-        "Archival presence does not compensate for missing functional elements"
+        "Archival presence alone satisfies 'Available' tier criteria"
        ]
       }
      }
@@ -968,12 +964,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public repository and includes detailed documentation for building, compiling, and running the tool.",
-        "The repository contains both AFL and AFL++ versions, with Dockerfiles provided for building.",
-        "The README includes step-by-step instructions for using the wrapper script and manual compilation, along with example commands.",
-        "The structure is well-organized with separate directories for different components and scripts for distance calculation.",
-        "There is evidence of verification through integration with SBFT24 competition where it ranked 2nd, indicating functional validation.",
-        "The artifact includes raw evaluation data and scripts for reproducing the paper's results, though some parts (like FuzzBench integration) are marked as work-in-progress."
+        "The repository includes detailed documentation and step-by-step instructions for building and running the tool.",
+        "The structure of the repository is well-organized, with separate directories for different components and examples.",
+        "The README provides clear examples for both wrapper usage and manual compilation, indicating the artifact is exercisable.",
+        "Evidence of verification and validation is suggested by references to evaluations and competitions (e.g., SBFT24@Fuzzing Workshop).",
+        "The inclusion of raw data and scripts for reproducing results supports the functional aspect of the artifact.",
+        "Contact information is provided for further assistance, indicating completeness."
        ]
       },
       "solution": {
@@ -985,12 +981,12 @@
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
+        "Repository exists in a public location (HexHive/FishFuzz#falsified)",
+        "README references non-existent files, indicating documentation inconsistency",
         "No dependency manifest found, making environment reproducibility difficult",
-        "README references several missing files, indicating documentation inconsistency",
         "No tests present in the repository",
         "Container setup incomplete (Dockerfile lacks FROM directive)",
-        "Verified facts show significant discrepancies between README claims and actual repository content",
-        "Lack of complete executable documentation for verification and validation"
+        "Licence present but overall structure lacks completeness for functional verification"
        ]
       }
      }
@@ -1016,7 +1012,7 @@
        "mentions_absence": false,
        "clean_tier": "Available",
        "dirty_tier": "Functional",
-       "clean_conf": 0.95,
+       "clean_conf": 0.7,
        "dirty_conf": 0.85,
        "downgraded": false,
        "delta": 1,
@@ -1024,9 +1020,9 @@
         "The artifact includes detailed installation instructions for both Docker and local setups.",
         "The repository provides a clear usage guide and links to additional documentation.",
         "It includes scripts to reproduce the results, indicating the pipeline is exercisable.",
-        "The presence of troubleshooting documentation suggests consideration for user experience.",
+        "The presence of troubleshooting documentation suggests consideration for user experience and verification.",
         "The artifact is structured with separate directories for source, data, and notebooks, showing organization.",
-        "However, lack of explicit verification and validation evidence slightly reduces confidence."
+        "However, lack of explicit validation evidence or test cases slightly reduces confidence in full verification."
        ]
       },
       "solution": {
@@ -1038,10 +1034,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "README references non-existent files, indicating inconsistency",
-        "No dependency manifest or Dockerfile with FROM directive found",
-        "No tests or CI configuration present to verify functionality",
-        "Dead external link to Docker repository undermines reproducibility"
+        "README references non-existent files, indicating documentation inconsistency",
+        "No dependency manifest or Dockerfile with FROM directive found, hindering reproducibility",
+        "No tests present to verify functionality",
+        "CI configuration missing, preventing automated verification",
+        "Dead external link to Docker repository reduces accessibility",
+        "Despite archival presence, critical elements for functional verification are absent"
        ]
       }
      }
@@ -1068,16 +1066,16 @@
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.85,
-       "dirty_conf": 0.85,
+       "dirty_conf": 0.75,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The artifact includes detailed step-by-step instructions for reproducing both the reproduction and replication studies.",
         "It provides a Docker image with pre-configured environments, simplifying setup for users.",
-        "The documentation outlines how to handle different system architectures and dependencies.",
-        "A demonstration is included to verify the functionality of the artifact on a smaller scale.",
-        "Instructions for running full experiments and processing results are clearly provided.",
-        "Despite challenges with the CARLA use case, the artifact acknowledges these and provides guidance."
+        "The documentation outlines how to run experiments, process logs, and generate results, indicating a complete and exercisable workflow.",
+        "Includes a demonstration for a small-scale experiment to verify functionality.",
+        "Despite challenges with the CARLA use case, the majority of the experiments are supported and replicable.",
+        "The structure is well-organized with separate folders for reproduction and replication studies, each containing relevant README files."
        ]
       },
       "solution": {
@@ -1089,12 +1087,12 @@
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
-        "README references non-existent files, indicating documentation-artifact inconsistency",
-        "Missing critical execution scripts and data preparation files",
+        "README references non-existent files, indicating inconsistency",
         "No executable tests or CI configuration present",
-        "Dependencies file lists no requirements, making environment recreation impossible",
-        "Dockerfile lacks essential FROM directive, rendering container build impossible",
-        "Artifact lacks evidence of verification/validation processes"
+        "Dependencies listed in requirements.txt are empty",
+        "Dockerfile lacks FROM directive, making container build impossible",
+        "Missing key scripts and data preparation files referenced in README",
+        "Artifact lacks evidence of verification and validation processes"
        ]
       }
      }
@@ -1125,12 +1123,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is publicly available in a GitHub repository",
-        "Comprehensive README provides clear setup, usage, and experiment reproduction instructions",
-        "Includes both source code and Docker-based execution environment",
-        "Demonstrates verifiable functionality through fuzzing and constraint extraction workflows",
-        "Contains test scripts and evidence of bug finding (docs/bug_list.md)",
-        "Supports multiple deep learning frameworks (PyTorch, TensorFlow) with clear examples"
+        "Artifact includes detailed documentation and usage examples for key functionalities",
+        "Provides Docker-based reproducibility environment",
+        "Contains test scripts and evidence of bug finding (bug_list.md)",
+        "Clear structure with separated directories for implementation, data, and experiments",
+        "Includes dependency management via requirements.txt",
+        "Demonstrates verification through comparative experiments and constraint assessment"
        ]
       },
       "solution": {
@@ -1142,12 +1140,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Repository lacks Docker container and CI configuration, making reproducibility difficult",
         "README references multiple non-existent files and directories, indicating documentation inconsistency",
-        "Requirements file is empty, providing no dependency information",
-        "Only basic structure and license are present; core functionality cannot be verified from available evidence",
-        "Dead external link to Docker Hub further complicates reproducibility",
-        "Despite having tests, lack of execution verification means we cannot assess functional correctness"
+        "No Dockerfile present despite README claiming Docker usage is required",
+        "Requirements file exists but contains no dependencies",
+        "Critical data/paths referenced in examples don't exist in repository",
+        "Dead external link to Docker Hub repository",
+        "Lack of CI configuration despite complex artifact requirements"
        ]
       }
      }
@@ -1178,12 +1176,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is placed in a public repository but lacks detailed documentation for verification and validation.",
-        "README provides high-level structure but does not include sufficient instructions to exercise the artifact fully.",
-        "No evidence of verification and validation processes is provided in the repository.",
-        "Dependencies and environment setup may not be fully detailed, making it difficult to reproduce results.",
-        "The repository structure is outlined, but individual components' documentation is not assessed here.",
-        "Confidence is calibrated low due to lack of explicit evidence of functionality and reusability."
+        "Artifact is placed in a public repository (GitHub) but lacks detailed documentation for verification and validation.",
+        "README provides high-level structure but does not include sufficient instructions to fully exercise or validate the artifact.",
+        "No evidence of verification or validation processes is provided in the repository.",
+        "Dependencies and environment setup may not be fully reproducible without additional guidance.",
+        "The repository structure is outlined, but individual folder READMEs may contain critical details not assessed here.",
+        "Lack of explicit evidence that others have successfully reproduced the results using this artifact."
        ]
       },
       "solution": {
@@ -1229,12 +1227,11 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The repository includes detailed setup instructions and scripts for reproducing experiments",
-        "There is a clear directory structure with separate folders for datasets, patches, results, and source code",
-        "The README provides step-by-step guidance for both quick demos and full result reproduction",
-        "Evidence of real-world impact is shown through accepted pull requests",
-        "The artifact appears complete with all necessary components for verification",
-        "Documentation is sufficient for a reviewer to follow and exercise the artifact"
+        "The README provides clear, step-by-step instructions for setting up the environment and reproducing results.",
+        "The repository includes scripts for setup, installation, and running the tool, indicating a complete and exercisable artifact.",
+        "There is evidence of verification and validation through the acceptance of 19 pull requests and detailed results in the repository.",
+        "The documentation is sufficient for a reviewer to follow and exercise the artifact, though some parts (like preparing the Magicoder model) require external resources.",
+        "The inclusion of both a quick demo and a full reproduction guide enhances the reproducibility of the results."
        ]
       },
       "solution": {
@@ -1247,11 +1244,11 @@
        "delta": 0,
        "dirty_reasons": [
         "No dependency manifest or container definition present, making environment reproducibility impossible",
-        "README references multiple nonexistent files, indicating documentation-artifact mismatch",
-        "Critical external links are dead, reducing verifiability of claims",
+        "README references multiple nonexistent files, indicating documentation-artifact inconsistency",
+        "Critical setup scripts (src/setup.sh, src/install.sh, src/run_FlakyDoctor.sh) are missing and cannot be verified",
         "No tests or CI configuration present to validate functionality",
-        "License absence raises redistribution concerns",
-        "Repository structure incomplete for claimed functionality (e.g., missing src/train_model.py)"
+        "Three external links are dead, reducing accessibility of referenced resources",
+        "License absence raises redistribution and usage concerns"
        ]
       }
      }
@@ -1282,12 +1279,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact includes a detailed README with clear instructions for installation, setup, and usage.",
+        "The artifact includes a detailed README with clear instructions for setup, installation, and usage.",
         "The project structure is well-organized with distinct directories for different functionalities.",
         "The artifact provides command-line interfaces for key functionalities: simulation-based fuzzing, violation detection, scenario mutation, and visualization.",
         "There is evidence of verification and validation through the provided scripts and example usage.",
-        "The inclusion of a Docker environment for reproducing experiments indicates a level of completeness and exercisability.",
-        "The documentation is sufficient for a reviewer to follow along and exercise the artifact, though some dependencies (e.g., GPU for simulation) may require additional setup."
+        "The inclusion of a Docker environment for reproducing results adds to the exercisability of the artifact.",
+        "The documentation guides users through the process of exercising the artifact, though some dependencies (e.g., GPU for simulation) are noted as not fully supported in the provided Docker environment."
        ]
       },
       "solution": {
@@ -1335,12 +1332,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact includes detailed setup and execution instructions, allowing reviewers to follow along.",
-        "It provides scripts for the main pipeline and various analyses, indicating exercisability.",
-        "The inclusion of configuration files and Docker support suggests consistency and reproducibility.",
-        "Evidence of verification and validation is implied through the analysis scripts and comparison tools.",
-        "The README is comprehensive but could benefit from more explicit examples of expected outputs or test cases.",
-        "Some aspects like handling of compilation hangs and specific environment setups might require further clarification for full reproducibility."
+        "The artifact includes a detailed README with clear setup and execution instructions.",
+        "It provides scripts for running the pipeline and performing various analyses.",
+        "The presence of configuration files and Docker support indicates reproducibility.",
+        "The artifact includes multiple functional components (pipeline, analysis, comparison).",
+        "Documentation guides users through different operational modes and parameters.",
+        "Uncertainty remains about full reproducibility without testing the actual execution."
        ]
       },
       "solution": {
@@ -1356,8 +1353,8 @@
         "No Dockerfile or CI configuration present, hindering reproducibility",
         "No tests present to verify functionality",
         "Requirements file exists but lists no dependencies",
-        "Missing key scripts referenced in README (e.g., train_model.py, figure4.ipynb)",
-        "Lack of evidence that the artifact can be exercised as documented"
+        "Missing key scripts and configuration files mentioned in documentation",
+        "Artifact lacks evidence of verification and validation"
        ]
       }
      }
@@ -1388,12 +1385,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is documented with clear README and directory structure",
-        "Includes scripts for reproducing experiments and evaluations",
-        "Provides dataset download instructions and benchmark requirements",
+        "Artifact is documented with clear README and structure",
+        "Includes executable scripts for running benchmarks",
+        "Provides evidence of verification through benchmark results",
         "Contains source code for specific log parsers (LogPPT, UniParser)",
-        "Offers step-by-step guidance for running benchmarks",
-        "Includes citation information for proper academic usage"
+        "Detailed dataset characteristics and organization provided",
+        "Instructions for environment setup and execution are present"
        ]
       },
       "solution": {
@@ -1406,11 +1403,11 @@
        "delta": 0,
        "dirty_reasons": [
         "Repository lacks critical files referenced in README (e.g., configs/default.yaml, experiments/rq2_analysis.py)",
-        "No executable scripts or CI configuration to verify functionality",
-        "Dependencies listed in requirements.txt are empty, making reproduction impossible",
-        "No tests present to validate the artifact",
+        "No executable scripts or CI configuration present to verify functionality",
+        "Dependencies listed in requirements.txt are empty, making environment reproduction impossible",
+        "No tests present to validate the artifact's correctness",
         "README contains instructions that cannot be followed due to missing files",
-        "No containerization (Dockerfile) for environment reproducibility"
+        "Lack of containerization (Dockerfile) further hinders reproducibility"
        ]
       }
      }
@@ -1458,12 +1455,12 @@
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
-        "Repository exists in a public location",
-        "README references many non-existent files, indicating inconsistency",
+        "Repository exists in a public archival location",
+        "README references many non-existent files (33 referenced, 10 missing)",
         "No executable tests or CI configuration present",
-        "Dependencies file lists no requirements, making reproducibility impossible",
-        "Dockerfile lacks FROM directive, rendering Docker instructions non-functional",
-        "Artifact cannot be exercised due to missing scripts and data references"
+        "Requirements file exists but lists no dependencies",
+        "Dockerfile lacks FROM directive, making container reproduction impossible",
+        "Artifact cannot be exercised as documented due to missing files and scripts"
        ]
       }
      }
@@ -1494,12 +1491,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is hosted in a public repository (GitHub) but no evidence of verification or validation is provided",
-        "README describes planned architecture changes and future work rather than current implementation state",
-        "No executable binaries or test cases are included for reviewers to validate functionality",
-        "Build instructions exist but lack specific version requirements for key dependencies like LLVM",
-        "No evidence of documentation completeness or code structure quality needed for reuse",
-        "Current state appears to be under active development ('under undergoing significant overhaul')"
+        "Artifact is hosted in a public repository (GitHub) but no evidence of verification or validation is provided in the README.",
+        "The README describes planned architecture changes and capabilities but lacks current implementation details or evidence of functionality.",
+        "No executable artifacts, test suites, or demonstration outputs are included or referenced.",
+        "The 'Reproducing the results' section references Docker and Python scripts, but these are not confirmed to be present or functional in the current repository state.",
+        "The artifact appears to be under active development ('undergoing a significant overhaul'), suggesting incomplete or unstable state.",
+        "No clear documentation on how to exercise the core functionality (e.g., the jump table analysis API) beyond a single command example."
        ]
       },
       "solution": {
@@ -1516,7 +1513,7 @@
         "No tests present to verify functionality",
         "CI configuration missing, preventing automated verification",
         "Artifact lacks evidence of verification and validation",
-        "Repository does not meet criteria for Functional or Reusable tiers"
+        "Repository structure does not support exercising the artifact as described"
        ]
       }
      }
@@ -1549,10 +1546,10 @@
        "dirty_reasons": [
         "The repository includes detailed instructions for setting up the environment and reproducing experiments for both studies.",
         "It provides scripts and code for running experiments with different models (LUCENE, SBERT, CLIP, BLIP) for Buggy UI Localization.",
-        "Results are already provided, and rerunning experiments will overwrite them, indicating reproducibility.",
+        "Results are already provided, and rerunning experiments will overwrite them, indicating functionality.",
         "Directory structure is well-documented, with clear separation of code, data, and results for each model and experiment type.",
-        "The repository includes a script (run_cmnd.sh) to run all experiments for Study 1, facilitating easy replication.",
-        "Although Study 2 requires following separate READMEs, the overall structure supports reproducibility of the main focus (Study 1)."
+        "The inclusion of both Java and Python codebases shows comprehensive implementation across different technologies.",
+        "The repository contains a script (run_cmnd.sh) to automate the execution of all experiments for Study 1, enhancing reproducibility."
        ]
       },
       "solution": {
@@ -1566,10 +1563,10 @@
        "dirty_reasons": [
         "Artifact is placed in a public repository",
         "README references many non-existent files, indicating inconsistency",
-        "No Dockerfile present, reducing reproducibility",
-        "requirements.txt exists but lists no dependencies",
-        "No CI configuration present",
-        "License is missing"
+        "No Dockerfile or CI configuration present, affecting reproducibility",
+        "Requirements file exists but lists no dependencies",
+        "License is missing from the repository",
+        "Tests are present but environment setup is incomplete"
        ]
       }
      }
@@ -1600,12 +1597,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is placed in a public Docker repository, making it accessible and exercisable.",
-        "Comprehensive documentation is provided, including installation steps, usage instructions, and details about the contents of the Docker image.",
-        "The replication package includes scripts (`replicate.sh` and `compare.sh`) that automate the execution of experiments, facilitating verification.",
-        "Evidence of verification and validation is present through the expected outputs (`efficiency.csv` and `effectiveness.csv`) and their mapping to tables in the paper.",
-        "The artifact is self-contained within a Docker container, ensuring consistency across different environments.",
-        "Detailed descriptions of dataset and model configurations, as well as links to external repositories, enhance reproducibility."
+        "The artifact includes a Docker image containing all necessary code, datasets, models, and configurations.",
+        "Detailed step-by-step instructions are provided for installation and execution of experiments.",
+        "Scripts are available to run the full replication pipeline or individual stages.",
+        "The artifact includes evidence of verification and validation through the provided evaluation scripts and expected output files.",
+        "The documentation clearly maps the generated results to specific tables and figures from the paper.",
+        "The artifact is exercisable: a reviewer could follow the documentation to run the experiments and verify the results."
        ]
       },
       "solution": {
@@ -1619,10 +1616,10 @@
        "dirty_reasons": [
         "No dependency manifest found, making environment reproducibility impossible",
         "README references multiple non-existent files, indicating documentation inconsistency",
-        "No CI configuration or tests present, preventing verification of functionality",
-        "Dead external links to datasets make data acquisition impossible",
         "Dockerfile lacks FROM directive, preventing container build",
-        "Missing key scripts referenced in README (replication.sh, comparison.sh, etc.)"
+        "Critical external dataset links are dead, blocking data access",
+        "No CI configuration or tests present, limiting verification capability",
+        "Missing key replication scripts referenced in README"
        ]
       }
      }
@@ -1654,11 +1651,11 @@
        "delta": 0,
        "dirty_reasons": [
         "Artifact includes detailed, step-by-step instructions for environment setup and execution",
-        "Provides precomputed results to facilitate evaluation without requiring live LLM access",
-        "Includes scripts for running all major experiments (Perses, Vulcan, C-Reduce, LPR)",
-        "Documentation covers both API-based and local LLM execution options",
-        "Contains analysis scripts for reproducing figures from the paper",
-        "Structure includes benchmark suites, tools, and result organization"
+        "Provides both precomputed results and scripts to reproduce experiments",
+        "Includes handling for non-deterministic LLM outputs and connection issues",
+        "Documentation covers multiple scenarios (OpenAI API and local CodeLlama deployment)",
+        "Contains analysis scripts for generating figures from the paper",
+        "Structure is organized with clear separation of scripts, benchmarks, and results"
        ]
       },
       "solution": {
@@ -1671,10 +1668,10 @@
        "delta": 0,
        "dirty_reasons": [
         "No dependency manifest or container definition present, making reproducibility impossible",
-        "README references many non-existent files, indicating severe documentation inconsistency",
+        "README references many non-existent files, indicating documentation-artifact mismatch",
         "No tests or CI configuration to verify functionality",
         "License absent, raising reuse concerns",
-        "Artifact merely provides precomputed results without executable code pathways"
+        "Despite claims of functionality, verified facts show critical missing components"
        ]
       }
      }
@@ -1737,7 +1734,7 @@
        "clean_tier": "Available",
        "dirty_tier": "Available",
        "clean_conf": 0.95,
-       "dirty_conf": 0.7,
+       "dirty_conf": 0.95,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
@@ -1745,8 +1742,8 @@
         "README provides basic instructions but lacks detailed documentation",
         "No evidence of verification or validation provided in the repository",
         "Pre-compiled Docker mentioned but not directly accessible from repository",
-        "Insufficient details for a reviewer to independently exercise the artifact",
-        "Lacks comprehensive documentation needed for reuse and repurposing"
+        "Insufficient information to determine if the artifact is functional or reusable",
+        "No clear structure or documentation for reuse and repurposing"
        ]
       },
       "solution": {
@@ -1794,12 +1791,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is placed in a public repository with detailed documentation",
-        "Includes Dockerfiles for building the instrumented versions",
-        "Provides step-by-step instructions for compilation and fuzzing",
-        "Contains example usage and manual compilation guide",
-        "Includes raw evaluation data and scripts for result reproduction",
-        "Demonstrates evidence of verification through SBFT24 competition results"
+        "The repository includes detailed documentation and step-by-step instructions for building and running the tool.",
+        "It provides both an automated wrapper (`ff-all-in-one`) and manual compilation steps, catering to different user preferences.",
+        "The structure of the repository is clearly outlined, with separate directories for AFL and AFL++ versions, scripts, and Dockerfiles.",
+        "Examples are provided for both automated and manual compilation processes, enhancing reproducibility.",
+        "Contact information is available for users encountering issues or needing further assistance.",
+        "The repository includes raw evaluation data and scripts intended for reproducing the paper's results, though some parts are marked as work-in-progress."
        ]
       },
       "solution": {
@@ -1811,12 +1808,12 @@
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
-        "Repository exists in a public location (HexHive/FishFuzz#falsified)",
-        "README references non-existent files, indicating documentation inconsistency",
         "No dependency manifest found, making environment reproducibility difficult",
+        "README references several missing files, indicating documentation inconsistency",
         "No tests present to verify functionality",
         "Container setup incomplete (Dockerfile lacks FROM directive)",
-        "Licence present but overall structure lacks evidence of verification and validation"
+        "Despite code presence, lack of verifiable execution steps reduces confidence in functionality",
+        "Licence present but archival only tier confirmed due to missing functional evidence"
        ]
       }
      }
@@ -1842,17 +1839,17 @@
        "mentions_absence": false,
        "clean_tier": "Available",
        "dirty_tier": "Functional",
-       "clean_conf": 0.95,
+       "clean_conf": 0.7,
        "dirty_conf": 0.85,
        "downgraded": false,
        "delta": 1,
        "dirty_reasons": [
-        "The artifact includes a Docker image for out-of-the-box execution, simplifying setup and verification.",
-        "Installation instructions and dependencies are clearly listed, aiding reproducibility.",
-        "The repository provides scripts for running the full pipeline and individual stages, supporting direct testing.",
-        "Documentation references (e.g., AE.md, CommonIssues.md) indicate guidance for usage and troubleshooting.",
-        "The presence of a training script and analysis notebook suggests verifiable outcomes.",
-        "However, detailed step-by-step verification was not performed, introducing minor uncertainty."
+        "The artifact includes detailed installation instructions via Docker and local setup.",
+        "The repository provides a clear usage guide and links to additional documentation.",
+        "There is a script provided for reproducing the results, indicating the artifact is exercisable.",
+        "The inclusion of troubleshooting documentation suggests attention to user experience and verification.",
+        "The artifact is structured with separate directories for source, data, and notebooks, indicating organization.",
+        "The presence of a Dockerfile implies the artifact can be run in a consistent environment."
        ]
       },
       "solution": {
@@ -1864,12 +1861,10 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "README references non-existent files, indicating documentation inconsistency",
-        "No dependency manifest or Dockerfile with FROM directive found, hindering reproducibility",
-        "No tests present to verify functionality",
-        "CI configuration missing, preventing automated verification",
-        "Dead external link to Docker repository reduces accessibility",
-        "Despite archival presence, critical elements for functional verification are absent"
+        "README references non-existent files, indicating inconsistency",
+        "No dependency manifest or Dockerfile with FROM directive found",
+        "No tests or CI configuration present to verify functionality",
+        "Dead external link to Docker repository undermines reproducibility"
        ]
       }
      }
@@ -1902,10 +1897,10 @@
        "dirty_reasons": [
         "The artifact includes detailed step-by-step instructions for reproducing both the reproduction and replication studies.",
         "It provides a Docker image with pre-configured environments, simplifying setup for users.",
-        "The documentation outlines how to run experiments, process logs, and generate plots, indicating a clear workflow.",
-        "A demonstration is included to verify functionality on a smaller scale.",
-        "However, the CARLA use case is noted as particularly challenging and may not be fully replicable within reasonable timeframes.",
-        "Some instructions (e.g., Docker commands) are commented out or incomplete, which may cause confusion."
+        "The documentation outlines how to run experiments, process logs, and generate results, indicating a complete and exercisable workflow.",
+        "Includes a demonstration for a small-scale experiment to verify functionality.",
+        "Despite challenges with the CARLA use case, the majority of the experiments are supported and replicable.",
+        "The structure is well-organized with separate folders for reproduction and replication studies, each containing relevant README files."
        ]
       },
       "solution": {
@@ -1917,11 +1912,12 @@
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
-        "README references non-existent files, indicating documentation-artifact inconsistency",
-        "No executable tests or CI configuration present to verify functionality",
-        "Dependencies listed in requirements.txt are empty, making environment replication ambiguous",
-        "Dockerfile lacks FROM directive, rendering container build impossible",
-        "Critical execution scripts mentioned in README are missing from repository"
+        "README references non-existent files, indicating inconsistency",
+        "No Dockerfile with FROM directive present",
+        "No CI configuration or tests present",
+        "Dependencies file lists no requirements",
+        "Missing key scripts and data preparation files referenced in README",
+        "Artifact lacks evidence of verification and validation processes"
        ]
       }
      }
@@ -1952,12 +1948,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact includes detailed documentation and usage examples for key functionalities",
-        "Provides Docker-based reproducibility environment",
+        "Artifact is publicly available in a GitHub repository with a Docker image",
+        "Comprehensive README provides clear setup, usage, and experiment reproduction instructions",
+        "Includes both fuzzing and constraint extraction components with concrete examples",
         "Contains test scripts and evidence of bug finding (bug_list.md)",
-        "Structure indicates complete implementation with separate modules for different functionalities",
-        "Includes clear command-line interfaces and parameter documentation",
-        "Shows evidence of verification through comparative experiments and constraint assessment"
+        "Structure follows standard project organization with separated directories for implementation, data, and experiments",
+        "Documentation covers multiple frameworks (PyTorch, TensorFlow, NumPy) and various operational modes"
        ]
       },
       "solution": {
@@ -1971,8 +1967,8 @@
        "dirty_reasons": [
         "Repository lacks Docker container and CI configuration, making reproducibility difficult",
         "README references multiple non-existent files and directories, indicating documentation-artifact mismatch",
-        "Requirements file is empty (lists no dependencies), preventing proper environment setup",
-        "Dead external link to Docker Hub repository reduces accessibility",
+        "Requirements file is empty (lists no dependencies), preventing environment setup",
+        "Dead external link in README reduces accessibility of critical resources",
         "Despite having tests and a license, missing key reproducibility components prevent functional verification"
        ]
       }
@@ -2004,12 +2000,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "Artifact is placed in a public repository (GitHub) but lacks detailed documentation for verification and validation.",
-        "README provides high-level structure but does not include sufficient instructions to fully exercise or validate the artifact.",
-        "No evidence of verification or validation processes is provided within the repository.",
-        "Dependencies and environment setup may not be fully reproducible without additional guidance.",
-        "The repository structure is outlined, but individual components (e.g., Theme1, Theme2, Theme3) may have their own READMEs that were not assessed.",
-        "Lack of explicit evidence that others have successfully reproduced the results using the provided artifacts."
+        "Artifact is placed in a public repository (GitHub)",
+        "README provides high-level structure of the repository",
+        "No evidence of verification or validation provided in the README",
+        "No detailed instructions for reproducing experiments beyond basic commands",
+        "Lack of explicit documentation on dependencies or environment setup beyond mentioned scripts",
+        "Insufficient detail to confirm if the artifact is functional or reusable"
        ]
       },
       "solution": {
@@ -2051,16 +2047,15 @@
        "clean_tier": "Functional",
        "dirty_tier": "Functional",
        "clean_conf": 0.85,
-       "dirty_conf": 0.75,
+       "dirty_conf": 0.85,
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
         "The README provides clear, step-by-step instructions for setting up the environment and reproducing results.",
-        "The repository includes scripts for setup, installation, and running the main functionality.",
-        "There is evidence of verification through accepted pull requests and detailed result outputs.",
-        "The structure of the repository (datasets, patches, results, src) is well-organized and documented.",
-        "The artifact is exercisable following the provided documentation, though some steps require external resources (e.g., API keys).",
-        "The variability noted due to LLM non-determinism is acknowledged, which is typical for such systems."
+        "The repository includes scripts for setup, installation, and running the tool, indicating a complete and exercisable artifact.",
+        "There is evidence of verification and validation through the acceptance of 19 pull requests and detailed results in the repository.",
+        "The documentation is sufficient for a reviewer to follow and exercise the artifact, though some parts (like preparing the Magicoder model) require external resources.",
+        "The inclusion of both a quick demo and a full reproduction guide enhances the reproducibility of the results."
        ]
       },
       "solution": {
@@ -2073,11 +2068,11 @@
        "delta": 0,
        "dirty_reasons": [
         "No dependency manifest or container definition present, making environment reproducibility impossible",
-        "README references multiple nonexistent files, indicating documentation-artifact mismatch",
-        "Critical setup scripts (src/setup.sh, src/install.sh, src/run_FlakyDoctor.sh) referenced but unverified",
+        "README references multiple nonexistent files, indicating documentation-artifact inconsistency",
+        "Critical setup scripts (src/setup.sh, src/install.sh, src/run_FlakyDoctor.sh) are missing and cannot be verified",
         "No tests or CI configuration present to validate functionality",
         "Three external links are dead, reducing accessibility of referenced resources",
-        "License absence raises redistribution and usage concerns"
+        "License absence raises permission and redistribution concerns"
        ]
       }
      }
@@ -2109,10 +2104,11 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact includes a detailed README with clear instructions for installation, setup, and usage.",
-        "The project is well-structured with distinct directories for different functionalities, indicating organization and completeness.",
-        "The README provides command-line examples for key functionalities (simulation-based fuzzing, violation detection, scenario mutation, visualization), allowing a reviewer to exercise the artifact.",
-        "The inclusion of a Docker environment for evaluation suggests evidence of verification and validation, though some functionalities require GPU which is not provided in the Docker image.",
-        "The artifact includes scripts and configuration files necessary to run the tool, indicating it is exercisable."
+        "The project is well-structured with distinct directories for different functionalities (e.g., config, dataparser, mutator, scripts).",
+        "The README provides command-line examples for key functionalities: simulation-based fuzzing, violation detection, scenario mutation, and visualization.",
+        "The artifact includes a Docker environment for reproducing experiments, indicating a level of completeness and verification.",
+        "The documentation outlines dependencies and environment specifications (Python 3.7.16, Ubuntu 18.04, Nvidia RTX 2080 Ti).",
+        "The artifact provides guidance on contributing and reporting issues, indicating maintainability."
        ]
       },
       "solution": {
@@ -2125,11 +2121,11 @@
        "delta": -1,
        "dirty_reasons": [
         "README references non-existent files, indicating documentation inconsistency",
-        "No Dockerfile present despite README claiming one exists",
-        "Missing key files referenced in README (e.g., configs/experiment_grid.json, notebooks/figure4.ipynb)",
-        "Requirements.txt is empty, making environment reproduction difficult",
-        "No evidence of verification and validation provided",
-        "Artifact lacks structure and completeness needed for functional or reusable tiers"
+        "No Dockerfile present despite README claiming Docker support",
+        "requirements.txt lists no dependencies, making environment reproduction difficult",
+        "Missing key files referenced in README (e.g., build script, experiment config, analysis notebook)",
+        "Artifact lacks complete exercisability due to missing components",
+        "Insufficient evidence of verification and validation processes"
        ]
       }
      }
@@ -2161,11 +2157,11 @@
        "delta": 0,
        "dirty_reasons": [
         "The artifact includes detailed setup instructions and requirements.",
-        "The README provides clear guidance on running the pipeline and analysis scripts.",
-        "The project structure is organized with separate scripts for different functionalities.",
-        "There are instructions for skipping steps and handling configuration changes.",
-        "The artifact includes multiple types of comparisons (image-based, text-based).",
-        "Uncertainty due to lack of explicit verification/validation evidence in documentation."
+        "The README provides clear guidance on running the main pipeline and analysis scripts.",
+        "The artifact includes scripts for different types of comparisons (image-based, text-based).",
+        "There is a configuration file (`config.py`) that allows customization of the testing process.",
+        "The artifact includes additional utility scripts for specific tasks like counting pages and runs.",
+        "The presence of Dockerfiles for different TeX Live distributions supports reproducibility."
        ]
       },
       "solution": {
@@ -2182,7 +2178,7 @@
         "No tests present to verify functionality",
         "Dependencies listed in requirements.txt but no actual requirements specified",
         "Missing key scripts and configuration files mentioned in documentation",
-        "Lack of evidence for verification and validation of the artifact"
+        "Lack of evidence that the artifact can be exercised as described"
        ]
       }
      }
@@ -2213,12 +2209,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "The artifact is documented with clear instructions for installation and usage.",
-        "It includes scripts for running experiments and evaluations, indicating exercisability.",
-        "There is evidence of verification and validation through benchmark evaluations and results.",
-        "The repository structure is organized, with separate directories for datasets, benchmarks, and results.",
-        "The artifact provides a comprehensive set of datasets and tools for log parsing evaluation.",
-        "Detailed steps for reproducing results are provided, enhancing reproducibility."
+        "Artifact is documented with clear README and structure",
+        "Includes executable scripts for running benchmarks",
+        "Provides evidence of verification through benchmark results",
+        "Contains source code for specific log parsers (LogPPT, UniParser)",
+        "Detailed dataset characteristics and organization provided",
+        "Instructions for environment setup and execution are present"
        ]
       },
       "solution": {
@@ -2232,9 +2228,10 @@
        "dirty_reasons": [
         "Repository lacks critical files referenced in README (e.g., configs/default.yaml, experiments/rq2_analysis.py)",
         "No executable scripts or CI configuration to verify functionality",
-        "Dependencies listed in requirements.txt are empty, making reproduction impossible",
+        "Missing dependency management (requirements.txt empty, no Dockerfile)",
         "No tests present to validate correctness",
-        "README contains instructions that cannot be followed due to missing files"
+        "README contains instructions that cannot be followed due to missing files",
+        "Artifact only provides dataset storage without means to process or evaluate it"
        ]
       }
      }
@@ -2268,9 +2265,9 @@
         "Artifact includes detailed, step-by-step instructions for setup and execution",
         "Provides both Docker and local environment setup options",
         "Includes example project configuration and data collection scripts",
-        "Contains evaluation scripts for TCP techniques with clear output formats",
-        "Documentation covers reproduction of paper results and dataset usage",
-        "Artifact structure is organized with separate directories for different functions"
+        "Contains evaluation scripts that produce results matching paper's figures and tables",
+        "Dataset collection and processing steps are well-documented",
+        "Code organization separates different TCP technique implementations"
        ]
       },
       "solution": {
@@ -2282,12 +2279,12 @@
        "downgraded": true,
        "delta": -1,
        "dirty_reasons": [
-        "Repository exists in a public archival location",
-        "README references many non-existent files (33 referenced paths missing)",
-        "No executable tests or CI configuration present",
-        "Dependencies file exists but lists no requirements",
-        "Dockerfile lacks FROM directive, making container setup impossible",
-        "Critical setup scripts (bin/reproduce_table3.sh, setup/install_deps.sh) missing"
+        "Repository exists in a public location but lacks essential executable components (no CI, no tests)",
+        "README references many non-existent files, indicating severe documentation-artifact mismatch",
+        "Dependencies file is empty and Docker setup is incomplete (missing FROM directive)",
+        "No evidence of verification or validation processes in the repository",
+        "Critical reproduction scripts mentioned in README are absent from the repository",
+        "Artifact appears to be a skeleton with placeholder documentation rather than a functional implementation"
        ]
       }
      }
@@ -2322,7 +2319,7 @@
         "The README describes planned architecture changes and capabilities but lacks current implementation details or evidence of functionality.",
         "No executable artifacts, test suites, or demonstration outputs are included or referenced.",
         "The 'Reproducing the results' section references Docker and Python scripts, but these are not confirmed to be present or functional in the current repository state.",
-        "The artifact appears to be under significant overhaul, suggesting current implementation may not match described capabilities.",
+        "The artifact appears to be under active development ('undergoing a significant overhaul'), suggesting incomplete or unstable state.",
         "No clear documentation on how to exercise the core functionality (e.g., the jump table analysis API) beyond a single command example."
        ]
       },
@@ -2339,8 +2336,8 @@
         "No dependency manifest or containerization present, hindering reproducibility",
         "No tests present to verify functionality",
         "CI configuration missing, preventing automated verification",
-        "Artifact is archived but lacks evidence of being functional or reusable",
-        "Missing key components referenced in documentation prevent verification of claims"
+        "Artifact lacks evidence of verification and validation",
+        "Repository structure does not support exercising the artifact as described"
        ]
       }
      }
@@ -2371,12 +2368,12 @@
        "downgraded": false,
        "delta": null,
        "dirty_reasons": [
-        "The repository includes detailed instructions for setting up the environment and reproducing experiments.",
-        "It provides scripts and code for both studies (Buggy UI Localization and Buggy Code Localization).",
-        "Results are already provided, and rerunning experiments will overwrite them, indicating functionality.",
-        "Directory structure is well-documented, with clear separation of concerns for different models and experiments.",
-        "The inclusion of both Java and Python code suggests comprehensive coverage of the described methodologies.",
-        "The presence of a run script (run_cmnd.sh) facilitates easy replication of the entire study."
+        "The repository includes detailed instructions for setting up the environment and reproducing experiments for both studies.",
+        "It provides scripts and code for running experiments with different models (LUCENE, SBERT, CLIP, BLIP) for Buggy UI Localization.",
+        "Results are already provided, and rerunning experiments will overwrite them, indicating reproducibility.",
+        "Directory structure is clearly documented, aiding in understanding and execution of the experiments.",
+        "Separate instructions for Buggy Code Localization experiments are included, though they require additional steps.",
+        "The presence of a comprehensive README guides users through the replication process."
        ]
       },
       "solution": {
@@ -2427,7 +2424,7 @@
         "The artifact is placed in a public Docker repository, making it accessible and exercisable.",
         "Comprehensive documentation is provided, including installation steps, usage instructions, and details about the contents of the Docker image.",
         "The replication package includes scripts (`replicate.sh` and `compare.sh`) that automate the execution of experiments, facilitating verification.",
-        "Evidence of verification and validation is present through the expected outputs (`efficiency.csv`, `effectiveness.csv`) and mappings to tables in the paper.",
+        "Evidence of verification and validation is present through the expected outputs (`efficiency.csv` and `effectiveness.csv`) and their mapping to tables in the paper.",
         "The artifact is self-contained within a Docker container, ensuring consistency across different environments.",
         "Detailed descriptions of dataset and model configurations, as well as links to external repositories, enhance reproducibility."
        ]
@@ -2441,12 +2438,12 @@
        "downgraded": false,
        "delta": 0,
        "dirty_reasons": [
-        "No dependency manifest found, making environment reproducibility impossible",
-        "README references multiple non-existent files, indicating documentation-artifact inconsistency",
-        "No CI configuration or tests present, preventing verification of functionality",
-        "Dead external links to critical datasets undermine reproducibility",
-        "Dockerfile lacks FROM directive, making container build impossible",
-        "Missing key replication scripts referenced in README"
+        "Repository exists in a public archival location",
+        "README references multiple non-existent files (7 missing paths)",
+        "No dependency manifest or container definition found",
+        "No CI configuration or tests present",
+        "Dead external links to dataset sources",
+        "Insufficient documentation to verify functionality"
        ]
       }
      }
@@ -2480,9 +2477,9 @@
         "Artifact includes detailed, step-by-step instructions for environment setup and execution",
         "Provides precomputed results to facilitate evaluation without requiring live LLM access",
         "Includes scripts for running all major experiments (Perses, Vulcan, C-Reduce, LPR)",
-        "Documentation covers both API-based and local LLM execution options",
-        "Contains analysis scripts for reproducing figures from the paper",
-        "Structure includes benchmark suites, tools, and result organization"
+        "Documentation covers multiple use cases and edge cases (e.g., handling LLM connection issues)",
+        "Structure is organized with clear separation of scripts, benchmarks, and results",
+        "Includes utilities for analyzing and visualizing results (e.g., size change analysis)"
        ]
       },
       "solution": {
@@ -2495,10 +2492,11 @@
        "delta": 0,
        "dirty_reasons": [
         "No dependency manifest or container definition present, making reproducibility impossible",
-        "README references many non-existent files, indicating documentation-artifact mismatch",
-        "No tests or CI configuration to verify functionality",
-        "License absent, raising reuse concerns",
-        "Despite claims of functionality, verified facts show critical missing components"
+        "README references many missing files (22 out of 22 referenced paths do not exist)",
+        "No tests or CI configuration present to verify functionality",
+        "License absent, raising concerns about usage rights",
+        "Despite claims of functionality, verified facts show the artifact cannot be exercised as described",
+        "Artifact merely archived without evidence of verification or validation"
        ]
       }
      }
