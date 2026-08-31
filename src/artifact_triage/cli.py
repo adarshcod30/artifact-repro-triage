@@ -33,14 +33,39 @@ from artifact_triage.corpus.github import API, _get
 from artifact_triage.corpus.scrub import scrub
 from artifact_triage.solution.verify import verify
 
-SLUG = re.compile(r"(?:github\.com[/:])?([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+?)(?:\.git)?/?$")
+# Anchored at github.com when present, taking the TWO segments that follow.
+# The previous pattern was anchored at the END of the string, so any URL with a
+# path after the repo matched the wrong pair - and those are the forms people
+# actually paste from a browser:
+#     .../psf/requests/tree/main        -> "tree/main"
+#     .../psf/requests/blob/main/README -> "main/README.md"
+#     .../psf/requests/issues/42        -> "issues/42"
+#     .../psf/requests#installation     -> no match at all
+_SLUG_IN_URL = re.compile(
+    r"github\.com[/:]+([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)")
+_SLUG_BARE = re.compile(
+    r"^([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)")
 
 
 def parse_slug(text: str) -> str:
-    m = SLUG.search(text.strip())
+    """Accept anything a person might paste for a repository.
+
+    Browser URLs carry a path after the repo (`/tree/main`,
+    `/blob/main/README.md`, `/issues/42`) and often a `#fragment` or `?query`.
+    All of those are stripped, and the slug is taken from the two segments
+    immediately following `github.com` rather than from the end of the string.
+    """
+    text = text.strip().split("#", 1)[0].split("?", 1)[0].strip()
+    m = _SLUG_IN_URL.search(text) or _SLUG_BARE.match(text)
     if not m:
+        raise SystemExit(
+            f"could not parse a GitHub repo from: {text!r}\n"
+            f"  Expected `owner/repo` or a github.com URL.")
+    owner, repo = m.group(1), m.group(2)
+    repo = repo.removesuffix(".git")
+    if not owner or not repo:
         raise SystemExit(f"could not parse a GitHub repo from: {text!r}")
-    return f"{m.group(1)}/{m.group(2)}"
+    return f"{owner}/{repo}"
 
 
 class RepoUnavailable(SystemExit):

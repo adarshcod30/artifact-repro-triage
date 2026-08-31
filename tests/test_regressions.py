@@ -2989,6 +2989,57 @@ def test_datasheet_leniency_figure_matches_the_audit():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 145 - the CLI mis-parsed the URLs people actually paste
+#
+# `SLUG` was anchored at the END of the string, so any URL carrying a path after
+# the repository matched the WRONG pair - and those are precisely the forms
+# copied out of a browser:
+#
+#     .../psf/requests/tree/main          -> "tree/main"
+#     .../psf/requests/blob/main/README   -> "main/README.md"
+#     .../psf/requests/issues/42          -> "issues/42"
+#     .../psf/requests#installation       -> no match, hard exit
+#
+# A reviewer pasting the URL of the repository they are looking at got a report
+# about a repository that does not exist, or a refusal.
+# --------------------------------------------------------------------------
+PASTE_FORMS = [
+    "https://github.com/psf/requests",
+    "https://github.com/psf/requests/",
+    "https://github.com/psf/requests/tree/main",
+    "https://github.com/psf/requests/tree/main/src/requests",
+    "https://github.com/psf/requests/blob/main/README.md",
+    "https://github.com/psf/requests/issues/42",
+    "https://github.com/psf/requests/pull/7",
+    "https://github.com/psf/requests#installation",
+    "https://github.com/psf/requests?tab=readme-ov-file",
+    "https://github.com/psf/requests.git",
+    "git@github.com:psf/requests.git",
+    "psf/requests",
+    "psf/requests/tree/main",
+    "  psf/requests  ",
+]
+
+
+def test_every_paste_form_resolves_to_the_same_repo():
+    from artifact_triage.cli import parse_slug
+    for text in PASTE_FORMS:
+        assert parse_slug(text) == "psf/requests", f"{text!r} -> {parse_slug(text)}"
+
+
+def test_unparseable_input_still_refuses_with_guidance():
+    from artifact_triage.cli import parse_slug
+    for text in ("not a slug at all", "", "https://example.com/"):
+        try:
+            parse_slug(text)
+        except SystemExit as e:
+            assert "owner/repo" in str(e), "the refusal must say what is expected"
+            continue
+        raise AssertionError(f"accepted junk: {text!r}")
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
