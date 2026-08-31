@@ -426,13 +426,32 @@ def test_readme_toc_anchors_all_resolve():
     assert not bad, f"README links to non-existent anchors: {bad}"
 
 
+def _strip_code(md: str) -> str:
+    """Remove fenced blocks and inline code before looking for Markdown links.
+
+    A renderer does not linkify `[text](path)` inside backticks, so neither
+    should a link checker. This fired on the section that EXPLAINS Markdown link
+    syntax: the illustrative `[text](path)` was read as a link to a file named
+    "path". The check was wrong, not the prose.
+    """
+    import re
+    md = re.sub(r"```.*?```", "", md, flags=re.S)
+    return re.sub(r"`[^`\n]*`", "", md)
+
+
 def test_readme_relative_links_point_at_real_files():
     import re
     root = Path(__file__).resolve().parents[1]
-    text = (root / "README.md").read_text()
+    text = _strip_code((root / "README.md").read_text())
     targets = re.findall(r"\]\((?!https?://|#)([^)\s]+)\)", text)
     missing = [t for t in targets if not (root / t.split("#")[0]).exists()]
     assert not missing, f"README links to missing files: {missing}"
+
+
+def test_link_check_ignores_code_spans():
+    """The bug this fixed: an illustrative link inside backticks is not a link."""
+    assert "[x](nope.md)" not in _strip_code("see `[x](nope.md)` for the syntax")
+    assert "[x](real.md)" in _strip_code("see [x](real.md) for the file")
 
 
 # --------------------------------------------------------------------------

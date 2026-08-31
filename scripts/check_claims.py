@@ -188,6 +188,21 @@ def claims() -> list[tuple[str, str, str, str]]:
                     "cross-tier: cheap model detection",
                     "falsified_nova2lite.json"))
 
+    # The answer to "why not just use lychee?" - it must not be allowed to drift.
+    lg = load("results/linkchecker_gap.json")
+    if lg and lg.get("total_broken_claims"):
+        t = lg["total_broken_claims"]
+        out.append(("README.md",
+                    f"**{lg['inside_markdown_link_syntax']} "
+                    f"({lg['inside_markdown_link_syntax']/t:.1%})**",
+                    "link-checker gap: visible", "linkchecker_gap.json"))
+        out.append(("README.md",
+                    # from the raw counts: the stored share is rounded to 4dp,
+                    # which formats to 95.7% where 1209/1264 is 95.6%.
+                    f"**{lg['invisible_to_a_markdown_link_checker']:,} "
+                    f"({lg['invisible_to_a_markdown_link_checker']/t:.1%})**",
+                    "link-checker gap: invisible", "linkchecker_gap.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",

@@ -1,0 +1,63 @@
+{
+ "_provenance": {
+  "kind": "linkchecker_gap",
+  "commit": "c983cb4-dirty",
+  "code_fingerprint": "921f670466c6"
+ },
+ "n_artifacts_with_broken_claims": 343,
+ "total_broken_claims": 1264,
+ "inside_markdown_link_syntax": 55,
+ "invisible_to_a_markdown_link_checker": 1209,
+ "invisible_share": 0.9565,
+ "method": "syntactic upper bound on what a Markdown link checker parses; lychee/remark-validate-links were not executed",
+ "examples_invisible": [
+  {
+   "artifact_id": "stefanosbalaskas/gp3tools-python",
+   "path": "gp3.R"
+  },
+  {
+   "artifact_id": "alicetinkaya76/answering-less-to-score-more",
+   "path": "fg"
+  },
+  {
+   "artifact_id": "alicetinkaya76/answering-less-to-score-more",
+   "path": "verify_manifest.py"
+  },
+  {
+   "artifact_id": "kbolton-lab/ArCH",
+   "path": "Synonyms/chromAlias.txt"
+  },
+  {
+   "artifact_id": "kbolton-lab/ArCH",
+   "path": "new_tabbed_revel.tsv"
+  },
+  {
+   "artifact_id": "kbolton-lab/ArCH",
+   "path": "pLI/fordist_cleaned_exac_r03_march16_z_pli_rec_null_data.txt"
+  },
+  {
+   "artifact_id": "kbolton-lab/ArCH",
+   "path": "pLI/pLI_gene.txt"
+  },
+  {
+   "artifact_id": "kbolton-lab/ArCH",
+   "path": "sample_fastqc.html"
+  },
+  {
+   "artifact_id": "kbolton-lab/ArCH",
+   "path": "tabbed_revel.tsv"
+  },
+  {
+   "artifact_id": "fulcrumgenomics/fgbio",
+   "path": "target/scala-2.13"
+  },
+  {
+   "artifact_id": "thlaurentino/arit",
+   "path": "ANALYSIS.md"
+  },
+  {
+   "artifact_id": "thlaurentino/arit",
+   "path": "analysis-results.json"
+  }
+ ]
+}

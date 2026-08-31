@@ -99,6 +99,39 @@ on a clean Ubuntu runner with **no credentials**, asserts the control still
 reports 75/75 with 0 false positives, and **runs the tool against this repository
 with the CI gate on**. The core claims are verified on a machine that is not mine.
 
+## "Why not just use lychee?"
+
+The fair objection, answered with a number instead of an argument.
+
+[lychee](https://github.com/lycheeverse/lychee) and
+[remark-validate-links](https://github.com/remarkjs/remark-validate-links) are
+mature, widely adopted, and both check that local file references in Markdown
+resolve. They are genuine prior art for part of this problem.
+
+But they are *Markdown link* checkers. They parse `[text](path)`, because that
+is what a Markdown parser yields. A README that says
+
+> Run `scripts/train.py` with the config in configs/default.yaml
+
+contains two file references and **zero Markdown links**. There is nothing to
+parse, so there is nothing to check.
+
+Measured across the corpus:
+
+| Of the 1,264 broken claims this project finds | |
+|---|---|
+| Inside `[text](path)` syntax — a link checker could see them | **55 (4.4%)** |
+| **Bare tokens in prose or code fences — invisible to a link checker** | **1,209 (95.6%)** |
+
+**Ninety-six percent of the defect is out of reach of the existing tools**, not
+because they are bad, but because research READMEs document files the way people
+write, not the way Markdown links them.
+
+*Method, and its limit:* this is a **syntactic upper bound** on what a Markdown
+link checker can parse — lychee and remark-validate-links were **not executed**.
+Seeing a link is necessary to check it, not sufficient, so the true gap is if
+anything larger. Reproduce with `make linkgap`.
+
 ## What is not new here, stated up front
 
 **The path-checking mechanism is prior art.**
@@ -768,11 +801,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   152 tests pinning every fixed bug
+tests/        test_regressions.py   153 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 152 regression tests, no credentials, ~2s
+make test         # 153 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

@@ -7,7 +7,7 @@
 PY := PYTHONPATH=src .venv/bin/python
 
 .PHONY: help setup test preflight corpus baseline solution eval repro \
-        discover prevalence pinning portability links report validate falsified-llama \
+        discover prevalence linkgap pinning portability links report validate falsified-llama \
         falsified-model falsified-cheap \
         trajectories dashboard spend verify-targets selfcheck clean
 
@@ -49,6 +49,9 @@ portability:  ## Hard-coded machine-specific paths and hosts
 
 discover:  ## Harvest research-artifact repositories from Zenodo (ARGS=--stratified to extend)
 	$(PY) -m artifact_triage.corpus.discover $(ARGS)
+
+linkgap:  ## What an existing Markdown link checker would already catch
+	$(PY) -m artifact_triage.eval.linkchecker_gap
 
 prevalence:  ## How widespread are broken README claims (376 artifacts)
 	$(PY) -m artifact_triage.eval.prevalence
