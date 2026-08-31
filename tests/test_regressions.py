@@ -2446,6 +2446,84 @@ def test_escalation_cannot_silently_improve_a_score():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 130 - the conda pin check counted ranges as pins
+#
+# `classify_conda` tested `if "=" in dep and not dep.endswith("=")`. Every conda
+# comparison operator contains an "=", so `numpy>=1.18`, `scipy<=1.9` and
+# `pandas!=2.0` were all counted as PINNED - inverting the check the function
+# exists to perform. `bounded` was never incremented anywhere, so it was
+# structurally always 0.
+#
+# `classify_requirements` had the identical distinction right, so the two code
+# paths disagreed about the same input - which is exactly why the bug survived:
+# whichever path you read, the other one looked fine.
+#
+# It also counted `channels:` entries (`conda-forge`, `defaults`) as unpinned
+# dependencies. They are repositories, not requirements.
+# --------------------------------------------------------------------------
+CONDA_ENV = ("name: e\nchannels:\n  - conda-forge\n  - defaults\n"
+             "dependencies:\n  - python=3.10.4\n  - numpy>=1.18\n"
+             "  - scipy<=1.9\n  - pandas!=2.0\n")
+
+
+def test_conda_ranges_are_not_counted_as_pins():
+    from artifact_triage.solution.pinning import classify_conda
+    pinned, bounded, floating, _ = classify_conda(CONDA_ENV)
+    assert pinned == 1, f"only python=3.10.4 is a pin, got {pinned}"
+    assert floating == 3, f">=, <=, != are not pins, got floating={floating}"
+
+
+def test_conda_channels_are_not_dependencies():
+    from artifact_triage.solution.pinning import classify_conda
+    _, _, _, examples = classify_conda(CONDA_ENV)
+    assert "conda-forge" not in examples and "defaults" not in examples
+
+
+def test_the_two_manifest_paths_agree_about_identical_input():
+    """They disagreed, which is why the inverted check went unnoticed."""
+    from artifact_triage.solution.pinning import (classify_conda,
+                                                  classify_requirements)
+    for deps in (["python=3.10.4", "numpy>=1.18", "scipy<=1.9", "pandas!=2.0"],
+                 ["torch>=1.0,<2.0", "numpy~=1.2"]):
+        env = ("name: e\nchannels:\n  - conda-forge\ndependencies:\n"
+               + "".join(f"  - {d}\n" for d in deps))
+        req = "\n".join(d.replace("python=3", "python==3") for d in deps)
+        assert classify_conda(env)[:3] == classify_requirements(req)[:3], deps
+
+
+# --------------------------------------------------------------------------
+# Iteration 131 - a foreign lock file certified an artifact as fully pinned
+#
+# `analyse()` checked LOCKFILES before any manifest and returned immediately at
+# pinned_ratio 1.0. LOCKFILES mixed ecosystems, so a `package-lock.json`
+# belonging to a docs site meant the artifact's own `requirements.txt` was never
+# fetched. Measured: 8 of 754 cached artifacts were certified fully pinned that
+# way without a single requirement being read.
+# --------------------------------------------------------------------------
+def test_a_foreign_lock_file_does_not_suppress_a_python_manifest():
+    from artifact_triage.solution.pinning import analyse
+    rep = analyse("x/y", ["requirements.txt", "docs/package-lock.json"])
+    assert rep.manifest == "requirements.txt", (
+        f"an npm lock file must not speak for a Python environment; "
+        f"selected {rep.manifest}")
+
+
+def test_a_python_lock_file_still_short_circuits():
+    from artifact_triage.solution.pinning import analyse
+    for lock in ("poetry.lock", "uv.lock", "Pipfile.lock"):
+        rep = analyse("x/y", ["requirements.txt", lock])
+        assert rep.manifest == lock and rep.pinned_ratio == 1.0
+
+
+def test_a_foreign_lock_alone_is_reported_as_not_assessed():
+    """Pinning something is not the same as pinning THIS artifact."""
+    from artifact_triage.solution.pinning import analyse
+    rep = analyse("x/y", ["package-lock.json", "README.md"])
+    assert "another ecosystem" in rep.note
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

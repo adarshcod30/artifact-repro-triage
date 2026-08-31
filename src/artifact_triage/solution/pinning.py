@@ -26,8 +26,15 @@ from artifact_triage.corpus.github import API, _get
 
 # Manifests we can meaningfully assess, in rough order of how strong a pin they
 # usually represent. Lock files are treated as fully pinned by construction.
-LOCKFILES = {"poetry.lock", "Pipfile.lock", "package-lock.json", "yarn.lock",
-             "Cargo.lock", "uv.lock", "conda-lock.yml"}
+# Lock files that fix a PYTHON/CONDA dependency graph. Only these can speak for
+# a requirements.txt or an environment.yml.
+PY_LOCKFILES = {"poetry.lock", "Pipfile.lock", "uv.lock", "conda-lock.yml"}
+# Lock files from other ecosystems. A `package-lock.json` under a docs site says
+# nothing about whether the artifact's Python environment is reproducible, and
+# treating it as authoritative certified 8 corpus artifacts as 100% pinned
+# without a single requirement ever being read.
+OTHER_LOCKFILES = {"package-lock.json", "yarn.lock", "Cargo.lock"}
+LOCKFILES = PY_LOCKFILES | OTHER_LOCKFILES
 PY_MANIFESTS = {"requirements.txt", "requirements-dev.txt", "constraints.txt"}
 CONDA = {"environment.yml", "environment.yaml"}
 
@@ -151,17 +158,50 @@ def classify_requirements(text: str) -> tuple[int, int, int, list[str]]:
     return pinned, bounded, floating, examples
 
 
+# A conda constraint that is a RANGE, not a pin. Tested before the bare "="
+# check, because ">=", "<=", "!=" and "~=" all contain "=".
+#
+# The two-sided / one-sided split matches `classify_requirements` exactly:
+# `>=1.0,<2.0` is BOUNDED (better than nothing, worse than a pin); a lone
+# `>=1.0` is FLOATING. Fixing the pin test without also matching this split
+# would have left the two paths disagreeing about the same input, which is the
+# defect that made the original bug invisible.
+_CONDA_BOUNDED = re.compile(r"[<>]=?\s*[\w.]+.*,.*[<>]=?\s*[\w.]+|~=\s*[\w.]+")
+_CONDA_RANGE = re.compile(r"(>=|<=|!=|~=|>|<)")
+
+
 def classify_conda(text: str) -> tuple[int, int, int, list[str]]:
     pinned = bounded = floating = 0
     examples: list[str] = []
+    in_channels = False
     for raw in text.splitlines():
+        stripped = raw.rstrip()
+        if stripped and not stripped[0].isspace() and stripped.endswith(":"):
+            in_channels = stripped.startswith("channels")
         line = raw.strip()
         if not line.startswith("-") or line.startswith("- name"):
             continue
         dep = line.lstrip("- ").strip()
         if not dep or dep.endswith(":"):
             continue
-        if "=" in dep and not dep.endswith("="):
+        # Skip the `channels:` block: its entries are repositories, not
+        # dependencies. Counting them made `conda-forge` and `defaults`
+        # register as two unpinned requirements.
+        if in_channels:
+            continue
+        # `pkg=1.2.3` is a conda pin. `pkg>=1.18`, `pkg<=1.9` and `pkg!=2.0`
+        # are not - but every one of those operators CONTAINS an "=", so the
+        # old test (`"=" in dep and not dep.endswith("=")`) counted all of them
+        # as pinned, inverting the check this function exists to perform.
+        # `classify_requirements` had the same distinction right, so the two
+        # code paths disagreed about identical input.
+        if _CONDA_BOUNDED.search(dep):
+            bounded += 1
+        elif _CONDA_RANGE.search(dep):
+            floating += 1
+            if len(examples) < 8:
+                examples.append(dep[:60])
+        elif "=" in dep and not dep.endswith("="):
             pinned += 1
         else:
             floating += 1
@@ -191,10 +231,17 @@ def _shallowest(file_tree: list[str], wanted: set[str]) -> str | None:
 
 
 def analyse(slug: str, file_tree: list[str]) -> PinReport:
-    lock = _shallowest(file_tree, LOCKFILES)
-    if lock:
-        return PinReport(lock, 0, 0, 0, 0, [], True, 1.0,
+    # A lock file is authoritative only for its OWN ecosystem. This used to
+    # accept any lock file and return immediately at pinned_ratio 1.0, so a
+    # `package-lock.json` belonging to a docs site suppressed the artifact's own
+    # `requirements.txt`, which was then never fetched at all. Measured: 8 of
+    # 754 cached artifacts were certified fully pinned that way without a single
+    # requirement being read, and 24 had a coexisting manifest suppressed.
+    py_lock = _shallowest(file_tree, PY_LOCKFILES)
+    if py_lock:
+        return PinReport(py_lock, 0, 0, 0, 0, [], True, 1.0,
                          "lock file fixes the full dependency graph")
+    foreign_lock = _shallowest(file_tree, OTHER_LOCKFILES)
 
     manifest = _shallowest(file_tree, PY_MANIFESTS)
     if manifest:
@@ -206,6 +253,14 @@ def analyse(slug: str, file_tree: list[str]) -> PinReport:
         total = p + b + f
         return PinReport(manifest, total, p, b, f, ex, False,
                          round(p / total, 3) if total else 0.0)
+
+    if foreign_lock and not _shallowest(file_tree, CONDA):
+        # The repository pins SOMETHING, but nothing Python or conda to assess.
+        # Say exactly that, rather than implying the artifact's own environment
+        # is reproducible.
+        return PinReport(foreign_lock, 0, 0, 0, 0, [], True, 1.0,
+                         f"lock file for another ecosystem ({foreign_lock}); "
+                         f"no Python or conda manifest found to check")
 
     conda = _shallowest(file_tree, CONDA)
     if conda:
