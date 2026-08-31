@@ -350,11 +350,39 @@ def check_staleness() -> list[str]:
     return stale, unstamped
 
 
+# Every results file the registered claims draw on. If one goes missing, its
+# claims vanish from `claims()` and the summary happily reports "All N
+# documented numbers match" over a SMALLER N - success printed over shrunken
+# coverage. That is the same failure as the floor-free claim being silently
+# skipped for weeks, and as `verify_targets` reporting success over targets it
+# never ran.
+EXPECTED_SOURCES = [
+    "baseline.json", "solution.json", "comparison.json", "falsified_run.json",
+    "falsified_llama.json", "falsified_nova2lite.json", "adversarial.json",
+    "negative_control.json", "subtle_control.json", "ablation.json",
+    "prevalence.json", "resolution_audit.json", "linkchecker_gap.json",
+    "issue_validation.json", "spend.json",
+]
+
+
+def missing_sources() -> list[str]:
+    return [f for f in EXPECTED_SOURCES if not (ROOT / "results" / f).exists()]
+
+
 def main() -> int:
+    absent = missing_sources()
     rows = claims()
     if not rows:
         print("no results files found - run the pipeline first")
         return 0
+    if absent:
+        print("=" * 74)
+        print("  MISSING RESULTS FILES - their claims are NOT being checked:")
+        for f in absent:
+            print(f"    results/{f}")
+        print("  Coverage has shrunk. Re-run the pipeline before trusting the")
+        print("  summary below, which can only speak for the files present.")
+        print("=" * 74)
 
     cache: dict[str, str] = {}
     failures: list = []
@@ -395,6 +423,10 @@ def main() -> int:
             print(f"    {doc}: {what} should read {literal} (from {src})")
         print("\n  The write-up has drifted from its results - the same defect")
         print("  this project detects, in this project's own documentation.")
+        return 1
+    if absent:
+        print(f"  {len(rows)} documented numbers match, but {len(absent)} results "
+              f"file(s) are MISSING and their claims went unchecked.")
         return 1
     print(f"  All {len(rows)} documented numbers match the results files.")
     print("  (matched by substring - line numbers shown so a coincidental")

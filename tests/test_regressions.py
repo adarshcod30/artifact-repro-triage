@@ -3171,6 +3171,61 @@ def test_escalation_reasons_are_recorded_in_the_results():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 149 - coverage could shrink silently, one last time
+#
+# Claims are registered per results file. Delete a results file and its claims
+# simply vanish from `claims()`, and the summary reports "All 44 documented
+# numbers match" over a SMALLER 44 - success printed over shrunken coverage.
+#
+# This is the third instance of one failure: the floor-free claim silently
+# skipped because it read a key that was never written; `verify_targets`
+# reporting success over targets it never ran; and now the checker itself.
+# Every time, the mechanism was correct on what it looked at and blind to what
+# had left the room.
+# --------------------------------------------------------------------------
+def test_every_expected_results_file_is_present():
+    import sys as _sys
+    root = Path(__file__).resolve().parents[1]
+    _sys.path.insert(0, str(root / "scripts"))
+    import check_claims as cc
+    assert not cc.missing_sources(), (
+        f"claims for these files are not being checked: {cc.missing_sources()}")
+
+
+def test_a_missing_results_file_is_reported_not_skipped():
+    import subprocess
+    import sys as _sys
+    root = Path(__file__).resolve().parents[1]
+    src = root / "results" / "adversarial.json"
+    if not src.exists():
+        return
+    saved = src.read_bytes()
+    try:
+        src.unlink()
+        out = subprocess.run([_sys.executable, "scripts/check_claims.py"],
+                             capture_output=True, text=True, cwd=str(root))
+        assert out.returncode != 0, "shrunken coverage must not exit 0"
+        assert "MISSING RESULTS FILES" in out.stdout
+    finally:
+        src.write_bytes(saved)
+
+
+def test_expected_sources_covers_every_registered_claim():
+    """The list must not fall behind the claims it is meant to guard."""
+    import sys as _sys
+    root = Path(__file__).resolve().parents[1]
+    _sys.path.insert(0, str(root / "scripts"))
+    import check_claims as cc
+    used = set()
+    for _, _, _, src in cc.claims():
+        for f in src.split("+"):
+            used.add(f.strip())
+    unguarded = sorted(used - set(cc.EXPECTED_SOURCES))
+    assert not unguarded, f"claims drawn from unguarded sources: {unguarded}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

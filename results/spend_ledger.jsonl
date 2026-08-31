@@ -2497,3 +2497,4 @@
 {"at": "2026-08-31T05:36:29Z", "kind": "call", "usd": 0.000246, "calls": 1, "model": "us.amazon.nova-2-lite-v1:0", "note": "attempt 1"}
 {"at": "2026-08-31T05:36:31Z", "kind": "call", "usd": 0.000261, "calls": 1, "model": "us.amazon.nova-2-lite-v1:0", "note": "attempt 1"}
 {"at": "2026-08-31T05:36:33Z", "kind": "call", "usd": 0.000265, "calls": 1, "model": "us.amazon.nova-2-lite-v1:0", "note": "attempt 1"}
+{"at": "2026-08-31T11:08:18Z", "kind": "call", "usd": 0.000194, "calls": 1, "model": "us.amazon.nova-pro-v1:0", "note": "attempt 1"}

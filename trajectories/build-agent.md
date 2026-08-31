@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 9,287 recorded events.
+Session `b0c00099` — 9,336 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -22402,6 +22402,87 @@ completed	success	The link checker skipped documentation about badges	checks	mai
 
 ```json
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 148 - the trajectory said a rule fired without naming it\n#\n# A trajectory exists to show what happened. This one said only \"an\n# evidence-based rule fired\" - less informative than the CLI report it is meant\n# to document, which names every reason. The reasons were sitting in\n# `escalation_reasons` in the results file the whole time, unrendered.\n# --------------------------------------------------------------------------\ndef test_trajectory_names_the_rule_that_fired():\n    root = Path(__file__).resolve().parents[1]\n    hits = list((root / \"trajectories\").glob(\"product-agent__*.md\"))\n    if not hits:\n        return\n    escalated = [p for p in hits if \"Human checkpoint\" in p.read_text()]\n    if not escalated:\n        return\n    text = escalated[0].read_text()\n    i = text.index(\"Human checkpoint\")\n    window = text[i:i + 700]\n    assert \"> - \" in window, \"the checkpoint must list the reasons
+```
+
+**Tool response**
+
+```
+217/217 passed
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+37f319f The trajectory said a rule fired without naming it
+```
+
+## Human checkpoint 46
+
+> keep hardening for a final time the ultimate hardening.... just do and dust it....I'll make the video after that....
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== dashboard: does it handle missing results? ===\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport tempfile, os, shutil\nfrom pathlib import Path\nd = Path(tempfile.mkdtemp()); (d/\"results\").mkdir()\ncwd = os.getcwd(); os.chdir(d)\ntry:\n    import subprocess\n    r = subprocess.run([f\"{cwd}/.venv/bin/python\", \"-m\", \"artifact_triage.eval.dashboard\"],\n                       capture_output=True, text=True,\n                       env={**os.environ, \"PYTHONPATH\": f\"{cwd}/src\"})\n    print(\"  with NO results files -> exit\", r.returncode, (r.stdout+r.stderr).strip().splitlines()[-1][:70] if (r.stdout+r.stderr).strip() else \"\")\nfinally:\n    os.chdir(cwd); shutil.rmtree(d, ignore_errors=True)\nPY\necho \"=== preflight ===\"\nls scripts/preflight.py >/dev/null 2>&1 && .venv/bin/python scripts/preflight.py 2>&1 | tail -3 || echo \"  (no preflight)\"", "description": "Probe dashboard and preflight resilience", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+=== dashboard: does it handle missing results? ===
+  with NO results files -> exit 0 wrote results/dashboard.html  (3,353 bytes, self-contained)
+=== preflight ===
+baseline + solution (30 calls)    : $0.069
+full cycle incl. 3 trials (210)   : $0.484
+READY - run `make repro`
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport sys; sys.path.insert(0,\"scripts\")\nimport check_claims as cc\nfrom pathlib import Path\nrows = cc.claims()\nsrcs = sorted({s for _,_,_,s in rows})\nprint(f\"  registered claims: {len(rows)} from {len(srcs)} sources\")\nmissing = [s for s in srcs for f in s.split(\" + \")\n           if not Path(\"results\")/f.strip() or not (Path(\"results\")/f.strip()).exists()]\nprint(\"  sources whose file is absent:\", sorted(set(missing)) or \"none\")\n# what happens if a results file vanishes?\nimport json\nn_before = len(rows)\np = Path(\"results/adversarial.json\"); saved = p.read_text()\ntry:\n    p.unlink()\n    import importlib; importlib.reload(cc)\n    print(f\"  with adversarial.json removed -> {len(cc.claims())} claims \"\n          f\"({n_before - len(cc.claims())} silently dropped, no warning)\")\nfinally:\n    p.write_text(saved)\nPY", "description": "Test whether claims vanish silently when a source is missing"}
+```
+
+**Tool response**
+
+```
+  registered claims: 46 from 15 sources
+  sources whose file is absent: none
+  with adversarial.json removed -> 44 claims (2 silently dropped, no warning)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('''def main() -> int:\n    rows = claims()''',\n'''# Every results file the registered claims draw on. If one goes missing, its\n# claims vanish from `claims()` and the summary happily reports \"All N\n# documented numbers match\" over a SMALLER N - success printed over shrunken\n# coverage. That is the same failure as the floor-free claim being silently\n# skipped for weeks, and as `verify_targets` reporting success over targets it\n# never ran.\nEXPECTED_SOURCES = [\n    \"baseline.json\", \"solution.json\", \"comparison.json\", \"falsified_run.json\",\n    \"falsified_llama.json\", \"falsified_nova2lite.json\", \"adversarial.json\",\n    \"negative_control.json\", \"subtle_control.json\", \"ablation.json\",\n    \"prevalence.json\", \"resolution_audit.json\", \"linkchecker_gap.json\",\n    \"issue_validation.json\", \"spend.json\",\n]\n\n\ndef missing_sources() -> list[str]:\n    return [f for f in EXPECTED_SOURCES if not (ROOT / \"results\" / f).exists()]\n\n\ndef main() -> int:\n    absent = missing_sou
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+  All 46 documented numbers match the results files.
+--- with a results file removed ---
+  MISSING RESULTS FILES - their claims are NOT being checked:
+    results/adversarial.json
+  44 documented numbers match, but 1 results file(s) are MISSING and their claims went unchecked.
+  exit=1 (expect 1)
+  All 46 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 149 - coverage could shrink silently, one last time\n#\n# Claims are registered per results file. Delete a results file and its claims\n# simply vanish from `claims()`, and the summary reports \"All 44 documented\n# numbers match\" over a SMALLER 44 - success printed over shrunken coverage.\n#\n# This is the third instance of one failure: the floor-free claim silently\n# skipped because it read a key that was never written; `verify_targets`\n# reporting success over targets it never ran; and now the checker itself.\n# Every time, the mechanism was correct on what it looked at and blind to what\n# had left the room.\n# --------------------------------------------------------------------------\ndef test_every_expected_results_file_is_present():\n    import sys as _sys\n    root = Path(__file__).resolve().parents[1]\n    _sys.path.insert(0, str(root / \"scripts\"))\n    import check_claims as cc\n    assert not cc.missing
+```
+
+**Tool response**
+
+```
+220/220 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 148 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 149 | Final sweep: could the claim checker's own **coverage** shrink silently? | **Yes.** Claims are registered per results file, so deleting one made its claims vanish from `claims()` and the summary reported *\"All 44 documented numbers match\"* over a **smaller 44** - success printed over shrunken coverage. This is the **third instance of one failure**: the floor-free claim skipped because it read a key never written; `verify_targets` reporting success over targets it never ran; and now the checker itself. Each time the mechanism was correct about what it looked at and blind to what had left the room. | `EXPECTED_SOURCES` declares every results file the claims draw on. A missing one is reported loudly and **exits non-zero**, and a third test asserts the list cannot fall behind the claims it guards. |\"\"\"\ns = s[:end] + new + s[end:]\nopen(p,'w').write(s)\nPY\nfor m in dashboard export_dataset export_trajectories; do PYTHONPATH=src .venv/bin/p
 ```
 
 
