@@ -27,12 +27,13 @@ LEDGER = Path("results/spend_ledger.jsonl")
 # (`common/budget.GUARD_USD`). These were two independent constants; if they
 # disagreed, the report would draw a line the guard did not enforce. Raised
 # deliberately and visibly rather than edited in place - see CHANGELOG.
-# $5.00 for the whole project, raised once to $5.50 with explicit authorisation
-# to re-run the last two uncertified results (`adversarial`, `falsified_llama`).
+# $5.00 for the whole project, raised to $5.50 to certify two uncertified
+# results, then to $6.25 to re-validate the paid experiments after a core-logic
+# fix (the dotfile false positive). Each raise was explicitly authorised.
 # Recorded as the real ceiling rather than left at 5.00, which would have shown
 # an authorised decision as a breach - a report that misstates its own limit is
 # no better than a number that has drifted.
-BUDGET_USD = float(os.environ.get("ARTIFACT_TRIAGE_BUDGET_USD", "5.50"))
+BUDGET_USD = float(os.environ.get("ARTIFACT_TRIAGE_BUDGET_USD", "6.25"))
 THRESHOLDS = [1.0, 2.0, 3.0, 4.0, 5.0]
 
 
