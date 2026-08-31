@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import posixpath
 import re
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 
 # Paths that appear in READMEs but are outputs, examples, or third-party
 # references rather than promises about this repository.
@@ -129,8 +129,16 @@ class Evidence:
     has_build_script: bool
     readme_bytes: int
     n_files: int
-    ignored: int
+    ignored: int              # how many PATTERNS the author declared
     claims: list[dict]
+    # How many claims those patterns actually removed, and which ones. Counting
+    # patterns alone is not a disclosure: a single `*` takes an artifact from
+    # "15 broken of 17" to "0 broken of 0" while the report still says "1
+    # exception applied". This tool is built for artifact EVALUATION, so the
+    # party being evaluated controls this file - the report has to say how much
+    # was hidden, not merely that something was.
+    ignored_claims: int = 0
+    ignored_patterns: list = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -278,9 +286,12 @@ def verify(fixture: dict, ignores: list[str] | None = None) -> Evidence:
     exact, basenames, dirs = _index(tree)
     ignores = ignores or fixture.get("declared_ignores") or []
     raw = [p for p in fixture.get("readme_referenced_paths", []) if interesting(p)]
+    n_ignored = 0
     if ignores:
-        raw = [p for p in raw
-               if not any(fnmatch.fnmatch(p, g) for g in ignores)]
+        kept = [p for p in raw
+                if not any(fnmatch.fnmatch(p, g) for g in ignores)]
+        n_ignored = len(raw) - len(kept)
+        raw = kept
     claims = [check_claim(p, exact, basenames, dirs) for p in raw]
     broken = [c.path for c in claims if not c.exists]
     # Exists, but under a different case. Works on macOS/Windows, fails on
@@ -309,6 +320,8 @@ def verify(fixture: dict, ignores: list[str] | None = None) -> Evidence:
         readme_bytes=len(fixture.get("readme", "")),
         n_files=fixture.get("n_files", 0),
         ignored=len(ignores),
+        ignored_claims=n_ignored,
+        ignored_patterns=list(ignores or []),
         claims=[asdict(c) for c in claims],
     )
 

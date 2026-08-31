@@ -2317,6 +2317,77 @@ def test_the_unchecked_list_does_not_rot():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 127 - the evaluated party controls the suppression file
+#
+# `.artifact-triage-ignore` lets an author declare legitimate exceptions, which
+# a usable linter needs. But this tool is built for artifact EVALUATION, so the
+# repository being assessed supplies that file.
+#
+# Measured: a single `*` takes an artifact from "15 broken of 17" to "0 broken
+# of 0", while the report said only "1 author-declared exception pattern(s)
+# applied". Technically true, and a reviewer skimming sees a clean `Complete`
+# criterion. Counting PATTERNS is not a disclosure; what matters is how many
+# CLAIMS they removed.
+# --------------------------------------------------------------------------
+def _lpr_fixture():
+    import json as _json
+    hits = [f for f in Path("data/fixtures").glob("*.json") if "LPR" in f.name]
+    return _json.loads(hits[0].read_text()) if hits else None
+
+
+def test_suppression_is_counted_in_claims_not_patterns():
+    from artifact_triage.solution.verify import verify
+    fx = _lpr_fixture()
+    if not fx:
+        return
+    ev = verify(fx, ignores=["*"])
+    assert ev.ignored == 1, "one pattern"
+    assert ev.ignored_claims > 10, (
+        f"one pattern hid {ev.ignored_claims} claims and that must be recorded")
+
+
+def test_total_suppression_is_flagged_loudly():
+    from artifact_triage.cli import render
+    from artifact_triage.solution.criteria import assess
+    from artifact_triage.solution.verify import verify
+    fx = _lpr_fixture()
+    if not fx:
+        return
+    ev = verify(fx, ignores=["*"])
+    rep = render(fx, ev, None, None, None, None, None, assess(ev))
+    assert "100%" in rep and "author-filtered" in rep, \
+        "a wildcard that hides everything must not read as a clean result"
+
+
+def test_a_narrow_exception_is_not_alarming():
+    """The warning must mean something, so it must not fire on normal use."""
+    from artifact_triage.cli import render
+    from artifact_triage.solution.criteria import assess
+    from artifact_triage.solution.verify import verify
+    fx = _lpr_fixture()
+    if not fx:
+        return
+    ev = verify(fx, ignores=["scripts/run_lpr.py"])
+    rep = render(fx, ev, None, None, None, None, None, assess(ev))
+    assert "author-filtered" not in rep
+    assert "suppressed **1 of" in rep
+
+
+def test_the_patterns_themselves_are_printed():
+    """A reviewer must be able to see WHAT was excused, not just how much."""
+    from artifact_triage.cli import render
+    from artifact_triage.solution.criteria import assess
+    from artifact_triage.solution.verify import verify
+    fx = _lpr_fixture()
+    if not fx:
+        return
+    ev = verify(fx, ignores=["scripts/run_lpr.py"])
+    rep = render(fx, ev, None, None, None, None, None, assess(ev))
+    assert "scripts/run_lpr.py" in rep
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

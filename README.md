@@ -840,11 +840,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   162 tests pinning every fixed bug
+tests/        test_regressions.py   166 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 162 regression tests, no credentials, ~2s
+make test         # 166 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan
@@ -873,6 +873,15 @@ paths" it reported in this README are **quotations from other artifacts**:
 example output; `configs/default.yaml` comes from the negative-control injection
 list. The checker cannot tell a claim about *this* repository from a quotation
 about another one.
+
+**Exceptions are disclosed by how much they hide, not by how many there are.**
+A repository can declare `.artifact-triage-ignore` exceptions — necessary, since
+a README may legitimately quote another project's files. But the tool is aimed
+at artifact *evaluation*, so the party being assessed writes that file. Measured:
+a single `*` takes an artifact from *15 broken of 17* to *0 broken of 0*, while
+the old report said only "1 exception pattern applied". The report now states
+the share of references suppressed and warns loudly above 50%. It is a visible
+bypass rather than a silent one — not a tamper-proof one.
 
 **The link checker refuses internal addresses.** URLs come from READMEs written
 by other people, and link checking is on by default, so this is the one place

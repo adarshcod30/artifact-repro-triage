@@ -201,8 +201,21 @@ def render(fx: dict, ev, links: dict | None, model: dict | None,
     # Disclosed regardless of outcome: a suppression the reader cannot see is
     # worse than the false positive it hides.
     if getattr(ev, "ignored", 0):
-        L.append(f"\n*{ev.ignored} author-declared exception pattern(s) applied "
-                 f"from `.artifact-triage-ignore`.*")
+        # State how much was hidden, not merely that something was. The party
+        # being evaluated writes this file, so "1 pattern applied" is not a
+        # disclosure when that pattern is `*`.
+        total = ev.claims_total + ev.ignored_claims
+        share = (ev.ignored_claims / total) if total else 0.0
+        L.append(f"\n*{ev.ignored} author-declared exception pattern(s) from "
+                 f"`.artifact-triage-ignore` suppressed **{ev.ignored_claims} of "
+                 f"{total}** referenced path(s) ({share:.0%}).*")
+        if ev.ignored_patterns:
+            L.append("\n" + ", ".join(f"`{cell(p)}`" for p in ev.ignored_patterns[:12]))
+        if share >= 0.5 and ev.ignored_claims:
+            L.append(f"\n> **These exceptions suppress {share:.0%} of everything "
+                     f"this check would otherwise examine.** The repository being "
+                     f"assessed supplies this file, so treat the result below as "
+                     f"author-filtered, not as a clean bill of health.")
     L.append("")
 
     # ---- links -------------------------------------------------------------

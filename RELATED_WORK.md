@@ -148,6 +148,16 @@ in the regression suite exists to keep it that way.
   thought of could still leak. The defence errs toward over-redaction on
   purpose: both systems receive byte-identical scrubbed text, so over-redaction
   costs realism equally and cannot bias the comparison, while leakage voids it.
+- **The party being evaluated controls the suppression file.** A repository can
+  declare exceptions in `.artifact-triage-ignore`, which a usable linter needs -
+  but this tool is aimed at artifact *evaluation*, so the author of the artifact
+  writes that file. A single `*` takes an artifact from "15 broken of 17" to "0
+  broken of 0". The report therefore states how many *claims* each set of
+  patterns removed, not merely how many patterns exist, and flags any set that
+  suppresses half or more of what would otherwise be examined. That converts a
+  silent bypass into a visible one; it does not make the tool tamper-proof, and
+  nothing here should be treated as adversarially robust against an author who
+  wants a clean report.
 - **No user study.** No evidence that a reviewer is actually faster with this,
   or that the badge-criteria framing helps them. The claim is that the output is
   *addressed to* the reviewer's decision, not that it measurably improves it.
