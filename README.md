@@ -210,6 +210,12 @@ Reported because omitting them would make everything else less trustworthy:
 
 ## Contents
 
+Everything above is the summary. Below is the evidence for each part of it.
+
+**Above:** [the experiment](#the-experiment) · [why it matters](#why-this-is-worth-knowing) · [how common](#how-common-is-the-defect) · [the tool](#the-tool) · [what "resolves" means](#what-resolves-actually-means--an-audit-of-our-own-leniency) · [why not lychee](#why-not-just-use-lychee) · [what is not new](#what-is-not-new-here-stated-up-front) · [results that do not flatter](#results-that-do-not-flatter-the-project)
+
+**Below:**
+
 - [Who has this problem](#1-who-has-this-problem)
 - [What bottleneck makes it worth solving](#2-what-bottleneck-makes-it-worth-solving) · [published evidence](#this-is-a-documented-problem-not-an-assumed-one)
 - [Does the agent solve it well](#3-does-the-agent-solve-it-well) · [ACM badge criteria](#the-report-answers-the-reviewers-actual-checklist) · [measured result](#measured-result) · [honest negative result](#honest-negative-result)
