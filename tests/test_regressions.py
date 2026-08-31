@@ -3101,6 +3101,41 @@ def test_a_missing_readme_still_fails_the_gate():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 147 - the link checker skipped documentation ABOUT badges
+#
+# The filter was `"shields.io" in u or "badge" in u.lower()`, so ANY url merely
+# mentioning badges was never checked - including documentation pages about
+# badging, which are exactly the pages a reproducibility artifact links to. A
+# badge is identified by where it comes from and what it is, not by a word
+# appearing somewhere in a path.
+# --------------------------------------------------------------------------
+BADGE_IMAGES = [
+    "![b](https://img.shields.io/badge/x-y.svg)",
+    "![ci](https://github.com/a/b/workflows/ci/badge.svg)",
+    "![doi](https://zenodo.org/badge/DOI/10.5281/x.svg)",
+    "![c](https://codecov.io/gh/a/b/branch/main/graph/badge.svg)",
+]
+REAL_LINKS = [
+    "see https://example.com/badges/how-to-earn",
+    "https://www.acm.org/publications/policies/artifact-review-and-badging-current",
+    "https://example.com/page",
+]
+
+
+def test_badge_images_are_still_skipped():
+    from artifact_triage.solution.links import extract
+    for t in BADGE_IMAGES:
+        assert extract(t) == [], f"decoration should not be link-checked: {t}"
+
+
+def test_pages_that_merely_mention_badges_are_checked():
+    from artifact_triage.solution.links import extract
+    for t in REAL_LINKS:
+        assert extract(t), f"a real promise was skipped as decoration: {t}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

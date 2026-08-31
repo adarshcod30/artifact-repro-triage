@@ -137,12 +137,33 @@ class LinkResult:
     error: str | None = None
 
 
+# Hosts that exist to serve badge images, and the shapes those images take.
+#
+# The filter used to be `"badge" in url.lower()`, which skipped ANY url merely
+# mentioning badges - including documentation pages ABOUT badging, which are
+# exactly the pages a reproducibility artifact is likely to link to. A badge is
+# identified by where it comes from and what it is, not by the word appearing
+# somewhere in a path.
+_BADGE_HOSTS = ("shields.io", "badgen.net", "badge.fury.io", "coveralls.io",
+                "codecov.io/gh", "travis-ci.org", "travis-ci.com",
+                "circleci.com/gh", "app.codacy.com/project/badge",
+                "api.codeclimate.com", "zenodo.org/badge")
+
+
+def _is_badge_image(url: str) -> bool:
+    low = url.lower()
+    if any(h in low for h in _BADGE_HOSTS):
+        return True
+    # `.../badge.svg`, `.../badge.png`, `.../workflows/ci/badge.svg`
+    return low.rsplit("/", 1)[-1].startswith("badge.") or low.endswith("/badge")
+
+
 def extract(text: str, limit: int = 40) -> list[str]:
     seen, out = set(), []
     for u in _URL.findall(text):
         u = u.rstrip(".,;:!?")
         # Badge/shield images are decoration, not promises.
-        if "shields.io" in u or "badge" in u.lower():
+        if _is_badge_image(u):
             continue
         if u in seen:
             continue
