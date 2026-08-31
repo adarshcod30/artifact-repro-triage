@@ -3226,6 +3226,39 @@ def test_expected_sources_covers_every_registered_claim():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 150 - a method call that looks like a filename (CHARACTERISATION)
+#
+# `r.json()` in a Python example is extracted as the path `r.json` and reported
+# missing. This test asserts the CURRENT behaviour rather than the desired one,
+# because the defect is deliberately not fixed:
+#
+#   - measured impact is 1 of 1,254 broken claims (0.08%) on the corpus;
+#     research READMEs rarely carry API-call examples
+#   - `fetch.py` is a provenance influencer, so changing it invalidates all
+#     twelve results, and the remaining budget cannot re-certify them
+#
+# Trading a rounding-error precision gain for uncertified headline numbers is
+# the wrong trade. Pinning it here keeps it recorded rather than silent - if a
+# future change alters this, the test fails and the decision gets revisited
+# rather than drifting.
+# --------------------------------------------------------------------------
+def test_characterises_the_method_call_false_positive():
+    from artifact_triage.corpus.fetch import referenced_paths
+    assert referenced_paths("use `r.json()` to decode") == ["r.json"], (
+        "KNOWN LIMITATION, documented in the README: a one-dot method call is "
+        "indistinguishable from a filename to an extension-whitelist extractor")
+
+
+def test_longer_dotted_calls_are_still_rejected():
+    """The two-dot identifier rule already covers the common shapes."""
+    from artifact_triage.corpus.fetch import referenced_paths
+    for t in ("see `df.to_csv()`", "call `os.path.join()`",
+              "use `com.example.Foo`"):
+        assert referenced_paths(t) == [], f"{t} -> {referenced_paths(t)}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

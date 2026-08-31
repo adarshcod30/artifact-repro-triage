@@ -858,11 +858,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   220 tests pinning every fixed bug
+tests/        test_regressions.py   222 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 220 regression tests, no credentials, ~2s
+make test         # 222 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan
@@ -915,6 +915,19 @@ The five model-dependent results were briefly left stale *together* rather than
 partly refreshed: re-running only the affordable ones would have put some
 results on the new corpus and the headline on the old one, and a comparison
 across mixed corpora is a worse defect than a uniform, declared staleness.
+
+**A method call that looks like a filename is read as one.** `r.json()` in a
+Python example is extracted as the path `r.json` and reported missing. Measured
+across the corpus: **1 of 1,254 broken claims (0.08%)** — research READMEs rarely
+carry API-call examples, so this is close to absent here, but it is visible on a
+general-purpose library like `psf/requests`.
+
+It is documented rather than fixed, deliberately. The extractor is a provenance
+influencer, so changing it would invalidate all twelve results, and the
+remaining budget ($0.13) cannot re-certify them. Trading a 0.08% precision gain
+for uncertified headline numbers is the wrong trade, and a
+[characterisation test](tests/test_regressions.py) pins the current behaviour so
+it stays recorded rather than becoming a surprise.
 
 **Exceptions are disclosed by how much they hide, not by how many there are.**
 A repository can declare `.artifact-triage-ignore` exceptions — necessary, since
