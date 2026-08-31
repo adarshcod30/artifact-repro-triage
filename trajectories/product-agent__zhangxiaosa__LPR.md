@@ -134,7 +134,8 @@ However, the deviation should be trivial, and the results should still support t
     "The README provides clear instructions for setting up the environment and running the experiments.",
     "The artifact is exercisable with provided scripts and Docker image."
   ],
-  "escalated_to_human": false
+  "escalated_to_human": false,
+  "escalation_reasons": []
 }
 ```
 
@@ -189,11 +190,16 @@ Licence present: False
     "There are no dependency manifests, Dockerfile, CI configuration, or tests present, which are necessary for higher tiers.",
     "The documentation is not sufficient to confidently place it in the Functional or Reusable tiers."
   ],
-  "escalated_to_human": true
+  "escalated_to_human": true,
+  "escalation_reasons": [
+    "neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human"
+  ]
 }
 ```
 
-> **Human checkpoint.** An evidence-based rule fired, so this artifact is routed to a qualified reviewer rather than recorded as a guess.
+> **Human checkpoint.** These evidence-based rules fired, so this artifact is routed to a qualified reviewer rather than recorded as a guess:
+>
+> - neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human
 
 
 ## Step 4 — Outcome

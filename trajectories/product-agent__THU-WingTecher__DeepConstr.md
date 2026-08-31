@@ -118,7 +118,8 @@ Welcome to the artifact repository of the DeepConstr paper which is accepted by 
     "The artifact appears to be exercisable based on the provided commands and setup instructions.",
     "The README mentions evidence of verification and validation through bug finding and experiment reproduction."
   ],
-  "escalated_to_human": false
+  "escalated_to_human": false,
+  "escalation_reasons": []
 }
 ```
 
@@ -178,7 +179,8 @@ No machine-specific values found across 12 inspected file(s).
     "All dependencies are floating, which may affect reproducibility and stability.",
     "No Dockerfile is present, which could hinder environment reproducibility."
   ],
-  "escalated_to_human": false
+  "escalated_to_human": false,
+  "escalation_reasons": []
 }
 ```
 

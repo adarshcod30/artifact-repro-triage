@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 9,133 recorded events.
+Session `b0c00099` — 9,287 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -22049,6 +22049,359 @@ $5.50 → $6.25 → $7.00 — because each core-logic fix invalidated the experi
 
 ```json
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor m in dashboard export_dataset export_trajectories; do PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m >/dev/null 2>&1; done\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -1\n.venv/bin/python scripts/verify_targets.py 2>&1 | tail -1\ngit add -A && git commit -q -m \"$(printf 'Close the loop between the self-check false positives and their disclosure\\n\\nThe limitations section described six false positives in this repositorys own\\nREADME - quotations of other artifacts files - without connecting them to the\\nmechanism that now handles them. They are exactly what the 14 ignore patterns\\nsuppress, and the report states that as a share (6 of 26, 23%%) rather than as a\\ncount of patterns, because a single * would suppress everything and a count of\\npatterns would disclose nothing.\\n\\nThe section now shows the actual disclosure line and says plainly that since the\\nrepository being assessed writes that file, this makes the bypass visible rather\\nthan impossible.\\n\\n206 tests, 46 documented numbers verified, all 12 results current.\\n\\nCo-Authored-
+```
+
+**Tool response**
+
+```
+redactions: {'foreign_project': 222, 'aws_secret': 8, 'env_assignment': 58}
+  All 12 credential-free targets run, 19 documented as gated, 0 unclassified.
+pushed
+  hours to deadline: 7.6
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor r in \"octocat/Hello-World\" \"torvalds/linux\" \"adarshcod30/artifact-repro-triage\"; do\n  printf \"  %-38s \" \"$r\"\n  timeout_out=$(PYTHONPATH=src .venv/bin/python -m artifact_triage.cli \"$r\" --no-links 2>&1 | head -1)\n  echo \"${timeout_out:0:60}\"\ndone\necho \"--- URL forms ---\"\nfor r in \"https://github.com/psf/requests\" \"https://github.com/psf/requests.git\" \"git@github.com:psf/requests.git\" \"psf/requests/tree/main\"; do\n  printf \"  %-42s \" \"$r\"\n  PYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.cli import parse_slug\ntry: print(parse_slug('$r'))\nexcept SystemExit as e: print('SystemExit:', str(e)[:40])\nexcept Exception as e: print(type(e).__name__, str(e)[:40])\"\ndone", "description": "Test CLI robustness on real and odd inputs", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+  octocat/Hello-World                    fetching octocat/Hello-World …
+  torvalds/linux                         fetching torvalds/linux …
+  adarshcod30/artifact-repro-triage      fetching adarshcod30/artifact-repro-triage …
+--- URL forms ---
+  https://github.com/psf/requests            psf/requests
+  https://github.com/psf/requests.git        psf/requests
+  git@github.com:psf/requests.git            psf/requests
+  psf/requests/tree/main                     tree/main
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.cli import parse_slug\nfor u in ['https://github.com/psf/requests/tree/main',\n          'https://github.com/psf/requests/blob/main/README.md',\n          'https://github.com/psf/requests/',\n          'https://github.com/psf/requests#installation',\n          'psf/requests/tree/main',\n          'https://github.com/psf/requests/issues/42']:\n    try: print(f'  {u[:52]:<54} -> {parse_slug(u)}')\n    except SystemExit as e: print(f'  {u[:52]:<54} -> SystemExit')\"\ngrep -n \"def parse_slug\" -A 14 src/artifact_triage/cli.py", "description": "Test common GitHub URL paste forms"}
+```
+
+**Tool response**
+
+```
+  https://github.com/psf/requests/tree/main              -> tree/main
+  https://github.com/psf/requests/blob/main/README.md    -> main/README.md
+  https://github.com/psf/requests/                       -> psf/requests
+  https://github.com/psf/requests#installation           -> SystemExit
+  psf/requests/tree/main                                 -> tree/main
+  https://github.com/psf/requests/issues/42              -> issues/42
+39:def parse_slug(text: str) -> str:
+40-    m = SLUG.search(text.strip())
+41-    if not m:
+42-        raise SystemExit(f"could not parse a GitHub repo from: {text!r}")
+43-    return f"{m.group(1)}/{m.group(2)}"
+44-
+45-
+46-class RepoUnavailable(SystemExit):
+47-    """A clean, actionable message instead of a traceback.
+48-
+49-    A tool a reviewer runs on an unfamiliar repository will hit missing repos,
+50-    private repos and rate limits routinely. Dumping a urllib traceback tells
+51-    them nothing about which of those happened or what to do next.
+52-    """
+53-
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"^SLUG\" src/artifact_triage/cli.py", "description": "Read the slug pattern"}
+```
+
+**Tool response**
+
+```
+36:SLUG = re.compile(r"(?:github\.com[/:])?([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+?)(?:\.git)?/?$")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/cli.py'; s=open(p).read()\ns = s.replace('''SLUG = re.compile(r\"(?:github\\\\.com[/:])?([A-Za-z0-9_.\\\\-]+)/([A-Za-z0-9_.\\\\-]+?)(?:\\\\.git)?/?$\")''',\n'''# Anchored at github.com when present, taking the TWO segments that follow.\n# The previous pattern was anchored at the END of the string, so any URL with a\n# path after the repo matched the wrong pair - and those are the forms people\n# actually paste from a browser:\n#     .../psf/requests/tree/main        -> \"tree/main\"\n#     .../psf/requests/blob/main/README -> \"main/README.md\"\n#     .../psf/requests/issues/42        -> \"issues/42\"\n#     .../psf/requests#installation     -> no match at all\n_SLUG_IN_URL = re.compile(\n    r\"github\\\\.com[/:]+([A-Za-z0-9_.\\\\-]+)/([A-Za-z0-9_.\\\\-]+)\")\n_SLUG_BARE = re.compile(\n    r\"^([A-Za-z0-9_.\\\\-]+)/([A-Za-z0-9_.\\\\-]+)\")''')\ns = s.replace('''def parse_slug(text: str) -> str:\n    m = SLUG.search(text.strip())\n    if not m:\n        raise SystemExit(f\"could not parse a GitHub repo from: {text!r}\")\n    return f\"{m.group(1
+```
+
+**Tool response**
+
+```
+  OK  https://github.com/psf/requests/tree/main        -> psf/requests
+  OK  https://github.com/psf/requests/blob/main/READ   -> psf/requests
+  OK  https://github.com/psf/requests/issues/42        -> psf/requests
+  OK  https://github.com/psf/requests#installation     -> psf/requests
+  OK  https://github.com/psf/requests?tab=readme       -> psf/requests
+  OK  https://github.com/psf/requests.git              -> psf/requests
+  OK  git@github.com:psf/requests.git                  -> psf/requests
+  OK  psf/requests                                     -> psf/requests
+  OK  psf/requests/tree/main                           -> psf/requests
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 145 - the CLI mis-parsed the URLs people actually paste\n#\n# `SLUG` was anchored at the END of the string, so any URL carrying a path after\n# the repository matched the WRONG pair - and those are precisely the forms\n# copied out of a browser:\n#\n#     .../psf/requests/tree/main          -> \"tree/main\"\n#     .../psf/requests/blob/main/README   -> \"main/README.md\"\n#     .../psf/requests/issues/42          -> \"issues/42\"\n#     .../psf/requests#installation       -> no match, hard exit\n#\n# A reviewer pasting the URL of the repository they are looking at got a report\n# about a repository that does not exist, or a refusal.\n# --------------------------------------------------------------------------\nPASTE_FORMS = [\n    \"https://github.com/psf/requests\",\n    \"https://github.com/psf/requests/\",\n    \"https://github.com/psf/requests/tree/main\",\n    \"https://github.com/psf/requests/tree/main/src/reques
+```
+
+**Tool response**
+
+```
+208/208 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.cli \"https://github.com/zhangxiaosa/LPR/tree/main\" --no-links 2>/dev/null | head -3\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"All 4|Every result|FAIL\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 144 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 145 | Tested the CLI against the URL forms a person actually pastes. | **It mis-parsed most of them.** `SLUG` was anchored at the END of the string, so any URL carrying a path after the repository matched the wrong pair: `.../psf/requests/tree/main` \u2192 **`tree/main`**, `.../blob/main/README.md` \u2192 **`main/README.md`**, `.../issues/42` \u2192 **`issues/42`**, and `...#installation` \u2192 a hard exit. A reviewer pasting the URL of the repository they are *looking at* got a report about a repository that does not exist, or a refusal. | Parsing is now anchored at `github.com` and takes the two segments that follow, after stripping `#fragment` and `?query`. Fourteen paste forms tested, all resolving to the same slug, plus a 
+```
+
+**Tool response**
+
+```
+# Artifact reproducibility report — `zhangxiaosa/LPR`
+
+Generated 2026-08-31 10:25 UTC against commit `1cd376048ae5`.
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+88f6629 The CLI mis-parsed the URLs people actually paste
+```
+
+## Human checkpoint 45
+
+> keep hardening
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nfrom artifact_triage.solution.criteria import assess\nclass E:\n    readme_bytes=0; claims_total=0; claims_broken=0; broken_paths=[]; has_build_script=False\ncases = {\n \"no README at all\":            dict(readme_bytes=0, claims_total=0),\n \"README, nothing checkable\":   dict(readme_bytes=1500, claims_total=0),\n \"all paths resolve\":           dict(readme_bytes=1500, claims_total=12, claims_broken=0),\n \"broken but claims_total=0\":   dict(readme_bytes=1500, claims_total=0, claims_broken=5,\n                                     broken_paths=[\"a.py\"]*5),\n}\nfor name, kw in cases.items():\n    e=E()\n    for k,v in kw.items(): setattr(e,k,v)\n    fs=assess(e)\n    print(f\"  {name:<28} \" + \"  \".join(f\"{f.criterion[:4]}={f.verdict[:8]}\" for f in fs))\nPY", "description": "Probe the ACM criteria mapping edge cases"}
+```
+
+**Tool response**
+
+```
+  no README at all             Docu=concerns  Cons=not-chec  Comp=supporte  Exer=supporte
+  README, nothing checkable    Docu=concerns  Cons=not-chec  Comp=supporte  Exer=supporte
+  all paths resolve            Docu=supporte  Cons=not-chec  Comp=supporte  Exer=supporte
+  broken but claims_total=0    Docu=concerns  Cons=not-chec  Comp=supporte  Exer=concerns
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/solution/criteria.py'; s=open(p).read()\ns = s.replace('''    out.append(CriterionFinding(\n        \"Complete\", ACM[\"Complete\"],\n        \"concerns\" if comp_bad else \"supported\", True,\n        comp_ev + comp_bad,''',\n'''    # \"supported\" is a POSITIVE claim: we checked and found nothing wrong. With\n    # no README there is nothing to check, and this used to report\n    # \"Complete - no mechanical concerns\" for an artifact that documents\n    # nothing at all. That is the same absence/evidence confusion as the CI\n    # gate, in the opposite direction: there, absence wrongly failed a build;\n    # here it wrongly passes one.\n    comp_verdict = (\"concerns\" if comp_bad\n                    else \"supported\" if comp_ev else \"not-checkable\")\n    if comp_verdict == \"not-checkable\":\n        comp_ev.append(\"nothing to check - the README documents no file \"\n                       \"references, so completeness was not assessed\")\n    out.append(CriterionFinding(\n        \"Complete\", ACM[\"Complete\"],\n        comp_verdict, 
+```
+
+**Tool response**
+
+```
+  no README at all             Docu=concerns  Cons=not-checkab  Comp=not-checkab  Exer=not-checkab   gate exit=2
+  README, nothing checkable    Docu=concerns  Cons=not-checkab  Comp=not-checkab  Exer=not-checkab   gate exit=0
+  all 12 paths resolve         Docu=supported  Cons=not-checkab  Comp=supported  Exer=supported   gate exit=0
+  15 of 17 broken              Docu=supported  Cons=not-checkab  Comp=concerns  Exer=concerns   gate exit=2
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 146 - \"supported\" was being reported with no evidence behind it\n#\n# `Complete` and `Exercisable` were \"concerns if anything bad else supported\",\n# so an artifact with NO README - where nothing whatsoever was checked - got\n# \"Complete: supported\" and \"Exercisable: supported\". A reviewer read\n# \"no mechanical concerns\" for an artifact that documents nothing.\n#\n# \"supported\" is a POSITIVE claim: we looked and found nothing wrong. It is not\n# the same as having nothing to look at. This is the same absence/evidence\n# confusion as the CI gate, running the other way: there, absence wrongly FAILED\n# a build; here it wrongly PASSED one.\n# --------------------------------------------------------------------------\ndef _crit(**kw):\n    from artifact_triage.solution.criteria import assess\n    ev = _fake_evidence(readme_bytes=0, claims_total=0, claims_broken=0,\n                        broken_paths=[], has_
+```
+
+**Tool response**
+
+```
+213/213 passed
+  self-check gate exit=0 (expect 0)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"All 4|Every result|FAIL\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 145 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 146 | Probed `criteria.py`, the ACM mapping, past its happy paths. | **\"supported\" was being reported with no evidence behind it.** `Complete` and `Exercisable` were *\"concerns if anything bad, else supported\"*, so an artifact with **no README at all** - where nothing whatsoever was checked - got **\"Complete: supported\"** and **\"Exercisable: supported\"**. A reviewer read *\"no mechanical concerns\"* for an artifact that documents nothing. | A third verdict where it belongs: **`not-checkable`**, with the reason stated. *\"supported\"* is a positive claim - we looked and found nothing wrong - and that is not the same as having nothing to look at. **This is the CI-gate confusion running the other way**: there, absence wrongly *failed* a build; here it wrongly *passed* one. Five tests cover all four states, including that a missing README still fails the gate,
+```
+
+**Tool response**
+
+```
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+2afd5c2 "supported" was being reported with no evidence behind it
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nfrom artifact_triage.solution.links import extract\ncases = {\n \"trailing punctuation\":  \"see https://example.com/page.\",\n \"in parentheses\":        \"(https://example.com/a) and text\",\n \"markdown link\":         \"[docs](https://example.com/d)\",\n \"angle brackets\":        \"<https://example.com/auto>\",\n \"trailing comma\":        \"https://a.org/x, https://b.org/y\",\n \"duplicate\":             \"https://x.org/1 and https://x.org/1\",\n \"badge skipped\":         \"![b](https://img.shields.io/badge/x-y.svg)\",\n \"url with badge word\":   \"https://example.com/badges/how-to-earn\",\n \"bare www\":              \"see www.example.com/page\",\n}\nfor name, t in cases.items():\n    print(f\"  {name:<24} -> {extract(t)}\")\nPY", "description": "Probe link extraction edge cases"}
+```
+
+**Tool response**
+
+```
+  trailing punctuation     -> ['https://example.com/page']
+  in parentheses           -> ['https://example.com/a']
+  markdown link            -> ['https://example.com/d']
+  angle brackets           -> ['https://example.com/auto']
+  trailing comma           -> ['https://a.org/x', 'https://b.org/y']
+  duplicate                -> ['https://x.org/1']
+  badge skipped            -> []
+  url with badge word      -> []
+  bare www                 -> []
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"shields.io\\|badge\" src/artifact_triage/solution/links.py | head -5", "description": "Read the badge filter"}
+```
+
+**Tool response**
+
+```
+145:        if "shields.io" in u or "badge" in u.lower():
+229:        rows.append((fx["_label"]["badge"], s))
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/solution/links.py'; s=open(p).read()\ns = s.replace('''        if \"shields.io\" in u or \"badge\" in u.lower():''',\n'''        if _is_badge_image(u):''')\ns = s.replace('''def extract(text: str, limit: int = 40) -> list[str]:''',\n'''# Hosts that exist to serve badge images, and the shapes those images take.\n#\n# The filter used to be `\"badge\" in url.lower()`, which skipped ANY url merely\n# mentioning badges - including documentation pages ABOUT badging, which are\n# exactly the pages a reproducibility artifact is likely to link to. A badge is\n# identified by where it comes from and what it is, not by the word appearing\n# somewhere in a path.\n_BADGE_HOSTS = (\"shields.io\", \"badgen.net\", \"badge.fury.io\", \"coveralls.io\",\n                \"codecov.io/gh\", \"travis-ci.org\", \"travis-ci.com\",\n                \"circleci.com/gh\", \"app.codacy.com/project/badge\",\n                \"api.codeclimate.com\", \"zenodo.org/badge\")\n\n\ndef _is_badge_image(url: str) -> bool:\n    low = url.lower()\n    if any(h in low for h in _BADGE_HO
+```
+
+**Tool response**
+
+```
+  OK  shields badge          kept=False (want False)
+  OK  workflow badge svg     kept=False (want False)
+  OK  zenodo DOI badge       kept=False (want False)
+  OK  codecov badge          kept=False (want False)
+  OK  docs page on badges    kept=True (want True)
+  OK  ACM badging policy     kept=True (want True)
+  OK  ordinary link          kept=True (want True)
+213/213 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 147 - the link checker skipped documentation ABOUT badges\n#\n# The filter was `\"shields.io\" in u or \"badge\" in u.lower()`, so ANY url merely\n# mentioning badges was never checked - including documentation pages about\n# badging, which are exactly the pages a reproducibility artifact links to. A\n# badge is identified by where it comes from and what it is, not by a word\n# appearing somewhere in a path.\n# --------------------------------------------------------------------------\nBADGE_IMAGES = [\n    \"![b](https://img.shields.io/badge/x-y.svg)\",\n    \"![ci](https://github.com/a/b/workflows/ci/badge.svg)\",\n    \"![doi](https://zenodo.org/badge/DOI/10.5281/x.svg)\",\n    \"![c](https://codecov.io/gh/a/b/branch/main/graph/badge.svg)\",\n]\nREAL_LINKS = [\n    \"see https://example.com/badges/how-to-earn\",\n    \"https://www.acm.org/publications/policies/artifact-review-and-badging-current\",\n    \"https://ex
+```
+
+**Tool response**
+
+```
+215/215 passed
+79ccbe4 The link checker skipped documentation about badges
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 35; gh run list --limit 1 2>&1 | head -2\necho \"=== trajectory export: does it handle missing/odd results? ===\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, tempfile, os\nfrom pathlib import Path\nfrom artifact_triage.eval import export_trajectories as et\nsrc = Path(\"src/artifact_triage/eval/export_trajectories.py\").read_text()\nprint(\"  reads results via:\", [l.strip()[:70] for l in src.splitlines() if \"load(\" in l or \"read_text\" in l][:3])\nprint(\"  guards for missing files:\", \"exists()\" in src or \"FileNotFoundError\" in src)\nPY", "description": "Check CI and probe trajectory export", "timeout": 150000}
+```
+
+**Tool response**
+
+```
+completed	success	The link checker skipped documentation about badges	checks	main	push	33383187961	31s	2026-08-31T10:36:37Z
+=== trajectory export: does it handle missing/odd results? ===
+  reads results via: ['raw = json.loads(Path(path).read_text()).get("raw", [])', 'fx = json.loads(p.read_text())']
+  guards for missing files: True
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== does the product trajectory show what the model was actually given? ===\"\ngrep -c \"VERIFIED\" trajectories/product-agent__zhangxiaosa__LPR.md\ngrep -nE \"^## |^### \" trajectories/product-agent__zhangxiaosa__LPR.md | head -10\necho \"=== does it disclose the escalation reason accurately? ===\"\ngrep -n \"Human checkpoint\" -A 2 trajectories/product-agent__zhangxiaosa__LPR.md | head -4", "description": "Inspect a product trajectory for fidelity"}
+```
+
+**Tool response**
+
+```
+=== does the product trajectory show what the model was actually given? ===
+2
+10:## Step 0 — Shared agent instructions
+37:## Step 1 — Input preparation (both agents)
+41:## Step 2 — Tool call: deterministic claim verification
+82:## Step 3 — BASELINE agent
+99:### List of Claims Supported by the Artifact
+112:### Notes
+141:## Step 3 — SOLUTION agent
+199:## Step 4 — Outcome
+=== does it disclose the escalation reason accurately? ===
+196:> **Human checkpoint.** An evidence-based rule fired, so this artifact is routed to a qualified reviewer rather than recorded as a guess.
+197-
+198-
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json;d=json.load(open('results/solution.json'))\nprint('  raw row keys:', list(d['raw'][0]))\nprint('  escalated rows:', sum(1 for r in d['raw'] if r.get('escalated')))\" 2>/dev/null\ngrep -n \"escalat\" src/artifact_triage/eval/export_trajectories.py | head -5", "description": "Check whether escalation reasons are recoverable"}
+```
+
+**Tool response**
+
+```
+  raw row keys: ['artifact_id', 'tier', 'confidence', 'escalated', 'escalation_reasons', 'reasons', 'verified', 'error']
+  escalated rows: 5
+99:             "escalated_to_human": row.get("escalated", False)}, indent=2), "json"))
+100:        if row.get("escalated"):
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '94,110p' src/artifact_triage/eval/export_trajectories.py", "description": "Read the escalation rendering"}
+```
+
+**Tool response**
+
+```
+            continue
+        L.append("\n**Final answer**:\n")
+        L.append(_fence(json.dumps(
+            {"tier": row.get("tier"), "confidence": row.get("confidence"),
+             "reasons": row.get("reasons"),
+             "escalated_to_human": row.get("escalated", False)}, indent=2), "json"))
+        if row.get("escalated"):
+            # NOT a confidence threshold. `decide()` never reads confidence -
+            # that gate was removed for being anti-calibrated - so this line
+            # narrated a mechanism the code does not have, under rows whose
+            # recorded confidence was 0.9.
+            L.append("\n> **Human checkpoint.** An evidence-based rule fired, "
+                     "so this artifact is routed to a "
+                     "qualified reviewer rather than recorded as a guess.\n")
+        L.append("")
+
+    L.append("## Step 4 — Outcome\n")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/eval/export_trajectories.py'; s=open(p).read()\ns = s.replace('''             \"escalated_to_human\": row.get(\"escalated\", False)}, indent=2), \"json\"))\n        if row.get(\"escalated\"):\n            # NOT a confidence threshold. `decide()` never reads confidence -\n            # that gate was removed for being anti-calibrated - so this line\n            # narrated a mechanism the code does not have, under rows whose\n            # recorded confidence was 0.9.\n            L.append(\"\\\\n> **Human checkpoint.** An evidence-based rule fired, \"\n                     \"so this artifact is routed to a \"\n                     \"qualified reviewer rather than recorded as a guess.\\\\n\")''',\n'''             \"escalated_to_human\": row.get(\"escalated\", False),\n             \"escalation_reasons\": row.get(\"escalation_reasons\", [])},\n            indent=2), \"json\"))\n        if row.get(\"escalated\"):\n            # NOT a confidence threshold. `decide()` never reads confidence -\n            # that gate was removed for being anti-calibrat
+```
+
+**Tool response**
+
+```
+  wrote trajectories/README.md
+200:> **Human checkpoint.** These evidence-based rules fired, so this artifact is routed to a qualified reviewer rather than recorded as a guess:
+201->
+202-> - neither a dependency manifest nor a container - whether that is acceptable depends on the artifact's kind, which needs a human
+203-
+204-
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 148 - the trajectory said a rule fired without naming it\n#\n# A trajectory exists to show what happened. This one said only \"an\n# evidence-based rule fired\" - less informative than the CLI report it is meant\n# to document, which names every reason. The reasons were sitting in\n# `escalation_reasons` in the results file the whole time, unrendered.\n# --------------------------------------------------------------------------\ndef test_trajectory_names_the_rule_that_fired():\n    root = Path(__file__).resolve().parents[1]\n    hits = list((root / \"trajectories\").glob(\"product-agent__*.md\"))\n    if not hits:\n        return\n    escalated = [p for p in hits if \"Human checkpoint\" in p.read_text()]\n    if not escalated:\n        return\n    text = escalated[0].read_text()\n    i = text.index(\"Human checkpoint\")\n    window = text[i:i + 700]\n    assert \"> - \" in window, \"the checkpoint must list the reasons
 ```
 
 

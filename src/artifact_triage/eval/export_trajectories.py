@@ -96,15 +96,28 @@ def render(fixture: dict, baseline_row: dict | None,
         L.append(_fence(json.dumps(
             {"tier": row.get("tier"), "confidence": row.get("confidence"),
              "reasons": row.get("reasons"),
-             "escalated_to_human": row.get("escalated", False)}, indent=2), "json"))
+             "escalated_to_human": row.get("escalated", False),
+             "escalation_reasons": row.get("escalation_reasons", [])},
+            indent=2), "json"))
         if row.get("escalated"):
             # NOT a confidence threshold. `decide()` never reads confidence -
             # that gate was removed for being anti-calibrated - so this line
             # narrated a mechanism the code does not have, under rows whose
             # recorded confidence was 0.9.
-            L.append("\n> **Human checkpoint.** An evidence-based rule fired, "
-                     "so this artifact is routed to a "
-                     "qualified reviewer rather than recorded as a guess.\n")
+            #
+            # And it said only that "a rule fired", without naming it. The
+            # reasons were recorded in the results file all along; a trajectory
+            # that hides which rule fired is less informative than the CLI
+            # report it is supposed to document.
+            reasons = row.get("escalation_reasons") or []
+            L.append("\n> **Human checkpoint.** These evidence-based rules "
+                     "fired, so this artifact is routed to a qualified "
+                     "reviewer rather than recorded as a guess:\n>")
+            for r in reasons:
+                L.append(f"> - {r}")
+            if not reasons:
+                L.append("> - (no reason recorded)")
+            L.append("")
         L.append("")
 
     L.append("## Step 4 — Outcome\n")

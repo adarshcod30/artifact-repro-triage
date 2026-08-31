@@ -3136,6 +3136,41 @@ def test_pages_that_merely_mention_badges_are_checked():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 148 - the trajectory said a rule fired without naming it
+#
+# A trajectory exists to show what happened. This one said only "an
+# evidence-based rule fired" - less informative than the CLI report it is meant
+# to document, which names every reason. The reasons were sitting in
+# `escalation_reasons` in the results file the whole time, unrendered.
+# --------------------------------------------------------------------------
+def test_trajectory_names_the_rule_that_fired():
+    root = Path(__file__).resolve().parents[1]
+    hits = list((root / "trajectories").glob("product-agent__*.md"))
+    if not hits:
+        return
+    escalated = [p for p in hits if "Human checkpoint" in p.read_text()]
+    if not escalated:
+        return
+    text = escalated[0].read_text()
+    i = text.index("Human checkpoint")
+    window = text[i:i + 700]
+    assert "> - " in window, "the checkpoint must list the reasons, not just assert one"
+
+
+def test_escalation_reasons_are_recorded_in_the_results():
+    import json as _json
+    p = Path("results/solution.json")
+    if not p.exists():
+        return
+    raw = _json.loads(p.read_text()).get("raw", [])
+    for row in raw:
+        if row.get("escalated"):
+            assert row.get("escalation_reasons"), (
+                f"{row['artifact_id']} escalated with no recorded reason")
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

@@ -103,7 +103,8 @@ The studies consist in executing testing methods for Reinforcement Learning mode
     "The inclusion of a demonstration with step-by-step instructions to reproduce part of the study indicates evidence of verification.",
     "The requirement for significant computational resources and the complexity of setup for certain experiments (e.g., CARLA) may limit the ease of reuse, preventing it from reaching the 'Reusable' tier."
   ],
-  "escalated_to_human": false
+  "escalated_to_human": false,
+  "escalation_reasons": []
 }
 ```
 
@@ -160,7 +161,8 @@ Its content consists of a <ins>reproduction</ins> study and a <ins>replication</
     "The artifact includes a demonstration with instructions to test the functionality.",
     "The README provides clear instructions on how to set up and run the experiments, though some setup steps are complex and time-consuming."
   ],
-  "escalated_to_human": false
+  "escalated_to_human": false,
+  "escalation_reasons": []
 }
 ```
 
