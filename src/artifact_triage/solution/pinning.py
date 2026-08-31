@@ -18,14 +18,16 @@ requirements are pinned, how many float, and exactly which ones.
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 import re
 from dataclasses import dataclass, asdict
 
-from artifact_triage.corpus.github import API, _get
+from artifact_triage.corpus.github import API, CACHE as CACHE_DIR, _get
 
 # Manifests we can meaningfully assess, in rough order of how strong a pin they
-# usually represent. Lock files are treated as fully pinned by construction.
+# usually represent.
+#
 # Lock files that fix a PYTHON/CONDA dependency graph. Only these can speak for
 # a requirements.txt or an environment.yml.
 PY_LOCKFILES = {"poetry.lock", "Pipfile.lock", "uv.lock", "conda-lock.yml"}
@@ -127,7 +129,32 @@ class PinReport:
 
 
 def fetch_file(slug: str, path: str) -> str | None:
-    key = "content-" + re.sub(r"[^a-z0-9]+", "-", f"{slug}-{path}".lower())[:80]
+    # The readable part is TRUNCATED, so it cannot be the whole key. Slug and
+    # path were concatenated and then cut to 80 characters, so on a
+    # long-slugged repository every file collapsed onto one cache entry and the
+    # cache returned whichever file was fetched first - a Dockerfile answered
+    # with a requirements.txt, silently. Measured: 16 of 754 corpus slugs (2.1%)
+    # have two or more pipeline-fetched paths sharing a key; on one repo, 14
+    # distinct paths share a single entry.
+    #
+    # A short digest of the FULL identity keeps filenames readable while making
+    # a collision require a hash collision rather than a long name.
+    ident = f"{slug}-{path}".lower()
+    slugpath = re.sub(r"[^a-z0-9]+", "-", ident)
+    digest = hashlib.sha256(ident.encode()).hexdigest()[:12]
+    key = "content-" + slugpath[:64] + "-" + digest
+
+    # 533 cache entries were committed under the old key, and this repository's
+    # offline guarantee depends on them. A LEGACY key is unambiguous exactly
+    # when it was not truncated, so it is accepted as a fallback only in that
+    # case - which preserves every sound entry and refuses precisely the ones
+    # that could have collided.
+    legacy = "content-" + slugpath[:80]
+    if len(slugpath) <= 80:
+        legacy_path = CACHE_DIR / f"{legacy}.json"
+        if legacy_path.exists() and not (CACHE_DIR / f"{key}.json").exists():
+            key = legacy
+
     try:
         data = _get(f"{API}/repos/{slug}/contents/{path}", key)
     except Exception:

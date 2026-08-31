@@ -35,8 +35,17 @@ PATTERNS: list[tuple[str, re.Pattern, str]] = [
     ("windows_user_path", re.compile(
         r"[\"'`\s=(]([A-Za-z]:\\\\?Users\\\\?[^\s\"'`)]{3,})"),
      "hard-coded Windows user path"),
+    # `/data/` WITHOUT a digit is deliberately excluded. It is overwhelmingly a
+    # container WORKDIR (`WORKDIR /data`) or a repository directory written with
+    # a leading slash, not a machine-specific mount. Measured on the corpus: it
+    # produced 7 false positives out of 15 hits for this pattern - a 47% false
+    # positive rate, in the one check whose headline is "zero false positives".
+    #
+    # `/data0/`..`/data9/` are kept: a NUMBERED data mount is cluster-specific
+    # by convention, and the genuine hits all look like `/mnt/galactica/...` or
+    # `/scratch/<username>/...` - a person or machine in the second segment.
     ("absolute_mnt_path", re.compile(
-        r"[\"'`\s=(]((?:/mnt/|/media/|/data[0-9]?/|/scratch/)[^\s\"'`)]{4,})"),
+        r"[\"'`\s=(]((?:/mnt/|/media/|/data[0-9]/|/scratch/)[^\s\"'`)]{4,})"),
      "hard-coded mount point that will not exist elsewhere"),
     ("localhost_port", re.compile(
         r"\b(?:127\.0\.0\.1|localhost):(\d{4,5})\b"),

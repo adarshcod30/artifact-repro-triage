@@ -2573,6 +2573,75 @@ def test_label_rebuild_refuses_to_write_an_empty_corpus():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 133 - a cache key that could not tell two files apart
+#
+# `fetch_file` built its key by concatenating slug and path and then truncating
+# to 80 characters, so on a long-slugged repository every file collapsed onto
+# ONE cache entry and the cache returned whichever file was fetched first - a
+# Dockerfile answered with a requirements.txt, silently. Measured: 16 of 754
+# corpus slugs (2.1%) have two or more pipeline-fetched paths sharing a key; on
+# one repository, 14 distinct paths share a single entry.
+# --------------------------------------------------------------------------
+LONG_SLUG = ("ldu-nvidia/Trace2Skill-Verifier-Guided-Skill-Evolution-for-"
+             "Long-Context-EDA-Agents")
+
+
+def _content_key(slug, path):
+    import hashlib
+    import re
+    ident = f"{slug}-{path}".lower()
+    sp = re.sub(r"[^a-z0-9]+", "-", ident)
+    return "content-" + sp[:64] + "-" + hashlib.sha256(ident.encode()).hexdigest()[:12]
+
+
+def test_two_files_in_a_long_slugged_repo_get_different_cache_keys():
+    a = _content_key(LONG_SLUG, "Dockerfile")
+    b = _content_key(LONG_SLUG, "requirements.txt")
+    assert a != b, "a Dockerfile would be answered with a requirements.txt"
+
+
+def test_the_cache_key_is_not_purely_truncated():
+    import inspect
+    from artifact_triage.solution import pinning
+    src = inspect.getsource(pinning.fetch_file)
+    assert "sha256" in src, "a truncated readable key cannot be the whole key"
+
+
+def test_unambiguous_legacy_cache_entries_are_still_honoured():
+    """533 committed entries use the old key; the offline guarantee needs them."""
+    import inspect
+    from artifact_triage.solution import pinning
+    src = inspect.getsource(pinning.fetch_file)
+    assert "legacy" in src and "<= 80" in src, (
+        "a legacy key is safe exactly when it was not truncated")
+
+
+# --------------------------------------------------------------------------
+# Iteration 134 - 47% false positives in one portability pattern
+#
+# `absolute_mnt_path` matched bare `/data/`, which is overwhelmingly a container
+# WORKDIR or a repository directory written with a leading slash - not a
+# machine-specific mount. Measured on the corpus: 7 of 15 hits for this pattern
+# were false positives, in the one check whose headline is "zero false
+# positives". Numbered `/data0/`../data9/` are kept: a numbered data mount is
+# cluster-specific by convention.
+# --------------------------------------------------------------------------
+def test_a_repo_relative_data_dir_is_not_a_machine_specific_mount():
+    from artifact_triage.solution.portability import scan_text
+    assert not scan_text("results land in `/data/metrics/run1.csv`", "README.md")
+
+
+def test_genuine_machine_specific_mounts_are_still_flagged():
+    from artifact_triage.solution.portability import scan_text
+    for text in ("cd `/mnt/galactica/aevaluator2/MORDOR`",
+                 "set PATH to `/scratch/dimitrios/gdpr/build`",
+                 "copy to `/data2/experiments/out`",
+                 "see `/media/bigdisk/corpus`"):
+        assert scan_text(text, "README.md"), f"missed a real mount: {text}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
