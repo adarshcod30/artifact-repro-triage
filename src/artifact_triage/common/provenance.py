@@ -142,8 +142,24 @@ def changed_functions(kind: str, since: str) -> list[str]:
     return out
 
 
+class UnmappedKind(Exception):
+    """No influencer list for this kind, so nothing can be certified about it."""
+
+
 def fingerprint(kind: str) -> str:
-    """Content hash of the modules that determine this kind of result."""
+    """Content hash of the modules that determine this kind of result.
+
+    Refuses an unmapped kind. It used to hash the empty influencer list, which
+    yields `e3b0c44298fc` - the SHA-256 of the empty string, a well-known
+    constant - so a results file stamped with an unknown kind and that value
+    reported "current". The provenance system exists to refuse to vouch for
+    things it cannot check, and this was it vouching for a kind it knew nothing
+    about.
+    """
+    if kind not in INFLUENCERS:
+        raise UnmappedKind(
+            f"no influencer list for kind {kind!r}; add one to INFLUENCERS "
+            f"before stamping results with it")
     h = hashlib.sha256()
     for rel in sorted(INFLUENCERS.get(kind, [])):
         p = ROOT / rel
@@ -210,10 +226,15 @@ def stamp(kind: str) -> dict:
 def is_stale(payload: dict) -> tuple[bool, str]:
     """Does this result predate a change to the code that produced it?"""
     prov = payload.get("_provenance")
-    if not prov:
-        return True, "no provenance recorded - cannot tell which code produced it"
+    if not isinstance(prov, dict) or not prov:
+        # A non-dict stamp is not a stamp. This used to raise AttributeError.
+        return True, "no usable provenance recorded - cannot tell which code produced it"
     kind = prov.get("kind", "")
-    now = fingerprint(kind)
+    try:
+        now = fingerprint(kind)
+    except UnmappedKind:
+        return True, (f"kind {kind!r} has no influencer list, so nothing about "
+                      f"this result can be verified")
     if prov.get("code_fingerprint") != now:
         return True, (f"produced at commit {prov.get('commit')} by different "
                       f"code (fingerprint {prov.get('code_fingerprint')} vs "

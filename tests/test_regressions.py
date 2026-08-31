@@ -2844,6 +2844,56 @@ def test_a_valid_ledger_still_totals_correctly():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 142 - provenance certified a kind it knew nothing about
+#
+# `fingerprint()` hashed `INFLUENCERS.get(kind, [])`, so an UNMAPPED kind hashed
+# the empty list and yielded `e3b0c44298fc` - the SHA-256 of the empty string, a
+# well-known constant, not a secret. A results file stamped with an unknown kind
+# and that value reported "current".
+#
+# This system exists to refuse to vouch for what it cannot check. Vouching for a
+# kind with no influencer list is the same failure as the five unstamped result
+# files, one level lower down.
+#
+# A non-dict `_provenance` also raised AttributeError instead of being reported
+# as unusable.
+# --------------------------------------------------------------------------
+EMPTY_SHA256 = "e3b0c44298fc"   # sha256("")[:12]
+
+
+def test_an_unmapped_kind_cannot_be_certified():
+    from artifact_triage.common.provenance import is_stale
+    stale, why = is_stale({"_provenance": {"kind": "totally_made_up",
+                                           "commit": "abc",
+                                           "code_fingerprint": EMPTY_SHA256}})
+    assert stale, "an unknown kind must never report current"
+    assert "no influencer list" in why
+
+
+def test_fingerprint_refuses_an_unmapped_kind():
+    from artifact_triage.common.provenance import UnmappedKind, fingerprint
+    try:
+        fingerprint("a_kind_that_does_not_exist")
+    except UnmappedKind:
+        return
+    raise AssertionError("hashing nothing produced a usable-looking fingerprint")
+
+
+def test_a_non_dict_provenance_is_reported_not_raised():
+    from artifact_triage.common.provenance import is_stale
+    for bad in ("trust me", [], 42, None):
+        stale, why = is_stale({"_provenance": bad})
+        assert stale and "no usable provenance" in why, (bad, why)
+
+
+def test_real_kinds_still_fingerprint(): 
+    from artifact_triage.common.provenance import INFLUENCERS, fingerprint
+    for kind in INFLUENCERS:
+        assert len(fingerprint(kind)) == 12
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
