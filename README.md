@@ -110,7 +110,7 @@ take 5%.
 
 | # | Requirement | Where it is | Status |
 |---|---|---|---|
-| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 154 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
+| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 156 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
 | 2 | **Reproduction guide** from a clean environment | [`REPRODUCTION.md`](REPRODUCTION.md) — verified from a fresh clone of the published repo | Complete |
 | 3 | **Video ≤ 5 minutes** | [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md) — timed to 4:50, figures under the claim checker | Script ready |
 | 4 | **Agent trajectories** for every agent used | [`trajectories/`](trajectories/) — 3 product-agent runs + the full build agent, secrets redacted | Complete |
@@ -678,7 +678,7 @@ that file, this makes the bypass **visible** — not impossible.
 Python example becomes the path `r.json`. Measured: 1 of 1,254 broken claims
 (0.08%) — research READMEs rarely carry API-call examples. Documented rather
 than fixed, because the extractor is a provenance influencer and changing it
-would invalidate all twelve results with no budget left to re-certify them. A
+would invalidate all fourteen results with no budget left to re-certify them. A
 characterisation test pins the current behaviour so it stays recorded.
 
 **Nothing is executed.** A resolved path is not a working artifact. This
@@ -726,6 +726,9 @@ passes.
 ## Project structure
 
 ```
+app.py                  # the interactive walkthrough (streamlit run app.py)
+requirements.txt        # demo-app dependencies only; the tool itself needs three
+.streamlit/config.toml  # pinned theme, so the app looks the same everywhere
 artifact-repro-triage/
 ├── src/artifact_triage/
 │   ├── cli.py                    # entry point: report, --json, --fail-on-findings
@@ -856,6 +859,22 @@ convenience; the entire measured improvement depends on it, and
 > solution near 100%. That gap held across Nova Pro, Llama 3.3 70B and Nova 2
 > Lite, which is the evidence that it is not a property of one model.
 
+### The interactive walkthrough
+
+Everything below — the problem, the live verifier, the experiment, the controls,
+the prevalence study and the reproducibility gates — is also a six-page Streamlit
+app, for demonstrating the project rather than reading about it.
+
+```bash
+make app          # or: streamlit run app.py
+```
+
+It calls **no model and makes no network request.** Every figure is read from the
+committed `results/*.json`, and the *Try it live* page runs the real verifier
+(`solution/verify.py`) offline against a committed file tree — including a toggle
+that injects five fabricated paths through the project's own falsifier and shows
+them caught. Nothing in it can cost money or behave differently on your machine.
+
 ### Run locally
 
 ```bash
@@ -924,7 +943,7 @@ artifact-triage owner/repo --model               # adds a tier assessment (needs
 ## Testing
 
 ```bash
-make test          # 230 regression tests, no credentials, ~1s
+make test          # 236 regression tests, no credentials, ~1s
 make check-claims  # 46 documented numbers verified against results/*.json
 make verify-targets
 ```

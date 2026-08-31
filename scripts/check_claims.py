@@ -261,7 +261,11 @@ def claims() -> list[tuple[str, str, str, str]]:
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",
                     "negative control detection", "negative_control.json"))
-        out.append(("CHANGELOG.md", f"{nc['injected']}/{nc['injected']}",
+        # A bare "75/75" now appears on nine changelog lines, which proves
+        # nothing about the one that matters. Anchored to the final-result row.
+        out.append(("CHANGELOG.md",
+                    f"{nc['detected']}/{nc['injected']} injected claims, "
+                    f"{nc['false_positives']} false positives",
                     "negative control detection", "negative_control.json"))
 
     pv = load("results/prevalence.json")
@@ -466,10 +470,7 @@ def check_staleness() -> list[str]:
     # were unstamped and unchecked, so that sentence was a blanket claim over a
     # subset - the same "certifies what it cannot see" failure this checker
     # exists to prevent.
-    for name in ("negative_control", "baseline", "solution", "falsified_run",
-                 "falsified_llama", "falsified_nova2lite", "prevalence",
-                 "comparison", "subtle_control",
-                 "ablation", "adversarial", "issue_validation"):
+    for name in PROVENANCE_KINDS:
         payload = load(f"results/{name}.json")
         if payload is None:
             continue
@@ -504,6 +505,21 @@ def check_staleness() -> list[str]:
 # coverage. That is the same failure as the floor-free claim being silently
 # skipped for weeks, and as `verify_targets` reporting success over targets it
 # never ran.
+# Every results file carrying a provenance stamp. It lived as a literal inside
+# check_staleness(), where it had already fallen behind once - five stamped
+# results were unchecked under a summary reading "Every result was produced by
+# the current code". It fell behind AGAIN: `linkchecker_gap` and
+# `resolution_audit` are stamped, are quoted in the README, and were never
+# staleness-checked. Fourth instance of one failure - a mechanism correct about
+# what it looked at and blind to what had left the room. A test now asserts this
+# list covers every stamped file, so it cannot drift a third time.
+PROVENANCE_KINDS = (
+    "negative_control", "baseline", "solution", "falsified_run",
+    "falsified_llama", "falsified_nova2lite", "prevalence", "comparison",
+    "subtle_control", "ablation", "adversarial", "issue_validation",
+    "linkchecker_gap", "resolution_audit",
+)
+
 EXPECTED_SOURCES = [
     "baseline.json", "solution.json", "comparison.json", "falsified_run.json",
     "falsified_llama.json", "falsified_nova2lite.json", "adversarial.json",

@@ -24,6 +24,10 @@ FREE = ["test", "corpus", "verify", "control", "subtle", "ablation", "pinning", 
 
 # Need a provider or heavy network; exercised separately.
 GATED = {
+    # Starts a server and blocks; it cannot be run to completion in a
+    # verification sweep. It needs no credentials and no network - it is
+    # gated on being long-running, not on access.
+    "app": "long-running server (no credentials needed)",
     "preflight": "needs a model provider",
     "baseline": "needs a model provider",
     "solution": "needs a model provider",

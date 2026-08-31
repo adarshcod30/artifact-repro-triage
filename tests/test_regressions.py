@@ -3391,6 +3391,121 @@ def test_escalation_still_ignores_self_reported_confidence():
 
 
 
+# ---------------------------------------------------------------------------
+# The Streamlit demo. It is what a judge is shown, and it reads result keys by
+# name - so a renamed key breaks it live, on camera, rather than in CI. The
+# first version of the live-demo page shipped exactly that class of bug: it
+# appended fabricated paths to the README but `verify()` reads a PRE-EXTRACTED
+# path list, so the demo reported "caught 0 of 5" against a verifier documented
+# at 75/75. These tests pin the demo's own behaviour.
+# ---------------------------------------------------------------------------
+
+def test_demo_app_exists_and_parses():
+    import ast
+    src = (_REPO / "app.py").read_text()
+    ast.parse(src)
+    assert "streamlit" in src
+
+
+def test_demo_app_imports_nothing_the_deploy_target_lacks():
+    """Streamlit Cloud installs requirements.txt and nothing else.
+
+    The app must reach the verifier without pulling in a provider SDK, or the
+    deployed demo dies on import.
+    """
+    import ast
+    reqs = (_REPO / "requirements.txt").read_text().lower()
+    for pkg in ("streamlit", "pandas", "altair"):
+        assert pkg in reqs, f"requirements.txt is missing {pkg}"
+    tree = ast.parse((_REPO / "app.py").read_text())
+    top = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            top |= {a.name.split(".")[0] for a in node.names}
+        elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
+            top.add(node.module.split(".")[0])
+    banned = {"boto3", "botocore", "anthropic", "openai"}
+    assert not (top & banned), f"app.py imports a provider SDK: {top & banned}"
+
+
+def test_demo_reads_result_keys_that_actually_exist():
+    """Every results key the app renders, checked against the files."""
+    import json
+    need = {
+        "falsified_run": ["solution_rates", "baseline_rates", "trials",
+                          "total_usd", "per_trial"],
+        "negative_control": ["detected", "injected", "false_positives"],
+        "comparison": ["mae_full_coverage", "controls", "best_control",
+                       "baseline", "solution"],
+        "prevalence": ["display", "decay", "by_language"],
+        "adversarial": ["placebo_detected", "placebo_eligible",
+                        "strong_baseline_detected", "strong_baseline_eligible"],
+        "subtle_control": ["detected", "mutations", "correctly_suggested"],
+        "spend": ["total_usd", "budget_usd"],
+    }
+    for name, keys in need.items():
+        f = _REPO / "results" / f"{name}.json"
+        if not f.exists():
+            continue
+        d = json.loads(f.read_text())
+        for k in keys:
+            assert k in d, f"app.py reads results/{name}.json[{k!r}], which is gone"
+
+
+def test_demo_live_verifier_still_catches_every_injected_path():
+    """The headline moment of the demo, pinned so it cannot break on camera."""
+    import json
+    from artifact_triage.eval.negative_control import falsify
+    from artifact_triage.solution.verify import verify
+    fx = json.loads((_REPO / "data" / "fixtures" /
+                     "zhangxiaosa__LPR.json").read_text())
+    twin, injected = falsify(fx)
+    assert len(injected) == 5
+    ev = verify(twin)
+    caught = [p for p in injected if p in ev.broken_paths]
+    assert len(caught) == 5, f"demo would show {len(caught)} of 5"
+
+
+def test_demo_offline_path_needs_no_network_or_model():
+    """Every fixture must carry the file tree the live page verifies against."""
+    import json
+    fx_dir = _REPO / "data" / "fixtures"
+    files = sorted(fx_dir.glob("*.json"))
+    assert len(files) >= 15, f"only {len(files)} fixtures for the demo selector"
+    for f in files:
+        d = json.loads(f.read_text())
+        assert d.get("file_tree"), f"{f.name} has no file_tree - demo cannot run"
+        assert "readme" in d, f"{f.name} has no readme"
+
+
+
+def test_provenance_list_covers_every_stamped_result():
+    """A stamped result outside the list is never checked - silently.
+
+    This has now happened twice. First five results were stamped and unchecked;
+    the fix added them but left the list as a literal, so `linkchecker_gap` and
+    `resolution_audit` were stamped, quoted in the README, and skipped - under a
+    summary reading "Every result was produced by the current code". The list is
+    a module constant now and this test is what stops a third time.
+    """
+    import json
+    import sys as _sys
+    _sys.path.insert(0, str(_REPO / "scripts"))
+    import check_claims as cc
+    stamped = set()
+    for f in (_REPO / "results").glob("*.json"):
+        try:
+            d = json.loads(f.read_text())
+        except Exception:
+            continue
+        if isinstance(d, dict) and d.get("_provenance"):
+            stamped.add(f.stem)
+    missing = sorted(stamped - set(cc.PROVENANCE_KINDS))
+    assert not missing, (
+        f"stamped but never staleness-checked: {missing}")
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

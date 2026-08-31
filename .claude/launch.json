@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "streamlit-demo",
+      "runtimeExecutable": "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/.venv/bin/python",
+      "runtimeArgs": ["-m", "streamlit", "run", "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/app.py", "--server.port", "8502", "--server.headless", "true", "--browser.gatherUsageStats", "false"],
+      "port": 8502
+    }
+  ]
+}

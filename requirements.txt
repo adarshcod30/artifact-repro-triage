@@ -1,0 +1,11 @@
+# Streamlit Community Cloud reads this file. It is ONLY for the demo app
+# (`app.py`); the project's own runtime dependencies live in pyproject.toml and
+# are deliberately just three.
+#
+# The app calls no model and makes no network request, so no provider SDK is
+# needed to deploy it - every number it shows is read from committed
+# results/*.json, and the live verifier runs offline against a committed file
+# tree.
+streamlit>=1.40
+pandas>=2.0
+altair>=5.0
