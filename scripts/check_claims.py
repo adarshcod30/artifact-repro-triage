@@ -215,6 +215,33 @@ def claims() -> list[tuple[str, str, str, str]]:
             out.append(("README.md", f"| **{by['exact']:,}** |",
                         "resolution audit: exact matches", "resolution_audit.json"))
 
+    # The decay table backs the "artifacts ship broken, they do not rot" claim
+    # and was never under this checker. It had drifted on every cell.
+    pvd = load("results/prevalence.json")
+    if pvd and pvd.get("decay"):
+        dc = pvd["decay"]
+        buckets = dc["buckets"] if isinstance(dc, dict) and "buckets" in dc else dc
+        if buckets:
+            old, new = buckets[-1], buckets[0]
+            out.append(("README.md",
+                        f"| **{old['label']}** | **{old['n']}** | "
+                        f"**{old['median_days']:,}d** | "
+                        f"**{old['mean_broken_ratio']:.3f}** |",
+                        "decay: oldest bucket", "prevalence.json"))
+            out.append(("README.md",
+                        f"delta {old['mean_broken_ratio'] - new['mean_broken_ratio']:+.3f} "
+                        f"across four years",
+                        "decay: delta across four years", "prevalence.json"))
+
+    # The ecosystem table, likewise never covered and likewise drifted.
+    if pvd and pvd.get("by_language"):
+        langs = sorted(pvd["by_language"], key=lambda x: x["mean_broken_ratio"])
+        for x in (langs[0], langs[-1]):
+            out.append(("README.md",
+                        f"| {x['language']} | {x['n']} | "
+                        f"{x['mean_broken_ratio']:.3f} | {x['share_with_broken']:.0%} |",
+                        f"ecosystem: {x['language']}", "prevalence.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",

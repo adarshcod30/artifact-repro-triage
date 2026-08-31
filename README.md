@@ -82,7 +82,7 @@ Across **742 published research artifacts** (6,815 documented file references):
 | Carry at least one broken README claim | **55.9%** |
 | Documented references resolving to nothing | **1,254 of 6,815 (18.4%)** |
 | Is it decay? | **No** — flat across four years. Artifacts *ship* broken. |
-| Ecosystems affected | All of them (Rust 0.36, Java 0.34 → Notebooks 0.10) |
+| Ecosystems affected | All of them (Rust 0.36 → Notebook 0.10) |
 
 ## The tool
 
@@ -197,7 +197,7 @@ The contribution is **measurement and framing, not the detector**.
 Reported because omitting them would make everything else less trustworthy:
 
 - A **zero-skill constant predictor beats both systems** on ACM badge agreement
-  (0.667 vs 0.733 and 0.800). That evaluation is uninformative here, and the
+  (0.667 vs 0.733 and 0.700). That evaluation is uninformative here, and the
   original experiment was abandoned rather than quietly dropped.
 - The **external validation returned null.** Repositories we flag are no more
   likely to carry a user complaint than ones we do not — and on the latest sample
@@ -646,15 +646,15 @@ measured — though not uniformly.
 | Ecosystem | n | Broken-claim ratio | % affected |
 |---|---|---|---|
 | Notebook | 20 | 0.104 | 30% |
-| Python | 278 | 0.192 | 58% |
-| C/C++ | 96 | 0.261 | 66% |
+| Python | 284 | 0.189 | 58% |
+| C/C++ | 98 | 0.256 | 65% |
 | R | 30 | 0.264 | 63% |
 | JS/TS | 36 | 0.292 | 67% |
-| Shell | 47 | 0.308 | 64% |
+| Shell | 48 | 0.302 | 62% |
 | Java | 59 | 0.340 | 78% |
 | Rust | 19 | 0.364 | 74% |
 
-**Java and Rust artifacts are roughly twice as bad as Python.** A plausible
+**Rust artifacts are roughly twice as bad as Python** (0.364 against 0.189). A plausible
 reading is directory depth: `src/main/java/com/org/Thing.java` gives a README far
 more path to get wrong than `train.py` does. Notebooks fare best, likely because
 they embed their code rather than referencing it.
@@ -671,14 +671,14 @@ They do not.
 
 | Age bucket | n | Median age | Broken-claim ratio | % with a break |
 |---|---|---|---|---|
-| under 3 months | 324 | 2d | 0.257 | 65% |
-| 3-12 months | 85 | 198d | 0.232 | 60% |
-| 1-2 years | 44 | 624d | 0.305 | 68% |
-| **over 2 years** | **173** | **1,423d** | **0.234** | 57% |
+| under 3 months | 307 | 4d | 0.195 | 61% |
+| 3-12 months | 86 | 194d | 0.198 | 63% |
+| 1-2 years | 44 | 623d | 0.190 | 48% |
+| **over 2 years** | **171** | **1,462d** | **0.193** | 46% |
 
-**Flat** — delta -0.022 across four years. The oldest bucket holds 173 artifacts
-averaging nearly four years since their last push, so this is a measured null,
-not an absence of data. (An earlier version of this table had n=8 in its oldest
+**Flat** — delta -0.002 across four years. The oldest bucket holds 171 artifacts
+averaging four years since their last push, so this is a measured null, not an
+absence of data. (An earlier version of this table had n=8 in its oldest
 bucket and was correctly reported as underpowered; the corpus was re-harvested
 stratified by publication year specifically to fix that.)
 
