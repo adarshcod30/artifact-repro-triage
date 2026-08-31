@@ -1,16 +1,45 @@
+<div align="center">
+
 # Artifact Reproducibility Triage
 
-### A deterministic checker that reads a research paper's code repository, verifies every promise its README makes, and hands an artifact-evaluation reviewer a pre-filled decision — with the parts no machine can settle marked as theirs.
+### Verifying that a research paper's code actually contains what its README promises
+
+*A deterministic checker that reads a repository, verifies every promise its
+README makes, and hands an artifact-evaluation reviewer a pre-filled decision —
+with the parts no machine can settle marked as theirs.*
 
 [![checks](https://github.com/adarshcod30/artifact-repro-triage/actions/workflows/checks.yml/badge.svg)](https://github.com/adarshcod30/artifact-repro-triage/actions/workflows/checks.yml)
-[![licence](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
-[![dataset](https://img.shields.io/badge/dataset-CC0-green.svg)](dataset/)
+![tests](https://img.shields.io/badge/tests-239_passing-1a9e5c)
+![numbers](https://img.shields.io/badge/documented_numbers-78_verified-1a9e5c)
+![provenance](https://img.shields.io/badge/results-14%2F14_current-1a9e5c)
+![detection](https://img.shields.io/badge/detection-0%25_%E2%86%92_100%25-4c9be8)
+![cost](https://img.shields.io/badge/model_spend-%246.94-666)
+[![licence](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
+[![dataset](https://img.shields.io/badge/dataset-CC0-green)](dataset/)
 
-**Repository** · https://github.com/adarshcod30/artifact-repro-triage
-**Dataset** · [742 research artifacts, CC0](dataset/artifact_readme_consistency.csv) · [datasheet](dataset/DATASHEET.md)
-**Built for** · micro1 Frontier Engineering Challenge 2026 (Agentic Workflows)
+**[Live Walkthrough](https://artifact-repro-triage.streamlit.app)** ·
+**[Reproduction Guide](REPRODUCTION.md)** ·
+**[Improvement Changelog](CHANGELOG.md)** ·
+**[Agent Trajectories](trajectories/)** ·
+**[Dataset](dataset/artifact_readme_consistency.csv)**
 
-`reproducibility` · `research-artifacts` · `artifact-evaluation` · `acm-badging` · `agentic-workflows` · `llm-evaluation` · `open-science` · `static-analysis`
+*micro1 Frontier Engineering Challenge 2026 · Agentic Workflows · solo entry*
+
+`reproducibility` · `research-artifacts` · `artifact-evaluation` · `acm-badging` ·
+`agentic-workflows` · `llm-evaluation` · `open-science` · `static-analysis` ·
+`developer-tools` · `streamlit` · `aws-bedrock` · `python`
+
+---
+
+| **0% → 100%** | **75/75** | **742** | **6,815** | **55.9%** | **0/12** |
+|:--:|:--:|:--:|:--:|:--:|:--:|
+| detection, prose vs<br>verified facts | injected claims caught,<br>0 false positives | research artifacts<br>profiled | documented references<br>checked | of artifacts carry a<br>broken claim | placebo control —<br>the causal test |
+
+*Every figure on this page is re-derived from `results/*.json` by
+`make check-claims`, which exits non-zero on drift. Nothing here is
+illustrative.*
+
+</div>
 
 ---
 
@@ -122,7 +151,7 @@ take 5%.
 | A baseline **and** an advanced solution | Same model, same rubric, same scrubbed input. The only difference is verified evidence. |
 | A **meaningful, non-cosmetic** measured gain | 0% → 100% detection, with a placebo control isolating the cause |
 | Reproducibility as a pass/fail gate | 12 credential-free `make` targets pass from a clean clone; CI runs them with no secrets |
-| Integrity of reported numbers | 74 documented figures machine-verified against `results/*.json` on every run, across README, CHANGELOG, AGENTS and the video script |
+| Integrity of reported numbers | 78 documented figures machine-verified against `results/*.json` on every run, across README, CHANGELOG, AGENTS and the video script |
 | Credentials kept out of the submission | `.env` gitignored; the trajectory exporter refuses to write if any secret pattern survives redaction |
 
 
@@ -141,7 +170,7 @@ directly rather than left to be inferred.
 | 6 | A legal and ethical use case treating people's data responsibly | Public research artifacts, analysed for whether their own documentation matches their own contents. No personal data. Findings cite file and line so an author can check any claim made about their work |
 | 7 | Use information you are allowed to share | Public and citable throughout: badges from published AE pages, repositories from public Zenodo deposits, README text from the public GitHub API |
 | 8 | Keep credentials and private information out of the submission | `.env` is gitignored and never read into any artifact. The trajectory exporter **refuses to write** if any known secret pattern survives redaction |
-| 9 | **Connect every claim to the evidence you submit** | `make check-claims` re-derives **74 documented figures** from `results/*.json` and exits non-zero on drift, and every result carries a provenance fingerprint so a number produced by since-changed code is reported as stale rather than trusted |
+| 9 | **Connect every claim to the evidence you submit** | `make check-claims` re-derives **78 documented figures** from `results/*.json` and exits non-zero on drift, and every result carries a provenance fingerprint so a number produced by since-changed code is reported as stale rather than trusted |
 | 10 | Give judges enough access to reproduce the main result | 12 credential-free `make` targets run from a clean clone in seconds; `make repro` is the single command. Model-dependent steps are listed with their runtime and cost in [`REPRODUCTION.md`](REPRODUCTION.md) |
 
 ---

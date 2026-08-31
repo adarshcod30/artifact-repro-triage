@@ -440,13 +440,31 @@ def claims() -> list[tuple[str, str, str, str]]:
             out.append(("README.md", f"{n_iter} iterations",
                         "changelog iteration count", "CHANGELOG.md"))
 
-    # The README states how many figures this checker verifies. That sentence is
-    # itself a claim about the checker, and it went stale the moment a claim was
-    # added - it read 46 while the checker verified 59. Rather than remember to
-    # edit it, the count checks itself: `+1` accounts for this very claim, so the
-    # number in the README must equal the number of rows including this row.
-    out.append(("README.md", f"{len(out) + 1} documented figures",
+    # The header badges hard-code numbers into shields.io URLs, where nothing
+    # would ever notice them going stale. Registered like any other claim.
+    n_tests_badge = sum(
+        1 for ln in (ROOT / "tests" / "test_regressions.py").read_text().splitlines()
+        if ln.startswith("def test_"))
+    out.append(("README.md", f"tests-{n_tests_badge}_passing",
+                "header badge: test count", "tests/"))
+    out.append(("README.md", f"results-{len(PROVENANCE_KINDS)}%2F"
+                             f"{len(PROVENANCE_KINDS)}_current",
+                "header badge: provenance", "PROVENANCE_KINDS"))
+    if sp := load("results/spend.json"):
+        out.append(("README.md", f"model_spend-%24{sp['total_usd']:.2f}",
+                    "header badge: model spend", "spend.json"))
+
+    # The README states how many figures this checker verifies - twice in prose
+    # and once in a header badge. That sentence is itself a claim about the
+    # checker, and it went stale the moment a claim was added: it read 46 while
+    # the checker verified 59. Rather than remember to edit it, the count checks
+    # itself. `+2` accounts for these two rows, so the number the README reports
+    # must equal the number of rows including the rows that report it.
+    n_self = len(out) + 2
+    out.append(("README.md", f"{n_self} documented figures",
                 "the checker's own coverage count", "self"))
+    out.append(("README.md", f"documented_numbers-{n_self}_verified",
+                "header badge: the coverage count", "self"))
 
     return out
 
