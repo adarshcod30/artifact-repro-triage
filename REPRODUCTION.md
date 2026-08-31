@@ -37,16 +37,25 @@ Install takes roughly 30 seconds (`boto3`, `botocore[crt]`, `certifi`).
 
 Run end to end on a fresh shallow clone of the **published** repository — new
 directory, new virtualenv, no cached state, no credentials, no configuration.
-All ten credential-free targets pass, and `artifact-triage <owner>/<repo>`
-produces a report:
+All **twelve** credential-free targets pass, and the installed
+`artifact-triage` entry point produces a report — exit **2** on an artifact with
+broken claims, **0** on a clean one:
 
 ```
 test  verify  control  subtle  ablation  pinning  portability
-dataset  dashboard  check-claims
+dataset  dashboard  check-claims  spend  corpus
 ```
 
-`make verify-targets` re-runs that check and fails loudly if any documented
-command does not work.
+`make verify-targets` re-runs that check, and now also **fails if any Makefile
+target is in neither the run list nor the documented-as-gated list** — so a new
+target cannot be silently omitted from this guarantee, which is how `linkgap`
+and `resolution` were once reported as covered without ever being run.
+
+Two targets are deliberately **not** in that set. `make linkgap` and
+`make resolution` re-derive from the prevalence cache, which is gitignored, so
+on a clean clone they re-fetch 742 repositories over the GitHub API and take
+far longer than a reproduction check should. They are documented as gated,
+alongside `prevalence` itself.
 
 > `certifi` is not optional on macOS: python.org builds ship without a CA bundle,
 > and every HTTPS call fails with `CERTIFICATE_VERIFY_FAILED` without it.
