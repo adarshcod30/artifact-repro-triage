@@ -76,8 +76,39 @@ def entries() -> list[dict]:
     return out
 
 
+class LedgerUnreadable(Exception):
+    """The ledger exists but cannot be trusted. Never treat this as $0."""
+
+
 def total() -> float:
-    return sum(e.get("usd", 0.0) for e in entries())
+    """Cumulative spend. Enforces the append-only invariant on read.
+
+    Two ways this used to go wrong:
+
+      - A non-numeric `usd` (`"1.5"` rather than `1.5`) raised TypeError out of
+        the sum. `budget._ledger_total()` caught it and returned 0.0, so the
+        ceiling guard believed nothing had been spent and permitted unlimited
+        runs. A money guard that FAILS OPEN is worse than one that only warns.
+      - A negative `usd` SUBTRACTED. The module docstring promises "a run can
+        add to the total, and nothing can subtract from it"; $10 + (-$9.90)
+        returned $0.10, so a single edited line could hide almost any spend.
+
+    A malformed entry now raises rather than silently reducing the total, and a
+    missing file still reads as zero - an absent ledger genuinely means nothing
+    has been spent, which is different from an unreadable one.
+    """
+    running = 0.0
+    for e in entries():
+        v = e.get("usd", 0.0)
+        if isinstance(v, bool) or not isinstance(v, (int, float)):
+            raise LedgerUnreadable(
+                f"non-numeric spend entry in {LEDGER}: {v!r}")
+        if v < 0:
+            raise LedgerUnreadable(
+                f"negative spend entry in {LEDGER}: {v!r} - the ledger is "
+                f"append-only and nothing may subtract from the total")
+        running += float(v)
+    return running
 
 
 def remaining() -> float:

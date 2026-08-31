@@ -33,11 +33,36 @@ _SESSION_USD = 0.0
 
 
 def _ledger_total() -> float:
-    try:
-        from artifact_triage.common.ledger import total
-        return total()
-    except Exception:
+    """Spend so far. FAILS CLOSED - an unreadable ledger stops the run.
+
+    This used to `except Exception: return 0.0`, so any corrupt entry made the
+    guard believe nothing had been spent and permitted unlimited billing. The
+    whole point of this module is that the ceiling is enforced rather than
+    hoped for, and a guard that reports $0 when it cannot read the meter is not
+    enforcing anything.
+
+    A MISSING ledger still reads as zero: never having spent is not the same as
+    being unable to tell.
+    """
+    from artifact_triage.common.ledger import LEDGER, LedgerUnreadable, total
+    if not LEDGER.exists():
         return 0.0
+    try:
+        return total()
+    except LedgerUnreadable as exc:
+        # A clean stop, not a traceback: this is a user-facing refusal.
+        raise SystemExit(
+            f"BUDGET STOP: {exc}\n"
+            f"  Refusing to spend against a meter this process cannot trust. "
+            f"Fix the offending line, or set ARTIFACT_TRIAGE_BUDGET_USD=0 to "
+            f"disable the guard deliberately.")
+    except Exception as exc:
+        raise SystemExit(
+            f"BUDGET STOP: the spend ledger at {LEDGER} could not be read "
+            f"({type(exc).__name__}: {exc}).\n"
+            f"  Refusing to spend against a meter this process cannot read. "
+            f"Fix or remove the file, or set ARTIFACT_TRIAGE_BUDGET_USD=0 to "
+            f"disable the guard deliberately.")
 
 
 def spent() -> float:

@@ -2758,6 +2758,92 @@ def test_rule_prefixes_are_unambiguous():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 141 - the money guard failed OPEN
+#
+# `budget._ledger_total()` was `except Exception: return 0.0`. A single
+# non-numeric `usd` value ("1.5" rather than 1.5) raised out of `total()`, was
+# swallowed, and the guard concluded that NOTHING had been spent - permitting
+# unlimited billing. The module's own docstring says "a guard that only warns is
+# worth nothing at 3am"; one that reports $0 when it cannot read the meter is
+# worse than one that warns.
+#
+# Separately, a NEGATIVE entry subtracted. `ledger.py` promises "a run can add
+# to the total, and nothing can subtract from it", and $10 + (-$9.90) returned
+# $0.10 - so one edited line could hide almost any spend.
+#
+# A MISSING ledger still reads as zero. Never having spent is not the same as
+# being unable to tell, and conflating them would break every clean checkout.
+# --------------------------------------------------------------------------
+def _tmp_ledger(content):
+    import tempfile
+    from pathlib import Path as _P
+    d = tempfile.mkdtemp()
+    p = _P(d) / "ledger.jsonl"
+    if content is not None:
+        p.write_text(content)
+    return p
+
+
+def test_a_corrupt_ledger_stops_the_run_rather_than_reading_as_zero():
+    from artifact_triage.common import budget, ledger
+    old_l, old_g = ledger.LEDGER, budget.GUARD_USD
+    try:
+        ledger.LEDGER = _tmp_ledger('{"kind":"a","usd":"1.5"}\n')
+        budget.GUARD_USD = 5.0
+        budget.reset()
+        raised = False
+        try:
+            budget.check()
+        except SystemExit:
+            raised = True
+        assert raised, "an unreadable meter must not read as $0 spent"
+    finally:
+        ledger.LEDGER, budget.GUARD_USD = old_l, old_g
+        budget.reset()
+
+
+def test_a_negative_entry_cannot_reduce_the_total():
+    from artifact_triage.common import ledger
+    old = ledger.LEDGER
+    try:
+        ledger.LEDGER = _tmp_ledger('{"kind":"a","usd":10.0}\n'
+                                    '{"kind":"r","usd":-9.9}\n')
+        try:
+            ledger.total()
+        except ledger.LedgerUnreadable:
+            return
+        raise AssertionError("append-only means nothing may subtract")
+    finally:
+        ledger.LEDGER = old
+
+
+def test_a_missing_ledger_still_reads_as_nothing_spent():
+    from artifact_triage.common import budget, ledger
+    old_l, old_g = ledger.LEDGER, budget.GUARD_USD
+    try:
+        ledger.LEDGER = _tmp_ledger(None)      # never created
+        budget.GUARD_USD = 5.0
+        budget.reset()
+        budget.check()                          # must not raise
+    finally:
+        ledger.LEDGER, budget.GUARD_USD = old_l, old_g
+        budget.reset()
+
+
+def test_a_valid_ledger_still_totals_correctly():
+    from artifact_triage.common import ledger
+    old = ledger.LEDGER
+    try:
+        ledger.LEDGER = _tmp_ledger('{"kind":"a","usd":1.0}\n'
+                                    '{"bad json\n'
+                                    '{"kind":"b","usd":2.0}\n')
+        assert ledger.total() == 3.0, "a corrupt LINE is skipped; a corrupt VALUE is not"
+    finally:
+        ledger.LEDGER = old
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
