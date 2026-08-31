@@ -588,7 +588,7 @@ work, and the write-up keeps it visible rather than quietly dropping it.
 |---|---|---|
 | Constant predictor, always `"Functional"` | **0.667** | yes — no model, no input |
 | Baseline | 0.733 | no |
-| Solution | 0.800 | no |
+| Solution | 0.700 | no |
 
 **A zero-skill constant beats both systems.** It wins by collapsing onto the
 middle class, which MAE rewards on a 3-class ordinal problem — and the baseline

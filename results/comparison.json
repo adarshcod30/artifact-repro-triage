@@ -1,9 +1,9 @@
 {
  "_provenance": {
   "kind": "comparison",
-  "commit": "c132ff1-dirty",
+  "commit": "33d8ea5",
   "code_fingerprint": "de9c648d3715",
-  "corpus_fingerprint": "d7c75c847b77"
+  "corpus_fingerprint": "b23efbc43339"
  },
  "baseline": {
   "system": "baseline",
@@ -165,10 +165,10 @@
   "n_scored": 10,
   "n_escalated": 5,
   "n_failed": 0,
-  "mae": 0.8,
-  "exact_accuracy": 0.2,
+  "mae": 0.7,
+  "exact_accuracy": 0.3,
   "adjacent_accuracy": 1.0,
-  "overclaim_rate": 0.4,
+  "overclaim_rate": 0.3,
   "escalation_rate": 0.333,
   "human_minutes": 305.0,
   "human_minutes_saved": 370.0,
@@ -188,7 +188,7 @@
     "artifact_id": "HexHive/FishFuzz",
     "truth": "Available",
     "predicted": "Functional",
-    "confidence": 0.8,
+    "confidence": 0.7,
     "escalated": false,
     "rank_error": 1,
     "outcome": "overclaim"
@@ -197,7 +197,7 @@
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
     "truth": "Functional",
     "predicted": "Available",
-    "confidence": 0.9,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": -1,
     "outcome": "underclaim"
@@ -214,11 +214,11 @@
    {
     "artifact_id": "THU-WingTecher/DeepConstr",
     "truth": "Available",
-    "predicted": "Functional",
+    "predicted": "Available",
     "confidence": 0.7,
     "escalated": false,
-    "rank_error": 1,
-    "outcome": "overclaim"
+    "rank_error": 0,
+    "outcome": "correct"
    },
    {
     "artifact_id": "asub0/fonnx",
@@ -232,7 +232,7 @@
     "artifact_id": "dserfe/FlakyDoctor",
     "truth": "Functional",
     "predicted": "Available",
-    "confidence": 0.8,
+    "confidence": 0.85,
     "escalated": true,
     "outcome": "escalated"
    },
@@ -302,13 +302,13 @@
     "artifact_id": "zhangxiaosa/LPR",
     "truth": "Reusable",
     "predicted": "Available",
-    "confidence": 0.85,
+    "confidence": 0.9,
     "escalated": true,
     "outcome": "escalated"
    }
   ]
  },
- "runs_recorded": 4,
+ "runs_recorded": 5,
  "baseline_mae_range": [
   0.733,
   0.8

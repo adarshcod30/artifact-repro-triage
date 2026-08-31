@@ -93,7 +93,7 @@ through Steps 0 → 4.
 > "Here's where the project changed shape.
 >
 > I started by scoring both systems against real ACM badges. Baseline MAE 0.733.
-> Solution 0.800 — and those numbers move between runs, because the model isn't
+> Solution 0.700 — and those numbers move between runs, because the model isn't
 > deterministic. That's the point: neither is anywhere near good.
 >
 > Before touching anything I added a control: a constant predictor that always
