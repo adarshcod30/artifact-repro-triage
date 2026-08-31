@@ -248,6 +248,23 @@ def claims() -> list[tuple[str, str, str, str]]:
                         f"{x['mean_broken_ratio']:.3f} | {x['share_with_broken']:.0%} |",
                         f"ecosystem: {x['language']}", "prevalence.json"))
 
+    # The video script quotes figures aloud. A spoken number cannot be matched,
+    # so the script carries a digits table at the top and that is checked.
+    if fr:
+        srr = fr.get("solution_rates") or []
+        if srr:
+            out.append(("docs/VIDEO_SCRIPT.md",
+                        f"**0%** → **{sum(srr)/len(srr):.0%}**",
+                        "video: detection headline", "falsified_run.json"))
+            out.append(("docs/VIDEO_SCRIPT.md",
+                        f"{min(srr):.0%}–{max(srr):.0%}",
+                        "video: detection range", "falsified_run.json"))
+    if pvd:
+        out.append(("docs/VIDEO_SCRIPT.md", f"{pvd['total_claims']:,}",
+                    "video: documented references", "prevalence.json"))
+        out.append(("docs/VIDEO_SCRIPT.md", f"{pvd['prevalence']:.1%}",
+                    "video: prevalence", "prevalence.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",

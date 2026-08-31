@@ -6,8 +6,24 @@ change that contributed most → one experiment you removed.
 
 This script covers all six. Timings are cumulative.
 
----
+## Figures spoken in this script
 
+Verified against `results/*.json` by `make check-claims` on every run, so the
+script cannot drift from the data before you record it.
+
+| Spoken as | Digits |
+|---|---|
+| detection, evidence vs prose | **0%** → **96%** |
+| detection range across 3 trials | 88%–100% |
+| on a 13x cheaper model | **100%** |
+| artifacts profiled | 742 |
+| documented references | 6,815 |
+| references pointing at nothing | 18.4% |
+| artifacts with at least one | 55.9% |
+| broken-claim ratio, newest → oldest bucket | 0.20 → 0.19 |
+| placebo control | **0/12** |
+
+---
 ## 0:00 – 0:35 — The finding
 
 > "I took a real research repository and secretly added file paths to its README
@@ -17,10 +33,16 @@ This script covers all six. Timings are cumulative.
 >
 > Then I gave the *same* model the *same* README — plus a list of which of those
 > paths actually exist in the repository, checked by twenty lines of ordinary
-> Python. It caught the fabrication every time. Three trials, no variance.
+> Python. It caught the fabrication in ninety-six percent of cases, across three
+> trials.
 >
-> **Nought percent to one hundred percent, and the model never changed.** Only
-> what it was allowed to reason over.
+> **Nought to ninety-six percent, and the model never changed.** Only what it
+> was allowed to reason over.
+>
+> And it is not about model power. I re-ran it on a model **thirteen times
+> cheaper**, and with the same verified facts it also caught everything — while
+> the expensive model reading prose still caught nothing. Three cents screens a
+> whole conference.
 >
 > That is the whole project: find the part of the job a model cannot do at any
 > price, do it deterministically for free, and hand over facts instead of asking
@@ -36,13 +58,13 @@ paths do not exist* — in an artifact badged **Reusable**.
 
 > "This matters because the defect is everywhere. Across seven hundred and
 > forty-two research artifacts harvested from Zenodo — six thousand eight
-> hundred and forty documented file references — **eighteen and a half percent
-> point at nothing at all**. Fifty-six percent of artifacts have at least one.
+> hundred and fifteen documented file references — **eighteen percent point at
+> nothing at all**. Nearly fifty-six percent of artifacts have at least one.
 >
 > And the part I did not expect: the literature says artifacts *decay* —
 > dependencies drift, environments rot — so older ones should be worse. They
-> aren't. The rate is flat across four years: point two-oh under three months,
-> point one-nine for artifacts last touched four years ago.
+> aren't. The rate is flat across four years: point one-nine-five under three months,
+> point one-nine-three for artifacts last touched four years ago.
 >
 > **These artifacts shipped broken.** A reviewer could have caught every one on
 > day one, in five seconds, for free."
