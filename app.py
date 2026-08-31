@@ -534,6 +534,43 @@ gets laundered, so the replaced one is still reported here.
     """)
 
     st.divider()
+    st.subheader("Experiments removed")
+    st.caption("The brief asks for the experiments that were cut and what they "
+               "taught. All three are in `CHANGELOG.md`; this is the one that "
+               "taught the most.")
+    with st.expander("**GitHub search** — recovered 20 artifacts, and was cut anyway",
+                     expanded=True):
+        st.markdown("""
+Only half the artifacts had a repository link in their Zenodo record, so I
+searched GitHub by paper title to recover the rest. It found **20 more** — a 33%
+larger corpus.
+
+It also found a **Jekyll theme** matched to a patch-generation paper, and a
+**LodeRunner game clone** matched to a paper called *“Total Recall? How Good are
+Static Call Graphs Really?”*
+
+I hardened the matcher twice. The game still passed — its README genuinely
+contains the words “total recall”.
+
+So I cut the whole thing and kept only the repositories the authors published
+themselves. **Smaller corpus, zero false labels.**
+        """)
+        st.error("**The lesson is this project's own thesis, one level up:** "
+                 "fuzzy matching produced confident, plausible, wrong answers — "
+                 "which is exactly the failure the tool exists to detect. I "
+                 "built it into my own corpus while building a detector for it.",
+                 icon="🎯")
+    with st.expander("Two more, in brief"):
+        st.markdown("""
+- **Shallow cloning** — filled the disk to 100% on a 15-artifact corpus. Repo
+  size at HEAD and clone size differ by more than an order of magnitude, and the
+  fact I needed (does this path exist?) never justified transferring bytes.
+- **Downloading Zenodo deposits** — correct in principle, since the deposit is
+  the badged unit, but 326 GB makes it unusable and would have pushed
+  reproduction time from seconds to hours.
+        """)
+
+    st.divider()
     st.subheader("Known limitations")
     st.markdown("""
 - **Necessary conditions, never sufficient ones.** Every path can resolve, every
