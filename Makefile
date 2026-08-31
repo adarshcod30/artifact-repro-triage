@@ -75,6 +75,9 @@ dataset:  ## Export the 742-artifact measurements as CSV + JSONL + datasheet
 dashboard:  ## Render every result into one self-contained HTML page
 	$(PY) -m artifact_triage.eval.dashboard
 
+app:  ## Interactive walkthrough - no model, no network, no cost
+	.venv/bin/streamlit run app.py
+
 spend:  ## Cumulative model spend against the $7.00 budget
 	$(PY) -m artifact_triage.eval.spend
 

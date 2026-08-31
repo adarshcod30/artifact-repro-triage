@@ -1,0 +1,14 @@
+# Pinned so the app looks identical on every machine and in every recording,
+# rather than inheriting the viewer's OS light/dark setting mid-video.
+[theme]
+base = "dark"
+primaryColor = "#4c9be8"
+backgroundColor = "#0e1117"
+secondaryBackgroundColor = "#171b26"
+textColor = "#e8eaed"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false
