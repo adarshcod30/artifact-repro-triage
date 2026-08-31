@@ -48,6 +48,14 @@ PROVIDERS = {
     "anthropic": ("claude-opus-5", 5.00, 25.00),
     "gemini": ("gemini-2.5-flash", 0.30, 2.50),
     "grok": ("grok-4-fast-non-reasoning", 0.20, 0.50),
+    # Added so a reproducer with an OpenAI key can run the paid experiments
+    # without an AWS account. The published numbers came from Bedrock; this is
+    # a path to re-running them, not a claim that they transfer unchanged.
+    #
+    # The rates are list prices and feed ONLY the reported cost metric - a wrong
+    # rate cannot change a tier, a detection, or any headline figure. Override
+    # exactly with ARTIFACT_TRIAGE_USD_IN / _OUT if your account differs.
+    "openai": ("gpt-4o-mini", 0.15, 0.60),
 }
 
 
@@ -94,6 +102,10 @@ PRICE_OVERRIDES = {
 }
 if MODEL in PRICE_OVERRIDES:
     USD_IN, USD_OUT = PRICE_OVERRIDES[MODEL]
+# A reproducer on negotiated or regional pricing can state their real rate. This
+# affects the reported cost metric only; it can never change a result.
+USD_IN = float(os.environ.get("ARTIFACT_TRIAGE_USD_IN") or USD_IN)
+USD_OUT = float(os.environ.get("ARTIFACT_TRIAGE_USD_OUT") or USD_OUT)
 
 
 @dataclass
@@ -107,7 +119,7 @@ class Answer:
 
 
 def _scan_json_objects(raw: str):
-    """Yield every balanced top-level {...} block, in order.
+    r"""Yield every balanced top-level {...} block, in order.
 
     A greedy `\{.*\}` spans from the first brace to the last, which is invalid
     whenever a response contains more than one object - and some models emit the
@@ -274,8 +286,37 @@ class _Grok:
                       getattr(u, "completion_tokens", 0) or 0)
 
 
+class _OpenAI:
+    """Same SDK as _Grok, default base URL.
+
+    xAI is OpenAI-compatible, so this file already depended on the `openai`
+    package before OpenAI itself was selectable - the SDK was here and the
+    provider was not.
+    """
+
+    def __init__(self) -> None:
+        from openai import OpenAI
+        key = os.environ.get("OPENAI_API_KEY")
+        if not key:
+            raise SystemExit("OPENAI_API_KEY is not set (put it in .env)")
+        base = os.environ.get("OPENAI_BASE_URL")  # Azure / gateway / proxy
+        self.cl = OpenAI(api_key=key, **({"base_url": base} if base else {}))
+
+    def ask(self, system: str, user: str) -> Answer:
+        r = self.cl.chat.completions.create(
+            model=MODEL, max_completion_tokens=MAX_TOKENS, temperature=0,
+            response_format={"type": "json_object"},
+            messages=[{"role": "system", "content": system},
+                      {"role": "user", "content": user}],
+        )
+        u = r.usage
+        return _parse(r.choices[0].message.content or "",
+                      getattr(u, "prompt_tokens", 0) or 0,
+                      getattr(u, "completion_tokens", 0) or 0)
+
+
 _BACKENDS = {"bedrock": _Bedrock, "anthropic": _Anthropic,
-             "gemini": _Gemini, "grok": _Grok}
+             "gemini": _Gemini, "grok": _Grok, "openai": _OpenAI}
 
 
 # Budget policy lives in common/budget.py, deliberately outside this file.

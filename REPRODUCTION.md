@@ -68,7 +68,7 @@ Copy the template and fill in **one** provider:
 cp .env.example .env    # then edit .env
 ```
 
-**AWS Bedrock (what the reported results used):**
+**AWS Bedrock — provider `bedrock`, what the reported results used:**
 
 ```
 AWS_ACCESS_KEY_ID=...
@@ -82,9 +82,35 @@ The IAM principal needs `bedrock:InvokeModel` on the model, and the model must b
 enabled under Bedrock → Model access. `aws bedrock list-foundation-models` shows
 the *catalogue*, not what your account has enabled — verify with step 4.
 
-**Any other provider** — `anthropic`, `gemini`, or `grok` — set the matching key
-and `ARTIFACT_TRIAGE_PROVIDER`. Both systems always read the same value, so they
-can never be run against different models.
+**No AWS account? Use the key you already have.** Set `ARTIFACT_TRIAGE_PROVIDER`
+and the one matching credential:
+
+| Provider | Set | Default model |
+|---|---|---|
+| `openai` | `OPENAI_API_KEY` (plus `OPENAI_BASE_URL` for Azure or a gateway) | `gpt-4o-mini` |
+| `anthropic` | `ANTHROPIC_API_KEY` | `claude-opus-5` |
+| `gemini` | `GEMINI_API_KEY` | `gemini-2.5-flash` |
+| `grok` | `XAI_API_KEY` | `grok-4-fast-non-reasoning` |
+
+With an OpenAI key the whole `.env` is three lines:
+
+```
+ARTIFACT_TRIAGE_PROVIDER=openai
+OPENAI_API_KEY=sk-...
+ARTIFACT_TRIAGE_MODEL=gpt-4o-mini
+```
+
+Both systems always read the same provider and model, so they can never be run
+against different models — the comparison depends on it, and a test asserts it.
+
+**What to expect on a different provider.** Not the same digits. The model is
+non-deterministic even at `temperature: 0`; the same Bedrock experiment returned
+100% then 90% on consecutive runs, which is why the headline is a mean with its
+range over 3 trials. What should reproduce is the **direction and size of the
+gap** — baseline near 0%, solution near 100% — because it held across three
+unrelated model families (Nova Pro 100%, Llama 3.3 70B 100%, Nova 2 Lite 94%,
+baseline 0% on all three). The deterministic verifier is byte-identical on every
+provider, because no model touches it.
 
 ## 4. Verify before spending anything
 
@@ -116,7 +142,7 @@ make eval        # score both with the shared scorer
 Everything that needs **no credentials and costs nothing**:
 
 ```bash
-make test          # 225 regression tests, ~2s
+make test          # 230 regression tests, ~2s
 make report REPO=owner/name   # reviewer report for any repository
 make prevalence    # broken-claim prevalence across the harvested corpus
 make links         # link-rot scan

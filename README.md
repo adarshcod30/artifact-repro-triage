@@ -110,7 +110,7 @@ take 5%.
 
 | # | Requirement | Where it is | Status |
 |---|---|---|---|
-| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 153 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
+| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 154 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
 | 2 | **Reproduction guide** from a clean environment | [`REPRODUCTION.md`](REPRODUCTION.md) — verified from a fresh clone of the published repo | Complete |
 | 3 | **Video ≤ 5 minutes** | [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md) — timed to 4:50, figures under the claim checker | Script ready |
 | 4 | **Agent trajectories** for every agent used | [`trajectories/`](trajectories/) — 3 product-agent runs + the full build agent, secrets redacted | Complete |
@@ -543,7 +543,7 @@ Reported because omitting them would make everything else less trustworthy.
 | System | MAE, scored answers only | MAE, full coverage | Deterministic? |
 |---|---|---|---|
 | Constant predictor, always `"Functional"` | 0.667 | 0.667 | yes — no model, no input |
-| Baseline | 0.800 (15 of 15) | 0.800 | no |
+| Baseline | 0.733 (15 of 15) | 0.733 | no |
 | Solution | 0.800 (10 of 15) | **1.067** | no |
 
 **Read the second column.** Every rate excludes escalated items, and the
@@ -556,7 +556,7 @@ columns as comparable.
 The badge-agreement evaluation is uninformative here: the committee badged the
 curated Zenodo deposit, we analyse the living GitHub mirror. The original
 experiment was abandoned rather than quietly dropped — and the baseline wins
-partly by collapsing onto the middle class, predicting `Functional` for 13 of 15
+partly by collapsing onto the middle class, predicting `Functional` for 14 of 15
 artifacts.
 
 ### The external validation returned null
@@ -795,25 +795,66 @@ Use `--depth 1`: the history carries API-cache files that were later removed.
 
 ### Environment variables
 
-Only needed for `--model` and the paid experiments. Copy the template and fill
-in **one** provider:
+**None of this is needed to reproduce the deterministic results.** The
+prevalence study, the negative control, the ablation, the link-checker gap and
+all 12 credential-free `make` targets run with no `.env` at all. Credentials are
+only for the paid model experiments and for `artifact-triage <repo> --model`.
+
+**Bring whichever key you already have.** Five providers are supported and the
+system reads one variable to choose between them, so no AWS account is required
+to re-run the experiments:
+
+| `ARTIFACT_TRIAGE_PROVIDER` | Credential it reads | Default model |
+|---|---|---|
+| `bedrock` | `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_REGION` | `us.anthropic.claude-sonnet-4-5-20250929-v1:0` |
+| `openai` | `OPENAI_API_KEY` (optional `OPENAI_BASE_URL` for Azure or a gateway) | `gpt-4o-mini` |
+| `anthropic` | `ANTHROPIC_API_KEY` | `claude-opus-5` |
+| `gemini` | `GEMINI_API_KEY` | `gemini-2.5-flash` |
+| `grok` | `XAI_API_KEY` | `grok-4-fast-non-reasoning` |
 
 ```bash
 cp .env.example .env
 ```
 
+Then fill in **one** provider. With an OpenAI key, the whole file is three
+lines:
+
 ```bash
+ARTIFACT_TRIAGE_PROVIDER=openai
+OPENAI_API_KEY=sk-...
+ARTIFACT_TRIAGE_MODEL=gpt-4o-mini    # optional; blank uses the default above
+```
+
+The published numbers came from Bedrock, and that is the configuration
+`REPRODUCTION.md` walks through:
+
+```bash
+ARTIFACT_TRIAGE_PROVIDER=bedrock
 AWS_ACCESS_KEY_ID=...
 AWS_SECRET_ACCESS_KEY=...
 AWS_REGION=us-east-1
-ARTIFACT_TRIAGE_PROVIDER=bedrock
 ARTIFACT_TRIAGE_MODEL=us.amazon.nova-pro-v1:0
-ARTIFACT_TRIAGE_BUDGET_USD=7.00      # optional; the ceiling, enforced per call
-ARTIFACT_TRIAGE_TRIALS=3             # optional; trials per experiment
+ARTIFACT_TRIAGE_BUDGET_USD=7.00      # the ceiling, enforced per call, raises
+ARTIFACT_TRIAGE_TRIALS=3             # 1 trial is not a reportable result
 ```
 
-The IAM principal needs `bedrock:InvokeModel` on the model, and model access
-must be enabled in the Bedrock console for that region.
+For Bedrock the IAM principal needs `bedrock:InvokeModel` on the model, and
+model access must be enabled in the Bedrock console **for that region** — access
+is granted per region, and `list-foundation-models` shows the catalogue rather
+than what your account has enabled. `make preflight` checks this before spending
+anything.
+
+**Both systems read the same provider and model variables**, so the baseline and
+the solution can never accidentally run different models. That is not a
+convenience; the entire measured improvement depends on it, and
+`tests/test_regressions.py` asserts it.
+
+> **A different provider will not reproduce the published digits**, and it is not
+> supposed to. The model is non-deterministic even at `temperature: 0` — the same
+> experiment returned 100% then 90% on consecutive Bedrock runs. What should
+> reproduce is the **direction and size of the gap**: a baseline near 0% and a
+> solution near 100%. That gap held across Nova Pro, Llama 3.3 70B and Nova 2
+> Lite, which is the evidence that it is not a property of one model.
 
 ### Run locally
 
@@ -883,7 +924,7 @@ artifact-triage owner/repo --model               # adds a tier assessment (needs
 ## Testing
 
 ```bash
-make test          # 225 regression tests, no credentials, ~1s
+make test          # 230 regression tests, no credentials, ~1s
 make check-claims  # 46 documented numbers verified against results/*.json
 make verify-targets
 ```
@@ -911,7 +952,7 @@ Verified from a **fresh clone of the published repository** — new directory, n
 virtualenv, no cached state, no credentials. All twelve credential-free targets
 pass, and the installed entry point produces a report.
 
-Total model spend for the entire project: **$6.87**, against a ceiling raised
+Total model spend for the entire project: **$6.94**, against a ceiling raised
 three times with explicit authorisation ($5.00 → $5.50 → $6.25 → $7.00), each
 raise buying a re-measurement that a core-logic fix had made necessary.
 

@@ -3320,6 +3320,77 @@ def test_no_document_still_reports_the_superseded_detection_figure():
 
 
 
+# ---------------------------------------------------------------------------
+# Provider portability. The README showed only AWS keys, so a reader with an
+# OpenAI or Anthropic key had no visible way in - and OpenAI was genuinely
+# missing from the registry even though the `openai` SDK was already a
+# dependency, used by the Grok backend. Ground rule 10 is "give judges enough
+# access to run the project": a reproducer should not need an AWS account.
+# ---------------------------------------------------------------------------
+
+# Credential each provider actually reads, asserted against the code below.
+_PROVIDER_KEYS = {
+    "bedrock": "AWS_ACCESS_KEY_ID",
+    "openai": "OPENAI_API_KEY",
+    "anthropic": "ANTHROPIC_API_KEY",
+    "gemini": "GEMINI_API_KEY",
+    "grok": "XAI_API_KEY",
+}
+
+
+def test_every_declared_provider_has_a_backend():
+    """A provider in the table with no class is a SystemExit at first use."""
+    from artifact_triage.common import llm
+    assert set(llm.PROVIDERS) == set(llm._BACKENDS), (
+        f"declared {sorted(llm.PROVIDERS)} but implemented "
+        f"{sorted(llm._BACKENDS)}")
+
+
+def test_every_backend_is_documented_in_the_env_template():
+    """.env.example is the only setup instruction most people will read."""
+    from artifact_triage.common import llm
+    env = (_REPO / ".env.example").read_text()
+    for name in llm.PROVIDERS:
+        assert name in env, f".env.example never mentions provider {name!r}"
+        key = _PROVIDER_KEYS[name]
+        assert key in env, f".env.example never mentions {key} for {name!r}"
+
+
+def test_readme_and_reproduction_list_every_provider():
+    from artifact_triage.common import llm
+    for doc in ("README.md", "REPRODUCTION.md"):
+        text = (_REPO / doc).read_text()
+        for name in llm.PROVIDERS:
+            assert f"`{name}`" in text, f"{doc} does not offer provider {name!r}"
+
+
+def test_env_template_does_not_advertise_the_removed_confidence_gate():
+    """It offered ARTIFACT_TRIAGE_ESCALATE_BELOW long after it stopped working.
+
+    `decide()` escalates on evidence and never reads `confidence`, so setting
+    the variable did nothing. A knob that silently does nothing is worse than no
+    knob - it is the project's own subject, in the project's own setup file. It
+    may still be NAMED, in the note explaining the removal; it may not be
+    offered as a live assignment.
+    """
+    for line in (_REPO / ".env.example").read_text().splitlines():
+        stripped = line.strip()
+        assert not stripped.startswith("ARTIFACT_TRIAGE_ESCALATE_BELOW="), (
+            "the env template offers a variable the code does not read")
+
+
+def test_escalation_still_ignores_self_reported_confidence():
+    """The invariant behind the removal, pinned so it cannot creep back."""
+    import inspect
+    from artifact_triage.solution import escalate
+    body = inspect.getsource(escalate.decide)
+    # `confidence` is accepted for signature compatibility with the caller, but
+    # must never appear in a comparison that gates the decision.
+    for bad in ("confidence <", "confidence >", "confidence <=", "confidence >="):
+        assert bad not in body, f"decide() gates on {bad!r} again"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

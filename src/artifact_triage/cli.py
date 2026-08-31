@@ -412,7 +412,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.model:
         from artifact_triage.common.llm import ask, client
         from artifact_triage.common.rubric import RUBRIC
-        from artifact_triage.solution.run import ESCALATE_BELOW, prompt_for
+        # ESCALATE_BELOW was imported here and never used. The confidence
+        # gate it belongs to was removed; `decide()` escalates on evidence
+        # and does not read `confidence` at all.
+        from artifact_triage.solution.run import prompt_for
         print("asking the model …", file=sys.stderr)
         a = ask(client(), RUBRIC, prompt_for(fx))
         from artifact_triage.solution.escalate import decide

@@ -1,12 +1,12 @@
 {
  "_provenance": {
   "kind": "comparison",
-  "commit": "53c28f1-dirty",
+  "commit": "4c1097c-dirty",
   "code_fingerprint": "df45ff7edc30",
   "corpus_fingerprint": "5eddc63561f2"
  },
  "mae_full_coverage": {
-  "baseline": 0.8,
+  "baseline": 0.733,
   "solution": 1.067
  },
  "baseline": {
@@ -15,8 +15,8 @@
   "n_scored": 15,
   "n_escalated": 0,
   "n_failed": 0,
-  "mae": 0.8,
-  "exact_accuracy": 0.267,
+  "mae": 0.733,
+  "exact_accuracy": 0.333,
   "adjacent_accuracy": 0.933,
   "overclaim_rate": 0.267,
   "escalation_rate": 0.0,
@@ -48,7 +48,7 @@
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
     "truth": "Functional",
     "predicted": "Functional",
-    "confidence": 0.7,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": 0,
     "outcome": "correct"
@@ -74,11 +74,11 @@
    {
     "artifact_id": "asub0/fonnx",
     "truth": "Functional",
-    "predicted": "Available",
-    "confidence": 0.8,
+    "predicted": "Functional",
+    "confidence": 0.7,
     "escalated": false,
-    "rank_error": -1,
-    "outcome": "underclaim"
+    "rank_error": 0,
+    "outcome": "correct"
    },
    {
     "artifact_id": "dserfe/FlakyDoctor",
@@ -102,7 +102,7 @@
     "artifact_id": "jovyntls/inconsistencies-in-tex",
     "truth": "Available",
     "predicted": "Functional",
-    "confidence": 0.8,
+    "confidence": 0.7,
     "escalated": false,
     "rank_error": 1,
     "outcome": "overclaim"
@@ -312,7 +312,7 @@
    }
   ]
  },
- "runs_recorded": 11,
+ "runs_recorded": 12,
  "baseline_mae_range": [
   0.733,
   0.8

@@ -83,7 +83,7 @@ line.
 > none of the claims have been checked."
 
 **On screen:** `make baseline` running. Point out that it answers `Functional`
-for 13 of 15 artifacts.
+for 14 of 15 artifacts.
 
 ---
 
@@ -113,7 +113,7 @@ through Steps 0 → 4.
 
 > "Here's where the project changed shape.
 >
-> I started by scoring both systems against real ACM badges. Baseline MAE 0.800.
+> I started by scoring both systems against real ACM badges. Baseline MAE 0.733.
 > Solution 0.800 — and those numbers move between runs, because the model isn't
 > deterministic. That's the point: neither is anywhere near good.
 >

@@ -259,6 +259,8 @@ with evidence rather than assertion.
 | Iteration 152 | Cleaned two `SyntaxWarning: invalid escape sequence` warnings that surface on every test run, by making the two docstrings raw strings. | The `llm.py` docstring is inside a **provenance influencer**. A three-character edit that changed no behaviour at all de-certified `baseline` and `solution`, and at **$6.87 of $7.00** there was no budget to re-run them. | **Reverted `llm.py`; kept the `cli.py` fix, which is not an influencer.** Two lessons, and the second is the one worth having. The cheap one: a cosmetic warning is not worth an uncertified headline number - the same trade Iteration 150 declined. The real one: **the fingerprint is over-sensitive.** It hashes source text, so it cannot tell a docstring from a decision boundary, and it will cry stale on comments and formatting forever. That is a false-positive rate in an integrity check - the exact failure this project argues gets a tool switched off. It stays as-is only because fixing it means changing `provenance.py`, which would invalidate all twelve results at once. **Recorded as the top item on the roadmap rather than quietly tolerated.** |
 | Iteration 153 | Asked how the checker had missed the drift in Iteration 151, and found the answer was **coverage, not correctness**: the decay and ecosystem tables were registered by *sampling* two rows each. | The unchecked cells had drifted. `1-2 years` read a hand-typed **623d** against a measured **624d**. `Shell` sits at exactly **0.625**, which the producer's formatter renders **62%** and a hand-typed cell rendered **63%** - the same two-path rounding split as Iteration 61, on a value that lands precisely half-way. | Registered **every cell of both tables** rather than a sample, and made the checker verify **its own coverage count**, so the sentence "73 documented figures" fails if a claim is added and the README is not updated. Claims 46 -> 73 across this audit. **A sampled guard reports on the sample, and reads as a guarantee about the table.** |
 
+| Iteration 154 | Made the project runnable on a key the reproducer already has. The README's setup showed **only AWS credentials**, and `openai` was missing from the provider registry - while the `openai` SDK was *already a dependency*, used by the Grok backend, which is OpenAI-compatible. The SDK was present and the provider was not. | Ground rule 10 is "give judges enough access to run the project". A judge with an OpenAI or Anthropic key could not run a single paid experiment, and nothing said so. `.env.example` also still offered `ARTIFACT_TRIAGE_ESCALATE_BELOW`, a knob the confidence-gate removal had made **inert** - setting it did nothing - and `cli.py` still imported the dead constant. | Five providers now, each documented with the one credential it reads and its default model. **The re-run cost $0.069 and paid for itself twice**: `llm.py` influences only `baseline` and `solution`, so re-certifying was affordable where the headline experiment would not have been - and it made Iteration 152's reverted `SyntaxWarning` fix free, since the file was being re-fingerprinted anyway. Baseline MAE came back **0.800 -> 0.733** on unchanged logic, which is the documented non-determinism arriving on schedule; the checker caught all six drifted figures. A knob that silently does nothing is worse than no knob - it is this project's own subject, in its own setup file. |
+
 
 ## Final result
 
@@ -302,7 +304,7 @@ scored over full coverage:
 | System | MAE (scored) | MAE (full coverage) | Source |
 |---|---|---|---|
 | Constant predictor, always `"Functional"` | 0.667 | 0.667 | `comparison.json` |
-| Baseline | 0.800 (15 of 15) | 0.800 | `comparison.json` |
+| Baseline | 0.733 (15 of 15) | 0.733 | `comparison.json` |
 | Solution | 0.800 (10 of 15) | **1.067** | `comparison.json` |
 
 Neither system has demonstrated skill at predicting a 2024 committee's badge from
@@ -348,7 +350,7 @@ resolve, every dependency can be pinned, and the artifact can still not run. Two
 of ACM's four Functional criteria - `Consistent` and actually executing the
 thing - are escalated to a human by construction, not because a threshold fired.
 And on the task of predicting a committee's badge, a zero-skill constant predictor
-(MAE **0.667**) still beats both the baseline (**0.800**) and this solution
+(MAE **0.667**) still beats both the baseline (**0.733**) and this solution
 (**1.067** at full coverage). It is a defect detector. It is not a quality scorer,
 and the numbers saying so are in this document rather than omitted from it.
 
