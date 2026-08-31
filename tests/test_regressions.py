@@ -3564,6 +3564,42 @@ def test_rendered_readme_fetches_nothing_from_the_internet():
 
 
 
+def test_no_committed_file_leaks_a_machine_specific_path():
+    """The CI gate runs this project's portability check on this project.
+
+    It failed three pushes in a row because `.claude/launch.json` - local agent
+    tooling, committed by accident - hard-coded `/Users/<name>/...`, which is
+    exactly what `portability.py` exists to detect. The gate was right and the
+    commit was wrong, but nothing caught it until CI did, three times.
+
+    This runs the same scan locally, over the tracked tree, so it fails on the
+    machine that made the mistake instead of in a notification email.
+    """
+    import subprocess
+    from artifact_triage.solution.portability import inspect
+
+    try:
+        tracked = subprocess.run(
+            ["git", "ls-files"], cwd=_REPO, capture_output=True, text=True,
+            timeout=30).stdout.split()
+    except Exception:  # pragma: no cover - no git available
+        return
+    if not tracked:
+        return
+
+    def read_local(_slug, path):
+        try:
+            return (_REPO / path).read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            return None
+
+    rep = inspect("self", tracked, fetch=read_local)
+    assert rep.n == 0, (
+        "a committed file leaks a machine-specific path: "
+        + "; ".join(f"{f.file}:{f.line} ({f.kind})" for f in rep.findings))
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

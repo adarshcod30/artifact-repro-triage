@@ -110,7 +110,7 @@ take 5%.
 
 | # | Requirement | Where it is | Status |
 |---|---|---|---|
-| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 158 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
+| 1 | Solution code **+ Improvement Changelog** | [`src/`](src/) · [`CHANGELOG.md`](CHANGELOG.md) — 159 iterations, each an evidence-driven decision, closing with the main failure mode and the hot take | Complete |
 | 2 | **Reproduction guide** from a clean environment | [`REPRODUCTION.md`](REPRODUCTION.md) — verified from a fresh clone of the published repo | Complete |
 | 3 | **Video ≤ 5 minutes** | [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md) — timed to 4:50, figures under the claim checker | Script ready |
 | 4 | **Agent trajectories** for every agent used | [`trajectories/`](trajectories/) — 3 product-agent runs + the full build agent, secrets redacted | Complete |
@@ -943,7 +943,7 @@ artifact-triage owner/repo --model               # adds a tier assessment (needs
 ## Testing
 
 ```bash
-make test          # 238 regression tests, no credentials, ~1s
+make test          # 239 regression tests, no credentials, ~1s
 make check-claims  # 46 documented numbers verified against results/*.json
 make verify-targets
 ```
