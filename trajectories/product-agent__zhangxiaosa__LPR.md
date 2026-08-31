@@ -191,7 +191,7 @@ Licence present: False
 }
 ```
 
-> **Human checkpoint.** Confidence fell below the escalation threshold, so this artifact is routed to a qualified reviewer rather than recorded as a guess.
+> **Human checkpoint.** An evidence-based rule fired, so this artifact is routed to a qualified reviewer rather than recorded as a guess.
 
 
 ## Step 4 — Outcome

@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 8,537 recorded events.
+Session `b0c00099` — 8,759 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -20638,7 +20638,538 @@ The file /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor m in dashboard export_dataset export_trajectories; do\n  PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m >/dev/null 2>&1 && echo \"  ok  $m\" || echo \"  FAIL $m\"\ndone\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -2\n.venv/bin/python scripts/verify_targets.py 2>&1 | tail -2\n.venv/bin/python scripts/check_claims.py 2>&1 | tail -3\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -2", "description": "Regenerate deliverables and verify everything", "timeout": 900000}
 ```
 
+**Tool response**
+
+```
+  ok  dashboard
+  ok  export_dataset
+  ok  export_trajectories
+wrote trajectories/build-agent.md  (1,317,992 chars, 41 human checkpoints)
+redactions: {'foreign_project': 213, 'aws_secret': 8, 'env_assignment': 57}
+========================================================================
+  All 12 credential-free targets run, 19 documented as gated, 0 unclassified.
+  The numbers may still be right, but nothing currently proves it.
+  Re-run those before treating them as reported results.
+==========================================================================
+184/184 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | grep -E \"STALE|functions changed\" | head -8\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|REMAINING\"", "description": "Identify what went stale and why"}
+```
+
+**Tool response**
+
+```
+  STALE  baseline             the corpus changed since this ran (fixtures or scrubbing d
+  STALE  solution             produced at commit 33d8ea5 by different code (fingerprint 
+           functions changed since 33d8ea5: verify.py:verify
+  STALE  falsified_run        produced at commit 7fe4422 by different code (fingerprint 
+           functions changed since 7fe4422: verify.py:verify
+  STALE  falsified_llama      produced at commit 7fe4422 by different code (fingerprint 
+           functions changed since 7fe4422: verify.py:verify
+  STALE  falsified_nova2lite  produced at commit 7fe4422 by different code (fingerprint 
+  TOTAL                      $ 6.1033  2461 calls
+  REMAINING                  $ 0.1467  (97.7% used)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit status --porcelain data/fixtures | head -5\ngit diff --stat data/fixtures | tail -2", "description": "Check whether the fixtures were mutated"}
+```
+
+**Tool response**
+
+```
+(Bash completed with no output)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json;print('  baseline recorded:', json.load(open('results/baseline.json'))['_provenance'])\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.common.provenance import corpus_fingerprint, CORPUS_INPUTS\nprint('  current corpus fingerprint:', corpus_fingerprint())\nprint('  corpus inputs:', CORPUS_INPUTS)\"\ngit log --oneline -3 -- src/artifact_triage/corpus/fetch.py src/artifact_triage/corpus/scrub.py", "description": "Trace the corpus fingerprint change"}
+```
+
+**Tool response**
+
+```
+  baseline recorded: {'kind': 'baseline', 'commit': '33d8ea5', 'code_fingerprint': 'a957fea0eb1b', 'corpus_fingerprint': 'b23efbc43339'}
+  current corpus fingerprint: 5eddc63561f2
+  corpus inputs: ['src/artifact_triage/corpus/scrub.py', 'src/artifact_triage/corpus/fetch.py']
+33d8ea5 A false positive on every dotfile, and the leniency behind the headline
+f50db8e Post-conditions that were never wired, and a commit stamp that could lie
+eb2b979 External URLs were counted as broken repo paths; headline corrected
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nls data/fixtures/*.json | wc -l | sed 's/^/  files in data\\/fixtures: /'\ngit ls-files data/fixtures | wc -l | sed 's/^/  tracked by git:        /'\ngit stash list | head -2\nPYTHONPATH=src .venv/bin/python -c \"\nimport hashlib\nfrom pathlib import Path\nh=hashlib.sha256()\nfor rel in ['src/artifact_triage/corpus/scrub.py','src/artifact_triage/corpus/fetch.py']:\n    h.update(rel.encode()); h.update(Path(rel).read_bytes())\nprint('  code-only part:', h.hexdigest()[:12])\"", "description": "Compare tracked vs present fixtures"}
+```
+
+**Tool response**
+
+```
+  files in data/fixtures:       15
+  tracked by git:              15
+  code-only part: b86120ea8fff
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nimport hashlib\nfrom pathlib import Path\nfrom artifact_triage.common.provenance import corpus_fingerprint, CORPUS_INPUTS, ROOT\nh=hashlib.sha256()\nfor rel in CORPUS_INPUTS:\n    p=ROOT/rel; h.update(rel.encode()); h.update(p.read_bytes() if p.exists() else b'<missing>')\nn=0\nfor f in sorted((ROOT/'data'/'fixtures').glob('*.json')):\n    h.update(f.name.encode()); h.update(f.read_bytes()); n+=1\nprint(f'  manual over {n} fixtures:', h.hexdigest()[:12])\nprint('  function says          :', corpus_fingerprint())\nprint('  ROOT =', ROOT)\"\ngit status --porcelain | head -5", "description": "Recompute the fingerprint manually"}
+```
+
+**Tool response**
+
+```
+  manual over 15 fixtures: 5eddc63561f2
+  function says          : 5eddc63561f2
+  ROOT = /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+ M results/ablation.json
+ M results/negative_control.json
+ M results/subtle_control.json
+ M trajectories/build-agent.md
+?? data/cache/github/content-sea-lab-wm-toward-automating-the-localization-of-buggy-uis-study-0fa8a86b2b5e.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit diff --stat 33d8ea5 HEAD -- src/artifact_triage/corpus/fetch.py src/artifact_triage/corpus/scrub.py data/fixtures | tail -4\necho \"--- was baseline run before or after 33d8ea5? ---\"\ngit log --oneline -6 | head -8", "description": "Diff corpus inputs since the recorded commit"}
+```
+
+**Tool response**
+
+```
+ data/fixtures/THU-WingTecher__DeepConstr.json | 2 +-
+ data/fixtures/trustdnn__issta2024.json        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+--- was baseline run before or after 33d8ea5? ---
+5dc0bdb A cache key that could not tell two files apart
+5b2e3fc Badge scraping dropped rows and corrupted titles
+5731b65 The conda pin check counted ranges as pins
+419b6c9 Our own comparison was not like-for-like
+b395ef0 Reproduction guide: twelve targets, and why two are excluded
+6e8f1ef Table of contents now covers the sections added above it
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit diff 33d8ea5 HEAD -- data/fixtures | grep -E \"^[+-]\" | grep -v \"^[+-][+-]\" | head -4 | cut -c1-200\npython3 -c \"\nruns={'baseline':0.033,'solution':0.036,'falsified_run (Nova Pro)':0.423,'falsified_llama':0.103,'adversarial':0.142,'falsified_nova2lite':0.029}\nprint(f'  full re-validation on original models: \\${sum(runs.values()):.2f}')\nprint(f'  budget remaining:                      \\$0.15')\nprint(f'  affordable now: baseline+solution+nova2lite = \\${runs[\\\"baseline\\\"]+runs[\\\"solution\\\"]+runs[\\\"falsified_nova2lite\\\"]:.3f}')\"", "description": "Assess the fixture change and re-run costs"}
+```
+
+**Tool response**
+
+```
++  ".env",
+-  "env",
++  ".trustbench/models",
+-  "trustbench/models",
+  full re-validation on original models: $0.77
+  budget remaining:                      $0.15
+  affordable now: baseline+solution+nova2lite = $0.098
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"every result is provenance-current\\|All 12 results certified\\|all 12 results current\" README.md AGENTS.md 2>/dev/null | head -3\n.venv/bin/python scripts/check_claims.py >/dev/null 2>&1; echo \"  check-claims exit (repro gate): $?\"", "description": "Check for now-false currency claims"}
+```
+
+**Tool response**
+
+```
+  check-claims exit (repro gate): 0
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nanchor = \"**Exceptions are disclosed by how much they hide\"\ni = s.index(anchor)\nadd = '''**Five model-dependent results are currently stale, and `make check-claims`\nnames them every run.** Fixing the dotfile false positive changed two fixtures\n(`env` \u2192 `.env`, `trustbench/models` \u2192 `.trustbench/models`, both now correctly\nexcluded as files a README tells you to *create*), which changes the corpus those\nexperiments consumed. Re-validating all of them on their original models costs\n**$0.77** against **$0.15** of remaining budget.\n\nThey are left stale **together** rather than partly refreshed: re-running the\ncheap ones would put some results on the new corpus and the headline on the old\none, and a comparison across mixed corpora is a worse defect than a uniform,\ndeclared staleness. The deterministic results \u2014 prevalence, the leniency audit,\nthe link-checker gap, the negative control, subtle control and ablation \u2014 are all\ncurrent, because they cost nothing to re-run.\n\n'''\ns = s[:i] + add + s[i:]\nopen(p
+```
+
+**Tool response**
+
+```
+184/184 passed
+f5c5952 Declare the stale results rather than partly refreshing them
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY 2>/dev/null\nimport json\nfrom collections import Counter\nrows=[json.loads(l) for l in open(\"$D/journal.jsonl\")]\nv=[r['result'] for r in rows if r.get('type')=='result' and isinstance(r.get('result'),dict) and r['result'].get('verdict')]\nprint(f\"  verified: {len(v)}  {dict(Counter(x['verdict'] for x in v))}\")\nfor x in v:\n    if x['verdict']=='REAL': print(f\"    REAL: {x['title'][:76]}\")\nPY\nsleep 30; gh run list --limit 1 2>&1 | head -2", "description": "Check final audit verdicts and CI", "timeout": 150000}
+```
+
+**Tool response**
+
+```
+  verified: 25  {'FALSE': 5, 'OVERSTATED': 11, 'REAL': 9}
+    REAL: fetch_file truncates its cache key to 80 chars, so every file in a long-slug
+    REAL: `absolute_mnt_path`'s `/data[0-9]?/` branch fires on repo-relative and conta
+    REAL: `classify_conda` counted `>=`, `<=`, `!=` range constraints as exact pins, a
+    REAL: `classify_conda` counted `channels:` entries as floating dependencies, so a 
+    REAL: Escalation is evidence-based in code but documented and rendered as confiden
+    REAL: escalate.py __main__ self-audit misreports untriggered rules in both directi
+    REAL: evidence.py hard-codes "Container: no Dockerfile present." for repos that do
+    REAL: Case-mismatch findings never reach the model: Bundle.as_prompt_block() drops
+    REAL: Prompt block states "no dependency manifest found" for artifacts whose root 
+completed	success	Declare the stale results rather than partly refreshing them	checks	main	push	33355772105	37s	2026-08-31T04:03:13Z
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY\nimport json,textwrap\nrows=[json.loads(l) for l in open(\"$D/journal.jsonl\")]\nfor r in rows:\n    v=r.get('result') or {}\n    if isinstance(v,dict) and v.get('verdict')=='REAL' and any(k in v.get('title','') for k in ('evidence.py','Case-mismatch','Prompt block')):\n        print(\"=\"*70); print(\"  \"+v['title'][:108])\n        print(textwrap.indent(textwrap.fill(str(v.get('why',''))[:620],94),\"    \"))\nPY", "description": "Read the evidence-block findings"}
+```
+
+**Tool response**
+
+```
+======================================================================
+  evidence.py hard-codes "Container: no Dockerfile present." for repos that do contain a Dockerfile
+    I ran the reporter's command verbatim and got byte-identical output: both ekuiter/torte (11
+    Dockerfiles, first src/docker/cadiback/Dockerfile) and mde-optimiser/mdeo-cloud (14, first
+    infra/docker/backend/Dockerfile) show `paths.has_container = True | analyse_docker.dockerfile
+    = None` and `BLOCK> Container: no Dockerfile present.`  The mechanism is exactly as described.
+    `_shallowest` (src/artifact_triage/solution/pinning.py) documents its own cutoff — "Beyond two
+    directories deep it is almost certainly vendored code" — and returns None, so `analyse_docker`
+    returns `DockerReport(None, [], [])` by design. evidence.p
+======================================================================
+  Case-mismatch findings never reach the model: Bundle.as_prompt_block() drops them, and the regression test g
+    Repro output was byte-identical to the report: case_mismatches ['README.MD'], verify.Evidence
+    block True, Bundle block False with no occurrence of 'case'. The mechanism holds on
+    inspecti
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"Container:\\|Dependencies:\\|no Dockerfile present\\|no dependency manifest found\\|case\" src/artifact_triage/solution/evidence.py | head -12", "description": "Locate the false statements"}
+```
+
+**Tool response**
+
+```
+69:            L.append(f"Dependencies: {self.pins.summary()}")
+73:            L.append("Container: not checked.")
+75:            L.append("Container: no Dockerfile present.")
+77:            L.append(f"Container: {self.docker.summary()}")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '60,86p' src/artifact_triage/solution/evidence.py", "description": "Read the prompt block construction"}
+```
+
+**Tool response**
+
+```
+                L.append("  All referenced paths were found.")
+        if getattr(ev, "ignored", 0):
+            L.append(f"({ev.ignored} author-declared exception(s) applied.)")
+
+        L.append("")
+        L.append("== Environment reproducibility ==")
+        if self.pins is None:
+            L.append("Dependency pinning: not checked.")
+        else:
+            L.append(f"Dependencies: {self.pins.summary()}")
+            for d in self.pins.floating_examples[:6]:
+                L.append(f"  - unpinned: {d}")
+        if self.docker is None:
+            L.append("Container: not checked.")
+        elif self.docker.dockerfile is None:
+            L.append("Container: no Dockerfile present.")
+        else:
+            L.append(f"Container: {self.docker.summary()}")
+
+        L.append(f"CI configuration present: {ev.has_ci}")
+        L.append(f"Tests present: {ev.has_tests}")
+        L.append(f"Licence present: {ev.has_licence}")
+
+        L.append("")
+        L.append("== Portability ==")
+        if self.portability is None:
+            L.append("Not checked.")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/solution/evidence.py'; s=open(p).read()\ns = s.replace('''        if self.pins is None:\n            L.append(\"Dependency pinning: not checked.\")\n        else:\n            L.append(f\"Dependencies: {self.pins.summary()}\")\n            for d in self.pins.floating_examples[:6]:\n                L.append(f\"  - unpinned: {d}\")\n        if self.docker is None:\n            L.append(\"Container: not checked.\")\n        elif self.docker.dockerfile is None:\n            L.append(\"Container: no Dockerfile present.\")\n        else:\n            L.append(f\"Container: {self.docker.summary()}\")''',\n'''        # \"Not assessed\" is not \"not present\", and this block's whole premise\n        # is facts. The analysers only look at the shallowest manifest and stop\n        # beyond two directories deep, while `signals_present` records whether\n        # the repository contains one ANYWHERE. Reporting the narrow result as\n        # an absolute told the model \"Container: no Dockerfile present.\" for a\n        # repository holding 14 Dockerfiles, a
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+   Container: not checked.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && PYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, glob\nfrom artifact_triage.solution.verify import verify\nfrom artifact_triage.solution.evidence import Bundle\nfrom artifact_triage.solution.pinning import DockerReport, PinReport\n\nfx = json.load(open([f for f in glob.glob('data/fixtures/*.json') if 'DeepConstr' in f][0]))\nev = verify(fx)\nev.has_container = True\nev.has_dependency_manifest = True\nev.case_mismatches = [\"README.MD\", \"Docs/Setup.md\"]\nb = Bundle(ev=ev,\n           pins=PinReport(None,0,0,0,0,[],False,0.0,\"no dependency manifest found\"),\n           docker=DockerReport(None,[],[]), portability=None, links=None)\nfor l in b.as_prompt_block().splitlines():\n    if l.startswith((\"Container:\",\"Dependencies:\")) or \"case\" in l.lower():\n        print(\"  \", l[:130])\nPY", "description": "Verify all three evidence fixes"}
+```
+
+**Tool response**
+
+```
+Exit code 1
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+TypeError: Bundle.__init__() got an unexpected keyword argument 'ev'
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && grep -n \"class Bundle\" -A 10 src/artifact_triage/solution/evidence.py | head -12", "description": "Check the Bundle signature"}
+```
+
+**Tool response**
+
+```
+27:class Bundle:
+28-    """Everything deterministic that is known about one artifact."""
+29-    paths: object                       # verify.Evidence
+30-    pins: object | None = None          # pinning.PinReport
+31-    docker: object | None = None        # pinning.DockerReport
+32-    portability: object | None = None   # portability.PortabilityReport
+33-    links: dict | None = None           # links.for_artifact summary
+34-
+35-    def as_prompt_block(self) -> str:
+36-        L: list[str] = [
+37-            "VERIFIED FACTS. Each line was established by running code against "
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && PYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, glob\nfrom artifact_triage.solution.verify import verify\nfrom artifact_triage.solution.evidence import Bundle\nfrom artifact_triage.solution.pinning import DockerReport, PinReport\nfx = json.load(open([f for f in glob.glob('data/fixtures/*.json') if 'DeepConstr' in f][0]))\nev = verify(fx)\nev.has_container = True; ev.has_dependency_manifest = True\nev.case_mismatches = [\"README.MD\", \"Docs/Setup.md\"]\nb = Bundle(paths=ev,\n           pins=PinReport(None,0,0,0,0,[],False,0.0,\"no dependency manifest found\"),\n           docker=DockerReport(None,[],[]))\nfor l in b.as_prompt_block().splitlines():\n    if l.startswith((\"Container:\",\"Dependencies:\")) or \"case\" in l.lower():\n        print(\"  \", l[:132])\nPY", "description": "Verify the three evidence fixes"}
+```
+
+**Tool response**
+
+```
+     2 path(s) exist only under a DIFFERENT case. These resolve on macOS/Windows and fail on Linux:
+     - case-mismatch: README.MD
+     - case-mismatch: Docs/Setup.md
+   Dependencies: a manifest exists in this repository, but not one this checker assesses (it reads requirements.txt, constraints.txt an
+   Container: a Dockerfile exists in this repository but only more than two directories deep, where this checker treats it as vendored.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 136 - the evidence block stated things that were not true\n#\n# This block's entire premise is \"facts, not verdicts\", and it was asserting\n# three falsehoods to the model:\n#\n#   1. \"Container: no Dockerfile present.\" for repositories holding 11-14\n#      Dockerfiles. `_shallowest` stops beyond two directories deep by design,\n#      and `analyse_docker` returns None - which the block reported as ABSENCE.\n#   2. \"no dependency manifest found\" for artifacts whose ROOT carries a\n#      pyproject.toml or pom.xml. Measured: 431 of 742 artifacts receive that\n#      line, and 114 of them do have a manifest.\n#   3. Case mismatches were structurally unreachable: `check_claim` marks them\n#      as EXISTING so they are not broken, and the block reads only\n#      `broken_paths`. A path that resolves on macOS and fails on Linux was\n#      verified, shown in the CLI, and never shown to the model.\n#\n# \"Not assesse
+```
+
+**Tool response**
+
+```
+188/188 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|All 4\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 135 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 136 | The audit's most serious finding: **the evidence block stated things that were not true.** Its entire premise is *facts, not verdicts*. | Three falsehoods, each independently reproduced. **(a)** *\"Container: no Dockerfile present.\"* for repositories holding **11\u201314 Dockerfiles** - `_shallowest` stops beyond two directories deep by design, and the block reported that limit as ABSENCE. **(b)** *\"no dependency manifest found\"* for artifacts whose **root** carries a `pyproject.toml` or `pom.xml`: 431 of 742 artifacts receive that line and **114 of them do have a manifest**. **(c)** Case mismatches were **structurally unreachable** - `check_claim` marks them as *existing* so they are not broken, and the block reads only `broken_paths`, so a path that resolves on macOS and fails on Linux was verified, printed in the CLI, and never shown to the model. | *\"Not assessed
+```
+
+**Tool response**
+
+```
+  All 46 documented numbers match the results files.
+47c5825 The evidence block stated things that were not true
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY\nimport json,textwrap\nrows=[json.loads(l) for l in open(\"$D/journal.jsonl\")]\nfor r in rows:\n    v=r.get('result') or {}\n    if isinstance(v,dict) and v.get('verdict')=='REAL' and 'scalat' in v.get('title',''):\n        print(\"=\"*70); print(\"  \"+v['title'][:106])\n        print(textwrap.indent(textwrap.fill(str(v.get('why',''))[:560],94),\"    \"))\n        print(\"   IMPACT:\"); print(textwrap.indent(textwrap.fill(str(v.get('corrected_impact',''))[:380],94),\"    \"))\nPY", "description": "Read the escalation findings"}
+```
+
+**Tool response**
+
+```
+======================================================================
+  Escalation is evidence-based in code but documented and rendered as confidence-gated in three places
+    I ran the exact repro command and got byte-identical output:
+    `decide(ev,'Reusable',0.0,True).escalate` -> False; the five escalated rows at confidence
+    0.8/0.8/0.85/0.7/0.9; the two ESCALATE_BELOW greps; AGENTS.md:40-41; and the LPR trajectory's
+    "Confidence fell below the escalation threshold" sentence sitting under `"confidence": 0.9`.
+    Each sub-claim verified independently:  1. `confidence` is genuinely unread, not just unread-
+    looking. `PYTHONPATH=src .venv/bin/python -c "import dis, artifact_triage.solution.escalate as
+    e; print(any('confidence' in str(
+   IMPACT:
+    Impact stands as written, with one label correction. No prediction changes — the report
+    correctly declines to claim corpus impact, and there is none: the corpus numbers are
+    untouched.  Blast radius, as verified: (a) AGENTS.md:40-42 states an escalation contract the
+    code does not implement and that the same repo's CHANGELOG.md:121 and README.md:976 explicitly
+    record as replaced
+==========================
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '38,44p' AGENTS.md\necho \"=== trajectory renderer ===\"\ngrep -rn \"Confidence fell below\\|escalation threshold\" src scripts | head -3", "description": "Find the stale escalation contract"}
+```
+
+**Tool response**
+
+```
+facts produced by the tool below.
+
+**Human checkpoint.** Any answer with confidence below
+`ARTIFACT_TRIAGE_ESCALATE_BELOW` (default `0.55`) is **escalated to a qualified
+human reviewer** and is not scored as a prediction. This satisfies ground rules 4
+and 5: the consequential judgement — one that affects an author's work — is never
+made autonomously when the evidence is thin.
+=== trajectory renderer ===
+src/artifact_triage/eval/export_trajectories.py:101:            L.append("\n> **Human checkpoint.** Confidence fell below the "
+src/artifact_triage/eval/export_trajectories.py:102:                     "escalation threshold, so this artifact is routed to a "
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='AGENTS.md'; s=open(p).read()\ns = s.replace('''**Human checkpoint.** Any answer with confidence below\n`ARTIFACT_TRIAGE_ESCALATE_BELOW` (default `0.55`) is **escalated to a qualified\nhuman reviewer** and is not scored as a prediction. This satisfies ground rules 4\nand 5: the consequential judgement \u2014 one that affects an author's work \u2014 is never\nmade autonomously when the evidence is thin.''',\n'''**Human checkpoint.** Escalation is decided by **evidence-based rules**, not by\nthe model's self-reported confidence. `decide()` does not read `confidence` at\nall. An artifact is routed to a qualified human reviewer when the *evidence* is\nthin or self-contradictory \u2014 no README, no checkable references, a tier that\ncontradicts the verified paths, a README too short to support a judgement, or\nneither a dependency manifest nor a container.\n\nThis paragraph previously described a confidence gate at\n`ARTIFACT_TRIAGE_ESCALATE_BELOW = 0.55`. That design was **removed**: measured\nover the corpus it fired 0 times out of 15, and self-reported confidence was
+```
+
+**Tool response**
+
+```
+105:            L.append("\n> **Human checkpoint.** An evidence-based rule fired, "
+106-                     "so this artifact is routed to a "
+107-                     "qualified reviewer rather than recorded as a guess.\n")
+SYNTAX OK
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '/UNTRIGGERED RULES/,+18p' src/artifact_triage/solution/escalate.py", "description": "Read the self-audit block"}
+```
+
+**Tool response**
+
+```
+    print("  UNTRIGGERED RULES. These are guards, not demonstrated capabilities:")
+    fired = set(rule_counts)
+    for name in ("no README - nothing to assess mechanically",
+                 "model returned no usable answer",
+                 "rated ... while ... do not exist (contradiction)",
+                 "README is only ... bytes"):
+        if not any(name.split(" ")[1] in f for f in fired):
+            print(f"    - {name}")
+    print("    The contradiction rule has never fired on this corpus, because")
+    print("    the model shown verified evidence already downgrades the")
+    print("    contradictory artifacts itself (LPR: 88% broken -> Available).")
+    print("    That is a good sign about the solution and leaves the rule")
+    print("    unvalidated on real data. It is exercised only by tests.")
+    print("\n  Rules that fired:")
+    for k, v in sorted(rule_counts.items(), key=[REDACTED] x: -x[1]):
+        print(f"    {v:>3}x  {k}")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.common.provenance import INFLUENCERS\nprint('  escalate.py influencer:', any('escalate.py' in f for v in INFLUENCERS.values() for f in v))\"\npython3 - <<'PY'\np='src/artifact_triage/solution/escalate.py'; s=open(p).read()\ns = s.replace('''CONTRADICTION_RATIO = 0.30''',\n'''CONTRADICTION_RATIO = 0.30\n\n# The exact opening of every reason `decide()` can produce. The self-audit below\n# compares against these rather than guessing.\n#\n# It used to take the SECOND WORD of a hand-written label and substring-match it\n# against the fired reasons. \"no README - nothing to assess\" yielded \"README\",\n# which matches the DIFFERENT rule \"README makes no checkable file references\",\n# so a rule that never fired was reported as fired and vanished from both lists.\n# A self-audit that cannot name its own rules is not an audit.\nRULES = {\n    \"no_readme\": \"no README\",\n    \"no_answer\": \"model returned no usable answer\",\n    \"no_claims\": \"README makes no checkable file references\",\n    \"contradiction\": \"rated\",\n    \
+```
+
+**Tool response**
+
+```
+  escalate.py influencer: False
+SYNTAX OK
+  UNTRIGGERED RULES. These are guards, not demonstrated capabilities:
+    - no_readme: reasons starting "no README..."
+    - no_answer: reasons starting "model returned no usable answer..."
+    - contradiction: reasons starting "rated..."
+    - readme_tiny: reasons starting "README is only..."
+    The contradiction rule has never fired on this corpus, because
+    the model shown verified evidence already downgrades the
+    contradictory artifacts itself (LPR: 88% broken -> Available).
+    That is a good sign about the solution and leaves the rule
+    unvalidated on real data. It is exercised only by tests.
+
+  Rules that fired:
+      3x  neither a dependency manifest nor a container
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 137 - documentation described an escalation gate the code removed\n#\n# `decide()` does not read `confidence` at all - the confidence gate was\n# replaced for being anti-calibrated (mean 0.700 when right, 0.750 when wrong,\n# fired 0/15). The README and CHANGELOG recorded that. AGENTS.md still stated\n# the old contract, and the trajectory exporter still narrated \"Confidence fell\n# below the escalation threshold\" over rows whose recorded confidence was 0.9.\n# --------------------------------------------------------------------------\ndef test_decide_never_reads_confidence():\n    from artifact_triage.solution.escalate import decide\n    ev = _fake_evidence(claims_total=10, claims_broken=0, broken_paths=[])\n    ev.has_dependency_manifest = True\n    ev.has_container = True\n    lo = decide(ev, \"Functional\", 0.0, True)\n    hi = decide(ev, \"Functional\", 1.0, True)\n    assert lo.escalate == hi.escalate and lo.re
+```
+
+**Tool response**
+
+```
+  FAIL  test_decide_never_reads_confidence
+191/192 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && .venv/bin/python tests/test_regressions.py 2>&1 | grep -A4 \"test_decide_never_reads_confidence\" | head -6", "description": "Diagnose the failing confidence test"}
+```
+
+**Tool response**
+
+```
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py", line 2717, in test_decide_never_reads_confidence
+    lo = decide(ev, "Functional", 0.0, True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'E' object has no attribute 'broken_ratio'
+  PASS  test_a_blocked_url_is_reported_not_counted_as_dead
+--
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns = s.replace('''    ev = _fake_evidence(claims_total=10, claims_broken=0, broken_paths=[])\n    ev.has_dependency_manifest = True\n    ev.has_container = True\n    lo = decide(ev, \"Functional\", 0.0, True)''',\n'''    ev = _fake_evidence(claims_total=10, claims_broken=0, broken_paths=[])\n    ev.broken_ratio = 0.0\n    ev.has_dependency_manifest = True\n    ev.has_container = True\n    lo = decide(ev, \"Functional\", 0.0, True)''')\nopen(p,'w').write(s)\nPY\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|All 4\"", "description": "Fix the test fixture and re-run"}
+```
+
+**Tool response**
+
+```
+192/192 passed
+  All 46 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 136 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 137 | Audit finding: **documentation described an escalation gate the code had removed.** | `decide()` does not read `confidence` at all - verified by disassembly, not by reading. The confidence gate was replaced for being anti-calibrated (mean 0.700 when right, 0.750 when wrong, fired 0/15), and the README and CHANGELOG recorded that. **AGENTS.md still stated the old contract**, and the trajectory exporter still narrated *\"Confidence fell below the escalation threshold\"* over rows whose recorded confidence was **0.9**. | Both corrected, and AGENTS.md now records *why* the gate was removed rather than silently swapping the sentence. A test asserts `decide()` returns identically at confidence 0.0 and 1.0, and that no surface claims a threshold. |\n| Iteration 138 | Same audit: **the self-audit could not name its own rules.** | It took the **second word** of a hand-written label and substring-matched it against the fired reasons. *\"no README - 
+```
+
+**Tool response**
+
+```
+eb53cbf Documentation described an escalation gate the code had removed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor m in dashboard export_dataset export_trajectories; do PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m >/dev/null 2>&1 && echo \"  ok  $m\"; done\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -1\n.venv/bin/python scripts/verify_targets.py 2>&1 | tail -1\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"passed\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"All 4|stale|carry NO\"\ngit add -A && git commit -q -m \"$(printf 'Regenerate deliverables after the audit fixes\\n\\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>')\" && git push -q && echo pushed", "description": "Regenerate and verify everything", "timeout": 900000}
+```
+
 
 ---
 
-Redactions applied: `{'foreign_project': 213, 'aws_secret': 8, 'env_assignment': 57}`
+Redactions applied: `{'foreign_project': 216, 'aws_secret': 8, 'env_assignment': 58}`
