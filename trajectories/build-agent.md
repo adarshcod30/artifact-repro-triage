@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 8,878 recorded events.
+Session `b0c00099` — 9,133 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -21486,7 +21486,572 @@ AssertionError: README figures matched by no registered claim and not declared u
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='README.md'; s=open(p).read()\ni = s.index(\"**Five model-dependent results are currently stale\")\nj = s.index(\"**Exceptions are disclosed by how much they hide\")\nnew = \"\"\"**Every result is currently provenance-current, and `make check-claims` proves\nit on every run.** Getting there took three authorised budget raises \u2014 $5.00 \u2192\n$5.50 \u2192 $6.25 \u2192 $7.00 \u2014 because each core-logic fix invalidated the experiments\nthat consumed the old corpus, and re-measuring is the only honest response to\nthat. Total spend: **$6.87**.\n\nThe five model-dependent results were briefly left stale *together* rather than\npartly refreshed: re-running only the affordable ones would have put some\nresults on the new corpus and the headline on the old one, and a comparison\nacross mixed corpora is a worse defect than a uniform, declared staleness.\n\n\"\"\"\ns = s[:i] + new + s[j:]\nopen(p,'w').write(s)\nPY\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read|All 4\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | 
 ```
 
+**Tool response**
+
+```
+  All 46 documented numbers match the results files.
+192/192 passed
+redactions: {'foreign_project': 221, 'aws_secret': 8, 'env_assignment': 58}
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 139 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 140 | Ceiling raised **$6.25 \u2192 $7.00** and **every** stale result re-validated on its original model, after the module audit changed core logic. | Headline detection returned to **100%, no variance** - the evidence-block corrections gave the model *more true facts*, and it used them. Llama **100%**. Nova 2 Lite **94% (83\u2013100%)**. Strong baseline **0/13**, placebo **0/12**. Floor-free **58/60**. Badge-agreement MAE **0.800 / 0.800**, full-coverage solution **1.067**. Baseline **0%** on every model, every run. | **All 12 results provenance-current.** Detection has now been measured six times across five corrections to the extractor - 100 \u2192 93 \u2192 96 \u2192 100 \u2192 96 \u2192 **100** - and is reported with its range rather than its best day. The placebo control has been **0/12 in every single run**: the causal claim is the one thing here that has never moved. Total spend **$6.87** across three authorised raises. |\"\"\"\ns = s[:
+```
+
+**Tool response**
+
+```
+eb11dd5 Re-validate everything; all 12 results provenance-current
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nrm -rf cr6 && mkdir cr6 && cd cr6\ngit clone -q --depth 1 https://github.com/adarshcod30/artifact-repro-triage.git r\ncd r && (uv venv -q && uv pip install -q -e .) 2>&1 | tail -1\nfor t in test verify control subtle ablation pinning portability dataset dashboard check-claims spend corpus; do\n  make $t >/dev/null 2>&1 && echo \"  PASS  make $t\" || echo \"  FAIL  make $t\"\ndone\n.venv/bin/artifact-triage zhangxiaosa/LPR --no-links --fail-on-findings >/dev/null 2>&1; echo \"  CLI gate exit=$? (expect 2)\"\nmake check-claims 2>&1 | grep -E \"Every result|All [0-9]+ documented\"", "description": "Final clean-room verification of the published repo", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+  PASS  make test
+  PASS  make verify
+  PASS  make control
+  PASS  make subtle
+  PASS  make ablation
+  PASS  make pinning
+  PASS  make portability
+  PASS  make dataset
+  PASS  make dashboard
+  PASS  make check-claims
+  PASS  make spend
+  PASS  make corpus
+  CLI gate exit=2 (expect 2)
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 40; gh run list --limit 1 2>&1 | head -2\npython3 -c \"\nfrom datetime import datetime,timezone\nprint(f'  hours to deadline: {(datetime(2026,8,31,18,0,tzinfo=timezone.utc)-datetime.now(timezone.utc)).total_seconds()/3600:.1f}')\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|BUDGET|REMAINING\"", "description": "Confirm CI, time and final spend", "timeout": 150000}
+```
+
+**Tool response**
+
+```
+completed	success	Re-validate everything; all 12 results provenance-current	checks	main	push	33361393078	34s	2026-08-31T05:40:53Z
+  hours to deadline: 12.3
+  TOTAL                      $ 6.8737  2971 calls
+  BUDGET                     $   7.00
+  REMAINING                  $ 0.1263  (98.2% used)
+```
+
+## Human checkpoint 43
+
+> keep hardening
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport tempfile, json\nfrom pathlib import Path\nfrom artifact_triage.common import ledger, budget\n\nwith tempfile.TemporaryDirectory() as t:\n    p = Path(t)/\"l.jsonl\"; ledger.LEDGER = p\n    # 1. corrupt line in the middle\n    p.write_text('{\"kind\":\"a\",\"usd\":1.0}\\n{{{NOT JSON\\n{\"kind\":\"b\",\"usd\":2.0}\\n')\n    print(f\"  corrupt line     -> total {ledger.total()}  (should be 3.0)\")\n    # 2. negative / missing usd\n    p.write_text('{\"kind\":\"a\",\"usd\":-5.0}\\n{\"kind\":\"b\"}\\n{\"kind\":\"c\",\"usd\":\"1.5\"}\\n')\n    try:\n        print(f\"  negative/str usd -> total {ledger.total()}\")\n    except Exception as e:\n        print(f\"  negative/str usd -> RAISES {type(e).__name__}: {e}\")\nPY", "description": "Probe the ledger with hostile input"}
+```
+
+**Tool response**
+
+```
+  corrupt line     -> total 3.0  (should be 3.0)
+  negative/str usd -> RAISES TypeError: unsupported operand type(s) for +: 'float' and 'str'
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport tempfile\nfrom pathlib import Path\nfrom artifact_triage.common import ledger, budget\nwith tempfile.TemporaryDirectory() as t:\n    p = Path(t)/\"l.jsonl\"; ledger.LEDGER = p\n    p.write_text('{\"kind\":\"a\",\"usd\":\"1.5\"}\\n')          # non-numeric\n    budget.GUARD_USD = 5.0; budget.reset()\n    try:\n        budget.check(); print(\"  corrupt ledger -> guard PASSED (fails OPEN, no enforcement)\")\n    except SystemExit as e:\n        print(\"  corrupt ledger -> guard raised:\", str(e)[:60])\n    print(\"  budget._ledger_total() reports:\", budget._ledger_total())\n    p.write_text('{\"kind\":\"a\",\"usd\":10.0}\\n{\"kind\":\"refund\",\"usd\":-9.9}\\n')\n    budget.reset()\n    print(\"  negative entry  -> total\", ledger.total(), \" (append-only says nothing may subtract)\")\nPY", "description": "Determine the failure direction of the budget guard"}
+```
+
+**Tool response**
+
+```
+  corrupt ledger -> guard PASSED (fails OPEN, no enforcement)
+  budget._ledger_total() reports: 0.0
+  negative entry  -> total 0.09999999999999964  (append-only says nothing may subtract)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/common/ledger.py'; s=open(p).read()\ns = s.replace('''def total() -> float:\n    return sum(e.get(\"usd\", 0.0) for e in entries())''',\n'''class LedgerUnreadable(Exception):\n    \"\"\"The ledger exists but cannot be trusted. Never treat this as $0.\"\"\"\n\n\ndef total() -> float:\n    \"\"\"Cumulative spend. Enforces the append-only invariant on read.\n\n    Two ways this used to go wrong:\n\n      - A non-numeric `usd` (`\"1.5\"` rather than `1.5`) raised TypeError out of\n        the sum. `budget._ledger_total()` caught it and returned 0.0, so the\n        ceiling guard believed nothing had been spent and permitted unlimited\n        runs. A money guard that FAILS OPEN is worse than one that only warns.\n      - A negative `usd` SUBTRACTED. The module docstring promises \"a run can\n        add to the total, and nothing can subtract from it\"; $10 + (-$9.90)\n        returned $0.10, so a single edited line could hide almost any spend.\n\n    A malformed entry now raises rather than silently reducing the total, and a\n    missing file still 
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+  non-numeric  -> LedgerUnreadable: non-numeric spend entry in /var/folders/7_/2nfyrjgd3rqfq45n9
+  negative     -> LedgerUnreadable: negative spend entry in /var/folders/7_/2nfyrjgd3rqfq45n9gvh
+  valid        -> guard passed, total 3.0
+  missing file -> guard passed (correct: nothing spent)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/common/budget.py'; s=open(p).read()\ns = s.replace('''    try:\n        return total()\n    except LedgerUnreadable:\n        raise''',\n'''    try:\n        return total()\n    except LedgerUnreadable as exc:\n        # A clean stop, not a traceback: this is a user-facing refusal.\n        raise SystemExit(\n            f\"BUDGET STOP: {exc}\\\\n\"\n            f\"  Refusing to spend against a meter this process cannot trust. \"\n            f\"Fix the offending line, or set ARTIFACT_TRIAGE_BUDGET_USD=0 to \"\n            f\"disable the guard deliberately.\")''')\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport tempfile\nfrom pathlib import Path\nfrom artifact_triage.common import ledger, budget\nwith tempfile.TemporaryDirectory() as t:\n    p = Path(t)/\"l.jsonl\"; ledger.LEDGER = p; budget.GUARD_USD = 5.0\n    p.write_text('{\"kind\":\"a\",\"usd\":-9.9}\\n'); budget.reset()\n    try: budget.check()\n    except SystemExit as e: print(\"  \", str(e).splitlines()[0][:92])\nPY\necho \"--- the real ledger still reads ---
+```
+
+**Tool response**
+
+```
+   BUDGET STOP: negative spend entry in /var/folders/7_/2nfyrjgd3rqfq45n9gvh_1m00000gn/T/tmp7tv
+--- the real ledger still reads ---
+  real ledger total: $6.8737
+  TOTAL                      $ 6.8737  2971 calls
+  REMAINING                  $ 0.1263  (98.2% used)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 141 - the money guard failed OPEN\n#\n# `budget._ledger_total()` was `except Exception: return 0.0`. A single\n# non-numeric `usd` value (\"1.5\" rather than 1.5) raised out of `total()`, was\n# swallowed, and the guard concluded that NOTHING had been spent - permitting\n# unlimited billing. The module's own docstring says \"a guard that only warns is\n# worth nothing at 3am\"; one that reports $0 when it cannot read the meter is\n# worse than one that warns.\n#\n# Separately, a NEGATIVE entry subtracted. `ledger.py` promises \"a run can add\n# to the total, and nothing can subtract from it\", and $10 + (-$9.90) returned\n# $0.10 - so one edited line could hide almost any spend.\n#\n# A MISSING ledger still reads as zero. Never having spent is not the same as\n# being unable to tell, and conflating them would break every clean checkout.\n# --------------------------------------------------------------------------\ndef 
+```
+
+**Tool response**
+
+```
+196/196 passed
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 140 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 141 | Adversarially read the **integrity machinery** - ledger, budget guard, provenance - which nothing had audited, and which every other claim rests on. | **The money guard failed OPEN.** `_ledger_total()` was `except Exception: return 0.0`, so a single non-numeric `usd` value (`\"1.5\"` rather than `1.5`) raised out of `total()`, was swallowed, and the guard concluded **nothing had been spent** - permitting unlimited billing. Its own docstring says *\"a guard that only warns is worth nothing at 3am\"*; one that reports $0 when it cannot read the meter is worse. Separately a **negative entry subtracted**: `ledger.py` promises *\"nothing can subtract from it\"*, and $10 + (-$9.90) returned **$0.10**, so one edited line could hide almost any spend. | Both fail closed now, with a clean refusal rather than a traceback. A **missing** ledger still reads as zero - never having spent is not the same as being unable to tell, and conflating them would b
+```
+
+**Tool response**
+
+```
+9ff623f The money guard failed open
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nfrom artifact_triage.common.provenance import is_stale, fingerprint\ncases = [\n  (\"no _provenance\",        {}),\n  (\"_provenance = null\",    {\"_provenance\": None}),\n  (\"_provenance = string\",  {\"_provenance\": \"trust me\"}),\n  (\"unknown kind\",          {\"_provenance\": {\"kind\": \"made_up\", \"commit\": \"x\",\n                                             \"code_fingerprint\": \"deadbeef\"}}),\n  (\"kind missing\",          {\"_provenance\": {\"commit\": \"x\", \"code_fingerprint\": \"y\"}}),\n  (\"fingerprint missing\",   {\"_provenance\": {\"kind\": \"prevalence\", \"commit\": \"x\"}}),\n]\nfor name, payload in cases:\n    try:\n        stale, why = is_stale(payload)\n        print(f\"  {name:<22} stale={str(stale):<6} {why[:56]}\")\n    except Exception as e:\n        print(f\"  {name:<22} RAISES {type(e).__name__}: {str(e)[:44]}\")\nPY", "description": "Probe provenance with malformed stamps"}
+```
+
+**Tool response**
+
+```
+  no _provenance         stale=True   no provenance recorded - cannot tell which code produced
+  _provenance = null     stale=True   no provenance recorded - cannot tell which code produced
+  _provenance = string   RAISES AttributeError: 'str' object has no attribute 'get'
+  unknown kind           stale=True   produced at commit x by different code (fingerprint dead
+  kind missing           stale=True   produced at commit x by different code (fingerprint y vs
+  fingerprint missing    stale=True   produced at commit x by different code (fingerprint None
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nfrom artifact_triage.common.provenance import is_stale, fingerprint\nempty = fingerprint(\"a_kind_that_does_not_exist\")\nprint(f\"  fingerprint of an unmapped kind: {empty}  (constant - hashes nothing)\")\nforged = {\"_provenance\": {\"kind\": \"totally_made_up\", \"commit\": \"abc123\",\n                          \"code_fingerprint\": empty}}\nstale, why = is_stale(forged)\nprint(f\"  forged stamp with that value  -> stale={stale}  {why}\")\nPY", "description": "Test whether an unmapped kind can claim currency"}
+```
+
+**Tool response**
+
+```
+  fingerprint of an unmapped kind: e3b0c44298fc  (constant - hashes nothing)
+  forged stamp with that value  -> stale=False  current
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/common/provenance.py'; s=open(p).read()\ns = s.replace('''def fingerprint(kind: str) -> str:\n    \"\"\"Content hash of the modules that determine this kind of result.\"\"\"\n    h = hashlib.sha256()''',\n'''class UnmappedKind(Exception):\n    \"\"\"No influencer list for this kind, so nothing can be certified about it.\"\"\"\n\n\ndef fingerprint(kind: str) -> str:\n    \"\"\"Content hash of the modules that determine this kind of result.\n\n    Refuses an unmapped kind. It used to hash the empty influencer list, which\n    yields `e3b0c44298fc` - the SHA-256 of the empty string, a well-known\n    constant - so a results file stamped with an unknown kind and that value\n    reported \"current\". The provenance system exists to refuse to vouch for\n    things it cannot check, and this was it vouching for a kind it knew nothing\n    about.\n    \"\"\"\n    if kind not in INFLUENCERS:\n        raise UnmappedKind(\n            f\"no influencer list for kind {kind!r}; add one to INFLUENCERS \"\n            f\"before stamping results with it\")\n    h
+```
+
+**Tool response**
+
+```
+  forged unmapped kind   stale=True   kind 'made_up' has no influencer list, so nothing about this r
+  _provenance = string   stale=True   no usable provenance recorded - cannot tell which code produce
+  _provenance = list     stale=True   no usable provenance recorded - cannot tell which code produce
+  fingerprint('nope')    refuses: no influencer list for kind 'nope'; add one to INFLU
+  Every result was produced by the current code.
+196/196 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 142 - provenance certified a kind it knew nothing about\n#\n# `fingerprint()` hashed `INFLUENCERS.get(kind, [])`, so an UNMAPPED kind hashed\n# the empty list and yielded `e3b0c44298fc` - the SHA-256 of the empty string, a\n# well-known constant, not a secret. A results file stamped with an unknown kind\n# and that value reported \"current\".\n#\n# This system exists to refuse to vouch for what it cannot check. Vouching for a\n# kind with no influencer list is the same failure as the five unstamped result\n# files, one level lower down.\n#\n# A non-dict `_provenance` also raised AttributeError instead of being reported\n# as unusable.\n# --------------------------------------------------------------------------\nEMPTY_SHA256 = \"e3b0c44298fc\"   # sha256(\"\")[:12]\n\n\ndef test_an_unmapped_kind_cannot_be_certified():\n    from artifact_triage.common.provenance import is_stale\n    stale, why = is_stale({\"_provenance\
+```
+
+**Tool response**
+
+```
+200/200 passed
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 141 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 142 | Same read, on `provenance.py` itself: **it certified a kind it knew nothing about.** | `fingerprint()` hashed `INFLUENCERS.get(kind, [])`, so an **unmapped kind hashed the empty list** and produced `e3b0c44298fc` - the SHA-256 of the empty string, a well-known constant rather than a secret. A results file stamped with an unknown kind and that value reported **\"current\"**. A non-dict `_provenance` also raised `AttributeError` instead of being reported as unusable. | `fingerprint()` now refuses an unmapped kind outright, `is_stale()` reports it as unverifiable, and any malformed stamp is *reported* rather than raising. **This system exists to refuse to vouch for what it cannot check** - vouching for a kind with no influencer list was the same failure as the five unstamped result files, one level lower down. |\"\"\"\ns = s[:end] + new + s[end:]\nopen(p,'w').write(s)\nPY\ngit add -A && git commit -q -m \"$(printf 'Provenance certified a kind
+```
+
+**Tool response**
+
+```
+aad7085 Provenance certified a kind it knew nothing about
+  hours to deadline: 8.2
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '40,75p' src/artifact_triage/corpus/github.py", "description": "Read the network and cache layer"}
+```
+
+**Tool response**
+
+```
+        out = subprocess.run(["gh", "auth", "token"], capture_output=True,
+                             text=True, timeout=10)
+        return out.stdout.strip() or None
+    except Exception:
+        return None
+
+
+def _get(url: str, cache_key: str) -> dict:
+    CACHE.mkdir(parents=True, exist_ok=True)
+    path = CACHE / f"{cache_key}.json"
+    if path.exists():
+        return json.loads(path.read_text())
+    headers = {"User-Agent": "artifact-repro-triage/0.1",
+               "Accept": "application/vnd.github+json"}
+    tok = _token()
+    if tok:
+        headers["Authorization"] = f"Bearer {tok}"
+    req = urllib.request.Request(url, headers=headers)
+    delay = 3.0
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req, timeout=30, context=_SSL) as r:
+                data = json.loads(r.read().decode())
+            path.write_text(json.dumps(data))
+            # /search/* is capped at 30 req/min; the rest of the REST API allows
+            # 5000/hr authenticated. Throttling both at search speed made a
+            # 60-call corpus build take over two minutes for no reason.
+            time.sleep(2.2 if "/search/" in url else 0.15)
+            return d
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport tempfile, json\nfrom pathlib import Path\nfrom artifact_triage.corpus import github\nwith tempfile.TemporaryDirectory() as t:\n    github.CACHE = Path(t)\n    (Path(t)/\"poisoned.json\").write_text('{\"name\": \"partial-wri')   # truncated write\n    try:\n        github._get(\"https://api.github.com/repos/x/y\", \"poisoned\")\n        print(\"  truncated cache entry -> returned data\")\n    except Exception as e:\n        print(f\"  truncated cache entry -> {type(e).__name__}: {str(e)[:60]}\")\n    (Path(t)/\"empty.json\").write_text(\"\")\n    try:\n        github._get(\"https://api.github.com/repos/x/y\", \"empty\")\n    except Exception as e:\n        print(f\"  empty cache entry     -> {type(e).__name__}: {str(e)[:60]}\")\nPY\necho \"--- are any committed cache files unparseable today? ---\"\npython3 -c \"\nimport json,glob\nbad=[f for f in glob.glob('data/cache/**/*.json',recursive=True)\n     if (lambda p: (lambda: False)() )(f) ]\nn=0\nfor f in glob.glob('data/cache/**/*.json',recursive=True):\n    try: json.load(open(f))\n    exce
+```
+
+**Tool response**
+
+```
+  truncated cache entry -> JSONDecodeError: Unterminated string starting at: line 1 column 10 (char 9)
+  empty cache entry     -> JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+--- are any committed cache files unparseable today? ---
+  corrupt committed cache files: 0
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/corpus/github.py'; s=open(p).read()\ns = s.replace('''    path = CACHE / f\"{cache_key}.json\"\n    if path.exists():\n        return json.loads(path.read_text())''',\n'''    path = CACHE / f\"{cache_key}.json\"\n    if path.exists():\n        try:\n            return json.loads(path.read_text())\n        except (json.JSONDecodeError, UnicodeDecodeError):\n            # A truncated or empty entry used to raise straight out of here,\n            # poisoning that key permanently: every later run hit the same\n            # unparseable file and crashed with a JSONDecodeError that named the\n            # column, not the cause. These files are COMMITTED, so a poisoned\n            # entry would ship. Treat an unreadable entry as a miss and refetch.\n            path.unlink(missing_ok=True)''')\ns = s.replace('''                data = json.loads(r.read().decode())\n            path.write_text(json.dumps(data))''',\n'''                data = json.loads(r.read().decode())\n            # Write atomically. `write_text` truncates in place, so a process\n 
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+  truncated entry -> recovered by refetch; cache now valid: True
+  no .tmp files left: True
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 143 - a half-written cache entry poisoned its key forever\n#\n# `_get` did `json.loads(path.read_text())` with no guard, and wrote with\n# `write_text`, which truncates in place. A process killed mid-write left a\n# partial file, and every later run hit the same unparseable entry and crashed\n# with a JSONDecodeError naming the column rather than the cause. There was no\n# path back: the cache never refetches a key it already has.\n#\n# These files are COMMITTED, so a poisoned entry would ship to every clone.\n# --------------------------------------------------------------------------\ndef test_an_unreadable_cache_entry_is_treated_as_a_miss():\n    import inspect\n    from artifact_triage.corpus import github\n    src = inspect.getsource(github._get)\n    assert \"JSONDecodeError\" in src, \"an unparseable entry must not raise\"\n    assert \"unlink\" in src, \"and must be discarded so the next run can refetch\"\n\n\n
+```
+
+**Tool response**
+
+```
+203/203 passed
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 142 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 143 | Read `corpus/github.py`, the network boundary everything else depends on. | **A half-written cache entry poisoned its key forever.** `_get` did `json.loads(path.read_text())` with no guard and wrote with `write_text`, which truncates in place - so a process killed mid-write left a partial file, and every later run hit the same unparseable entry and crashed with a `JSONDecodeError` naming the column rather than the cause. There was **no path back**: the cache never refetches a key it already has. And these files are **committed**, so a poisoned entry would ship to every clone. | Writes are atomic (temp file, then rename) and an unreadable entry is discarded and refetched instead of raising. Three tests, including one asserting no committed cache file is currently corrupt - **0 of 2,000+**, verified. |\"\"\"\ns = s[:end] + new + s[end:]\nopen(p,'w').write(s)\nPY\ngit add -A && git commit -q -m \"$(printf 'A half-written cache entry poisoned 
+```
+
+**Tool response**
+
+```
+e82bf8a A half-written cache entry poisoned its key forever
+completed	success	A half-written cache entry poisoned its key forever	checks	main	push	33379783131	30s	2026-08-31T09:52:20Z
+```
+
+## Human checkpoint 44
+
+> keep hardening keep everything perfect and upto date....
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -nE \"[0-9][0-9,]*\" dataset/DATASHEET.md | grep -vE \"^\\s*$\" | head -14\necho \"=== actual ===\"\npython3 -c \"\nimport json,csv\npv=json.load(open('results/prevalence.json'))\nrows=list(csv.DictReader(open('dataset/artifact_readme_consistency.csv')))\njl=[json.loads(l) for l in open('dataset/artifact_readme_consistency.jsonl')]\ndisc=sum(1 for _ in open('data/discovered.jsonl'))\nfresh=sum(1 for r in pv['per_artifact'] if (r.get('stale_days') or 1e9)<90)\nprint(f'  csv rows {len(rows)}  jsonl rows {len(jl)}  prevalence n {pv[\\\"n_profiled\\\"]}')\nprint(f'  discovered {disc}  fresh(<90d) {fresh}  claims {pv[\\\"total_claims\\\"]}')\"", "description": "Verify the datasheet against the data"}
+```
+
+**Tool response**
+
+```
+5:Per-artifact measurements for 742 public research-software repositories: how many
+9:Produced by [artifact-repro-triage](https://github.com/adarshcod30/artifact-repro-triage).
+13:1. Harvested software deposits from the public Zenodo API using venue names and
+15:   evaluation", **stratified across publication years 2018-2026**. 766
+16:   distinct GitHub repositories were found; 742 profiled successfully.
+17:2. For each, the complete recursive file tree and the README were read through
+20:3. Every file path referenced in the README was checked for existence. URLs are
+58:  harvested stratified across publication years 2018-2026 specifically to avoid
+60:  Zenodo software deposits, not a random sample of research software. 356 of
+61:  742 repositories were pushed within the last three months.
+75:  construction can never exist here. That was **126 of 1,190 reported-broken
+76:  paths (10.6%)**, now zero. Prose references to another project's files can
+81:Measurements: CC0. The underlying repositories retain their own licences.
+=== actual ===
+  csv rows 742  jsonl rows 742  prevalence n 742
+  discovered 766  fresh(<90d) 356  claims 6815
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"Limitations\\|read these before\" -A 4 src/artifact_triage/eval/export_dataset.py | head -10\ngrep -n \"format(\" src/artifact_triage/eval/export_dataset.py", "description": "Find the datasheet template hooks"}
+```
+
+**Tool response**
+
+```
+87:## Limitations — read these before drawing conclusions
+88-
+89-- **Sampling is not random.** Zenodo's search is keyword-based. The corpus was
+90-  harvested stratified across publication years 2018-2026 specifically to avoid
+91-  the recency skew an earlier version had, but it remains a keyword sample of
+145:        DATASHEET.format(n=len(rows), fresh=fresh, discovered=discovered))
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='src/artifact_triage/eval/export_dataset.py'; s=open(p).read()\ns = s.replace('''## Limitations \u2014 read these before drawing conclusions\n''',\n'''## What is in it\n\n| | |\n|---|---|\n| Artifacts | {n} |\n| Documented file references checked | {claims:,} |\n| References resolving to nothing (`broken`) | {broken:,} ({rate:.1%}) |\n| Artifacts with at least one broken reference | {with_broken} of {checkable} ({prevalence:.1%}) |\n\n## READ THIS BEFORE BENCHMARKING AGAINST THESE LABELS\n\n**An `exists=true` label does NOT mean the path works as written.** The checker\nthat produced these labels is deliberately lenient: it accepts a path if it\nexists exactly, **or if any real path ends with it**, or if any file anywhere in\nthe tree shares its basename. A README saying `src/train.py` is labelled correct\nwhen the file actually lives at `experiments/train.py`.\n\nMeasured across this corpus:\n\n| How a reference resolved | | |\n|---|---|---|\n| `exact` \u2014 works as written | {r_exact:,} | {r_exact_pct:.1%} |\n| `directory` \u2014 a directory reference matched a 
+```
+
+**Tool response**
+
+```
+SYNTAX OK
+  dataset/DATASHEET.md
+
+  742 artifacts, 6,815 claims measured
+## READ THIS BEFORE BENCHMARKING AGAINST THESE LABELS
+
+**An `exists=true` label does NOT mean the path works as written.** The checker
+that produced these labels is deliberately lenient: it accepts a path if it
+exists exactly, **or if any real path ends with it**, or if any file anywhere in
+the tree shares its basename. A README saying `src/train.py` is labelled correct
+when the file actually lives at `experiments/train.py`.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '/## What is in it/,/^## READ THIS/p' dataset/DATASHEET.md\nsed -n '/did not work as$/,+8p' dataset/DATASHEET.md | head -10", "description": "Verify the derived figures render"}
+```
+
+**Tool response**
+
+```
+## What is in it
+
+| | |
+|---|---|
+| Artifacts | 742 |
+| Documented file references checked | 6,815 |
+| References resolving to nothing (`broken`) | 1,254 (18.4%) |
+| Artifacts with at least one broken reference | 340 of 608 (55.9%) |
+
+## READ THIS BEFORE BENCHMARKING AGAINST THESE LABELS
+**2,118 of 5,561 resolutions (38.1%) did not work as
+written.** Two consequences:
+
+1. **The broken rate here is a LOWER BOUND.** The rate at which a documented
+   path fails *as a reader would follow it* is materially higher.
+2. **A detector that correctly flags a relocated file will be scored a false
+   positive against these labels.** If you are benchmarking, either re-derive
+   the labels with your own resolution rule, or restrict to the `exact` subset.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 144 - the label-quality caveat was not where dataset users read it\n#\n# The dataset is published CC0 for other people to benchmark against, and the\n# fact that an `exists=true` label does NOT mean the path works as written -\n# 38.1% of resolutions are lenient - lived only in the README. Someone who\n# downloads the CSV never sees it, and would score a correct detector as\n# producing false positives against our labels.\n#\n# The DATASHEET also stated no totals at all, so a consumer could not check that\n# the file they had matched the corpus it describes.\n# --------------------------------------------------------------------------\ndef test_datasheet_totals_match_the_corpus():\n    import json as _json\n    import re\n    root = Path(__file__).resolve().parents[1]\n    ds = root / \"dataset\" / \"DATASHEET.md\"\n    pv = root / \"results\" / \"prevalence.json\"\n    if not (ds.exists() and pv.exists()):\n        re
+```
+
+**Tool response**
+
+```
+  FAIL  test_datasheet_warns_benchmarkers_about_lenient_labels
+205/206 passed
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"false positive\" dataset/DATASHEET.md | head -3", "description": "Check the exact wording"}
+```
+
+**Tool response**
+
+```
+(Bash completed with no output)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns = s.replace('''    text = ds.read_text()\n    assert \"does NOT mean the path works as written\" in text\n    assert \"LOWER BOUND\" in text\n    assert \"false positive against these labels\" in text, (\n        \"a benchmarker must be told our labels are lenient before using them\")''',\n'''    import re\n    # Whitespace-insensitive: the prose wraps, and a line break is not a\n    # missing warning. Asserting the raw substring made the test fail on\n    # formatting rather than on content.\n    text = re.sub(r\"\\\\s+\", \" \", ds.read_text())\n    assert \"does NOT mean the path works as written\" in text\n    assert \"LOWER BOUND\" in text\n    assert \"false positive against these labels\" in text, (\n        \"a benchmarker must be told our labels are lenient before using them\")''')\ns = s.replace('''    a = _json.loads(ra.read_text())\n    assert f\"{a['resolved_leniently']:,} of {a['resolved']:,}\" in ds.read_text()''',\n'''    import re\n    a = _json.loads(ra.read_text())\n    text = re.sub(r\"\\\\s+\", \"
+```
+
+**Tool response**
+
+```
+206/206 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 143 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 144 | Audited the published **dataset's own datasheet** - the file someone reads before benchmarking against our labels. | Its figures were right, but it stated **no totals at all**, so a consumer could not check the file they had matched the corpus it describes. Worse, the label-quality caveat lived **only in the README**: that an `exists=true` label does *not* mean the path works as written, because **38.1% of resolutions are lenient**. Someone downloading the CSV never sees it, and **would score a correct detector as producing false positives against our labels.** | The datasheet now carries derived totals and a *\"READ THIS BEFORE BENCHMARKING\"* section with the full resolution breakdown, both consequences stated (the broken rate is a lower bound; a detector flagging a relocated file will be marked wrong), and the advice to re-derive labels or restrict to the `exact` subset. Three tests tie it to `prevalence.json` and `resolution_audit.json
+```
+
+**Tool response**
+
+```
+0baa76f Put the label-quality caveat where dataset users read it
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nN=$(grep -c \"^def test_\" tests/test_regressions.py)\necho \"  actual tests: $N\"\ngrep -rnoE \"[0-9]{2,3} (regression )?tests|[0-9]{2,3} tests pinning\" README.md AGENTS.md REPRODUCTION.md docs/VIDEO_SCRIPT.md 2>/dev/null | head\necho \"--- iteration count ---\"\ngrep -c \"^| Iteration\" CHANGELOG.md\ngrep -rnoE \"[0-9]{2,3} iterations|[0-9]{2,3}-iteration\" README.md AGENTS.md 2>/dev/null | head -3\necho \"--- documented-number count ---\"\ngrep -rnoE \"[0-9]{2} documented numbers|[0-9]{2} numbers verified\" README.md AGENTS.md 2>/dev/null | head -3", "description": "Sweep for stale self-referential counts"}
+```
+
+**Tool response**
+
+```
+  actual tests: 206
+AGENTS.md:90:206 regression tests
+README.md:861:206 tests pinning
+README.md:865:206 regression tests
+REPRODUCTION.md:119:206 regression tests
+--- iteration count ---
+144
+--- documented-number count ---
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '/## Improvement Changelog/,+8p' README.md\ngrep -nE \"iteration\" README.md | grep -iE \"[0-9]{2,3}\" | head -4\nhead -12 CHANGELOG.md | grep -nE \"[0-9]{2,3}\" | head -4", "description": "Check changelog self-references"}
+```
+
+**Tool response**
+
+```
+## Improvement Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) — every iteration, the evidence that prompted it,
+and what was decided, including the experiments that were removed.
+
+## Known limitations, found by running the tool on itself
+
+`make selfcheck` points the tool at this repository. It found three things.
+
+878:See [CHANGELOG.md](CHANGELOG.md) — every iteration, the evidence that prompted it,
+10:| Baseline | Scrape ISSTA 2024 Artifact Evaluation page for expert badge labels. Needed ground truth I did not author myself. | 43 artifacts parsed via the `data-facet-badge` attribute. Distribution: Available 23, Functional 11, Reusable 9. | Kept. Labels are expert-assigned, published, and independent of this project. Parsing the data attribute (not visible text) survives theme changes. |
+11:| Iteration 1 | Resolve each title to its Zenodo deposit and download the artifact for analysis. The deposit is literally what the committee badged. | Total corpus download would be **326 GB**. Largest single artifact 190 GB; only 6 of 21 resolved deposits were under 100 MB. | **Removed.** Downloading deposits is infeasible and would also wreck our own reproducibility - a judge cannot re-run a 326 
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '/## Known limitations, found by running/,+16p' README.md\necho \"=== what it reports today ===\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.cli adarshcod30/artifact-repro-triage --no-links 2>/dev/null | grep -E \"Verdict|suppressed|issue\" | head -4", "description": "Compare the limitations section to the live self-check", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+## Known limitations, found by running the tool on itself
+
+`make selfcheck` points the tool at this repository. It found three things.
+
+**Two were real and are fixed.** No `LICENSE` and no CI configuration — the tool
+flagged its own author for exactly the category of omission it flags in others.
+
+**One was a false positive, and it is a genuine limitation.** All six "broken
+paths" it reported in this README are **quotations from other artifacts**:
+`scripts/run_lpr.py` and `token_counter_deploy.jar` belong to LPR and appear as
+example output; `configs/default.yaml` comes from the negative-control injection
+list. The checker cannot tell a claim about *this* repository from a quotation
+about another one.
+
+**Every result is currently provenance-current, and `make check-claims` proves
+it on every run.** Getting there took three authorised budget raises — $5.00 →
+$5.50 → $6.25 → $7.00 — because each core-logic fix invalidated the experiments
+=== what it reports today ===
+## Verdict: **no mechanical issues found**
+*14 author-declared exception pattern(s) from `.artifact-triage-ignore` suppressed **6 of 26** referenced path(s) (23%).*
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='README.md'; s=open(p).read()\nold = \"\"\"**One was a false positive, and it is a genuine limitation.** All six \"broken\npaths\" it reported in this README are **quotations from other artifacts**:\n`scripts/run_lpr.py` and `token_counter_deploy.jar` belong to LPR and appear as\nexample output; `configs/default.yaml` comes from the negative-control injection\nlist. The checker cannot tell a claim about *this* repository from a quotation\nabout another one.\"\"\"\nnew = \"\"\"**One was a false positive, and it is a genuine limitation.** All six \"broken\npaths\" it reported in this README are **quotations from other artifacts**:\n`scripts/run_lpr.py` and `token_counter_deploy.jar` belong to LPR and appear as\nexample output; `configs/default.yaml` comes from the negative-control injection\nlist. The checker cannot tell a claim about *this* repository from a quotation\nabout another one.\n\nThose six are declared in `.artifact-triage-ignore`, and the report says so in\nthe only form that is honest \u2014 **how much they hide, not how many there are**:\n\n```\n*14 aut
+```
+
+**Tool response**
+
+```
+206/206 passed
+  All 46 documented numbers match the results files.
+  Every result was produced by the current code.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor m in dashboard export_dataset export_trajectories; do PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m >/dev/null 2>&1; done\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -1\n.venv/bin/python scripts/verify_targets.py 2>&1 | tail -1\ngit add -A && git commit -q -m \"$(printf 'Close the loop between the self-check false positives and their disclosure\\n\\nThe limitations section described six false positives in this repositorys own\\nREADME - quotations of other artifacts files - without connecting them to the\\nmechanism that now handles them. They are exactly what the 14 ignore patterns\\nsuppress, and the report states that as a share (6 of 26, 23%%) rather than as a\\ncount of patterns, because a single * would suppress everything and a count of\\npatterns would disclose nothing.\\n\\nThe section now shows the actual disclosure line and says plainly that since the\\nrepository being assessed writes that file, this makes the bypass visible rather\\nthan impossible.\\n\\n206 tests, 46 documented numbers verified, all 12 results current.\\n\\nCo-Authored-
+```
+
 
 ---
 
-Redactions applied: `{'foreign_project': 221, 'aws_secret': 8, 'env_assignment': 58}`
+Redactions applied: `{'foreign_project': 222, 'aws_secret': 8, 'env_assignment': 58}`

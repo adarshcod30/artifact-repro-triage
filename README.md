@@ -892,6 +892,19 @@ example output; `configs/default.yaml` comes from the negative-control injection
 list. The checker cannot tell a claim about *this* repository from a quotation
 about another one.
 
+Those six are declared in `.artifact-triage-ignore`, and the report says so in
+the only form that is honest — **how much they hide, not how many there are**:
+
+```
+*14 author-declared exception pattern(s) from `.artifact-triage-ignore`
+ suppressed **6 of 26** referenced path(s) (23%).*
+```
+
+A single `*` would suppress everything, so a count of *patterns* discloses
+nothing. Above 50% the report states plainly that the result is author-filtered
+rather than a clean bill of health. Since the repository being assessed writes
+that file, this makes the bypass **visible** — it does not make it impossible.
+
 **Every result is currently provenance-current, and `make check-claims` proves
 it on every run.** Getting there took three authorised budget raises — $5.00 →
 $5.50 → $6.25 → $7.00 — because each core-logic fix invalidated the experiments
