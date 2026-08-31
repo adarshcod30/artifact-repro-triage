@@ -23,3 +23,8 @@ data/cache/github/issues-*
 data/cache/prevalence/
 data/cache/discover/
 data/negative_control/
+
+# Local agent/editor tooling. Machine-specific by nature - launch.json holds
+# absolute paths, which is precisely the defect portability.py detects, and it
+# failed this project's own CI gate three times before being removed.
+.claude/
