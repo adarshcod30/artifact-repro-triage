@@ -23,7 +23,6 @@ sys.path.insert(0, str(ROOT / "src"))
 
 st.set_page_config(
     page_title="Artifact Reproducibility Triage",
-    page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -49,6 +48,46 @@ st.markdown("""
   .ok   {color: #1a9e5c;} .bad {color: #d13438;} .warn {color: #c47f0a;}
   .mono {font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
          font-size: .86rem;}
+
+  /* Hero contrast panel: the whole project in one glance. */
+  .split {display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+          margin: .4rem 0 .1rem;}
+  .half {border: 1px solid rgba(128,128,128,.28); border-radius: 14px;
+         padding: 1.5rem 1.6rem; position: relative; overflow: hidden;}
+  .half.l {background: linear-gradient(160deg, rgba(209,52,56,.10), transparent 62%);
+           border-color: rgba(209,52,56,.34);}
+  .half.r {background: linear-gradient(160deg, rgba(26,158,92,.12), transparent 62%);
+           border-color: rgba(26,158,92,.38);}
+  .half .eyebrow {font-size: .74rem; letter-spacing: .13em; text-transform: uppercase;
+                  opacity: .72; font-weight: 600;}
+  .half .big {font-size: 4.4rem; font-weight: 780; line-height: .98;
+              margin: .5rem 0 .1rem; letter-spacing: -.035em;}
+  .half.l .big {color: #ef5350;} .half.r .big {color: #35c67a;}
+  .half .say {font-size: 1.02rem; font-weight: 600; margin-bottom: .15rem;}
+  .half .fine {font-size: .87rem; opacity: .68; line-height: 1.45;}
+  .ctrl {text-align: center; font-size: .84rem; opacity: .6; margin: .55rem 0 0;
+         letter-spacing: .04em;}
+
+  /* Three-step pipeline. */
+  .steps {display: grid; grid-template-columns: repeat(3, 1fr); gap: .85rem;}
+  .step {border: 1px solid rgba(128,128,128,.22); border-radius: 12px;
+         padding: .95rem 1.05rem; background: rgba(128,128,128,.05);}
+  .step .num {font-size: .72rem; letter-spacing: .14em; opacity: .55;
+              font-weight: 700;}
+  .step .ttl {font-size: 1.02rem; font-weight: 680; margin: .18rem 0 .3rem;}
+  .step .txt {font-size: .87rem; opacity: .74; line-height: 1.5;}
+  .step .tag {display: inline-block; margin-top: .5rem; font-size: .72rem;
+              letter-spacing: .06em; text-transform: uppercase; opacity: .62;
+              border: 1px solid rgba(128,128,128,.3); border-radius: 20px;
+              padding: .1rem .55rem;}
+
+  /* Compact scale strip. */
+  .strip {display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+          border-top: 1px solid rgba(128,128,128,.22);
+          border-bottom: 1px solid rgba(128,128,128,.22);
+          padding: 1rem 0; margin: .2rem 0;}
+  .strip .n {font-size: 1.85rem; font-weight: 720; line-height: 1;}
+  .strip .l {font-size: .8rem; opacity: .66; margin-top: .32rem; line-height: 1.4;}
   .note {border-left: 3px solid rgba(128,128,128,.4); padding: .1rem 0 .1rem .9rem;
          opacity: .85;}
   div[data-testid="stMetricValue"] {font-size: 1.9rem;}
@@ -171,33 +210,90 @@ with st.sidebar:
 # ==========================================================================
 if page == PAGES[0]:
     st.markdown(
-        "<div style='font-size:3.1rem;font-weight:750;line-height:1.12;"
-        "letter-spacing:-.03em;margin:0 0 .4rem'>A README is a promise.<br>"
+        "<div style='font-size:3.2rem;font-weight:760;line-height:1.1;"
+        "letter-spacing:-.035em;margin:0 0 .45rem'>A README is a promise.<br>"
         "Nobody checks it.</div>"
-        "<div style='font-size:1.12rem;opacity:.78;max-width:60ch;"
+        "<div style='font-size:1.12rem;opacity:.76;max-width:66ch;"
         "line-height:1.55'>When a research paper ships its code, the README says "
         "<i>“run <code>train.py</code>, configs are in <code>configs/</code>”</i>. "
-        "Often those files are not there. The paper is published anyway.</div>",
+        "Often those files are not there &mdash; and the paper is published "
+        "anyway.</div>",
         unsafe_allow_html=True)
 
     st.write("")
-    c = st.columns(4)
-    kpi(c[0], pct(DET_BASE), "Model reading the README", "missed every fabricated path", "bad")
-    kpi(c[1], pct(DET_SOL), "Same model + verified facts", "3 trials, no variance", "ok")
-    if PV:
-        kpi(c[2], PV["display"]["prevalence"], "Artifacts with a broken claim",
-            f"of {PV['display']['n_profiled']} profiled")
-        kpi(c[3], PV["display"]["broken_claim_rate"], "References pointing at nothing",
-            f"of {PV['display']['total_claims']} checked")
+    # The entire project in one glance: identical inputs, one difference.
+    st.markdown(f"""
+<div class='split'>
+  <div class='half l'>
+    <div class='eyebrow'>Reads the README</div>
+    <div class='big'>{pct(DET_BASE)}</div>
+    <div class='say'>Caught nothing.</div>
+    <div class='fine'>Fifteen artifacts, five fabricated file paths each.
+      It accepted every one, in every trial.</div>
+  </div>
+  <div class='half r'>
+    <div class='eyebrow'>Reads the README + verified facts</div>
+    <div class='big'>{pct(DET_SOL)}</div>
+    <div class='say'>Caught all of them.</div>
+    <div class='fine'>{FR['trials']} trials, no variance. The model never
+      changed &mdash; only what it was allowed to reason over.</div>
+  </div>
+</div>
+<p class='ctrl'>same model &nbsp;·&nbsp; same rubric &nbsp;·&nbsp; same README
+&nbsp;·&nbsp; the only difference is whether the claims were checked</p>
+""", unsafe_allow_html=True)
 
     st.write("")
-    left, right = st.columns([1.15, 1])
+    st.markdown("""
+<div class='steps'>
+  <div class='step'>
+    <div class='num'>STEP 01</div>
+    <div class='ttl'>Extract</div>
+    <div class='txt'>Read the README and pull out every concrete file and
+      directory it promises &mdash; not just the markdown links.</div>
+    <div class='tag'>deterministic</div>
+  </div>
+  <div class='step'>
+    <div class='num'>STEP 02</div>
+    <div class='ttl'>Verify</div>
+    <div class='txt'>Check each one against the repository&rsquo;s real file
+      tree. Ordinary Python: it cannot hallucinate and costs nothing.</div>
+    <div class='tag'>no model &nbsp;·&nbsp; no cost</div>
+  </div>
+  <div class='step'>
+    <div class='num'>STEP 03</div>
+    <div class='ttl'>Decide</div>
+    <div class='txt'>Fill in the reviewer&rsquo;s own ACM form with what the
+      evidence settles &mdash; and escalate what it cannot.</div>
+    <div class='tag'>human keeps the call</div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+    st.write("")
+    if PV:
+        d = PV["display"]
+        st.markdown(f"""
+<div class='strip'>
+  <div><div class='n'>{d['n_profiled']}</div>
+       <div class='l'>research artifacts profiled, harvested from Zenodo</div></div>
+  <div><div class='n'>{d['total_claims']}</div>
+       <div class='l'>documented file references checked</div></div>
+  <div><div class='n bad'>{d['broken_claim_rate']}</div>
+       <div class='l'>of those references point at nothing</div></div>
+  <div><div class='n bad'>{d['prevalence']}</div>
+       <div class='l'>of artifacts carry at least one broken claim</div></div>
+</div>
+""", unsafe_allow_html=True)
+
+    st.write("")
+    left, right = st.columns([1, 1], gap="large")
     with left:
         st.subheader("Who has this problem")
         st.markdown("""
 **Artifact-evaluation reviewers.** When a paper is accepted, volunteers decide
-whether its code actually backs its claims — usually in about two weeks, unpaid,
-alongside their real jobs. They award badges like ACM's *Available*,
+whether its code actually backs its claims &mdash; usually in about two weeks,
+unpaid, alongside their real jobs. They award badges like ACM's *Available*,
 *Functional* and *Reusable*.
 
 The published research says the bottleneck is **reviewer capacity, not policy**:
@@ -205,26 +301,29 @@ across roughly 750 papers, artifact-evaluation committees produced no significan
 change in artifact availability, though artifacts that pass do work at a higher
 rate.
 
-Downstream, everyone who ever tries to build on that paper pays for what the
+Downstream, everyone who later tries to build on that paper pays for what the
 reviewer had no time to check.
         """)
     with right:
-        st.subheader("What this does")
+        st.subheader("What it hands them")
         st.markdown("""
-It reads the README, extracts every concrete file or directory it references,
-and checks each one against the repository's **real file tree**.
-
-Then it hands the reviewer their own decision form — ACM's four *Functional*
-criteria — pre-filled with the parts a machine can settle, and **explicit about
-the parts it cannot**.
-
-- `Documented` · `Complete` · `Exercisable` → mechanically checkable
-- `Consistent` → **never**. It needs someone to read the paper.
+Not a score, and not a list of complaints. **Their own decision form**
+&mdash; ACM's four *Functional* criteria &mdash; pre-filled with the parts a
+machine can settle, and explicit about the parts it cannot.
         """)
-        st.info("**Two criteria are escalated to a human by construction**, not "
-                "because a confidence threshold fired. Whether the artifact "
-                "matches the paper needs a person. Whether it runs needs a "
-                "person to run it.", icon="🧑‍⚖️")
+        st.markdown("""
+| Criterion | Who settles it |
+|---|---|
+| `Documented` | mechanically checkable |
+| `Complete` | mechanically checkable |
+| `Exercisable` | mechanically checkable |
+| `Consistent` | **always the reviewer** |
+        """)
+        st.info("`Consistent` asks whether the artifacts generate the paper's "
+                "results. That needs someone to read the paper, so it is "
+                "escalated **by construction** &mdash; never because a "
+                "confidence threshold fired. Saying so is what makes the other "
+                "three worth trusting.")
 
     st.divider()
     st.subheader("The finding that makes this worth reading")
@@ -315,23 +414,22 @@ elif page == PAGES[1]:
                        f"fabricated paths.** Deterministic — it cannot miss one "
                        f"and cannot invent one. Across the real experiment: "
                        f"{NC['detected']}/{NC['injected']} injected claims "
-                       f"detected, {NC['false_positives']} false positives.",
-                       icon="✅")
+                       f"detected, {NC['false_positives']} false positives.")
         else:
-            st.warning(f"Caught {len(caught)} of {len(injected)}.", icon="⚠️")
+            st.warning(f"Caught {len(caught)} of {len(injected)}.")
         st.caption("A language model shown this same falsified README, without "
                    f"these facts, noticed nothing — {pct(DET_BASE)} across "
                    f"{FR['trials']} trials.")
 
     tab1, tab2, tab3, tab4 = st.tabs(
-        ["📋 Every claim checked", "⚖️ The reviewer's decision form",
-         "🧑‍⚖️ Human checkpoint", "📄 The README it read"])
+        ["Every claim checked", "The reviewer's decision form",
+         "Human checkpoint", "The README it read"])
 
     with tab1:
         # `Evidence.claims` holds plain dicts, not Claim objects - the
         # dataclass is used at construction and serialised before it lands here.
         rows = [{"Path the README references": c["path"],
-                 "Exists": "✅" if c["exists"] else "❌ NOT FOUND",
+                 "Status": "found" if c["exists"] else "MISSING",
                  "How it resolved": c.get("matched_as") or "—"}
                 for c in ev.claims]
         if rows:
@@ -352,27 +450,28 @@ elif page == PAGES[1]:
     with tab2:
         st.caption("ACM's four *Artifacts Evaluated — Functional* criteria, "
                    "quoted verbatim from the policy.")
+        label = {"supported": "no mechanical concerns",
+                 "concerns": "CONCERNS",
+                 "not-checkable": "NOT CHECKABLE BY ANY MACHINE"}
         for f in findings:
-            icon = {"supported": "✅", "concerns": "⚠️",
-                    "not-checkable": "🚫"}[f.verdict]
-            with st.expander(f"{icon} **{f.criterion}** — {f.verdict}",
+            with st.expander(f"{f.criterion}  ·  {label[f.verdict]}",
                              expanded=f.verdict == "concerns"):
                 st.caption(f"*“{f.definition}”*")
                 for e in f.evidence[:9]:
                     st.markdown(f"- {e}")
-                st.info(f"**Still yours:** {f.needs_human}", icon="🧑‍⚖️")
+                st.info(f"**Still yours:** {f.needs_human}")
         st.warning("`Consistent` is **always** escalated. It asks whether the "
                    "artifacts generate the paper's results, which requires "
                    "reading the paper. No file check can answer it — and saying "
-                   "so is what makes the other three trustworthy.", icon="🚫")
+                   "so is what makes the other three trustworthy.")
 
     with tab3:
         if dec.escalate:
-            st.error("**Routed to a qualified human reviewer.**", icon="🧑‍⚖️")
+            st.error("**Routed to a qualified human reviewer.**")
             for r in dec.reasons:
                 st.markdown(f"- {r}")
         else:
-            st.success("No escalation rule fired.", icon="✅")
+            st.success("No escalation rule fired.")
         st.caption("Escalation is decided by **evidence-based rules**, never by "
                    "the model's self-reported confidence. That earlier design "
                    "was removed: it fired 0 times out of 15, and confidence was "
@@ -449,17 +548,18 @@ elif page == PAGES[2]:
     pick = st.selectbox("Artifact", [r["artifact_id"] for r in per])
     row = next(r for r in per if r["artifact_id"] == pick)
     st.code("Fabricated paths injected:\n" +
-            "\n".join(f"  ✗ {p}" for p in row["injected"]), language="text")
+            "\n".join(f"  - {p}" for p in row["injected"]), language="text")
     x, y = st.columns(2)
     with x:
-        st.markdown("##### 🔴 Baseline — README only")
+        st.markdown("##### Baseline &mdash; README only", unsafe_allow_html=True)
         b_ = row["systems"]["baseline"]
         st.metric("Noticed the fabrication",
                   "yes" if b_["mentions_absence"] else "no")
         for r in b_.get("dirty_reasons", [])[:5]:
             st.markdown(f"- {r}")
     with y:
-        st.markdown("##### 🟢 Solution — README + verified facts")
+        st.markdown("##### Solution &mdash; README + verified facts",
+                    unsafe_allow_html=True)
         s_ = row["systems"]["solution"]
         st.metric("Noticed the fabrication",
                   "yes" if s_["mentions_absence"] else "no")
@@ -493,7 +593,7 @@ elif page == PAGES[3]:
     st.error("**Neither system has demonstrated skill at predicting a 2024 "
              "committee's badge from a 2026 repository.** The constant wins by "
              "collapsing onto the middle class, which MAE rewards — and the "
-             "baseline does nearly the same thing.", icon="📉")
+             "baseline does nearly the same thing.")
     st.markdown("""
 The cause is a **ground-truth mismatch**, established by investigating rather
 than tuning: the committee badged the curated **Zenodo deposit** in 2024; this
@@ -558,8 +658,7 @@ themselves. **Smaller corpus, zero false labels.**
         st.error("**The lesson is this project's own thesis, one level up:** "
                  "fuzzy matching produced confident, plausible, wrong answers — "
                  "which is exactly the failure the tool exists to detect. I "
-                 "built it into my own corpus while building a detector for it.",
-                 icon="🎯")
+                 "built it into my own corpus while building a detector for it.")
     with st.expander("Two more, in brief"):
         st.markdown("""
 - **Shallow cloning** — filled the disk to 100% on a 15-artifact corpus. Repo
@@ -632,7 +731,7 @@ elif page == PAGES[4]:
                 use_container_width=True)
             st.success("**Flat — delta −0.002 across four years**, with 171 "
                        "artifacts averaging four years since their last push. "
-                       "A measured null, not an absence of data.", icon="📊")
+                       "A measured null, not an absence of data.")
             st.caption("The literature predicts decay. If that were the whole "
                        "story the oldest bucket would be worst. It is not — so "
                        "these were broken at publication, when a reviewer could "
@@ -746,8 +845,7 @@ make falsified            # the primary experiment""", language="bash")
             "headline is a mean with its range over 3 trials. What should "
             "reproduce is the **direction and size of the gap**, which held "
             "across three unrelated model families. The deterministic verifier "
-            "is byte-identical everywhere, because no model touches it.",
-            icon="🔁")
+            "is byte-identical everywhere, because no model touches it.")
 
     st.divider()
     st.subheader("The hot take")
