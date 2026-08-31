@@ -3506,6 +3506,25 @@ def test_provenance_list_covers_every_stamped_result():
 
 
 
+def test_demo_app_contains_no_emoji():
+    """The UI is deliberately emoji-free.
+
+    Emoji render differently on every platform, look unserious beside a research
+    result, and carry no meaning a word would not carry better. The first build
+    used 32 of them across 17 distinct characters. Status is stated in words
+    ("found" / "MISSING") and Streamlit's own vector alert icons do the rest.
+    """
+    import unicodedata
+    src = (_REPO / "app.py").read_text(encoding="utf-8")
+    found = sorted({
+        ch for ch in src
+        if (ord(ch) > 0x2000 and unicodedata.category(ch) in ("So", "Sk", "Cf"))
+        or 0x1F000 <= ord(ch) <= 0x1FBFF
+    })
+    assert not found, f"emoji crept back into app.py: {found}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
