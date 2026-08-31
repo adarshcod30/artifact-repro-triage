@@ -44,6 +44,28 @@ RUNTIME_DIRS = {
     "target", "bin", "obj", "venv", "env", "node_modules",
 }
 
+# Dotfiles a README tells you to CREATE, or that tooling generates. Same
+# rationale as RUNTIME_DIRS: "copy .env.example to .env" is an instruction, not
+# a promise that `.env` ships - it is gitignored precisely because it must not.
+#
+# This class only became visible once the extractor stopped eating leading dots.
+# Fixing that bug surfaced two new false positives in the negative control
+# (`.env`, `.trustbench/models`), which is how a latent gap announces itself:
+# the old bug was hiding it.
+UNCOMMITTED_DOTFILES = {
+    ".env", ".env.local", ".env.example", ".envrc", ".venv", ".cache",
+    ".DS_Store", ".coverage", ".ipynb_checkpoints", ".pytest_cache",
+    ".mypy_cache", ".ruff_cache", ".tox", ".idea",
+}
+
+# Dot-directories that ARE conventionally committed. Anything else beginning
+# with a dot is tooling or generated state, so a reference into it is not a
+# claim about shipped content.
+COMMITTED_DOTDIRS = {
+    ".github", ".gitlab", ".circleci", ".devcontainer", ".config", ".vscode",
+    ".zenodo", ".binder", ".docker",
+}
+
 
 def suggest(path: str, file_tree: list[str], limit: int = 3) -> list[str]:
     """Find the most plausible real file for a broken claim.
@@ -236,6 +258,16 @@ def interesting(path: str) -> bool:
     # is still a concrete claim about a file.
     if "." not in path.rsplit("/", 1)[-1] and low.split("/")[-1] in RUNTIME_DIRS:
         return False
+    head = path.split("/")[0]
+    if head.startswith("."):
+        if low in UNCOMMITTED_DOTFILES:
+            return False
+        # A reference INTO a dot-directory that is not conventionally committed
+        # (`.trustbench/models`) is tooling state, not shipped content. A
+        # top-level dotfile with a real extension (`.zenodo.json`) is a genuine
+        # claim and stays.
+        if "/" in path and head.lower() not in COMMITTED_DOTDIRS:
+            return False
     return True
 
 

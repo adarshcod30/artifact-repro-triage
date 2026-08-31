@@ -1,0 +1,97 @@
+{
+ "_provenance": {
+  "kind": "resolution_audit",
+  "commit": "c205f46-dirty",
+  "code_fingerprint": "b97ba0e3c7b3"
+ },
+ "total_claims": 6815,
+ "resolved": 5561,
+ "broken": 1254,
+ "by_resolution": {
+  "exact": 2833,
+  "suffix": 2007,
+  "BROKEN": 1254,
+  "directory": 602,
+  "basename": 111,
+  "case-mismatch": 6,
+  "case-mismatch-basename": 2
+ },
+ "resolved_leniently": 2118,
+ "lenient_share_of_resolutions": 0.3809,
+ "lenient_share_of_all_claims": 0.3108,
+ "note": "suffix and basename matches do NOT work as written; the reported broken rate is therefore a lower bound",
+ "examples": [
+  {
+   "artifact_id": "stefanosbalaskas/gp3tools-python",
+   "claimed": "api_manifest.csv",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "hsjwang/solutions-table",
+   "claimed": "backend.js",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "bpf-fault/bpf-fault",
+   "claimed": "plot.sh",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "bpf-fault/bpf-fault",
+   "claimed": "run.sh",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "bpf-fault/bpf-fault",
+   "claimed": "run_all.sh",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "alicetinkaya76/answering-less-to-score-more",
+   "claimed": "analysis.py",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "alicetinkaya76/answering-less-to-score-more",
+   "claimed": "config.json",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "alicetinkaya76/answering-less-to-score-more",
+   "claimed": "figure_data.json",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "alicetinkaya76/answering-less-to-score-more",
+   "claimed": "make_figures.py",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "kbolton-lab/ArCH",
+   "claimed": "ArCHPostPipeline.R",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "sajjadanwar0/resume-contract",
+   "claimed": "VERIFICATION.md",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  },
+  {
+   "artifact_id": "sajjadanwar0/resume-contract",
+   "claimed": "lib.rs",
+   "resolved_as": "suffix",
+   "matched": "suffix"
+  }
+ ]
+}

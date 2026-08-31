@@ -85,7 +85,7 @@ what remains after removing everything prior work already established.
 
 | Contribution | Why prior work does not cover it |
 |---|---|
-| **Prevalence in *research artifacts* specifically** — 742 artifacts, 6,840 documented file references, 56.3% carrying at least one broken claim | Tan et al. measure general OSS; READU measures detection on a commit sample, not population prevalence. Neither reports a rate for research artifacts. |
+| **Prevalence in *research artifacts* specifically** — 742 artifacts, 6,815 documented file references, 55.9% carrying at least one broken claim | Tan et al. measure general OSS; READU measures detection on a commit sample, not population prevalence. Neither reports a rate for research artifacts. |
 | **The defect does not accumulate with age** — flat across four years (0.256 / 0.232 / 0.305 / 0.234), oldest bucket n=173 at median 1,423 days | The literature attributes artifact failure to *drift* (unpinned dependencies, incomplete environments). This measurement says broken path claims are present **at publication**, so they are a different failure mode from decay. |
 | **Ecosystem variation** — Java 0.340 and Rust 0.364 versus Python 0.192 and Notebooks 0.104 | Not reported anywhere found. |
 | **A causal comparison against an LLM reading prose** — baseline 0%, solution 93–100% on two model families, with a **placebo-evidence control** that collapses detection to 0% | READU has no LLM baseline; Tan et al. predates LLM baselines. The placebo isolates *the evidence* as the cause rather than the prose. |

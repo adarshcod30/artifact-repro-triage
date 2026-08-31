@@ -1,8 +1,8 @@
 {
  "_provenance": {
   "kind": "issue_validation",
-  "commit": "c132ff1-dirty",
-  "code_fingerprint": "b9bd1a12c0a5"
+  "commit": "c205f46-dirty",
+  "code_fingerprint": "c11894281526"
  },
  "flagged_summary": {
   "n_repos": 60,
@@ -243,17 +243,8 @@
     "complaint_rate": 0.0,
     "examples": [],
     "artifact_id": "avanhatt/asplos24-ae-crocus",
-    "broken": 9,
-    "claims": 9
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "CIPM-tools/CIPM",
-    "broken": 1,
-    "claims": 1
+    "broken": 8,
+    "claims": 8
    },
    {
     "n_issues": 0,
@@ -307,6 +298,15 @@
     "claims": 9
    },
    {
+    "n_issues": 3,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "kbolton-lab/ArCH",
+    "broken": 7,
+    "claims": 8
+   },
+   {
     "n_issues": 0,
     "n_complaints": 0,
     "complaint_rate": 0.0,
@@ -314,15 +314,6 @@
     "artifact_id": "cragkhit/Matcha",
     "broken": 7,
     "claims": 8
-   },
-   {
-    "n_issues": 3,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "kbolton-lab/ArCH",
-    "broken": 6,
-    "claims": 7
    },
    {
     "n_issues": 0,
@@ -455,6 +446,15 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
+    "artifact_id": "HUJIAN0000/sgl-sn-anisotropy",
+    "broken": 7,
+    "claims": 10
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
     "artifact_id": "Meghanatedla/LLM-ComponentGen",
     "broken": 40,
     "claims": 58
@@ -560,15 +560,6 @@
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
-    "artifact_id": "HUJIAN0000/sgl-sn-anisotropy",
-    "broken": 7,
-    "claims": 11
-   },
-   {
-    "n_issues": 0,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
     "artifact_id": "lsrcz/grisette-popl23-artifact",
     "broken": 7,
     "claims": 11
@@ -581,15 +572,6 @@
     "artifact_id": "EmbSys-WWU/IfaAbstractionRefinement_Artifact",
     "broken": 5,
     "claims": 8
-   },
-   {
-    "n_issues": 1,
-    "n_complaints": 0,
-    "complaint_rate": 0.0,
-    "examples": [],
-    "artifact_id": "drzchen/movec",
-    "broken": 10,
-    "claims": 16
    },
    {
     "n_issues": 3,
@@ -610,11 +592,29 @@
     "claims": 13
    },
    {
+    "n_issues": 1,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "drzchen/movec",
+    "broken": 9,
+    "claims": 15
+   },
+   {
     "n_issues": 8,
     "n_complaints": 0,
     "complaint_rate": 0.0,
     "examples": [],
     "artifact_id": "sourcemeta/jsonschema",
+    "broken": 3,
+    "claims": 5
+   },
+   {
+    "n_issues": 0,
+    "n_complaints": 0,
+    "complaint_rate": 0.0,
+    "examples": [],
+    "artifact_id": "cmu-soda/ATLAS",
     "broken": 3,
     "claims": 5
    }

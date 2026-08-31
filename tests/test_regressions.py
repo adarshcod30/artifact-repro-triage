@@ -2158,6 +2158,78 @@ def test_evidence_of_absence_is_never_marked_as_absence_of_evidence():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 120 - a false positive on every dotfile
+#
+# `tok.lstrip("./")` strips CHARACTERS, not a prefix - the same class of bug as
+# the `rstrip(".git")` that once turned "upbeat" into "upbea". It ate the
+# leading dot of every dotfile:
+#
+#     .zenodo.json             -> zenodo.json
+#     .pre-commit-config.yaml  -> pre-commit-config.yaml
+#     .github/workflows/ci.yml -> github/workflows/ci.yml
+#
+# A repository that HAS `.zenodo.json` was reported as missing `zenodo.json` - a
+# file that never existed. That is a FALSE POSITIVE in the core check, and it
+# accounted for **29 of 1,264 broken claims (2.29%)** on the corpus.
+#
+# Fixing the strip alone made it worse in a quieter way: `.zenodo.json` has two
+# dots and no slash, so it tripped the `com.example.Foo` identifier rule and
+# vanished entirely. The dotfiles moved from wrong to invisible.
+# --------------------------------------------------------------------------
+DOTFILES_MUST_SURVIVE = [
+    ("see `.zenodo.json` for metadata", ".zenodo.json"),
+    ("edit `.pre-commit-config.yaml`", ".pre-commit-config.yaml"),
+    ("the `.github/workflows/ci.yml` file", ".github/workflows/ci.yml"),
+    # NOTE: `.gitignore` is deliberately NOT here. The extractor requires a
+    # recognised extension (CODE_EXT), and `.gitignore` has none - it is out of
+    # scope by design, not a regression. Asserting it would have pinned a
+    # behaviour this tool never claimed.
+]
+
+
+def test_a_dotfile_keeps_its_leading_dot():
+    from artifact_triage.corpus.fetch import referenced_paths
+    for text, want in DOTFILES_MUST_SURVIVE:
+        got = referenced_paths(text)
+        assert want in got, f"{text!r} -> {got}, lost the dotfile"
+
+
+def test_explicit_relative_prefix_is_still_stripped():
+    from artifact_triage.corpus.fetch import referenced_paths
+    assert referenced_paths("run `./scripts/go.sh`") == ["scripts/go.sh"]
+    assert referenced_paths("run `././a/b.py`") == ["a/b.py"]
+
+
+def test_parent_traversal_is_dropped_not_rewritten():
+    """`../x` points outside the repo. Rewriting it to `x` invents a claim."""
+    from artifact_triage.corpus.fetch import referenced_paths
+    assert referenced_paths("run `../shared/tool.py`") == []
+    assert referenced_paths("see `../../other/x.py`") == []
+
+
+def test_dotted_identifiers_are_still_rejected():
+    """The dotfile exemption must not reopen the version/identifier hole."""
+    from artifact_triage.corpus.fetch import referenced_paths
+    for t in ("use `com.example.Foo.class`", "version `3.10.12`",
+              "python `3.11.9`", "see `org.apache.commons.Lang`"):
+        assert referenced_paths(t) == [], f"{t!r} -> {referenced_paths(t)}"
+
+
+def test_no_broken_claim_is_a_stripped_dotfile():
+    """The corpus-level assertion: the false positives are gone."""
+    import json as _json
+    p = Path("results/prevalence.json")
+    if not p.exists():
+        return
+    pv = _json.loads(p.read_text())
+    bad = [bp for r in pv["per_artifact"] for bp in (r.get("broken_paths") or [])
+           if bp.startswith("github/") or bp in ("zenodo.json", "gitignore",
+                                                 "pre-commit-config.yaml")]
+    assert not bad, f"dot-stripped false positives still present: {bad[:6]}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

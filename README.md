@@ -75,12 +75,12 @@ asking it to invent them. That division is the whole design.
 
 ## How common is the defect?
 
-Across **742 published research artifacts** (6,840 documented file references):
+Across **742 published research artifacts** (6,815 documented file references):
 
 | | |
 |---|---|
-| Carry at least one broken README claim | **56.3%** |
-| Documented references resolving to nothing | **1,264 of 6,840 (18.5%)** |
+| Carry at least one broken README claim | **55.9%** |
+| Documented references resolving to nothing | **1,254 of 6,815 (18.4%)** |
 | Is it decay? | **No** — flat across four years. Artifacts *ship* broken. |
 | Ecosystems affected | All of them (Rust 0.36, Java 0.34 → Notebooks 0.10) |
 
@@ -98,6 +98,42 @@ CI runs the regression suite, the deterministic verifier and the negative contro
 on a clean Ubuntu runner with **no credentials**, asserts the control still
 reports 75/75 with 0 false positives, and **runs the tool against this repository
 with the CI gate on**. The core claims are verified on a machine that is not mine.
+
+## What "resolves" actually means — an audit of our own leniency
+
+The headline says 18.4% of documented references resolve to nothing. That number
+is only as good as the definition of *resolve*, and ours is **deliberately
+lenient**. `check_claim` accepts a path if it exists exactly, or if any real path
+**ends with** it, or if any file anywhere in the tree **shares its basename**.
+
+So a README saying `src/train.py` is scored correct when the file actually lives
+at `experiments/train.py`. The instruction a reader would follow does not work,
+and we count it as fine.
+
+| How the 6,815 claims resolved | | |
+|---|---|---|
+| `exact` — works as written | **2,833** | 41.6% |
+| `directory` — a directory reference matched a directory | 602 | 8.8% |
+| `suffix` — found somewhere else in the tree | **2,007** | 29.4% |
+| `basename` — a file of that name exists *somewhere* | 111 | 1.6% |
+| `case-mismatch` — reported separately, never silently | 8 | 0.1% |
+| **broken — not found at all** | **1,254** | **18.4%** |
+
+**2,118 of 5,561 resolutions (38.1%)** did not work as written.
+
+Two consequences, neither visible from the headline:
+
+1. **The reported 18.4% is a lower bound.** The rate at which a documented path
+   fails *as a reader would follow it* is materially higher.
+2. **This corpus is not a fair label set for a competing detector.** A tool that
+   correctly flags a relocated file would be scored a false positive against
+   our labels. Anyone benchmarking against
+   [the dataset](dataset/artifact_readme_consistency.csv) needs to know that.
+
+The leniency is still the right choice for a tool whose headline is *zero false
+positives* — flagging a file that plainly exists somewhere is the most annoying
+error a checker can make. But it is a choice, and it is now measured rather than
+assumed. Reproduce with `make resolution`.
 
 ## "Why not just use lychee?"
 
@@ -118,10 +154,10 @@ parse, so there is nothing to check.
 
 Measured across the corpus:
 
-| Of the 1,264 broken claims this project finds | |
+| Of the 1,254 broken claims this project finds | |
 |---|---|
 | Inside `[text](path)` syntax — a link checker could see them | **55 (4.4%)** |
-| **Bare tokens in prose or code fences — invisible to a link checker** | **1,209 (95.6%)** |
+| **Bare tokens in prose or code fences — invisible to a link checker** | **1,199 (95.6%)** |
 
 **Ninety-six percent of the defect is out of reach of the existing tools**, not
 because they are bad, but because research READMEs document files the way people
@@ -584,9 +620,9 @@ stratified across publication years 2018–2026; 742 profiled successfully.
 
 | | |
 |---|---|
-| Artifacts with **≥1 broken README claim** | **343 / 609 (56.3%)** |
-| Claims checked | 6,840 |
-| Claims that resolve to nothing | **1,264 (18.5%)** |
+| Artifacts with **≥1 broken README claim** | **340 / 608 (55.9%)** |
+| Claims checked | 6,815 |
+| Claims that resolve to nothing | **1,254 (18.4%)** |
 | Median broken-claim ratio | 0.143 |
 
 Reproducibility infrastructure across the same 742:
@@ -801,11 +837,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   153 tests pinning every fixed bug
+tests/        test_regressions.py   158 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 153 regression tests, no credentials, ~2s
+make test         # 158 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

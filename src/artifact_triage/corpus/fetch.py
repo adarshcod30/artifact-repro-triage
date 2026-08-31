@@ -69,7 +69,11 @@ def _is_path(tok: str) -> bool:
     if not stem or stem.replace(".", "").replace("-", "").isdigit():
         return False
     # Java/Python dotted identifiers: several dots, no slash, no real dir.
-    if "/" not in tok and tok.count(".") >= 2:
+    # A LEADING dot means a dotfile, not an identifier - `.zenodo.json` and
+    # `.pre-commit-config.yaml` both trip the two-dot rule and are not
+    # `com.example.Foo`. Without this exemption, fixing the dot-stripping bug
+    # merely moved the dotfiles from wrong to invisible.
+    if "/" not in tok and tok.count(".") >= 2 and not tok.startswith("."):
         return False
     return True
 
@@ -117,6 +121,32 @@ def _is_dir_ref(tok: str) -> bool:
 _URL_IN_TEXT = re.compile(r"(?:https?|ftp)://\S+|\bwww\.\S+", re.I)
 
 
+def _norm_ref(tok: str) -> str | None:
+    """Strip an explicit `./` prefix. Keep dotfiles. Drop parent traversal.
+
+    This was `tok.lstrip("./")`, which strips CHARACTERS, not a prefix - the
+    same class of bug as the `rstrip(".git")` that once turned "upbeat" into
+    "upbea". It ate the leading dot of every dotfile:
+
+        .zenodo.json            -> zenodo.json
+        .pre-commit-config.yaml -> pre-commit-config.yaml
+        .github/workflows/ci.yml-> github/workflows/ci.yml
+
+    A repository that HAS `.zenodo.json` was therefore reported as missing
+    `zenodo.json` - a file that never existed. That is a FALSE POSITIVE, and
+    it accounted for 29 of 1,264 broken claims (2.29%) on the corpus.
+
+    `../x` is dropped rather than rewritten: it points outside the repository,
+    so nothing here can verify it, and silently reinterpreting it as `x` invents
+    a claim the README never made.
+    """
+    while tok.startswith("./"):
+        tok = tok[2:]
+    if tok.startswith("../") or tok == ".." or tok == ".":
+        return None
+    return tok.lstrip("/") or None
+
+
 def referenced_paths(text: str) -> list[str]:
     """Paths the README claims exist - raw material for claim verification.
 
@@ -147,9 +177,11 @@ def referenced_paths(text: str) -> list[str]:
     found: set[str] = set()
     for tok in re.findall(r"[\w./\-]+\.[A-Za-z0-9]{1,10}", text):
         if _is_path(tok):
-            found.add(tok.lstrip("./"))
+            norm = _norm_ref(tok)
+            if norm:
+                found.add(norm)
     for tok in _INLINE.findall(text):
-        tok = tok.strip().lstrip("./")
+        tok = _norm_ref(tok.strip()) or ""
         if _is_path(tok):
             found.add(tok)
         elif _is_dir_ref(tok):

@@ -57,7 +57,7 @@ was built to measure.
 - **Sampling is not random.** Zenodo's search is keyword-based. The corpus was
   harvested stratified across publication years 2018-2026 specifically to avoid
   the recency skew an earlier version had, but it remains a keyword sample of
-  Zenodo software deposits, not a random sample of research software. 359 of
+  Zenodo software deposits, not a random sample of research software. 356 of
   742 repositories were pushed within the last three months.
 - **Only GitHub-mirrored artifacts appear.** Deposits without a GitHub link are
   absent, and those may differ systematically.

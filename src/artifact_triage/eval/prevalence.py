@@ -142,7 +142,12 @@ def main() -> None:
             "claims": ev.claims_total,
             "broken": ev.claims_broken,
             "broken_ratio": ev.broken_ratio,
-            "broken_paths": ev.broken_paths[:8],
+            # NOT truncated. `[:8]` published 1,112 of 1,264 broken paths -
+            # 152 dropped silently - while `broken` reported the full count, so
+            # the dataset's own rows disagreed with its own summary. A dataset
+            # that under-reports the thing it exists to document is the defect
+            # this project detects, in the artifact this project ships.
+            "broken_paths": ev.broken_paths,
             "has_dependency_manifest": ev.has_dependency_manifest,
             "has_container": ev.has_container,
             "has_ci": ev.has_ci,

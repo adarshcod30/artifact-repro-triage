@@ -7,7 +7,7 @@
 PY := PYTHONPATH=src .venv/bin/python
 
 .PHONY: help setup test preflight corpus baseline solution eval repro \
-        discover prevalence linkgap pinning portability links report validate falsified-llama \
+        discover prevalence linkgap resolution pinning portability links report validate falsified-llama \
         falsified-model falsified-cheap \
         trajectories dashboard spend verify-targets selfcheck clean
 
@@ -50,10 +50,13 @@ portability:  ## Hard-coded machine-specific paths and hosts
 discover:  ## Harvest research-artifact repositories from Zenodo (ARGS=--stratified to extend)
 	$(PY) -m artifact_triage.corpus.discover $(ARGS)
 
+resolution:  ## Audit HOW claims resolve - this project's own leniency
+	$(PY) -m artifact_triage.eval.resolution_audit
+
 linkgap:  ## What an existing Markdown link checker would already catch
 	$(PY) -m artifact_triage.eval.linkchecker_gap
 
-prevalence:  ## How widespread are broken README claims (376 artifacts)
+prevalence:  ## How widespread are broken README claims (742 artifacts)
 	$(PY) -m artifact_triage.eval.prevalence
 
 validate:  ## Do real users complain about what the verifier flags
@@ -66,7 +69,7 @@ report:  ## Reviewer report for one repo: make report REPO=owner/name
 selfcheck:  ## Run the tool on THIS repository (dogfooding)
 	$(PY) -m artifact_triage.cli adarshcod30/artifact-repro-triage
 
-dataset:  ## Export the 376-artifact measurements as CSV + JSONL + datasheet
+dataset:  ## Export the 742-artifact measurements as CSV + JSONL + datasheet
 	$(PY) -m artifact_triage.eval.export_dataset
 
 dashboard:  ## Render every result into one self-contained HTML page

@@ -203,6 +203,18 @@ def claims() -> list[tuple[str, str, str, str]]:
                     f"({lg['invisible_to_a_markdown_link_checker']/t:.1%})**",
                     "link-checker gap: invisible", "linkchecker_gap.json"))
 
+    # Our own leniency. A headline broken-rate is meaningless without it.
+    ra = load("results/resolution_audit.json")
+    if ra and ra.get("resolved"):
+        out.append(("README.md",
+                    f"**{ra['resolved_leniently']:,} of {ra['resolved']:,} "
+                    f"resolutions ({ra['resolved_leniently']/ra['resolved']:.1%})**",
+                    "resolution audit: lenient", "resolution_audit.json"))
+        by = ra.get("by_resolution", {})
+        if by.get("exact"):
+            out.append(("README.md", f"| **{by['exact']:,}** |",
+                        "resolution audit: exact matches", "resolution_audit.json"))
+
     nc = load("results/negative_control.json")
     if nc:
         out.append(("README.md", f"{nc['injected']}/{nc['injected']}",
@@ -252,7 +264,8 @@ def check_staleness() -> list[str]:
     # subset - the same "certifies what it cannot see" failure this checker
     # exists to prevent.
     for name in ("negative_control", "baseline", "solution", "falsified_run",
-                 "falsified_llama", "prevalence", "comparison", "subtle_control",
+                 "falsified_llama", "falsified_nova2lite", "prevalence",
+                 "comparison", "subtle_control",
                  "ablation", "adversarial", "issue_validation"):
         payload = load(f"results/{name}.json")
         if payload is None:

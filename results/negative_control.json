@@ -1,9 +1,9 @@
 {
  "_provenance": {
   "kind": "negative_control",
-  "commit": "12215c7",
-  "code_fingerprint": "401b7108da24",
-  "corpus_fingerprint": "d7c75c847b77"
+  "commit": "c205f46-dirty",
+  "code_fingerprint": "32cff5af895a",
+  "corpus_fingerprint": "b23efbc43339"
  },
  "injected": 75,
  "detected": 75,
@@ -288,7 +288,7 @@
    ],
    "false_positives": [],
    "broken_before": 3,
-   "broken_after": 8
+   "broken_after": 7
   },
   {
    "artifact_id": "zhangxiaosa/LPR",
