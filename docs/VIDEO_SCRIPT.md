@@ -13,9 +13,9 @@ script cannot drift from the data before you record it.
 
 | Spoken as | Digits |
 |---|---|
-| detection, evidence vs prose | **0%** → **96%** |
-| detection range across 3 trials | 88%–100% |
-| on a 13x cheaper model | **100%** |
+| detection, evidence vs prose | **0%** → **100%** |
+| detection range across 3 trials | 100%–100% |
+| on a 13x cheaper model | **94%** |
 | artifacts profiled | 742 |
 | documented references | 6,815 |
 | references pointing at nothing | 18.4% |
@@ -33,10 +33,9 @@ script cannot drift from the data before you record it.
 >
 > Then I gave the *same* model the *same* README — plus a list of which of those
 > paths actually exist in the repository, checked by twenty lines of ordinary
-> Python. It caught the fabrication in ninety-six percent of cases, across three
-> trials.
+> Python. It caught the fabrication every time. Three trials, no variance.
 >
-> **Nought to ninety-six percent, and the model never changed.** Only what it
+> **Nought to one hundred percent, and the model never changed.** Only what it
 > was allowed to reason over.
 >
 > And it is not about model power. I re-ran it on a model **thirteen times
@@ -114,8 +113,8 @@ through Steps 0 → 4.
 
 > "Here's where the project changed shape.
 >
-> I started by scoring both systems against real ACM badges. Baseline MAE 0.733.
-> Solution 0.700 — and those numbers move between runs, because the model isn't
+> I started by scoring both systems against real ACM badges. Baseline MAE 0.800.
+> Solution 0.800 — and those numbers move between runs, because the model isn't
 > deterministic. That's the point: neither is anywhere near good.
 >
 > Before touching anything I added a control: a constant predictor that always

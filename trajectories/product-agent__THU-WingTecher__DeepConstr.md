@@ -112,10 +112,11 @@ Welcome to the artifact repository of the DeepConstr paper which is accepted by 
   "confidence": 0.8,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README provides detailed documentation on how to set up and use the artifact.",
+    "The README provides detailed documentation on how to set up, run, and use the artifact.",
     "The artifact includes scripts for conducting experiments and generating test cases.",
     "The documentation explains how to extract constraints and reproduce experiments.",
-    "The artifact appears to be exercisable based on the provided instructions."
+    "The artifact appears to be exercisable based on the provided commands and setup instructions.",
+    "The README mentions evidence of verification and validation through bug finding and experiment reproduction."
   ],
   "escalated_to_human": false
 }
@@ -167,14 +168,15 @@ No machine-specific values found across 12 inspected file(s).
 
 ```json
 {
-  "tier": "Available",
+  "tier": "Functional",
   "confidence": 0.7,
   "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "The README is extensive but contains references to non-existent files, indicating potential issues with documentation consistency.",
-    "Dependencies are not pinned, which may affect environment reproducibility.",
-    "No Dockerfile is present, further impacting environment reproducibility.",
-    "External links include a dead URL, reducing confidence in external resource availability."
+    "The artifact is placed in a public archival repository, satisfying the 'Available' tier.",
+    "The README provides detailed setup and usage instructions, suggesting the artifact is documented.",
+    "The presence of tests indicates some level of verification and validation.",
+    "Several file paths referenced in the README do not exist, indicating documentation inconsistency.",
+    "All dependencies are floating, which may affect reproducibility and stability.",
+    "No Dockerfile is present, which could hinder environment reproducibility."
   ],
   "escalated_to_human": false
 }
@@ -183,6 +185,6 @@ No machine-specific values found across 12 inspected file(s).
 ## Step 4 — Outcome
 
 - **baseline**: predicted `Functional`, expert badge `Available`
-- **solution**: predicted `Available`, expert badge `Available`
+- **solution**: predicted `Functional`, expert badge `Available`
 
 See `results/falsified_run.json` for the same agents run against this artifact's falsified twin, which is the reported experiment.

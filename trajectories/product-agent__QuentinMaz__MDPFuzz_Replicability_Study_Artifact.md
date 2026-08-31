@@ -97,12 +97,11 @@ The studies consist in executing testing methods for Reinforcement Learning mode
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is placed in a public repository and includes detailed instructions for setup and execution.",
-    "It provides a Docker image with pre-installed environments, facilitating reproducibility.",
-    "Step-by-step instructions are provided for both reproduction and replication studies.",
-    "A demonstration is included to show the functionality of the artifact.",
-    "The README file is comprehensive, covering requirements, setup, and execution details.",
-    "Despite some complexities (e.g., the CARLA use case), the overall structure and documentation support functional evaluation."
+    "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
+    "The README provides detailed instructions on how to set up and run the experiments, indicating documentation is present.",
+    "The presence of a Docker image and detailed setup instructions suggests the artifact is designed to be exercisable.",
+    "The inclusion of a demonstration with step-by-step instructions to reproduce part of the study indicates evidence of verification.",
+    "The requirement for significant computational resources and the complexity of setup for certain experiments (e.g., CARLA) may limit the ease of reuse, preventing it from reaching the 'Reusable' tier."
   ],
   "escalated_to_human": false
 }
@@ -155,11 +154,11 @@ Its content consists of a <ins>reproduction</ins> study and a <ins>replication</
   "confidence": 0.8,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README is detailed and provides step-by-step instructions for both reproduction and replication studies.",
-    "All referenced paths in the README exist in the repository, indicating documentation consistency.",
-    "Dependencies are mostly pinned, ensuring environment reproducibility.",
+    "The README is detailed and provides step-by-step instructions for reproducing and replicating the studies.",
+    "All referenced paths in the README were found in the repository.",
+    "Dependencies are mostly pinned, though the base Docker image is unpinned.",
     "The artifact includes a demonstration with instructions to test the functionality.",
-    "The README provides clear instructions on how to set up and run the experiments, though some setup steps (like CARLA) are noted as challenging."
+    "The README provides clear instructions on how to set up and run the experiments, though some setup steps are complex and time-consuming."
   ],
   "escalated_to_human": false
 }

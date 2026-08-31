@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 8,759 recorded events.
+Session `b0c00099` — 8,878 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -21169,7 +21169,324 @@ eb53cbf Documentation described an escalation gate the code had removed
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nfor m in dashboard export_dataset export_trajectories; do PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m >/dev/null 2>&1 && echo \"  ok  $m\"; done\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -1\n.venv/bin/python scripts/verify_targets.py 2>&1 | tail -1\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"passed\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"All 4|stale|carry NO\"\ngit add -A && git commit -q -m \"$(printf 'Regenerate deliverables after the audit fixes\\n\\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>')\" && git push -q && echo pushed", "description": "Regenerate and verify everything", "timeout": 900000}
 ```
 
+**Tool response**
+
+```
+  ok  dashboard
+  ok  export_dataset
+  ok  export_trajectories
+redactions: {'foreign_project': 216, 'aws_secret': 8, 'env_assignment': 58}
+  All 12 credential-free targets run, 19 documented as gated, 0 unclassified.
+192/192 passed
+  All 46 documented numbers match the results files.
+pushed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nrm -rf cr5 && mkdir cr5 && cd cr5\ngit clone -q --depth 1 https://github.com/adarshcod30/artifact-repro-triage.git r\ncd r && (uv venv -q && uv pip install -q -e .) 2>&1 | tail -1\nfor t in test verify control subtle ablation pinning portability dataset dashboard check-claims spend corpus; do\n  make $t >/dev/null 2>&1 && echo \"  PASS  make $t\" || echo \"  FAIL  make $t\"\ndone\n.venv/bin/artifact-triage zhangxiaosa/LPR --no-links --fail-on-findings >/dev/null 2>&1; echo \"  CLI gate exit=$? (expect 2)\"", "description": "Final clean-room verification", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+  PASS  make test
+  PASS  make verify
+  PASS  make control
+  PASS  make subtle
+  PASS  make ablation
+  PASS  make pinning
+  PASS  make portability
+  PASS  make dataset
+  PASS  make dashboard
+  PASS  make check-claims
+  PASS  make spend
+  PASS  make corpus
+  CLI gate exit=2 (expect 2)
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 40; gh run list --limit 1 2>&1 | head -2\npython3 -c \"\nfrom datetime import datetime,timezone\nprint(f'  hours to deadline: {(datetime(2026,8,31,18,0,tzinfo=timezone.utc)-datetime.now(timezone.utc)).total_seconds()/3600:.1f}')\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|REMAINING\"", "description": "Confirm CI, time and spend", "timeout": 150000}
+```
+
+**Tool response**
+
+```
+completed	success	Regenerate deliverables after the audit fixes	checks	main	push	33356101019	33s	2026-08-31T04:09:18Z
+  hours to deadline: 13.8
+  TOTAL                      $ 6.1033  2461 calls
+  REMAINING                  $ 0.1467  (97.7% used)
+```
+
+## Human checkpoint 42
+
+> raise the cap and re-validate everything
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\nfor p in ('src/artifact_triage/common/ledger.py','src/artifact_triage/common/budget.py'):\n    s=open(p).read()\n    s=s.replace('\"ARTIFACT_TRIAGE_BUDGET_USD\", \"6.25\"','\"ARTIFACT_TRIAGE_BUDGET_USD\", \"7.00\"')\n    open(p,'w').write(s)\np='src/artifact_triage/common/ledger.py'; s=open(p).read()\ns=s.replace(\"then to $6.25 to re-validate the paid experiments after a core-logic\\n# fix (the dotfile false positive). Each raise was explicitly authorised.\",\n            \"then to $6.25 to re-validate the paid experiments after a core-logic\\n# fix, then to $7.00 to re-validate again after the module audit. Each raise\\n# was explicitly authorised; none was taken unilaterally.\")\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.common.ledger import BUDGET_USD\nfrom artifact_triage.common.budget import GUARD_USD, spent\nprint(f'  ceiling {BUDGET_USD}  guard {GUARD_USD}  spent {spent():.4f}  headroom {BUDGET_USD-spent():.4f}')\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -2", "description": "Ra
+```
+
+**Tool response**
+
+```
+  ceiling 7.0  guard 7.0  spent 6.1033  headroom 0.8967
+192/192 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A && git commit -q -m \"$(printf 'Raise the ceiling to $7.00 to re-validate after the module audit\\n\\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>')\"[REDACTED]\necho \"--- 1/5 baseline ---\"; PYTHONPATH=src .venv/bin/python -u -m artifact_triage.baseline.run > $SP/v_bl.log 2>&1; tail -2 $SP/v_bl.log\necho \"--- 2/5 solution ---\"; PYTHONPATH=src .venv/bin/python -u -m artifact_triage.solution.run > $SP/v_sol.log 2>&1; tail -2 $SP/v_sol.log\necho \"--- comparison (free) ---\"; PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.compare > $SP/v_cmp.log 2>&1; grep -E \"Scored over|PRIMARY|do NOT beat\" $SP/v_cmp.log", "description": "Re-validate baseline and solution", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+--- 1/5 baseline ---
+MAE 0.8  exact 0.267  overclaim 0.267  $0.0327
+-> results/baseline.json
+--- 2/5 solution ---
+MAE 0.8  exact 0.2  overclaim 0.4  escalated 33%  $0.0365
+-> results/solution.json
+--- comparison (free) ---
+Scored over (excludes escalated)                  15 of 15              10 of 15
+PRIMARY  MAE (tiers, lower better)                   0.800                 0.800
+  *** baseline, solution do NOT beat a zero-skill constant predictor. ***
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\necho \"--- 3/5 falsified_run (Nova Pro, 3 trials) ---\"\nARTIFACT_TRIAGE_TRIALS=3 PYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.falsified_run > $SP/v_fals.log 2>&1\ngrep -A6 AGGREGATE $SP/v_fals.log | tail -6", "description": "Re-validate the headline experiment", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+--- 3/5 falsified_run (Nova Pro, 3 trials) ---
+########################################################################
+  baseline detection : mean 0%   range 0%-0%   [0.0, 0.0, 0.0]
+  solution detection : mean 100%   range 100%-100%   [1.0, 1.0, 1.0]
+  verifier (deterministic) : {1.0} - identical every trial
+  total cost: $0.4269
+########################################################################
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\necho \"--- 4/5 adversarial ---\"\nrm -f results/adversarial_rows.jsonl\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.adversarial > $SP/v_adv.log 2>&1\ngrep -E \"detected [0-9]+/|REAL evidence|cost:\" $SP/v_adv.log | tail -4\necho \"--- 5a/5 cross-model: Llama ---\"\nARTIFACT_TRIAGE_TRIALS=1 make falsified-llama > $SP/v_ll.log 2>&1\ngrep -A5 AGGREGATE $SP/v_ll.log | grep -E \"baseline|solution|cost\"\necho \"--- 5b/5 cross-tier: Nova 2 Lite ---\"\nARTIFACT_TRIAGE_TRIALS=3 make falsified-cheap > $SP/v_lite.log 2>&1\ngrep -A5 AGGREGATE $SP/v_lite.log | grep -E \"baseline|solution|cost\"", "description": "Re-validate the remaining three", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+--- 4/5 adversarial ---
+      detected 0/13 (0%)
+      detected 0/12 (0%)
+    Solution detection with REAL evidence, same corpus: 100%.
+  cost: $0.1416   model: us.amazon.nova-pro-v1:0
+--- 5a/5 cross-model: Llama ---
+  baseline detection : mean 0%   range 0%-0%   [0.0]
+  solution detection : mean 100%   range 100%-100%   [1.0]
+  total cost: $0.1036
+--- 5b/5 cross-tier: Nova 2 Lite ---
+  baseline detection : mean 0%   range 0%-0%   [0.0, 0.0, 0.0]
+  solution detection : mean 94%   range 83%-100%   [1.0, 1.0, 0.8333]
+  total cost: $0.0291
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | grep -E \"STALE|ok |carry NO\"\necho \"--- drifted numbers ---\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read\"", "description": "Check provenance and drifted numbers"}
+```
+
+**Tool response**
+
+```
+--- drifted numbers ---
+    README.md: detection, baseline vs solution should read | Noticed the fabrication | **0%** | **100%** (from falsified_run.json)
+    docs/VIDEO_SCRIPT.md: baseline MAE (spoken) should read 0.800 (from comparison.json)
+    docs/VIDEO_SCRIPT.md: solution MAE (spoken) should read 0.800 (from comparison.json)
+    README.md: solution MAE at full coverage should read **1.067** (from comparison.json)
+    README.md: baseline MAE with its denominator should read | Baseline | 0.800 (15 of 15) | (from comparison.json)
+    README.md: solution MAE with its denominator should read | Solution | 0.800 (10 of 15) | (from comparison.json)
+    README.md: baseline collapse onto one class should read `Functional` for 13 of 15 (from baseline.json)
+    README.md: cross-tier: cheap model detection should read | **Nova 2 Lite** | 0% | **94%** | (from falsified_nova2lite.json)
+    docs/VIDEO_SCRIPT.md: video: detection headline should read **0%** → **100%** (from falsified_run.json)
+    docs/VIDEO_SCRIPT.md: video: detection range should read 100%–100% (from falsified_run.json)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json\ntb=ts=tn=0\nfor f in ('results/falsified_run.json','results/falsified_llama.json'):\n    d=json.load(open(f))\n    for t in d['per_trial']:\n        for r in t['per_artifact']:\n            tn+=1; tb+=bool(r['systems']['baseline']['mentions_absence']); ts+=bool(r['systems']['solution']['mentions_absence'])\nprint(f'  floor-free combined: baseline {tb}/{tn}  solution {ts}/{tn}')\"\npython3 - <<'PY'\nimport json\nc=json.load(open('results/comparison.json')); fr=json.load(open('results/falsified_run.json'))\nlt=json.load(open('results/falsified_nova2lite.json')); ll=json.load(open('results/falsified_llama.json'))\nsr=fr['solution_rates']; mean=sum(sr)/len(sr)\np='README.md'; s=open(p).read()\nsubs=[\n(\"| Noticed the fabrication | **0%** | **96%** (3 trials, 88%\u2013100%) |\",\n f\"| Noticed the fabrication | **0%** | **{mean:.0%}** (3 trials, no variance) |\"),\n(\"| On a second model family (Llama 3.3 70B) | **0%** | **100%** |\",\n f\"| On a second model family (Llama 3.3 70B) | **0%** | **{sum(ll['solution_rates'])/len(ll['solution_rates']):.0%}** |\"),\n(\"
+```
+
+**Tool response**
+
+```
+  floor-free combined: baseline 0/60  solution 58/60
+  !!  | **Floor-free metric** | baseline cites the fabrication *
+    docs/VIDEO_SCRIPT.md: baseline MAE (spoken) should read 0.800 (from comparison.json)
+    docs/VIDEO_SCRIPT.md: solution MAE (spoken) should read 0.800 (from comparison.json)
+    docs/VIDEO_SCRIPT.md: video: detection headline should read **0%** → **100%** (from falsified_run.json)
+    docs/VIDEO_SCRIPT.md: video: detection range should read 100%–100% (from falsified_run.json)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"60/60\\|53/60\\|58/60\" README.md | head -4\npython3 - <<'PY'\nimport json\nc=json.load(open('results/comparison.json')); fr=json.load(open('results/falsified_run.json'))\npv=json.load(open('results/prevalence.json'))\nsr=fr['solution_rates']; mean=sum(sr)/len(sr)\np='README.md'; s=open(p).read()\ns=s.replace(\"| Cited the fabrication in its reasoning | **0/60** | **60/60** |\",\n            \"| Cited the fabrication in its reasoning | **0/60** | **58/60** |\")\ns=s.replace(\"baseline cites the fabrication **0/60**; solution **53/60**\",\n            \"baseline cites the fabrication **0/60**; solution **58/60**\")\nopen(p,'w').write(s)\np='docs/VIDEO_SCRIPT.md'; s=open(p).read()\ns=s.replace(\"| detection, evidence vs prose | **0%** \u2192 **96%** |\",\n            f\"| detection, evidence vs prose | **0%** \u2192 **{mean:.0%}** |\")\ns=s.replace(\"| detection range across 3 trials | 88%\u2013100% |\",\n            f\"| detection range across 3 trials | {min(sr):.0%}\u2013{max(sr):.0%} |\")\ns=s.replace(\"Baseline MAE 0.733.\\n> Solution 0.700\", f\"Baseline MAE {c['baseline'][
+```
+
+**Tool response**
+
+```
+25:| Cited the fabrication in its reasoning | **0/60** | **60/60** |
+468:> The floor-free metric has moved the other way, 60/60 → 58/60 → **53/60**, and
+  All 46 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"60/60\\|53/60\\|58/60\" README.md | head -4\ngrep -n \"detection, evidence vs prose\\|detection range\\|13x cheaper model\" docs/VIDEO_SCRIPT.md | head -3\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -2", "description": "Verify current figures"}
+```
+
+**Tool response**
+
+```
+25:| Cited the fabrication in its reasoning | **0/60** | **58/60** |
+468:> The floor-free metric has moved the other way, 60/60 → 58/60 → **53/60**, and
+16:| detection, evidence vs prose | **0%** → **100%** |
+17:| detection range across 3 trials | 100%–100% |
+18:| on a 13x cheaper model | **94%** |
+  FAIL  test_every_bolded_readme_figure_is_checked_or_declared
+191/192 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -A3 \"test_every_bolded_readme_figure\" | head -5\nsed -n '464,476p' README.md", "description": "Find the orphaned figure and the stale narrative"}
+```
+
+**Tool response**
+
+```
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py", line 2306, in test_every_bolded_readme_figure_is_checked_or_declared
+    assert not orphan, (
+           ^^^^^^^^^^
+AssertionError: README figures matched by no registered claim and not declared unchecked: ['53/60']
+--
+> every published figure had been measured against evidence that flattered it
+> slightly. That is exactly when re-running stops being optional. It came out
+> higher each time. It did not have to.
+>
+> The floor-free metric has moved the other way, 60/60 → 58/60 → **53/60**, and
+> in one run the baseline stopped being a clean zero: **1 of 60** baseline
+> responses did mention the fabricated path. It has since returned to 0/60.
+>
+> That single hit matters more than the misses. The defensible claim is *"the
+> baseline almost never notices"*, not *"the baseline never notices"* — an
+> absolute that most runs support and one did not. Non-determinism does not only
+> move numbers; it can turn a categorical claim into a statistical one, and the
+> honest response is to state the weaker claim permanently rather than the
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='README.md'; s=open(p).read()\nold = \"\"\"> The floor-free metric has moved the other way, 60/60 \u2192 58/60 \u2192 **53/60**, and\n> in one run the baseline stopped being a clean zero: **1 of 60** baseline\n> responses did mention the fabricated path. It has since returned to 0/60.\"\"\"\nnew = \"\"\"> The floor-free metric has moved both ways too: 60/60 \u2192 58/60 \u2192 53/60 \u2192\n> **58/60**. And in one run the baseline stopped being a clean zero \u2014 **1 of\n> 60** baseline responses did mention the fabricated path. It has since returned\n> to 0/60.\"\"\"\nassert old in s\ns = s.replace(old, new)\nold2 = \"\"\"> **This number has been re-measured three times, and moved both ways every\n> time:** 100% \u2192 93% \u2192 96% \u2192 100%.\"\"\"\nif old2 in s:\n    s = s.replace(old2, \"\"\"> **This number has been re-measured six times, and moved both ways:**\n> 100% \u2192 93% \u2192 96% \u2192 100% \u2192 96% \u2192 **100%**.\"\"\")\nopen(p,'w').write(s)\nPY\ngrep -n \"re-measured\\|moved both ways\" README.md | head -3\n.venv/bin/python tests/test_regre
+```
+
+**Tool response**
+
+```
+456:> **This number has been re-measured six times, and moved both ways:**
+468:> The floor-free metric has moved both ways too: 60/60 → 58/60 → 53/60 →
+192/192 passed
+  All 46 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | tail -18\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend >/dev/null 2>&1\nNEW=$(python3 -c \"import json;print(f\\\"\\${json.load(open('results/spend.json'))['total_usd']:.2f}\\\")\")\necho \"  spend: $NEW\"\nsed -i '' \"s/\\$6\\.10/$NEW/g; s/against a \\$6\\.25 ceiling/against a \\$7.00 ceiling/g; s/of \\$6\\.25/of \\$7.00/g\" README.md AGENTS.md\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read|All 4\"", "description": "Check provenance and sync spend"}
+```
+
+**Tool response**
+
+```
+  ok     falsified_llama      current
+  ok     falsified_nova2lite  current
+  STALE  prevalence           produced at commit c205f46-dirty by different code (finger
+           functions changed since c205f46: fetch.py:_is_path, fetch.py:_norm_ref, fetch.py:referenced_paths, prevalence.py:main, verify.py:interesting, verify.py:verify
+           (that commit was recorded from a DIRTY tree, so this diff is approximate)
+  ok     comparison           current
+  ok     subtle_control       current
+  ok     ablation             current
+  ok     adversarial          current
+  STALE  issue_validation     produced at commit c205f46-dirty by different code (finger
+           functions changed since c205f46: fetch.py:_is_path, fetch.py:_norm_ref, fetch.py:referenced_paths, verify.py:interesting, verify.py:verify
+           (that commit was recorded from a DIRTY tree, so this diff is approximate)
+--------------------------------------------------------------------------
+  2 result(s) were produced by code that has since
+  changed: prevalence, issue_validation
+  The numbers may still be right, but nothing currently proves it.
+  Re-run those before treating them as reported results.
+==============
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/v_pv.log 2>&1 && echo \"  ok prevalence\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.issue_validation > $SP/v_iv.log 2>&1 && echo \"  ok issue_validation\"\nfor m in linkchecker_gap resolution_audit; do\n  PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m > $SP/v_$m.log 2>&1 && echo \"  ok $m\"\ndone\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset >/dev/null 2>&1\npython3 -c \"\nimport json;d=json.load(open('results/prevalence.json'))\nprint(f\\\"  prevalence {d['prevalence']:.4f}  claims {d['total_claims']}  broken {d['total_broken']}  rate {d['broken_claim_rate']:.4f}\\\")\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read\" | head -8", "description": "Re-run the free stale results", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+  ok prevalence
+  ok issue_validation
+  ok linkchecker_gap
+  ok resolution_audit
+  prevalence 0.5592  claims 6815  broken 1254  rate 0.1840
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | tail -6\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -2", "description": "Confirm full provenance currency"}
+```
+
+**Tool response**
+
+```
+  ok     ablation             current
+  ok     adversarial          current
+  ok     issue_validation     current
+--------------------------------------------------------------------------
+  Every result was produced by the current code.
+==========================================================================
+192/192 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && python3 - <<'PY'\np='README.md'; s=open(p).read()\ni = s.index(\"**Five model-dependent results are currently stale\")\nj = s.index(\"**Exceptions are disclosed by how much they hide\")\nnew = \"\"\"**Every result is currently provenance-current, and `make check-claims` proves\nit on every run.** Getting there took three authorised budget raises \u2014 $5.00 \u2192\n$5.50 \u2192 $6.25 \u2192 $7.00 \u2014 because each core-logic fix invalidated the experiments\nthat consumed the old corpus, and re-measuring is the only honest response to\nthat. Total spend: **$6.87**.\n\nThe five model-dependent results were briefly left stale *together* rather than\npartly refreshed: re-running only the affordable ones would have put some\nresults on the new corpus and the headline on the old one, and a comparison\nacross mixed corpora is a worse defect than a uniform, declared staleness.\n\n\"\"\"\ns = s[:i] + new + s[j:]\nopen(p,'w').write(s)\nPY\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read|All 4\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | 
+```
+
 
 ---
 
-Redactions applied: `{'foreign_project': 216, 'aws_secret': 8, 'env_assignment': 58}`
+Redactions applied: `{'foreign_project': 221, 'aws_secret': 8, 'env_assignment': 58}`

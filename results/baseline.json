@@ -1,9 +1,9 @@
 {
  "_provenance": {
   "kind": "baseline",
-  "commit": "33d8ea5",
+  "commit": "2e878cd",
   "code_fingerprint": "a957fea0eb1b",
-  "corpus_fingerprint": "b23efbc43339"
+  "corpus_fingerprint": "5eddc63561f2"
  },
  "report": {
   "system": "baseline",
@@ -11,16 +11,16 @@
   "n_scored": 15,
   "n_escalated": 0,
   "n_failed": 0,
-  "mae": 0.733,
-  "exact_accuracy": 0.333,
+  "mae": 0.8,
+  "exact_accuracy": 0.267,
   "adjacent_accuracy": 0.933,
   "overclaim_rate": 0.267,
   "escalation_rate": 0.0,
   "human_minutes": 120.0,
   "human_minutes_saved": 555.0,
   "input_tokens": 33103,
-  "output_tokens": 1972,
-  "usd": 0.0328,
+  "output_tokens": 1940,
+  "usd": 0.0327,
   "per_item": [
    {
     "artifact_id": "DueForce/DueForce",
@@ -44,7 +44,7 @@
     "artifact_id": "NWU-NISL-Fuzzing/upbeat",
     "truth": "Functional",
     "predicted": "Functional",
-    "confidence": 0.8,
+    "confidence": 0.7,
     "escalated": false,
     "rank_error": 0,
     "outcome": "correct"
@@ -70,11 +70,11 @@
    {
     "artifact_id": "asub0/fonnx",
     "truth": "Functional",
-    "predicted": "Functional",
-    "confidence": 0.7,
+    "predicted": "Available",
+    "confidence": 0.8,
     "escalated": false,
-    "rank_error": 0,
-    "outcome": "correct"
+    "rank_error": -1,
+    "outcome": "underclaim"
    },
    {
     "artifact_id": "dserfe/FlakyDoctor",
@@ -116,7 +116,7 @@
     "artifact_id": "lrtsuser/LRTS",
     "truth": "Functional",
     "predicted": "Functional",
-    "confidence": 0.85,
+    "confidence": 0.8,
     "escalated": false,
     "rank_error": 0,
     "outcome": "correct"
@@ -166,11 +166,11 @@
    "confidence": 0.8,
    "reasons": [
     "The artifact is placed in a public archival repository (Zenodo).",
-    "The README provides a link to the paper and pre-compiled Docker.",
-    "No detailed documentation on how to exercise the artifact is provided in the README.",
-    "No evidence of verification and validation is presented in the README.",
-    "The structure and quality of documentation are minimal.",
-    "No indication of reusability or repurposing beyond basic functionality."
+    "The README provides a link to the paper and pre-compiled Docker image.",
+    "No detailed documentation or verification/validation evidence is provided in the README.",
+    "The artifact does not explicitly demonstrate functionality or reusability beyond basic availability.",
+    "The README lacks comprehensive instructions for exercising the artifact.",
+    "No evidence of additional quality documentation or structure for reusability is present."
    ],
    "error": null
   },
@@ -179,26 +179,26 @@
    "tier": "Functional",
    "confidence": 0.8,
    "reasons": [
-    "The artifact is placed in a public repository and is documented.",
-    "The README provides clear instructions on how to build and run the artifact.",
+    "The artifact is placed in a public archival repository.",
+    "The README provides detailed documentation on how to build, compile, and run the artifact.",
     "Examples for both wrapper usage and manual compilation are provided.",
-    "The artifact includes a dockerfile for building the tool, enhancing reproducibility.",
-    "The README addresses potential issues and provides troubleshooting tips.",
-    "The artifact is associated with a published paper, indicating a level of peer review."
+    "The artifact includes a dockerfile for building the software.",
+    "The README addresses frequently asked questions and provides contact information for further inquiries.",
+    "The artifact appears to be consistent, complete, and exercisable based on the provided documentation."
    ],
    "error": null
   },
   {
    "artifact_id": "NWU-NISL-Fuzzing/upbeat",
    "tier": "Functional",
-   "confidence": 0.8,
+   "confidence": 0.7,
    "reasons": [
     "The artifact is placed in a public archival repository, satisfying the 'Available' tier.",
     "Documentation is provided in the form of a README, INSTALL.md, AE.md, and CommonIssues.md.",
-    "A Docker image is available, which suggests ease of setup and use.",
+    "A Docker image is available, which suggests the artifact can be easily set up and run.",
     "Installation instructions are clear and include necessary dependencies.",
-    "Usage instructions are referenced, indicating that the artifact can be exercised.",
-    "Troubleshooting guide is provided, which aids in verifying and validating the artifact."
+    "Usage instructions are provided, indicating how to exercise the artifact.",
+    "Some troubleshooting guidance is available, which aids in verifying and validating the artifact."
    ],
    "error": null
   },
@@ -207,12 +207,11 @@
    "tier": "Functional",
    "confidence": 0.8,
    "reasons": [
-    "The artifact is placed in a public repository and includes detailed instructions for setup and execution.",
-    "It provides a Docker image with pre-installed environments, facilitating reproducibility.",
-    "Step-by-step instructions are provided for both reproduction and replication studies.",
-    "A demonstration is included to show the functionality of the artifact.",
-    "The README file is comprehensive, covering requirements, setup, and execution details.",
-    "Despite some complexities (e.g., the CARLA use case), the overall structure and documentation support functional evaluation."
+    "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
+    "The README provides detailed instructions on how to set up and run the experiments, indicating documentation is present.",
+    "The presence of a Docker image and detailed setup instructions suggests the artifact is designed to be exercisable.",
+    "The inclusion of a demonstration with step-by-step instructions to reproduce part of the study indicates evidence of verification.",
+    "The requirement for significant computational resources and the complexity of setup for certain experiments (e.g., CARLA) may limit the ease of reuse, preventing it from reaching the 'Reusable' tier."
    ],
    "error": null
   },
@@ -222,24 +221,25 @@
    "confidence": 0.8,
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README provides detailed documentation on how to set up and use the artifact.",
+    "The README provides detailed documentation on how to set up, run, and use the artifact.",
     "The artifact includes scripts for conducting experiments and generating test cases.",
     "The documentation explains how to extract constraints and reproduce experiments.",
-    "The artifact appears to be exercisable based on the provided instructions."
+    "The artifact appears to be exercisable based on the provided commands and setup instructions.",
+    "The README mentions evidence of verification and validation through bug finding and experiment reproduction."
    ],
    "error": null
   },
   {
    "artifact_id": "asub0/fonnx",
-   "tier": "Functional",
-   "confidence": 0.7,
+   "tier": "Available",
+   "confidence": 0.8,
    "reasons": [
-    "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
-    "The README provides clear instructions on how to access and use the different components of the artifact.",
-    "The artifact includes separate folders for each theme, with additional README files for detailed guidance.",
-    "The paper's appendix is provided, offering additional context and information.",
-    "The use of an external dataset (HFTorrent) is documented, though its integration and usage within the artifact are not explicitly detailed.",
-    "There is no explicit mention of verification and validation evidence within the README, slightly reducing confidence in the 'Functional' tier."
+    "The artifact is placed in a public archival repository.",
+    "The README provides clear instructions on where to find the data and code for each theme.",
+    "The external dataset used is also referenced and accessible.",
+    "However, there is no explicit evidence of verification and validation provided in the README.",
+    "The documentation is minimal and primarily points to other locations for detailed information.",
+    "There is no clear indication that the artifact is exercisable without further investigation."
    ],
    "error": null
   },
@@ -248,12 +248,12 @@
    "tier": "Functional",
    "confidence": 0.8,
    "reasons": [
-    "The artifact is documented with a README that provides setup and usage instructions.",
-    "The README includes a quick demo to reproduce sample results, indicating the artifact is exercisable.",
-    "The repository contains source code, datasets, and results, suggesting completeness.",
-    "The README mentions requirements and environment setup, which are necessary for verification.",
-    "The presence of pull requests and detailed results suggests the artifact has been validated in real-world scenarios.",
-    "However, the documentation, while sufficient for functionality, does not explicitly exceed minimal functionality to be considered 'Reusable'."
+    "The artifact is placed in a public archival repository.",
+    "The README provides detailed instructions on how to set up and run the artifact.",
+    "The artifact includes datasets, patches, results, and source code.",
+    "The documentation appears to be consistent and complete.",
+    "The artifact requires specific environment setup, which is clearly documented.",
+    "The results may vary due to the non-determinism of LLMs, but the process to reproduce results is well-documented."
    ],
    "error": null
   },
@@ -262,12 +262,12 @@
    "tier": "Functional",
    "confidence": 0.8,
    "reasons": [
-    "The artifact is placed in a public archival repository.",
+    "The artifact is placed in a public archival repository (Zenodo).",
     "The README provides clear documentation on how to install and use the tool.",
-    "The project structure is well-organized and includes necessary components for functionality.",
-    "The artifact includes scripts and examples for exercising the main functionalities (fuzzing, violation detection, scenario mutation, and visualization).",
-    "The README specifies the environment and dependencies required to run the tool.",
-    "The artifact includes a Docker environment for evaluation, although it lacks GPU support for simulation-based testing."
+    "The project structure is well-organized with clear separation of components.",
+    "The README includes commands for running the main functionalities of the tool.",
+    "The artifact includes a Docker environment and datasets for evaluation, though it lacks GPU support for simulation-based testing.",
+    "The documentation covers installation, usage, and contribution guidelines."
    ],
    "error": null
   },
@@ -277,11 +277,11 @@
    "confidence": 0.8,
    "reasons": [
     "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
-    "The README provides clear instructions on how to set up and run the software, indicating it is documented.",
-    "The presence of a requirements.txt file and detailed setup instructions suggest the artifact is consistent and complete.",
+    "The README provides clear instructions on how to set up and run the scripts, indicating it is documented.",
+    "The presence of a requirements.txt file and detailed setup instructions suggests the artifact is consistent and complete.",
     "The ability to run the main pipeline and various analysis scripts demonstrates the artifact is exercisable.",
-    "The README mentions logs and results are saved, providing evidence of verification through the output of the pipeline.",
-    "The slightly lower confidence is due to the absence of explicit validation evidence beyond the basic functionality described."
+    "The README mentions logs and results being saved, which could serve as evidence of verification and validation.",
+    "While the documentation is comprehensive, it does not explicitly exceed minimal functionality to the extent that would warrant a 'Reusable' badge without further assessment."
    ],
    "error": null
   },
@@ -290,26 +290,26 @@
    "tier": "Functional",
    "confidence": 0.8,
    "reasons": [
-    "The artifact is placed in a public archival repository.",
-    "The README provides clear documentation on how to download, install, and run the benchmark.",
-    "Scripts are provided for running the benchmark and evaluating log parsers.",
-    "Requirements and dependencies are clearly listed.",
-    "A quick demo script is provided for running Drain.",
-    "The artifact includes datasets, benchmark scripts, and results."
+    "The artifact is placed in a public archival repository (Zenodo).",
+    "The README provides clear documentation on how to download and organize the datasets.",
+    "Scripts are provided for running and evaluating log parsers, indicating the artifact is exercisable.",
+    "The repository includes requirements and installation instructions, enhancing reproducibility.",
+    "The README mentions the time required for running the benchmark, suggesting some level of verification and validation.",
+    "The documentation is comprehensive enough for a reviewer to follow and exercise the artifact."
    ],
    "error": null
   },
   {
    "artifact_id": "lrtsuser/LRTS",
    "tier": "Functional",
-   "confidence": 0.85,
+   "confidence": 0.8,
    "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README provides detailed instructions for environment setup, data collection, and running the TCP techniques.",
-    "The artifact includes scripts for collecting data, implementing TCP techniques, and evaluating their performance.",
-    "The documentation appears consistent and complete, allowing a reviewer to follow the steps and exercise the artifact.",
-    "The artifact includes evidence of verification and validation through the provided evaluation scripts and results.",
-    "The README does not explicitly mention additional quality documentation that would push it to the Reusable tier."
+    "The README provides clear instructions for environment setup, including Docker and local setup options.",
+    "The README includes detailed steps for collecting more builds, extracting test features, and evaluating TCP techniques.",
+    "The artifact includes scripts and code implementations for TCP techniques and experiment evaluation.",
+    "The documentation appears consistent and complete, allowing a reviewer to follow the instructions and exercise the artifact.",
+    "The artifact includes evidence of verification and validation through the provided evaluation outcomes and dataset."
    ],
    "error": null
   },
@@ -318,12 +318,12 @@
    "tier": "Functional",
    "confidence": 0.7,
    "reasons": [
-    "The artifact is placed in a public repository, satisfying the 'Available' criterion.",
-    "The README provides clear instructions for setting up dependencies and building the artifact.",
-    "The documentation describes the architecture, capabilities, and applications of the framework.",
-    "There are commands provided for running the jump table analysis, indicating exercisability.",
-    "The framework is associated with multiple publications, suggesting a level of verification and validation.",
-    "However, the framework is undergoing a significant overhaul, which introduces some uncertainty about its current state and completeness."
+    "The artifact is placed in a public archival repository.",
+    "The README provides clear documentation on how to install dependencies and build the artifact.",
+    "The README includes specific commands to run the jump table analysis application.",
+    "The artifact appears to be exercisable based on the provided instructions.",
+    "The README mentions ongoing development, which suggests active maintenance.",
+    "The documentation is sufficient for a reviewer to follow and exercise the artifact."
    ],
    "error": null
   },
@@ -334,9 +334,9 @@
    "reasons": [
     "The artifact is placed in a public archival repository.",
     "The README provides detailed instructions for setting up the environment and reproducing the results.",
-    "The repository includes scripts and detailed documentation for running the experiments.",
-    "Results are provided and can be overwritten by rerunning the experiments, indicating they are reproducible.",
-    "The documentation appears consistent and complete for the described studies."
+    "The repository includes scripts to automate the running of experiments.",
+    "Results are provided and can be overwritten by rerunning the experiments, indicating completeness.",
+    "The documentation appears consistent and includes details on the directory structure and experiment setup."
    ],
    "error": null
   },
@@ -346,11 +346,11 @@
    "confidence": 0.8,
    "reasons": [
     "The artifact is placed in a public archival repository (Docker Hub).",
-    "The README provides clear documentation on how to install and run the artifact.",
-    "The artifact includes a Docker image that encapsulates all necessary components for replication.",
-    "Scripts are provided for replicating the experiments and results.",
-    "The README describes the structure and content of the Docker image, including configurations and datasets.",
-    "The artifact appears to be exercisable and includes evidence of verification and validation through the provided scripts and results."
+    "The README provides clear instructions on how to install and run the artifact.",
+    "The Docker image includes all necessary code, datasets, models, configurations, and scripts.",
+    "The README describes how to replicate the experiments and results.",
+    "The artifact includes evidence of verification and validation through the provided scripts and results.",
+    "The documentation is sufficient for a reviewer to follow and exercise the artifact."
    ],
    "error": null
   },
@@ -359,11 +359,12 @@
    "tier": "Functional",
    "confidence": 0.8,
    "reasons": [
-    "The artifact is documented with clear instructions on how to set up the environment and run the experiments.",
-    "It includes scripts and tools necessary to reproduce the results.",
-    "Precomputed results are provided to facilitate evaluation, acknowledging the time-consuming and LLM-dependent nature of the experiments.",
-    "The README explains the folder structure and the purpose of each component, aiding in understanding and exercising the artifact.",
-    "Despite the non-deterministic nature of LLM outputs, the artifact provides mechanisms to handle variability and includes precomputed results for evaluation convenience."
+    "The artifact is documented with a detailed README.",
+    "The artifact includes scripts and commands to run experiments.",
+    "The artifact provides precomputed results for evaluation.",
+    "The artifact includes benchmark suites and tools necessary for reproduction.",
+    "The README provides clear instructions for setting up the environment and running the experiments.",
+    "The artifact is exercisable with provided scripts and Docker image."
    ],
    "error": null
   }

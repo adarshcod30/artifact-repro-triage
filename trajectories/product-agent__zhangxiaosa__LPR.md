@@ -127,11 +127,12 @@ However, the deviation should be trivial, and the results should still support t
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is documented with clear instructions on how to set up the environment and run the experiments.",
-    "It includes scripts and tools necessary to reproduce the results.",
-    "Precomputed results are provided to facilitate evaluation, acknowledging the time-consuming and LLM-dependent nature of the experiments.",
-    "The README explains the folder structure and the purpose of each component, aiding in understanding and exercising the artifact.",
-    "Despite the non-deterministic nature of LLM outputs, the artifact provides mechanisms to handle variability and includes precomputed results for evaluation convenience."
+    "The artifact is documented with a detailed README.",
+    "The artifact includes scripts and commands to run experiments.",
+    "The artifact provides precomputed results for evaluation.",
+    "The artifact includes benchmark suites and tools necessary for reproduction.",
+    "The README provides clear instructions for setting up the environment and running the experiments.",
+    "The artifact is exercisable with provided scripts and Docker image."
   ],
   "escalated_to_human": false
 }
@@ -180,12 +181,13 @@ Licence present: False
 ```json
 {
   "tier": "Available",
-  "confidence": 0.9,
+  "confidence": 0.85,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README references many file paths that do not exist in the repository, indicating a lack of documentation consistency.",
-    "No dependency manifest, Dockerfile, CI configuration, or tests were found, suggesting insufficient environment reproducibility.",
-    "The artifact does not meet the criteria for Functional or Reusable tiers due to the significant issues with documentation consistency and environment reproducibility."
+    "The README file is present and provides some documentation.",
+    "However, many referenced files in the README do not exist in the repository, indicating inconsistency.",
+    "There are no dependency manifests, Dockerfile, CI configuration, or tests present, which are necessary for higher tiers.",
+    "The documentation is not sufficient to confidently place it in the Functional or Reusable tiers."
   ],
   "escalated_to_human": true
 }
