@@ -211,9 +211,15 @@ def claims() -> list[tuple[str, str, str, str]]:
                     f"resolutions ({ra['resolved_leniently']/ra['resolved']:.1%})**",
                     "resolution audit: lenient", "resolution_audit.json"))
         by = ra.get("by_resolution", {})
-        if by.get("exact"):
-            out.append(("README.md", f"| **{by['exact']:,}** |",
-                        "resolution audit: exact matches", "resolution_audit.json"))
+        for kind in ("exact", "suffix"):
+            if by.get(kind):
+                out.append(("README.md", f"| **{by[kind]:,}** |",
+                            f"resolution audit: {kind} matches",
+                            "resolution_audit.json"))
+        if ra.get("broken"):
+            out.append(("README.md",
+                        f"| **broken — not found at all** | **{ra['broken']:,}** |",
+                        "resolution audit: broken row", "resolution_audit.json"))
 
     # The decay table backs the "artifacts ship broken, they do not rot" claim
     # and was never under this checker. It had drifted on every cell.

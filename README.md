@@ -840,11 +840,11 @@ src/artifact_triage/
               prevalence.py         how widespread is the defect?
               issue_validation.py   do real users complain about it?
               export_trajectories.py
-tests/        test_regressions.py   160 tests pinning every fixed bug
+tests/        test_regressions.py   162 tests pinning every fixed bug
 ```
 
 ```bash
-make test         # 160 regression tests, no credentials, ~2s
+make test         # 162 regression tests, no credentials, ~2s
 make report REPO=owner/name
 make prevalence   # measure the defect across the discovered corpus
 make links        # link-rot scan

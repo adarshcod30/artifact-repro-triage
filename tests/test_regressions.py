@@ -2268,6 +2268,55 @@ def test_the_classification_guard_actually_fires():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 126 - the checker's own COVERAGE was never examined
+#
+# 39 documented numbers were verified on every run, and two of the project's
+# three empirical tables - decay and ecosystem - were not among them. Both had
+# drifted on every cell. A checker is only as good as its coverage, and nothing
+# was watching the coverage.
+#
+# So: every BOLDED figure in the README must either be matched by a registered
+# claim literal, or be listed here as deliberately unchecked. Bold is the
+# marker a reader reads as "this is a finding", which makes it the right unit.
+# --------------------------------------------------------------------------
+# Figures that are deliberately NOT checked against results/*.json, with why.
+UNCHECKED_FIGURES = {
+    # Published literature, not our measurements.
+    "39.70%": "Guevara-Vega et al., JSS 2024",
+    "49.8%": "Research Artifacts in SE Publications (arXiv 2404.06852)",
+    "71.1%": "Mukherjee et al., ISSTA 2021",
+    # A historical record of a fixed bug, in the 'bugs found' table. Like the
+    # CHANGELOG, it records what was true then, not what is true now.
+    "73%": "historical: the suggester's real accuracy when that bug was found",
+}
+
+
+def test_every_bolded_readme_figure_is_checked_or_declared():
+    import re
+    import sys as _sys
+    root = Path(__file__).resolve().parents[1]
+    _sys.path.insert(0, str(root / "scripts"))
+    import check_claims as cc
+    covered = {lit for _, lit, _, _ in cc.claims()}
+    text = (root / "README.md").read_text()
+    figs = set(re.findall(r"\*\*([0-9][0-9,.]*\s*(?:%|/\s*[0-9,]+)?)\*\*", text))
+    orphan = [f for f in sorted(figs)
+              if f not in UNCHECKED_FIGURES and not any(f in c for c in covered)]
+    assert not orphan, (
+        "README figures matched by no registered claim and not declared "
+        f"unchecked: {orphan}")
+
+
+def test_the_unchecked_list_does_not_rot():
+    """A figure removed from the README must not linger in the allowlist."""
+    root = Path(__file__).resolve().parents[1]
+    text = (root / "README.md").read_text()
+    gone = [f for f in UNCHECKED_FIGURES if f"**{f}**" not in text]
+    assert not gone, f"declared unchecked but no longer in the README: {gone}"
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
