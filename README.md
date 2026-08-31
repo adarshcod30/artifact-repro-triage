@@ -203,7 +203,7 @@ Reported because omitting them would make everything else less trustworthy:
   likely to carry a user complaint than ones we do not — and on the latest sample
   the point estimate runs the *other* way. Only 29% of repositories have any
   issues at all, so the instrument cannot resolve it in either direction.
-- **Model spend for the entire project: $5.34** against a $5.50 ceiling, because
+- **Model spend for the entire project: $5.40** against a $5.50 ceiling, because
   five of six checks need no model at all.
 
 ---
@@ -468,7 +468,7 @@ experiment: **$0.42**.
 > only move numbers; it can turn a categorical claim into a statistical one.
 >
 > A number that survives only because nobody re-ran it is not a result.
-> Cumulative project spend: **$5.34** of $5.50.
+> Cumulative project spend: **$5.40** of $5.50.
 
 ### Adversarial tests: two ways this claim could have been wrong
 
