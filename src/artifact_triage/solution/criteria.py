@@ -124,9 +124,20 @@ def assess(ev, pins=None, docker=None, port=None, links=None) -> list[CriterionF
     if pins is not None and pins.manifest is None:
         comp_bad.append("no dependency manifest - the environment is not "
                         "included in any recreatable form")
+    # "supported" is a POSITIVE claim: we checked and found nothing wrong. With
+    # no README there is nothing to check, and this used to report
+    # "Complete - no mechanical concerns" for an artifact that documents
+    # nothing at all. That is the same absence/evidence confusion as the CI
+    # gate, in the opposite direction: there, absence wrongly failed a build;
+    # here it wrongly passes one.
+    comp_verdict = ("concerns" if comp_bad
+                    else "supported" if comp_ev else "not-checkable")
+    if comp_verdict == "not-checkable":
+        comp_ev.append("nothing to check - the README documents no file "
+                       "references, so completeness was not assessed")
     out.append(CriterionFinding(
         "Complete", ACM["Complete"],
-        "concerns" if comp_bad else "supported", True,
+        comp_verdict, True,
         comp_ev + comp_bad,
         "A documented file that does not exist is direct evidence against "
         "completeness. Judge whether the missing components are relevant to the "
@@ -152,9 +163,14 @@ def assess(ev, pins=None, docker=None, port=None, links=None) -> list[CriterionF
     if ev.broken_paths:
         ex_bad.append("scripts the README instructs you to run are among the "
                       "missing paths above")
+    ex_verdict = ("concerns" if ex_bad
+                  else "supported" if ex_ev else "not-checkable")
+    if ex_verdict == "not-checkable":
+        ex_ev.append("nothing to check - no build script, no dependency "
+                     "manifest and no container were assessed")
     out.append(CriterionFinding(
         "Exercisable", ACM["Exercisable"],
-        "concerns" if ex_bad else "supported", True,
+        ex_verdict, True,
         ex_ev + ex_bad,
         "**Run it.** Everything above is a necessary condition, never a "
         "sufficient one - no static check can show that a script executes and "

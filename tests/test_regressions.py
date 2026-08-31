@@ -3040,6 +3040,67 @@ def test_unparseable_input_still_refuses_with_guidance():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 146 - "supported" was being reported with no evidence behind it
+#
+# `Complete` and `Exercisable` were "concerns if anything bad else supported",
+# so an artifact with NO README - where nothing whatsoever was checked - got
+# "Complete: supported" and "Exercisable: supported". A reviewer read
+# "no mechanical concerns" for an artifact that documents nothing.
+#
+# "supported" is a POSITIVE claim: we looked and found nothing wrong. It is not
+# the same as having nothing to look at. This is the same absence/evidence
+# confusion as the CI gate, running the other way: there, absence wrongly FAILED
+# a build; here it wrongly PASSED one.
+# --------------------------------------------------------------------------
+def _crit(**kw):
+    from artifact_triage.solution.criteria import assess
+    ev = _fake_evidence(readme_bytes=0, claims_total=0, claims_broken=0,
+                        broken_paths=[], has_build_script=False)
+    for k, v in kw.items():
+        setattr(ev, k, v)
+    return {f.criterion: f for f in assess(ev)}
+
+
+def test_nothing_checked_is_not_reported_as_supported():
+    c = _crit(readme_bytes=0, claims_total=0)
+    assert c["Complete"].verdict == "not-checkable"
+    assert c["Exercisable"].verdict == "not-checkable"
+    assert any("nothing to check" in e for e in c["Complete"].evidence)
+
+
+def test_a_genuine_clean_result_is_still_supported():
+    """The fix must not turn every clean artifact into an unknown."""
+    c = _crit(readme_bytes=1500, claims_total=12, claims_broken=0,
+              has_build_script=True)
+    assert c["Complete"].verdict == "supported"
+    assert c["Exercisable"].verdict == "supported"
+
+
+def test_a_real_defect_is_still_a_concern():
+    c = _crit(readme_bytes=1500, claims_total=17, claims_broken=15,
+              broken_paths=["a.py"] * 15)
+    assert c["Complete"].verdict == "concerns"
+
+
+def test_not_checkable_does_not_fail_a_build():
+    from artifact_triage.cli import _exit_code
+    from artifact_triage.solution.criteria import assess
+    ev = _fake_evidence(readme_bytes=1500, claims_total=0, claims_broken=0,
+                        broken_paths=[], has_build_script=False)
+    assert _exit_code(assess(ev), True) == 0
+
+
+def test_a_missing_readme_still_fails_the_gate():
+    """No README is a real finding, not an absence of one."""
+    from artifact_triage.cli import _exit_code
+    from artifact_triage.solution.criteria import assess
+    ev = _fake_evidence(readme_bytes=0, claims_total=0, claims_broken=0,
+                        broken_paths=[], has_build_script=False)
+    assert _exit_code(assess(ev), True) == 2
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())
