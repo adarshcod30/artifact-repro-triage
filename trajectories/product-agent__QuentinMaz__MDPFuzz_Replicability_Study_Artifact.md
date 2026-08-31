@@ -97,12 +97,12 @@ The studies consist in executing testing methods for Reinforcement Learning mode
   "tier": "Functional",
   "confidence": 0.8,
   "reasons": [
-    "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
-    "The README provides detailed instructions on how to set up and run the experiments, indicating that the artifact is documented and exercisable.",
-    "The presence of a Docker image and detailed setup instructions suggests that the artifact is designed to be consistent and complete.",
-    "The inclusion of a demonstration with step-by-step instructions and expected outcomes shows evidence of verification.",
-    "The artifact includes links to data used in the original submission, which aids in validation.",
-    "The complexity and specific requirements for certain experiments (e.g., CARLA) prevent it from being easily reusable without significant effort, which keeps it from the 'Reusable' tier."
+    "The artifact is placed in a public repository and includes detailed instructions for setup and execution.",
+    "It provides a Docker image with pre-installed environments, facilitating reproducibility.",
+    "Step-by-step instructions are provided for both reproduction and replication studies.",
+    "A demonstration is included to show the functionality of the artifact.",
+    "The README file is comprehensive, covering requirements, setup, and execution details.",
+    "Despite some complexities (e.g., the CARLA use case), the overall structure and documentation support functional evaluation."
   ],
   "escalated_to_human": false
 }
@@ -155,11 +155,11 @@ Its content consists of a <ins>reproduction</ins> study and a <ins>replication</
   "confidence": 0.8,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README is detailed and provides step-by-step instructions for reproducing the studies.",
-    "All referenced paths in the README exist in the repository.",
-    "Dependencies are mostly pinned, though the base Docker image is unpinned.",
+    "The README is detailed and provides step-by-step instructions for both reproduction and replication studies.",
+    "All referenced paths in the README exist in the repository, indicating documentation consistency.",
+    "Dependencies are mostly pinned, ensuring environment reproducibility.",
     "The artifact includes a demonstration with instructions to test the functionality.",
-    "The README provides clear instructions for setting up and running the experiments."
+    "The README provides clear instructions on how to set up and run the experiments, though some setup steps (like CARLA) are noted as challenging."
   ],
   "escalated_to_human": false
 }

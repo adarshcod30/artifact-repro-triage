@@ -2,7 +2,7 @@
 
 The coding agent that wrote this repository: **Claude Code (Opus)**.
 
-Session `b0c00099` — 6,917 recorded events.
+Session `b0c00099` — 7,732 recorded events.
 
 Every line below passed through the redactor in `scripts/export_build_trajectory.py`, which refuses to write if a known secret pattern survives.
 
@@ -16694,7 +16694,1824 @@ Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineeri
 {"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/export_build_trajectory.py'; s=open(p).read()\ns = s.replace('''def _foreign_pattern() -> str:''',\n'''def _foreign_tokens(root: Path | None = None, mine: str | None = None) -> set:\n    \"\"\"Identifiers of other projects. Injectable so tests need no real $HOME.\n\n    Reading `~/.claude/projects` directly made the caller's result depend on\n    machine state outside the repository - a test built on it failed in a clean\n    checkout for reasons unrelated to the code.\n    \"\"\"\n    mine = mine or \"\".join(c if c.isalnum() else \"-\" for c in str(Path.cwd()))\n    lower_mine = mine.lower()\n    root = root or (Path.home() / \".claude/projects\")\n    toks: set = set()\n    if not root.is_dir():\n        return toks\n    for d in root.iterdir():\n        if not d.is_dir() or d.name == mine:\n            continue\n        toks.add(d.name)\n        for f in d.glob(\"*.jsonl\"):\n            toks.add(f.stem)\n        tail = d.name.rstrip(\"-\").split(\"-\")[-1]\n        if len(tail) >= 6 and tail.lower() not in lower_mine:\n            toks.add(tail)\n    ret
 ```
 
+**Tool response**
+
+```
+SYNTAX OK
+wrote trajectories/build-agent.md  (1,047,251 chars, 34 human checkpoints)
+redactions: {'foreign_project': 169, 'aws_secret': 7, 'env_assignment': 47}
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns = s.replace('''def test_foreign_redaction_never_matches_our_own_paths():\n    \"\"\"The `adarsh` disaster: hiding nothing while destroying everything.\"\"\"\n    import re as _re\n    m = _traj_module()\n    pat = _re.compile(m._foreign_pattern(), _re.I)\n    for safe in (str(Path.cwd()),\n                 f'cd \"{Path.cwd()}\"',\n                 str(Path.cwd() / \"src/artifact_triage/cli.py\")):\n        assert not pat.search(safe), f\"would redact our own path: {safe!r}\"''',\n'''def test_foreign_redaction_never_matches_our_own_paths():\n    \"\"\"The `adarsh` disaster: hiding nothing while destroying everything.\n\n    Hermetic on purpose. Reading the real ~/.claude/projects made the outcome\n    depend on the machine, and this test duly failed in a clean checkout whose\n    path happened to contain another project's slug - testing the environment\n    rather than the code.\n    \"\"\"\n    import re as _re\n    import tempfile\n    m = _traj_module()\n    mine = \"-home-dev-myproject\"\n    with tempfile.TemporaryD
+```
+
+**Tool response**
+
+```
+148/148 passed
+--- and from a foreign cwd (the clean-room failure mode) ---
+148/148 passed
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== tracked bytes by top-level dir ===\"\ngit ls-files -z | xargs -0 stat -f \"%z %N\" 2>/dev/null | awk '{split($2,a,\"/\"); s[a[1]]+=$1} END {for (d in s) printf \"  %8.1f MB  %s\\n\", s[d]/1e6, d}' | sort -rn | head -8\necho \"=== data/cache breakdown ===\"\ngit ls-files data/cache -z | xargs -0 stat -f \"%z %N\" 2>/dev/null | awk -F/ '{print $3}' | sed 's/-.*//' | sort | uniq -c | sort -rn | head -5", "description": "Measure what is inflating the repo"}
+```
+
+**Tool response**
+
+```
+=== tracked bytes by top-level dir ===
+      31.9 MB  data
+       1.1 MB  trajectories
+       1.1 MB  results
+       0.4 MB  dataset
+       0.3 MB  src
+       0.2 MB  uv.lock
+       0.1 MB  tests
+       0.1 MB  CHANGELOG.md
+=== data/cache breakdown ===
+1948 github
+  43 zenodo
+  31 links
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\nimport re, subprocess\nfrom pathlib import Path\nfiles = subprocess.run([\"git\",\"ls-files\"],capture_output=True,text=True).stdout.split(\"\\n\")\ntotal = sum(Path(f).stat().st_size for f in files if f and Path(f).exists())\nmb = round(total/1e6)\np='REPRODUCTION.md'; s=open(p).read()\ns = re.sub(r\"\\| Disk \\| ~\\d+ MB \\([^)]*\\) \\|\",\n           f\"| Disk | ~180 MB (88 MB clone + venv; no repositories are cloned) |\", s)\ns = re.sub(r\"\\*\\*Use `--depth 1`\\.\\*\\* Measured on a clean machine: shallow clone \\*\\*\\d+ MB in 3\\nseconds\\*\\*\\.\",\n  f\"**Use `--depth 1`.** Measured on a clean machine: shallow clone **88 MB in 3\\nseconds**, of which **{mb} MB is tracked files** and the rest git objects.\", s)\nopen(p,'w').write(s)\nprint(\"tracked MB:\", mb)\nPY\ngrep -n \"Disk\\|shallow clone\" REPRODUCTION.md | head -3\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns = s.replace('''    m = re.search(r\"shallow clone \\\\*\\\\*(\\\\d+) MB\", doc)\n    assert m, \"REPRODUCTION.md no longer states a clone size\"\n    claimed = int(m.group(1
+```
+
+**Tool response**
+
+```
+tracked MB: 35
+13:| Disk | ~180 MB (88 MB clone + venv; no repositories are cloned) |
+30:**Use `--depth 1`.** Measured on a clean machine: shallow clone **88 MB in 3
+38:Run end to end on a fresh shallow clone of the **published** repository — new
+148/148 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|All 3|Every result\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 109 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 110 | Ran the clean-room check again on the published repo. | **`make test` failed there.** The new redaction test built its pattern from the real `~/.claude/projects`, so its outcome depended on **machine state outside the repository** - and the clean checkout's path happened to contain another project's slug. A test that can fail for reasons unrelated to the code is testing the environment. | Token source made injectable; the test now constructs a synthetic layout - including a sibling project sharing a home segment, the exact shape that caused the `adarsh` disaster - and asserts our own paths can never match. Passes from any directory. |\n| Iteration 111 | Checked the documented clone size against the published repo. | **88 MB, not the 46 MB claimed**, and the test guarding it compared *tracked bytes* against a *clone-size* figure - it could never have caught t
+```
+
+**Tool response**
+
+```
+  All 30 documented numbers match the results files.
+  Every result was produced by the current code.
+f73eb46 A test that measured the machine, and a size claim it could not check
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd [REDACTED]\nrm -rf final2 && mkdir final2 && cd final2\nS=$(date +%s); git clone -q --depth 1 https://github.com/adarshcod30/artifact-repro-triage.git r; E=$(date +%s)\ncd r && (uv venv -q && uv pip install -q -e .) 2>&1 | tail -1\necho \"clone: $(du -sh . | cut -f1) in $((E-S))s\"\nfor t in test verify control subtle ablation pinning portability dataset dashboard check-claims; do\n  make $t >/dev/null 2>&1 && echo \"  PASS  make $t\" || echo \"  FAIL  make $t\"\ndone\n.venv/bin/artifact-triage zhangxiaosa/LPR --no-links --fail-on-findings >/dev/null 2>&1; echo \"  CLI exit on broken artifact: $? (expect 2)\"", "description": "Final clean-room verification", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+clone:  88M in 4s
+  PASS  make test
+  PASS  make verify
+  PASS  make control
+  PASS  make subtle
+  PASS  make ablation
+  PASS  make pinning
+  PASS  make portability
+  PASS  make dataset
+  PASS  make dashboard
+  PASS  make check-claims
+  CLI exit on broken artifact: 2 (expect 2)
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 45; gh run list --limit 1 2>&1 | head -2\necho \"=== deliverables ===\"\nfor f in CHANGELOG.md REPRODUCTION.md docs/VIDEO_SCRIPT.md trajectories/build-agent.md; do\n  printf \"  %-30s %8s bytes\\n\" \"$f\" \"$(stat -f%z \"$f\")\"; done\nls trajectories/*.md | wc -l | sed 's/^/  trajectory files: /'\ngit status --porcelain | head -3; echo \"  (clean tree if empty)\"", "description": "Confirm CI and deliverables", "timeout": 120000}
+```
+
+**Tool response**
+
+```
+completed	success	A test that measured the machine, and a size claim it could not check	checks	main	push	33260494830	29s	2026-08-29T15:31:46Z
+=== deliverables ===
+  CHANGELOG.md                      67875 bytes
+  REPRODUCTION.md                    7312 bytes
+  docs/VIDEO_SCRIPT.md               7725 bytes
+  trajectories/build-agent.md     1047618 bytes
+  trajectory files:        5
+  (clean tree if empty)
+```
+
+## Human checkpoint 35
+
+> okay so before moving forward I want to know what was our plan what were we trying to build what did we build and how and what is its use and how its gonna help the community and everything related to the project from start to end.....(not very long but structured way)
+
+## Human checkpoint 36
+
+> can you explain en plain and lamen language.
+
+## Human checkpoint 37
+
+> this is simply repo matching with readme many people would have done it before....
+
+## Human checkpoint 38
+
+> Go for it...
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '1,45p' README.md", "description": "Read the current README opening"}
+```
+
+**Tool response**
+
+```
+# Artifact Reproducibility Triage
+
+**Does this research artifact actually do what its README says?**
+
+A coding-agent workflow that checks a research repository's own claims against
+its real file tree, and routes what it cannot settle to a human. Built for the
+micro1 Frontier Engineering Challenge 2026.
+
+```bash
+artifact-triage owner/repo     # ~5 seconds, no API key, no cost
+```
+
+[![checks](https://github.com/adarshcod30/artifact-repro-triage/actions/workflows/checks.yml/badge.svg)](https://github.com/adarshcod30/artifact-repro-triage/actions/workflows/checks.yml)
+
+CI runs the regression suite, the deterministic verifier, and the negative
+control on a clean Ubuntu runner with **no credentials**, asserting the control
+still reports 75/75 with 0 false positives. The core claims are therefore
+verified on a machine that is not mine.
 
 ---
 
-Redactions applied: `{'foreign_project': 169, 'aws_secret': 7, 'env_assignment': 47}`
+## Results at a glance
+
+| | |
+|---|---|
+| **Detecting a falsified README** | baseline **0%** → solution **100%** (3 trials, no variance) |
+| **Causally isolated** | placebo evidence collapses solution detection to **0%** |
+| **Floor-free metric** | baseline cites the fabrication **1/60**; solution **58/60** |
+| **Deterministic verifier** | **75/75** i
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nold = s[:s.index(\"---\\n\\n## Contents\")]\nnew = '''# Artifact Reproducibility Triage\n\n**An LLM shown a README containing fabricated file paths accepts it every time.\nShown the same README plus verified facts, it catches the fabrication every\ntime.** This repository is the experiment that establishes that, the control\nthat proves the evidence \u2014 not the prose \u2014 is doing the work, and the tool that\nfalls out of it.\n\nBuilt for the micro1 Frontier Engineering Challenge 2026.\n\n---\n\n## The experiment\n\nTake a real research repository. Secretly inject file paths into its README that\ndo **not** exist. Ground truth is exact by construction: we know what we faked.\nNow ask two systems to judge the artifact \u2014 same model, same rubric, same\nscrubbed input. The only difference is what they are given to reason over.\n\n| | Reads the README | Reads the README **plus verified facts** |\n|---|---|---|\n| Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |\n| On a second model family (Llama 3.3 70B) | **0%*
+```
+
+**Tool response**
+
+```
+(Bash completed with no output)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | tail -12\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -4", "description": "Verify claims and tests after the rewrite"}
+```
+
+**Tool response**
+
+```
+(eval):2: no such file or directory: .venv/bin/python
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\" && pwd && ls -d .venv 2>&1 | head -2", "description": "Check working directory and venv"}
+```
+
+**Tool response**
+
+```
+/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+ls: .venv: No such file or directory
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"^clean:\" -A5 Makefile\necho \"=== does verify_targets run clean? ===\"\ngrep -n \"clean\\|SKIP\\|run_targets\\|for t in\" scripts/verify_targets.py | head -10", "description": "Check whether make clean deletes the venv"}
+```
+
+**Tool response**
+
+```
+129:clean:
+130-	rm -rf data/clones results/*.local.*
+=== does verify_targets run clean? ===
+21:# Credential-free: these must pass on any clean checkout.
+63:    for t in FREE:
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n(uv venv -q && uv pip install -q -e .) 2>&1 | tail -2\n.venv/bin/python --version\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|should read|All 3|TOO LOOSE|Every result\"", "description": "Recreate the venv and re-verify", "timeout": 600000}
+```
+
+**Tool response**
+
+```
+Python 3.11.15
+    assert "FAIL" not in out.stdout, out.stdout[-900:]
+  FAIL  test_claim_literals_are_distinctive_enough_to_verify_something
+147/148 passed
+  FAIL  README.md            detection, baseline vs solution    baseline **0%** → solution  -              <- falsified_run.json
+    README.md: detection, baseline vs solution should read baseline **0%** → solution **100%** (from falsified_run.json)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"Noticed the fabrication\" README.md\npython3 - <<'PY'\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('''        if sr and br:\n            out.append((\"README.md\",\n                        f\"baseline **{sum(br)/len(br):.0%}** \u2192 \"\n                        f\"solution **{sum(sr)/len(sr):.0%}**\",\n                        \"detection, baseline vs solution\", \"falsified_run.json\"))''',\n'''        if sr and br:\n            # Anchored to the headline table row. The previous anchor was a\n            # sentence that a rewrite deleted - the checker caught it, which is\n            # the point, but an anchor tied to prose breaks on every edit.\n            # A table row is structural and survives rewording.\n            out.append((\"README.md\",\n                        f\"| Noticed the fabrication | **{sum(br)/len(br):.0%}** \"\n                        f\"| **{sum(sr)/len(sr):.0%}**\",\n                        \"detection, baseline vs solution\", \"falsified_run.json\"))''')\nopen(p,'w').write(s)\nPY\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E 
+```
+
+**Tool response**
+
+```
+22:| Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |
+  OK    README.md            detection, baseline vs solution    | Noticed the fabrication   L22            <- falsified_run.json
+  All 30 documented numbers match the results files.
+148/148 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '1,40p' docs/VIDEO_SCRIPT.md", "description": "Read the video script opening"}
+```
+
+**Tool response**
+
+```
+# Solution Video — Script (target 4:30, hard cap 5:00)
+
+The brief requires, in order: the problem and the simple baseline → one realistic
+execution start to finish → the final comparison → the changelog briefly → the
+change that contributed most → one experiment you removed.
+
+This script covers all six. Timings are cumulative.
+
+---
+
+## 0:00 – 0:40 — The problem, and how big it is
+
+> "A research paper's README is a set of promises. Install with
+> `requirements.txt`. Run `scripts/run_experiments.sh`. See
+> `configs/default.yaml`. Nothing checks whether those files exist.
+>
+> I checked. Across seven hundred and thirty-two research artifacts harvested
+> from Zenodo — six thousand six hundred documented file references — **almost
+> twenty-two percent point at nothing at all**. Sixty-four percent of artifacts
+> have at least one.
+>
+> And here is the part I didn't expect. The literature says artifacts *decay* —
+> dependencies drift, environments rot. So older artifacts should be worse. They
+> aren't. The rate is flat across four years: point two-six under three months,
+> point two-five for artifacts last touched almost four years ago.
+>
+> **These artifacts shipped broken.** A reviewer cou
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json; d=json.load(open('results/prevalence.json'))\nfor b in d['decay']['buckets'] if isinstance(d.get('decay'),dict) and 'buckets' in d['decay'] else d['decay']:\n    print('  ', b)\" 2>/dev/null | head -6", "description": "Read current decay figures"}
+```
+
+**Tool response**
+
+```
+   {'label': 'under 3 months', 'n': 311, 'median_days': 2, 'mean_broken_ratio': 0.2021, 'share_with_broken': 0.621}
+   {'label': '3-12 months', 'n': 83, 'median_days': 198, 'mean_broken_ratio': 0.1874, 'share_with_broken': 0.614}
+   {'label': '1-2 years', 'n': 45, 'median_days': 624, 'mean_broken_ratio': 0.1854, 'share_with_broken': 0.467}
+   {'label': 'over 2 years', 'n': 170, 'median_days': 1469, 'mean_broken_ratio': 0.1947, 'share_with_broken': 0.459}
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='docs/VIDEO_SCRIPT.md'; s=open(p).read()\nold = s[s.index(\"## 0:00 \u2013 0:40 \u2014 The problem, and how big it is\"):s.index(\"## 0:40 \u2013 1:10 \u2014 The baseline\")]\nnew = '''## 0:00 \u2013 0:40 \u2014 The finding\n\n> \"I took a real research repository and secretly added file paths to its README\n> that do not exist. Then I asked a language model to judge the artifact.\n>\n> It accepted it. Every time. Zero out of fifteen.\n>\n> Then I gave the *same* model the *same* README \u2014 plus a list of which of those\n> paths actually exist in the repository, checked by twenty lines of ordinary\n> Python. It caught the fabrication every time. Three trials, no variance.\n>\n> **Nought percent to one hundred percent, and the model never changed.** Only\n> what it was allowed to reason over.\n>\n> That is the whole project: find the part of the job a model cannot do at any\n> price, do it deterministically for free, and hand over facts instead of asking\n> for a guess.\"\n\n**On screen:** the two-column table \u2014 *Reads the README: 0%* / *Reads the README\nplus 
+```
+
+**Tool response**
+
+```
+## 0:40 – 1:10 — The baseline
+
+> "The baseline is what a reviewer does today: one prompt, the README, the ACM
+> rubric, asked for a tier.
+>
+> It's deliberately a fair baseline — same model, same rubric, same output
+> schema, same scrubbed README the solution sees. The only difference is that
+  FAIL  test_video_script_timings_are_consistent
+147/148 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"^## [0-9]\" docs/VIDEO_SCRIPT.md", "description": "List all script sections and timings"}
+```
+
+**Tool response**
+
+```
+11:## 0:00 – 0:40 — The finding
+35:## 0:40 – 1:00 — Why it is worth doing, and how common the defect is
+55:## 0:40 – 1:10 — The baseline
+69:## 1:10 – 2:15 — One realistic execution
+91:## 2:15 – 3:10 — The comparison, and the honest part
+127:## 3:10 – 3:50 — Changelog and the biggest contributor
+144:## 3:50 – 4:20 — One experiment removed
+161:## 4:20 – 4:50 — Hot take
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='docs/VIDEO_SCRIPT.md'; s=open(p).read()\n# The finding gets 0:00-0:35; prevalence 0:35-0:55; baseline 0:55-1:15; rest unchanged from 1:15.\ns = s.replace(\"## 0:00 \u2013 0:40 \u2014 The finding\", \"## 0:00 \u2013 0:35 \u2014 The finding\")\ns = s.replace(\"## 0:40 \u2013 1:00 \u2014 Why it is worth doing, and how common the defect is\",\n              \"## 0:35 \u2013 0:55 \u2014 Why it is worth doing, and how common the defect is\")\ns = s.replace(\"## 0:40 \u2013 1:10 \u2014 The baseline\", \"## 0:55 \u2013 1:15 \u2014 The baseline\")\ns = s.replace(\"## 1:10 \u2013 2:15 \u2014 One realistic execution\", \"## 1:15 \u2013 2:15 \u2014 One realistic execution\")\ns = s.replace(\"(target 4:30, hard cap 5:00)\", \"(target 4:50, hard cap 5:00)\")\nopen(p,'w').write(s)\nPY\ngrep -n \"^## [0-9]\" docs/VIDEO_SCRIPT.md\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3", "description": "Re-time the script sections"}
+```
+
+**Tool response**
+
+```
+11:## 0:00 – 0:35 — The finding
+35:## 0:35 – 0:55 — Why it is worth doing, and how common the defect is
+55:## 0:55 – 1:15 — The baseline
+69:## 1:15 – 2:15 — One realistic execution
+91:## 2:15 – 3:10 — The comparison, and the honest part
+127:## 3:10 – 3:50 — Changelog and the biggest contributor
+144:## 3:50 – 4:20 — One experiment removed
+161:## 4:20 – 4:50 — Hot take
+148/148 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|All 3|Every result|TOO LOOSE|carry NO|STALE\"\necho \"=== stale figures anywhere? ===\"\ngrep -n \"732\\|6,510\\|62\\.5\\|21\\.4\\|\\$3\\.23\\|thirty-two research\\|sixty-four percent\" README.md docs/VIDEO_SCRIPT.md RELATED_WORK.md 2>/dev/null | head", "description": "Full verification after the reframe"}
+```
+
+**Tool response**
+
+```
+  All 30 documented numbers match the results files.
+  Every result was produced by the current code.
+=== stale figures anywhere? ===
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 111 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 112 | Challenged on novelty: *\"this is simply repo matching with README, many people would have done it before.\"* **Correct** - and the repo already said so. | The framing was the problem, not the content. The README **led with the tool**, which reads as a README linter, so a reader could stop before reaching the part that is actually new: the causal experiment. | Rewrote the opening to lead with **the finding** - an LLM shown fabricated paths accepts them 0/15; shown verified facts it catches them 100% - then the three controls that could have falsified it, then prevalence, then the tool. Added *\"What is not new here, stated up front\"* as a top-level section rather than a link. The numbers are identical; the first thing a reviewer reads is now the experiment. |\n| Iteration 113 | Two guards fired during that rewrite, which is the point of having them. | The claim checker anchored the headline detection figure to a **prose sentence** the rewri
+```
+
+**Tool response**
+
+```
+ef56a19 Lead with the experiment, not the linter
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 40; gh run list --limit 1 2>&1 | head -2\necho; echo \"=== new README opening, as a reviewer sees it ===\"\nhead -32 README.md", "description": "Confirm CI and show the new opening", "timeout": 120000}
+```
+
+**Tool response**
+
+```
+completed	success	Lead with the experiment, not the linter	checks	main	push	33340400881	31s	2026-08-30T22:54:47Z
+
+=== new README opening, as a reviewer sees it ===
+# Artifact Reproducibility Triage
+
+**An LLM shown a README containing fabricated file paths accepts it every time.
+Shown the same README plus verified facts, it catches the fabrication every
+time.** This repository is the experiment that establishes that, the control
+that proves the evidence — not the prose — is doing the work, and the tool that
+falls out of it.
+
+Built for the micro1 Frontier Engineering Challenge 2026.
+
+---
+
+## The experiment
+
+Take a real research repository. Secretly inject file paths into its README that
+do **not** exist. Ground truth is exact by construction: we know what we faked.
+Now ask two systems to judge the artifact — same model, same rubric, same
+scrubbed input. The only difference is what they are given to reason over.
+
+| | Reads the README | Reads the README **plus verified facts** |
+|---|---|---|
+| Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |
+| On a second model family (Llama 3.3 70B) | **0%** | **88%** |
+| Cited the fabrication in its reasoning | **1/60** | **58/6
+```
+
+## Human checkpoint 39
+
+> can you research and go out of the box and something which amazes me and micro 1 and i just get selected and win the hackathon do something very different magnicifent and novel.....solving a real world problem worth it and which contributes to the community and everyone.....i need to win this hackathon at any cost as i need to land a job and they have 50 openings so please do the needful and make me win make a full overhaul if u need just do something crazy and suprize me research it and it should be research and evidence backed
+Please understand my situation....we need to do this use your cap
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"now (UTC):      $(date -u '+%Y-%m-%d %H:%M')\"\necho \"deadline (UTC): 2026-08-31 18:00\"\npython3 -c \"\nfrom datetime import datetime, timezone\nd=datetime(2026,8,31,18,0,tzinfo=timezone.utc); n=datetime.now(timezone.utc)\nh=(d-n).total_seconds()/3600\nprint(f'hours remaining: {h:.1f}')\"\npython3 -c \"\nimport json;d=json.load(open('results/spend.json'))\nprint(f\\\"bedrock spent:  \\${d['total_usd']:.2f} of \\$5.50  -> \\${5.50-d['total_usd']:.2f} left\\\")\"\necho \"video recorded: NO (mandatory deliverable)\"", "description": "Check time and budget remaining"}
+```
+
+**Tool response**
+
+```
+now (UTC):      2026-08-31 01:26
+deadline (UTC): 2026-08-31 18:00
+hours remaining: 16.6
+bedrock spent:  $5.31 of $5.50  -> $0.19 left
+video recorded: NO (mandatory deliverable)
+```
+
+**Tool call** `Workflow`
+
+```json
+{"script": "export const meta = {\n  name: 'differentiator-research',\n  description: 'Find the highest-impact, evidence-backed addition buildable in <8h at ~$0 model spend',\n  phases: [\n    { title: 'Research', detail: 'literature gaps, reviewer pain, existing tooling, corpus opportunities' },\n    { title: 'Ideate', detail: 'candidate differentiators from three different angles' },\n    { title: 'Judge', detail: 'adversarial scoring against hard constraints' },\n    { title: 'Synthesize', detail: 'single ranked recommendation' },\n  ],\n}\n\nconst CONTEXT = `\nPROJECT (already built, verified, complete):\n  \"artifact-repro-triage\" \u2014 github.com/adarshcod30/artifact-repro-triage\n  A deterministic verifier checks every file path a research repository's README\n  references against the repo's real file tree (GitHub API, no clones, no code\n  execution). Verified facts are then given to an LLM, which judges the artifact.\n\n  ESTABLISHED RESULTS (all reproducible, all provenance-current):\n   - Falsified-README experiment: inject fake file paths into a README. Baseline\n     (LLM reads README) detects 0%. Solution (LLM reads README + verified facts)\n     detects 100%, 3 tri
+```
+
+**Tool response**
+
+```
+Workflow launched in background. Task ID: wz5yc7f34
+Summary: Find the highest-impact, evidence-backed addition buildable in <8h at ~$0 model spend
+Transcript dir: [REDACTED]
+Script file: [REDACTED]
+(Edit this file with Write/Edit and re-invoke Workflow with {scriptPath: "[REDACTED]"} to iterate without resending the script.)
+Run ID: wf_b877bee6-33b
+To resume after editing the script: Workflow({scriptPath: "[REDACTED]", resumeFromRunId: "wf_b877bee6-
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json\nd=json.load(open('results/enabled_models.json'))\nprint(json.dumps(d, indent=1)[:1800])\" 2>/dev/null | head -40\necho \"=== pricing table in code ===\"\ngrep -n \"PROVIDERS = \\|PRICE_OVERRIDES\" -A 12 src/artifact_triage/common/llm.py | head -25", "description": "Check enabled models and pricing"}
+```
+
+**Tool response**
+
+```
+[
+ {
+  "model": "us.amazon.nova-2-lite-v1:0",
+  "in": 0.06,
+  "out": 0.24
+ },
+ {
+  "model": "us.amazon.nova-pro-v1:0",
+  "in": 0.8,
+  "out": 3.2
+ },
+ {
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "in": 0.72,
+  "out": 0.72
+ },
+ {
+  "model": "us.meta.llama4-maverick-17b-instruct-v1:0",
+  "in": 0.24,
+  "out": 0.97
+ },
+ {
+  "model": "us.meta.llama4-scout-17b-instruct-v1:0",
+  "in": 0.17,
+  "out": 0.66
+ },
+ {
+  "model": "mistral.mistral-large-2402-v1:0",
+  "in": 4.0,
+  "out": 12.0
+ },
+ {
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "in": 2.0,
+  "out": 6.0
+ }
+]
+=== pricing table in code ===
+36:PROVIDERS = {
+37-    # Bedrock is the primary path: one account, one model, start to finish, so
+38-    # dev runs and reported runs are the same runs. Model access is granted
+39-    # per-model in the Bedrock console - `list-foundation-models` shows the
+40-    # catalogue, not what is enabled, so probe with a real Converse call.
+41-    "bedrock": ("us.anthropic.claude-sonnet-4-5-20250929-v1:0", 3.00, 15.00),
+42-    # Cheap non-Claude options on the same Bedrock endpoint. Same Converse API,
+43-    # so switching is a model-id change only. (All Bedrock models share the
+44-    # account's
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '87,100p' src/artifact_triage/common/llm.py\necho \"=== what \\$0.19 buys on each model (3-trial falsified run cost \\$0.42 on Nova Pro) ===\"\npython3 -c \"\nbudget=0.19\npro_in,pro_out=0.8,3.2; pro_run=0.4229\nfor name,i,o in [('nova-pro (current)',0.8,3.2),('nova-2-lite',0.06,0.24),('llama4-scout',0.17,0.66)]:\n    ratio=((i+o)/(pro_in+pro_out))\n    run=pro_run*ratio\n    print(f'  {name:<20} ~\\${run:.4f} per 3-trial run  ->  {int(budget/run)} runs affordable')\"", "description": "Check price wiring and what the budget buys"}
+```
+
+**Tool response**
+
+```
+PRICE_OVERRIDES = {
+    "us.amazon.nova-2-lite-v1:0": (0.06, 0.24),
+    "us.amazon.nova-pro-v1:0": (0.80, 3.20),
+    "us.amazon.nova-premier-v1:0": (2.50, 12.50),
+    "us.meta.llama3-3-70b-instruct-v1:0": (0.72, 0.72),
+    "us.mistral.mistral-large-2402-v1:0": (4.00, 12.00),
+    "us.anthropic.claude-sonnet-4-5-20250929-v1:0": (3.00, 15.00),
+}
+if MODEL in PRICE_OVERRIDES:
+    USD_IN, USD_OUT = PRICE_OVERRIDES[MODEL]
+
+
+@dataclass
+class Answer:
+=== what $0.19 buys on each model (3-trial falsified run cost $0.42 on Nova Pro) ===
+  nova-pro (current)   ~$0.4229 per 3-trial run  ->  0 runs affordable
+  nova-2-lite          ~$0.0317 per 3-trial run  ->  5 runs affordable
+  llama4-scout         ~$0.0878 per 3-trial run  ->  2 runs affordable
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"[REDACTED]\" 2>/dev/null && ls -la 2>/dev/null | head -12 || echo \"transcript dir not ready yet\"", "description": "Check workflow progress"}
+```
+
+**Tool response**
+
+```
+total 7688
+drwxr-xr-x@ 19 adarsh  staff     608 Aug 31 07:12 .
+drwxr-xr-x@  3 adarsh  staff      96 Aug 31 06:57 ..
+-rw-------@  1 adarsh  staff  404019 Aug 31 07:16 agent-a029be24269d71d1a.jsonl
+-rw-r--r--@  1 adarsh  staff      48 Aug 31 07:12 agent-a029be24269d71d1a.meta.json
+-rw-------@  1 adarsh  staff  464981 Aug 31 07:12 agent-a1020692a217344ac.jsonl
+-rw-r--r--@  1 adarsh  staff      48 Aug 31 06:57 agent-a1020692a217344ac.meta.json
+-rw-------@  1 adarsh  staff  502204 Aug 31 07:10 agent-a219e1b25ff38e385.jsonl
+-rw-r--r--@  1 adarsh  staff      48 Aug 31 06:57 agent-a219e1b25ff38e385.meta.json
+-rw-------@  1 adarsh  staff  506500 Aug 31 07:05 agent-a25d8bf46dbcf289f.jsonl
+-rw-r--r--@  1 adarsh  staff      48 Aug 31 06:57 agent-a25d8bf46dbcf289f.meta.json
+-rw-------@  1 adarsh  staff  336355 Aug 31 07:17 agent-a3a3e1de2d9737d54.jsonl
+Shell cwd was reset to /Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='Makefile'; s=open(p).read()\nold_start = s.index(\"falsified-llama:\")\nold_end = s.index(\"repro:\")\nnew = '''falsified-model:  ## Cross-model run: make falsified-model MODEL=<id> OUT=<file>\n\t@# falsified_run.py writes one fixed path, so the primary result is saved and\n\t@# restored around this run. Without that, a cross-model check silently\n\t@# destroys the primary result and restoring it costs another paid run.\n\t@test -n \"$(MODEL)\" -a -n \"$(OUT)\" || \\\\\n\t\t(echo \"usage: make falsified-model MODEL=<bedrock-id> OUT=results/x.json\" && exit 1)\n\t@cp results/falsified_run.json results/.falsified_primary.bak 2>/dev/null || true\n\tARTIFACT_TRIAGE_PROVIDER=bedrock ARTIFACT_TRIAGE_MODEL=$(MODEL) \\\\\n\t$(PY) -m artifact_triage.eval.falsified_run\n\tcp results/falsified_run.json $(OUT)\n\t@cp results/.falsified_primary.bak results/falsified_run.json 2>/dev/null || true\n\t@rm -f results/.falsified_primary.bak\n\t@echo \"-> $(OUT) (primary result restored)\"\n\nfalsified-llama:  ## Cross-model check on Llama 3.3 70B\n\t$(MAKE) falsified-model MODEL=us.met
+```
+
+**Tool response**
+
+```
+10:        discover prevalence pinning portability links report validate falsified-llama \
+11:        falsified-model falsified-cheap \
+98:falsified-model:  ## Cross-model run: make falsified-model MODEL=<id> OUT=<file>
+103:		(echo "usage: make falsified-model MODEL=<bedrock-id> OUT=results/x.json" && exit 1)
+112:falsified-llama:  ## Cross-model check on Llama 3.3 70B
+113:	$(MAKE) falsified-model MODEL=us.meta.llama3-3-70b-instruct-v1:0 \
+/Library[REDACTED] falsified-model MODEL=us.amazon.nova-2-lite-v1:0 \
+		OUT=results/falsified_nova2lite.json
+# falsified_run.py writes one fixed path, so the primary result is saved and
+# restored around this run. Without that, a cross-model check silently
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ncp results/falsified_run.json $SP/nova_pro_safety.json\nARTIFACT_TRIAGE_BUDGET_USD=5.50 ARTIFACT_TRIAGE_TRIALS=3 make falsified-cheap > $SP/cheap.log 2>&1\necho \"exit=$?\"\ngrep -A6 \"AGGREGATE\" $SP/cheap.log | tail -7\npython3 -c \"\nimport hashlib\na=open('results/falsified_run.json','rb').read(); b=open('$SP/nova_pro_safety.json','rb').read()\nprint('primary Nova Pro result restored intact:', hashlib.sha256(a).hexdigest()==hashlib.sha256(b).hexdigest())\"", "description": "Run the experiment on the 13x cheaper model", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+exit=0
+AGGREGATE OVER 3 TRIAL(S)   model=us.amazon.nova-2-lite-v1:0
+########################################################################
+  baseline detection : mean 0%   range 0%-0%   [0.0, 0.0, 0.0]
+  solution detection : mean 100%   range 100%-100%   [1.0, 1.0, 1.0]
+  verifier (deterministic) : {1.0} - identical every trial
+  total cost: $0.0291
+########################################################################
+primary Nova Pro result restored intact: True
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\nimport json\npro  = json.load(open('results/falsified_run.json'))\nlite = json.load(open('results/falsified_nova2lite.json'))\ndef mean(x): return sum(x)/len(x)\nprint(f\"{'':<34}{'baseline':>12}{'solution':>12}{'$/1M in-out':>14}\")\nfor name,d,price in ((\"Nova Pro  (us.amazon.nova-pro)\",pro,\"0.80 / 3.20\"),\n                     (\"Nova 2 Lite (13x cheaper)\",lite,\"0.06 / 0.24\")):\n    print(f\"  {name:<32}{mean(d['baseline_rates']):>11.0%}{mean(d['solution_rates']):>12.0%}{price:>14}\")\n# per-judgement economics from the cheap run\nn_art = lite['per_trial'][0]['n_artifacts']; trials = lite['trials']\njudgements = n_art * trials * 2          # baseline + solution per artifact per trial\ncost = lite['total_usd']\nper = cost / judgements\nprint(f\"\\n  cheap run: ${cost:.4f} for {judgements} judgements  ->  ${per:.6f} each\")\nfor venue,n in ((\"a 15-artifact fixture set\",15),(\"a 100-artifact conference track\",100),\n                (\"all 742 artifacts we profiled\",742)):\n    print(f\"    screening {venue:<32} ${per*n:.4f}\")\nPY", "description": "Compute th
+```
+
+**Tool response**
+
+```
+                                      baseline    solution   $/1M in-out
+  Nova Pro  (us.amazon.nova-pro)           0%        100%   0.80 / 3.20
+  Nova 2 Lite (13x cheaper)                0%        100%   0.06 / 0.24
+
+  cheap run: $0.0291 for 90 judgements  ->  $0.000323 each
+    screening a 15-artifact fixture set        $0.0049
+    screening a 100-artifact conference track  $0.0323
+    screening all 742 artifacts we profiled    $0.2399
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src ARTIFACT_TRIAGE_BUDGET_USD=5.50 .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|BUDGET|REMAINING\"\npython3 -c \"\nrem=5.50-5.3360\nprint(f'  -> ~{int(rem/0.0291)} more full 3-trial runs affordable on Nova 2 Lite')\"", "description": "Check spend after the cheap run"}
+```
+
+**Tool response**
+
+```
+  TOTAL                      $ 5.3359  1951 calls
+  BUDGET                     $   5.50
+  REMAINING                  $ 0.1641  (97.0% used)
+  -> ~5 more full 3-trial runs affordable on Nova 2 Lite
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 -c \"\nimport json,sys\nd=json.load(open('$F'))\nprint(d['plan'][:7000])\" 2>/dev/null || python3 -c \"\nimport re\nt=open('$F').read()\ni=t.find('\\\"plan\\\"')\nprint(t[i:i+7000].replace('\\\\\\\\n','\\n'))\"", "description": "Read the synthesised recommendation"}
+```
+
+**Tool response**
+
+```
+"plan": "# FINAL RECOMMENDATION
+
+## The headline: your submission is currently failing its own pass/fail gate, in three places
+
+Before ranking anything, I ran the repo. Everything below is measured, not inferred:
+
+| Gate | Command | Status now |
+|---|---|---|
+| Regression tests | `make test` | **RED** — 147/148, exit 1 |
+| Documented numbers | `make check-claims` | **RED** — exit 1 |
+| CI dogfood (\"the tool must pass its own CI gate\") | `artifact-triage <self> --no-links --fail-on-findings` | **RED** — exit 2 |
+
+Two root causes, both trivial:
+
+1. **`spend.json` says `5.3359` → `$5.34`; README.md:109, README.md:374 and AGENTS.md:108 all say `$5.31`.** This fails `check_claims.py` directly *and* fails `test_claim_literals_are_distinctive_enough_to_verify_something` (tests/test_regressions.py:1460), which shells out to it. One stale number, two red gates. `make repro` — \"the one command judges run\" — begins with `make test`, so it dies on line one.
+
+2. **The dogfood gate exits 2 on five illustrative paths in your own README.** Simulated with the current README against `git ls-files` plus `.artifact-triage-ignore`: `config`, `configs`, `run_v2.py`, `train.py`, `src/main/java/com/or
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== gate 1: make test ===\"\n.venv/bin/python tests/test_regressions.py >/dev/null 2>&1; echo \"  exit=$?\"\necho \"=== gate 2: check-claims ===\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|should read\" | head -4; .venv/bin/python scripts/check_claims.py >/dev/null 2>&1; echo \"  exit=$?\"\necho \"=== gate 3: dogfood CI gate ===\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.cli adarshcod30/artifact-repro-triage --no-links --fail-on-findings >/dev/null 2>&1; echo \"  exit=$? (0 required)\"", "description": "Verify the three gates the research flagged", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+=== gate 1: make test ===
+  exit=1
+=== gate 2: check-claims ===
+  FAIL  README.md            total model spend                                       $5.34  -              <- spend.json
+  FAIL  AGENTS.md            total model spend                                       $5.34  -              <- spend.json
+    README.md: total model spend should read $5.34 (from spend.json)
+    AGENTS.md: total model spend should read $5.34 (from spend.json)
+  exit=1
+=== gate 3: dogfood CI gate ===
+  exit=0 (0 required)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n '\\$5\\.31\\|\\$5 ceiling\\|of \\$5\\.$\\|of a \\$5 ' README.md AGENTS.md | head\nsed -i '' 's/\\$5\\.31/$5.34/g; s/against a \\$5 ceiling/against a $5.50 ceiling/g; s/of a \\$5 ceiling/of a $5.50 ceiling/g' README.md AGENTS.md\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|All 3\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3", "description": "Fix the drifted spend figure"}
+```
+
+**Tool response**
+
+```
+AGENTS.md:108:Total model spend is **$5.31** against a $5 ceiling. Pushing work *out* of the model made the system
+README.md:109:- **Model spend for the entire project: $5.31** against a $5.50 ceiling, because
+README.md:374:> Cumulative project spend: **$5.31** of $5.
+  All 30 documented numbers match the results files.
+148/148 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -i '' 's/Cumulative project spend: \\*\\*\\$5\\.34\\*\\* of \\$5\\./Cumulative project spend: **$5.34** of $5.50./' README.md\ngrep -n '\\$5\\.34' README.md AGENTS.md\necho \"=== all three gates ===\"\n.venv/bin/python tests/test_regressions.py >/dev/null 2>&1; echo \"  make test:      exit=$?\"\n.venv/bin/python scripts/check_claims.py >/dev/null 2>&1; echo \"  check-claims:   exit=$?\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.cli adarshcod30/artifact-repro-triage --no-links --fail-on-findings >/dev/null 2>&1; echo \"  dogfood gate:   exit=$?\"", "description": "Finish the fix and re-verify all gates", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+AGENTS.md:108:Total model spend is **$5.34** against a $5.50 ceiling. Pushing work *out* of the model made the system
+README.md:109:- **Model spend for the entire project: $5.34** against a $5.50 ceiling, because
+README.md:374:> Cumulative project spend: **$5.34** of $5.50.
+=== all three gates ===
+  make test:      exit=0
+  check-claims:   exit=0
+  dogfood gate:   exit=0
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json\nd=json.load(open('results/prevalence.json'))\nrows=d['per_artifact']\nzero=[r for r in rows if r.get('claims',0)==0 and (r.get('readme_bytes') or 0)>0]\nprint(f'  artifacts with a README but ZERO extractable path claims: {len(zero)} of {len(rows)} ({len(zero)/len(rows):.1%})')\"\necho \"=== would the CI gate fail such a repo? ===\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.solution.criteria import assess\nfrom artifact_triage.cli import _exit_code\nclass E:\n    readme_bytes=1800; claims_total=0; claims_broken=0; broken_paths=[]; has_build_script=True\nev=E()\nc=assess(ev)\nfor f in c: print(f'   {f.criterion:<12} {f.verdict}')\nprint(f'  --fail-on-findings exit code: {_exit_code(c, True)}  (2 = build fails)')\"", "description": "Verify the zero-claims false-positive defect"}
+```
+
+**Tool response**
+
+```
+  artifacts with a README but ZERO extractable path claims: 133 of 742 (17.9%)
+=== would the CI gate fail such a repo? ===
+   Documented   concerns
+   Consistent   not-checkable
+   Complete     supported
+   Exercisable  supported
+  --fail-on-findings exit code: 2  (2 = build fails)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.common.provenance import INFLUENCERS\nfiles={f for v in INFLUENCERS.values() for f in v}\nfor m in ('cli.py','criteria.py','pinning.py','portability.py','links.py'):\n    hit=[f for f in files if f.endswith('/'+m)]\n    print(f'  {m:<16} influencer: {bool(hit)}')\"", "description": "Confirm the fix cannot stale any result"}
+```
+
+**Tool response**
+
+```
+  cli.py           influencer: False
+  criteria.py      influencer: False
+  pinning.py       influencer: False
+  portability.py   influencer: False
+  links.py         influencer: False
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/criteria.py'; s=open(p).read()\ns = s.replace('''@dataclass\nclass CriterionFinding:\n    criterion: str\n    definition: str\n    verdict: str          # supported | concerns | not-checkable\n    mechanical: bool      # can a machine settle this at all?\n    evidence: list[str]\n    needs_human: str      # what a reviewer must still do\n''',\n'''@dataclass\nclass CriterionFinding:\n    criterion: str\n    definition: str\n    verdict: str          # supported | concerns | not-checkable\n    mechanical: bool      # can a machine settle this at all?\n    evidence: list[str]\n    needs_human: str      # what a reviewer must still do\n    # True when the concern is \"we found nothing to check\", not \"we checked and\n    # it is missing\". Absence of evidence is a limit of THIS INSTRUMENT; evidence\n    # of absence is a defect in the artifact. Conflating them made the CI gate\n    # fail 133 of 742 real repositories (17.9%) that have no broken path at all,\n    # purely for having a prose README. From a tool that advertises zero false\n    
+```
+
+**Tool response**
+
+```
+  prose-only README, nothing broken -> exit 0  (was 2, want 0)
+  README with 15 missing paths      -> exit 2  (want 2)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 114 - the CI gate failed 17.9% of real repositories for nothing\n#\n# `criteria.assess` marks `Documented` as \"concerns\" whenever a README yields no\n# extractable path references, and `_exit_code` failed the build on ANY concern.\n# Measured against this project's own corpus: **133 of 742 artifacts (17.9%)**\n# have a README and zero extractable claims. Every one of them failed\n# `--fail-on-findings` with no broken path anywhere.\n#\n# \"We found nothing to check\" is a limit of THIS INSTRUMENT. \"We checked and it\n# is missing\" is a defect in the ARTIFACT. Conflating them means a researcher\n# with a prose README pastes in our CI check and gets a red X telling them their\n# README is inadequate - a false positive, from a tool whose headline is 75/75\n# with zero false positives.\n#\n# The concern is still REPORTED. It just no longer fails anyone's build.\n# ---------------------------------------------------------
+```
+
+**Tool response**
+
+```
+152/152 passed
+  All 30 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nold = \"\"\"| | Reads the README | Reads the README **plus verified facts** |\n|---|---|---|\n| Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |\n| On a second model family (Llama 3.3 70B) | **0%** | **88%** |\n| Cited the fabrication in its reasoning | **1/60** | **58/60** |\"\"\"\nnew = \"\"\"| | Reads the README | Reads the README **plus verified facts** |\n|---|---|---|\n| Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |\n| On a second model family (Llama 3.3 70B) | **0%** | **88%** |\n| On a model **13\u00d7 cheaper** (Nova 2 Lite) | **0%** | **100%** (3 trials, no variance) |\n| Cited the fabrication in its reasoning | **1/60** | **58/60** |\n\n### The improvement is not model capability\n\nThe rows above hold capability constant \u2014 same model on both sides \u2014 so a\nsceptic can still say *\"you prompted it better.\"* So we varied capability\ninstead, across a **13\u00d7 price gap**:\n\n| | reads the README | reads README + verified facts | price /1M in\u2013out |\n|---|---|---|---|\
+```
+
+**Tool response**
+
+```
+  OK    README.md            cross-tier: cheap model detection  | **Nova 2 Lite** | 0% | *  L36            <- falsified_nova2lite.json
+  All 31 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 113 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 114 | Switched the experiment to **Nova 2 Lite**, a model **13x cheaper** than Nova Pro ($0.06/$0.24 vs $0.80/$3.20 per 1M), to see whether the result is a property of an expensive model. | **It is not.** Baseline 0%, solution **100%, no variance across 3 trials** - identical to Nova Pro, for **$0.029**. Until now both arms used the same model, so capability was held constant but never *varied*; a sceptic could still say \"you prompted it better\". Now the **expensive model reading prose catches nothing and a 13x cheaper model reading verified facts catches everything**. The improvement cannot be model capability. | The placebo result confirmed from the opposite direction, and it makes the tool affordable at the scale the problem has: **$0.000323 per judgement \u2014 three cents to screen a 100-artifact conference track, 24 cents for all 742 artifacts profiled here.** Reproducible via `make falsified-cheap`; the hardcoded Llama target was generali
+```
+
+**Tool response**
+
+```
+c983cb4 A 13x cheaper model with evidence beats an expensive one without
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, re, glob\nfrom artifact_triage.solution.verify import verify\n\n# what a markdown link checker (lychee, remark-validate-links) can even see:\nMD_LINK = re.compile(r\"\\[[^\\]]*\\]\\(\\s*<?([^)>\\s]+)\")\nMD_IMG  = re.compile(r\"!\\[[^\\]]*\\]\\(\\s*<?([^)>\\s]+)\")\n\ntot_broken = md_visible = 0\nper = []\nfor f in sorted(glob.glob(\"data/cache/prevalence/*.json\")):\n    fx = json.load(open(f))\n    rm = fx.get(\"readme\") or \"\"\n    if not rm:\n        continue\n    ev = verify(fx)\n    if not ev.broken_paths:\n        continue\n    linked = {m.strip(\"./\") for m in MD_LINK.findall(rm)} | {m.strip(\"./\") for m in MD_IMG.findall(rm)}\n    vis = sum(1 for p in ev.broken_paths if p in linked or any(p in l for l in linked))\n    tot_broken += len(ev.broken_paths); md_visible += vis\n    per.append((fx[\"artifact_id\"], len(ev.broken_paths), vis))\nprint(f\"  broken claims found by this tool          : {tot_broken}\")\nprint(f\"  of those, inside markdown link syntax     : {md_visible} ({md_visible/tot_broken:.1%})\")\nprint(f\"  IN
+```
+
+**Tool response**
+
+```
+  broken claims found by this tool          : 1401
+  of those, inside markdown link syntax     : 339 (24.2%)
+  INVISIBLE to a markdown link checker      : 1062 (75.8%)
+  artifacts affected                        : 394
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, re\nfrom pathlib import Path\nfrom artifact_triage.solution.verify import verify\n\npv = json.load(open(\"results/prevalence.json\"))\ncorpus = {r[\"artifact_id\"] for r in pv[\"per_artifact\"]}\nprint(f\"  published corpus: {len(corpus)} artifacts, total_broken={pv['total_broken']}\")\n\nMD = re.compile(r\"!?\\[[^\\]]*\\]\\(\\s*<?([^)>\\s]+)\")\ntot = vis = 0; n_art = 0\nfor slug in sorted(corpus):\n    p = Path(\"data/cache/prevalence\")/f\"{slug.replace('/','__')}.json\"\n    if not p.exists():\n        continue\n    fx = json.loads(p.read_text()); rm = fx.get(\"readme\") or \"\"\n    ev = verify(fx)\n    if not ev.broken_paths:\n        continue\n    n_art += 1\n    linked = {m.strip(\"./\") for m in MD.findall(rm)}\n    for bp in ev.broken_paths:\n        tot += 1\n        if bp in linked or any(bp in l or l.endswith(bp) for l in linked):\n            vis += 1\nprint(f\"  broken claims (recomputed, same corpus)  : {tot}\")\nprint(f\"  reconciles with prevalence.json          : {tot == pv['total_broken']}\")\nprint(f\"  inside ma
+```
+
+**Tool response**
+
+```
+  published corpus: 742 artifacts, total_broken=1264
+  broken claims (recomputed, same corpus)  : 1401
+  reconciles with prevalence.json          : False
+  inside markdown link syntax              : 339 (24.2%)
+  INVISIBLE to a markdown link checker     : 1062 (75.8%)
+  artifacts with >=1 broken claim          : 394
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '128,165p' src/artifact_triage/eval/prevalence.py", "description": "Read how prevalence counts broken claims"}
+```
+
+**Tool response**
+
+```
+    if not SRC.exists():
+        raise SystemExit(f"{SRC} missing - run corpus.discover first")
+    items = [json.loads(l) for l in open(SRC)]
+    print(f"discovered artifacts: {len(items)}")
+
+    rows = []
+    for i, item in enumerate(items, 1):
+        fx = profile(item["repo"])
+        if fx is None or not fx["readme_present"]:
+            continue
+        ev = verify(fx)
+        rows.append({
+            "artifact_id": fx["artifact_id"],
+            "n_files": fx["n_files"],
+            "claims": ev.claims_total,
+            "broken": ev.claims_broken,
+            "broken_ratio": ev.broken_ratio,
+            "broken_paths": ev.broken_paths[:8],
+            "has_dependency_manifest": ev.has_dependency_manifest,
+            "has_container": ev.has_container,
+            "has_ci": ev.has_ci,
+            "has_licence": ev.has_licence,
+            "has_tests": ev.has_tests,
+            "readme_bytes": ev.readme_bytes,
+            "stale_days": round(age_days(fx.get("pushed_at")) or 0.0, 3)
+            if fx.get("pushed_at") else None,
+            "stars": fx.get("stars", 0),
+            "archived": fx.get("archived", False),
+            "scrub_hits": fx["readme_scrub"]["hits"],
+    
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, re\nfrom artifact_triage.eval.prevalence import profile\nfrom artifact_triage.solution.verify import verify\n\npv = json.load(open(\"results/prevalence.json\"))\ncorpus = [r[\"artifact_id\"] for r in pv[\"per_artifact\"]]\nMD = re.compile(r\"!?\\[[^\\]]*\\]\\(\\s*<?([^)>\\s]+)\")\ntot = vis = n_art = 0\nfor slug in corpus:\n    fx = profile(slug)                    # <-- rederives, as the sweep does\n    if not fx or not fx.get(\"readme\"):\n        continue\n    ev = verify(fx)\n    if not ev.broken_paths:\n        continue\n    n_art += 1\n    linked = {m.strip(\"./\") for m in MD.findall(fx[\"readme\"])}\n    for bp in ev.broken_paths:\n        tot += 1\n        if bp in linked or any(l.endswith(bp) for l in linked):\n            vis += 1\nprint(f\"  published total_broken        : {pv['total_broken']}\")\nprint(f\"  recomputed via profile()      : {tot}   reconciles: {tot == pv['total_broken']}\")\nprint(f\"  artifacts with >=1 broken     : {n_art}  (published {pv['n_with_broken']})\")\nprint()\nprint(f\"  inside markdown link sy
+```
+
+**Tool response**
+
+```
+  published total_broken        : 1264
+  recomputed via profile()      : 1264   reconciles: True
+  artifacts with >=1 broken     : 343  (published 343)
+
+  inside markdown link syntax   : 55 (4.4%)
+  INVISIBLE to a link checker   : 1209 (95.6%)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ncat > src/artifact_triage/eval/linkchecker_gap.py <<'EOF'\n\"\"\"How much of this defect can an existing markdown link checker already see?\n\nWHY THIS EXISTS\n---------------\nThe obvious objection to this project is \"why not just use lychee?\" It is a fair\nobjection and it deserves a number rather than an argument.\n\n`lycheeverse/lychee` and `remarkjs/remark-validate-links` are mature, widely\nadopted, and both check that local file references in Markdown resolve. They are\ngenuine prior art for part of this problem. But they are *Markdown link*\ncheckers: they parse `[text](path)` and `![alt](path)`, because that is what a\nMarkdown parser yields. A README that says\n\n    Run `scripts/train.py` with the config in configs/default.yaml\n\ncontains two file references and zero Markdown links. Nothing to parse, nothing\nto check.\n\nThis module measures the size of that gap on the corpus: of every broken claim\nthis project finds, what fraction sits inside Markdown link syntax at all?\n\nMETHOD, AND ITS LIMIT\n---------------------\nThis is a SYNTACTIC analysis of what a Markdown link
+```
+
+**Tool response**
+
+```
+======================================================================
+  broken claims found by this project     : 1264
+  of those, inside [text](path) syntax    : 55 (4.4%)
+  INVISIBLE to a Markdown link checker    : 1209 (95.6%)
+----------------------------------------------------------------------
+  lychee and remark-validate-links parse Markdown links. Most file
+  references in research READMEs are bare tokens in prose and code
+  fences - there is no link for a link checker to follow.
+----------------------------------------------------------------------
+  Examples they would not see:
+    stefanosbalaskas/gp3tools-python         gp3.R
+    alicetinkaya76/answering-less-to-score   fg
+    alicetinkaya76/answering-less-to-score   verify_manifest.py
+    kbolton-lab/ArCH                         Synonyms/chromAlias.txt
+    kbolton-lab/ArCH                         new_tabbed_revel.tsv
+    kbolton-lab/ArCH                         pLI/fordist_cleaned_exac_r03_march16_z_pli_rec_null_data.txt
+
+-> results/linkchecker_gap.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nanchor = \"## What is not new here, stated up front\"\ni = s.index(anchor)\nadd = '''## \"Why not just use lychee?\"\n\nThe fair objection, answered with a number instead of an argument.\n\n[lychee](https://github.com/lycheeverse/lychee) and\n[remark-validate-links](https://github.com/remarkjs/remark-validate-links) are\nmature, widely adopted, and both check that local file references in Markdown\nresolve. They are genuine prior art for part of this problem.\n\nBut they are *Markdown link* checkers. They parse `[text](path)`, because that\nis what a Markdown parser yields. A README that says\n\n> Run `scripts/train.py` with the config in configs/default.yaml\n\ncontains two file references and **zero Markdown links**. There is nothing to\nparse, so there is nothing to check.\n\nMeasured across the corpus:\n\n| Of the 1,264 broken claims this project finds | |\n|---|---|\n| Inside `[text](path)` syntax \u2014 a link checker could see them | **55 (4.4%)** |\n| **Bare tokens in prose or code fences \u2014 invisible to a link checker** | **
+```
+
+**Tool response**
+
+```
+  OK    README.md            link-checker gap: visible                       **55 (4.4%)**  L123           <- linkchecker_gap.json
+  FAIL  README.md            link-checker gap: invisible                 **1,209 (95.7%)**  -              <- linkchecker_gap.json
+    README.md: link-checker gap: invisible should read **1,209 (95.7%)** (from linkchecker_gap.json)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('''                    f\"**{lg['invisible_to_a_markdown_link_checker']:,} \"\n                    f\"({lg['invisible_share']:.1%})**\",''',\n'''                    # from the raw counts: the stored share is rounded to 4dp,\n                    # which formats to 95.7% where 1209/1264 is 95.6%.\n                    f\"**{lg['invisible_to_a_markdown_link_checker']:,} \"\n                    f\"({lg['invisible_to_a_markdown_link_checker']/t:.1%})**\",''')\nopen(p,'w').write(s)\nPY\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|link-checker|All 3\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3\n.venv/bin/python scripts/check_claims.py 2>&1 | tail -4", "description": "Fix rounding and verify everything"}
+```
+
+**Tool response**
+
+```
+  OK    README.md            link-checker gap: visible                       **55 (4.4%)**  L123           <- linkchecker_gap.json
+  OK    README.md            link-checker gap: invisible                 **1,209 (95.6%)**  L124           <- linkchecker_gap.json
+  All 33 documented numbers match the results files.
+  FAIL  test_readme_relative_links_point_at_real_files
+151/152 passed
+  ok     issue_validation     current
+--------------------------------------------------------------------------
+  Every result was produced by the current code.
+==========================================================================
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -B2 -A6 \"test_readme_relative_links_point_at_real_files\" | head -14", "description": "Find the broken README link"}
+```
+
+**Tool response**
+
+```
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py", line 2149, in <module>
+    fn()
+  File "/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026/tests/test_regressions.py", line 435, in test_readme_relative_links_point_at_real_files
+    assert not missing, f"README links to missing files: {missing}"
+           ^^^^^^^^^^^
+AssertionError: README links to missing files: ['path', 'path']
+  PASS  test_a_blocked_url_is_reported_not_counted_as_dead
+  PASS  test_a_changed_corpus_marks_results_stale
+  PASS  test_a_file_inside_an_output_dir_is_still_a_claim
+--
+  PASS  test_published_trajectory_contains_no_foreign_project_body
+  PASS  test_rate_limit_message_names_the_fix
+  FAIL  test_readme_relative_links_point_at_real_files
+  PASS  test_readme_toc_anchors_all_resolve
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -n '420,440p' tests/test_regressions.py", "description": "Read the README link test"}
+```
+
+**Tool response**
+
+```
+    def slug(h: str) -> str:
+        h = re.sub(r"[^\w\s-]", "", h.lower())
+        return re.sub(r"\s", "-", h.strip())
+
+    have = {slug(h) for h in re.findall(r"^#{1,4} (.+)$", body, re.M)}
+    bad = [a for a in re.findall(r"\]\(#([^)]+)\)", text) if a not in have]
+    assert not bad, f"README links to non-existent anchors: {bad}"
+
+
+def test_readme_relative_links_point_at_real_files():
+    import re
+    root = Path(__file__).resolve().parents[1]
+    text = (root / "README.md").read_text()
+    targets = re.findall(r"\]\((?!https?://|#)([^)\s]+)\)", text)
+    missing = [t for t in targets if not (root / t.split("#")[0]).exists()]
+    assert not missing, f"README links to missing files: {missing}"
+
+
+# --------------------------------------------------------------------------
+# FAIRNESS INVARIANT. The entire comparison rests on the baseline receiving
+# the same task and the same README, and NO verified evidence. If that ever
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns = s.replace('''def test_readme_relative_links_point_at_real_files():\n    import re\n    root = Path(__file__).resolve().parents[1]\n    text = (root / \"README.md\").read_text()\n    targets = re.findall(r\"\\\\]\\\\((?!https?://|#)([^)\\\\s]+)\\\\)\", text)\n    missing = [t for t in targets if not (root / t.split(\"#\")[0]).exists()]\n    assert not missing, f\"README links to missing files: {missing}\"''',\n'''def _strip_code(md: str) -> str:\n    \"\"\"Remove fenced blocks and inline code before looking for Markdown links.\n\n    A renderer does not linkify `[text](path)` inside backticks, so neither\n    should a link checker. This fired on the section that EXPLAINS Markdown link\n    syntax: the illustrative `[text](path)` was read as a link to a file named\n    \"path\". The check was wrong, not the prose.\n    \"\"\"\n    import re\n    md = re.sub(r\"```.*?```\", \"\", md, flags=re.S)\n    return re.sub(r\"`[^`\\\\n]*`\", \"\", md)\n\n\ndef test_readme_relative_links_point_at_real_files():\n    import re\n    
+```
+
+**Tool response**
+
+```
+153/153 passed
+  All 33 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 116 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 117 | Answered the strongest \"this already exists\" objection with a measurement instead of an argument: **why not just use [lychee](https://github.com/lycheeverse/lychee)?** | lychee and `remark-validate-links` are mature and widely adopted, and both check that local file references in Markdown resolve. But they are *Markdown link* checkers - they parse `[text](path)`. A README saying *\"run `scripts/train.py` with the config in configs/default.yaml\"* contains two file references and **zero Markdown links**. Measured across the corpus: of 1,264 broken claims, **only 55 (4.4%) sit inside link syntax. 1,209 (95.6%) are invisible to a Markdown link checker.** | Shipped as `make linkgap`, a reproducible measurement with its own provenance stamp and two checked claims. Stated as a **syntactic upper bound** - lychee was not executed - so the real gap is if anything larger. This is the delta against the actual state of the art, quantified. |\n| Iterat
+```
+
+**Tool response**
+
+```
+c205f46 Why not just use lychee? 95.6% of the defect is invisible to it
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsleep 45; gh run list --limit 1 2>&1 | head -2\nPYTHONPATH=src ARTIFACT_TRIAGE_BUDGET_USD=5.50 .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|REMAINING\"\npython3 -c \"\nfrom datetime import datetime,timezone\nprint(f'  hours to deadline: {(datetime(2026,8,31,18,0,tzinfo=timezone.utc)-datetime.now(timezone.utc)).total_seconds()/3600:.1f}')\"", "description": "Confirm CI, spend and time", "timeout": 120000}
+```
+
+**Tool response**
+
+```
+completed	success	Why not just use lychee? 95.6% of the defect is invisible to it	checks	main	push	33350264906	31s	2026-08-31T02:18:23Z
+  TOTAL                      $ 5.3359  1951 calls
+  REMAINING                  $ 0.1641  (97.0% used)
+  hours to deadline: 15.7
+```
+
+## Human checkpoint 40
+
+> keep hardening implement all things you researched and found and all you did with the agents harden everything fully end to end....do it
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\npython3 - <<PY\nimport json,re\nt=open(\"$F\").read()\n# pull every fatal_flaw string across all judged candidates\nflaws=re.findall(r'\"fatal_flaws\":\\s*\\[(.*?)\\]', t, re.S)\nseen=set()\nn=0\nfor block in flaws:\n    for m in re.findall(r'\"((?:[^\"\\\\\\\\]|\\\\\\\\.)*)\"', block):\n        s=m.replace('\\\\\\\\n','\\n').replace('\\\\\\\\\"','\"')\n        key=[REDACTED]        if key in seen or len(s)<60: continue\n        seen.add(key); n+=1\n        print(f\"--- flaw {n} ---\")\n        print(s[:700]); print()\nPY", "description": "Extract every measured defect from the research"}
+```
+
+**Tool response**
+
+```
+--- flaw 1 ---
+FATAL AS SPECIFIED - the prescribed first test breaks the pass/fail reproducibility gate. The proposal names 'local-vs-API fact sheet equality on this repo's own tree' as its primary mitigation and says to write it FIRST. But .gitignore deliberately drops data/cache/github/tree-* and head-* ('regenerable; excluded to keep a judge's clone small'), so build_factsheet() for this repo has NO committed fixture and must call the live GitHub API. Putting that in tests/test_regressions.py makes `make test` - step 1 of `make repro`, 'the one command judges run', and the first step of a CI job whose header comment reads 'Every check here is credential-free and costs nothing' - network-dependent, rate-
+
+--- flaw 2 ---
+FATAL AS SPECIFIED - the hook blocks roughly 1 in 6 real repositories for a reason that is not a broken path. criteria.assess() sets Documented = 'concerns' whenever ev.claims_total == 0 ('the README references no concrete files or directories'), and cli._exit_code() returns 2 on ANY concern. Measured against this project's own results/prevalence.json: 133 of 742 artifacts (17.9%) have a README with zero extractable path references, all with a README present. Ever
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\necho \"=== flaw 12: stale corpus size in the Makefile ===\"\ngrep -n \"376\\|742\" Makefile | head -4\necho\necho \"=== flaw 6: how are 'resolving' paths actually resolved? ===\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, collections\nfrom artifact_triage.eval.prevalence import profile\nfrom artifact_triage.solution.verify import verify, check_claim, _index\npv = json.load(open(\"results/prevalence.json\"))\nc = collections.Counter(); tot = 0\nfor r in pv[\"per_artifact\"]:\n    fx = profile(r[\"artifact_id\"])\n    if not fx: continue\n    exact, base, dirs = _index(fx[\"file_tree\"])\n    from artifact_triage.solution.verify import interesting\n    for p in [q for q in fx.get(\"readme_referenced_paths\", []) if interesting(q)]:\n        cl = check_claim(p, exact, base, dirs); tot += 1\n        c[(cl.matched_as or \"BROKEN\") if cl.exists else \"BROKEN\"] += 1\nprint(f\"  total claims: {tot}\")\nfor k, v in c.most_common():\n    print(f\"    {str(k):<18} {v:>5}  ({v/tot:.1%})\")\nfuzzy = sum(v for k, v in c.items() if k not in (\"exact\", \"BROKEN\"))\nres = tot - c[\"BROKE
+```
+
+**Tool response**
+
+```
+=== flaw 12: stale corpus size in the Makefile ===
+56:prevalence:  ## How widespread are broken README claims (376 artifacts)
+69:dataset:  ## Export the 376-artifact measurements as CSV + JSONL + datasheet
+
+=== flaw 6: how are 'resolving' paths actually resolved? ===
+  total claims: 6840
+    exact               2845  (41.6%)
+    suffix              2007  (29.3%)
+    BROKEN              1264  (18.5%)
+    directory            602  (8.8%)
+    basename             114  (1.7%)
+    case-mismatch          6  (0.1%)
+    case-mismatch-basename     2  (0.0%)
+
+  resolved NOT by exact path: 2731 of 5576 resolutions (49.0%)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ncat > src/artifact_triage/eval/resolution_audit.py <<'EOF'\n\"\"\"HOW does a claim \"resolve\"? An audit of this project's own leniency.\n\nWHY THIS EXISTS\n---------------\nThe headline says 18.5% of documented file references resolve to nothing. That\nnumber is only as meaningful as the definition of \"resolve\", and this project's\ndefinition is deliberately LENIENT: `check_claim` accepts a path if it exists\nexactly, or if any real path ENDS WITH it, or - failing that - if any file\nanywhere in the tree shares its basename.\n\nSo a README saying `src/train.py` is counted as correct when the file actually\nlives at `experiments/train.py`. The instruction a reader would follow does not\nwork, and we score it as fine.\n\nThat leniency is a choice, and the right one for a tool whose headline is \"zero\nfalse positives\": flagging a file that plainly exists somewhere would be the\nmost annoying possible error. But it has two consequences that must be stated\nrather than discovered:\n\n  1. **The reported broken rate is a LOWER BOUND.** The true rate of \"the\n     documented path does not
+```
+
+**Tool response**
+
+```
+  BROKEN                    1264  (18.5%)   NOT FOUND
+  directory                  602  ( 8.8%)   works as written
+  basename                   114  ( 1.7%)   resolved leniently
+  case-mismatch                6  ( 0.1%)   resolved leniently
+  case-mismatch-basename       2  ( 0.0%)   resolved leniently
+------------------------------------------------------------------------
+  resolved leniently: 2121 of 5576 resolutions (38.0%), 31.0% of all claims
+  These paths do NOT work as the README writes them - the file exists
+  somewhere else. We count them as fine, so the published broken rate
+  is a LOWER BOUND, and this corpus is not a fair label set for a
+  competing detector that flags relocated files.
+------------------------------------------------------------------------
+    stefanosbalaskas/gp3tools-python     api_manifest.csv                 suffix
+    hsjwang/solutions-table              backend.js                       suffix
+    bpf-fault/bpf-fault                  plot.sh                          suffix
+    bpf-fault/bpf-fault                  run.sh                           suffix
+    bpf-fault/bpf-fault                  run_all.sh                       suffix
+    alicetinka
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nanchor = '## \"Why not just use lychee?\"'\ni = s.index(anchor)\nadd = '''## What \"resolves\" actually means \u2014 an audit of our own leniency\n\nThe headline says 18.5% of documented references resolve to nothing. That number\nis only as good as the definition of *resolve*, and ours is **deliberately\nlenient**. `check_claim` accepts a path if it exists exactly, or if any real path\n**ends with** it, or if any file anywhere in the tree **shares its basename**.\n\nSo a README saying `src/train.py` is scored correct when the file actually lives\nat `experiments/train.py`. The instruction a reader would follow does not work,\nand we count it as fine.\n\n| How the 6,840 claims resolved | | |\n|---|---|---|\n| `exact` \u2014 works as written | **2,845** | 41.6% |\n| `directory` \u2014 a directory reference matched a directory | 602 | 8.8% |\n| `suffix` \u2014 found somewhere else in the tree | **2,007** | 29.3% |\n| `basename` \u2014 a file of that name exists *somewhere* | 114 | 1.7% |\n| `case-mismatch` \u2014 reported separately, never
+```
+
+**Tool response**
+
+```
+  FAIL  README.md            resolution audit: lenient          **2,121 of 5,576 resolutio  -              <- resolution_audit.json
+  OK    README.md            resolution audit: exact matches                 | **2,845** |  L115           <- resolution_audit.json
+    README.md: resolution audit: lenient should read **2,121 of 5,576 resolutions (38.0%)** (from resolution_audit.json)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\ns = s.replace(\"**2,121 of 5,576 resolutions (38.0%) did not work as written.**\",\n              \"**2,121 of 5,576 resolutions (38.0%)** did not work as written.\")\nopen(p,'w').write(s)\nPY\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"FAIL|resolution audit|All 3\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3", "description": "Fix the literal and verify"}
+```
+
+**Tool response**
+
+```
+  OK    README.md            resolution audit: lenient          **2,121 of 5,576 resolutio  L122           <- resolution_audit.json
+  OK    README.md            resolution audit: exact matches                 | **2,845** |  L115           <- resolution_audit.json
+  All 35 documented numbers match the results files.
+153/153 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 -c \"\nimport json\nn=sum(len(json.loads(l)['broken_paths'] or []) for l in open('dataset/artifact_readme_consistency.jsonl'))\nprint(f'  broken paths in published dataset: {n} of 1264 ({n/1264:.1%})')\"\ngrep -n \"broken_paths.*\\[:8\\]\" src/artifact_triage/eval/prevalence.py\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.common.provenance import INFLUENCERS\nfor k,v in INFLUENCERS.items():\n    if any('prevalence.py' in f for f in v): print('  prevalence.py influences:', k)\"", "description": "Confirm the dataset truncation and its blast radius"}
+```
+
+**Tool response**
+
+```
+  broken paths in published dataset: 1112 of 1264 (88.0%)
+145:            "broken_paths": ev.broken_paths[:8],
+  prevalence.py influences: resolution_audit
+  prevalence.py influences: linkchecker_gap
+  prevalence.py influences: prevalence
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/eval/prevalence.py'; s=open(p).read()\ns = s.replace('''            \"broken_paths\": ev.broken_paths[:8],''',\n'''            # NOT truncated. `[:8]` published 1,112 of 1,264 broken paths -\n            # 152 dropped silently - while `broken` reported the full count, so\n            # the dataset's own rows disagreed with its own summary. A dataset\n            # that under-reports the thing it exists to document is the defect\n            # this project detects, in the artifact this project ships.\n            \"broken_paths\": ev.broken_paths,''')\nopen(p,'w'[REDACTED]\ncp results/prevalence.json $SP/pv_pre_untrunc.json\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/pv7.log 2>&1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset 2>&1 | tail -2\npython3 - <<PY\nimport json\na=json.load(open(\"$SP/pv_pre_untrunc.json\")); b=json.load(open(\"res
+```
+
+**Tool response**
+
+```
+  742 artifacts, 6,840 claims measured
+  headline metrics unchanged: True
+  broken paths now published: 1264 of 1264 (100.0%)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.linkchecker_gap > $SP/lg2.log 2>&1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.resolution_audit > $SP/ra2.log 2>&1\ngrep -E \"INVISIBLE|invisible\" $SP/lg2.log | head -2\ngrep -E \"resolved leniently:\" $SP/ra2.log | head -1\necho \"=== flaw: leading dots stripped from paths ===\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.fetch import referenced_paths\nfor t in ['see \\`.zenodo.json\\` for metadata','edit \\`.pre-commit-config.yaml\\`','run \\`../shared/tool.py\\`','the \\`.github/workflows/ci.yml\\` file']:\n    print(f'  {t[:44]:<46} -> {referenced_paths(t)}')\"", "description": "Re-run dependents and verify the dotfile defect", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+  INVISIBLE to a Markdown link checker    : 1209 (95.6%)
+  resolved leniently: 2121 of 5576 resolutions (38.0%), 31.0% of all claims
+=== flaw: leading dots stripped from paths ===
+  see `.zenodo.json` for metadata                -> ['zenodo.json']
+  edit `.pre-commit-config.yaml`                 -> ['pre-commit-config.yaml']
+  run `../shared/tool.py`                        -> ['shared/tool.py']
+  the `.github/workflows/ci.yml` file            -> ['github/workflows/ci.yml']
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, re\nfrom artifact_triage.eval.prevalence import profile\nfrom artifact_triage.solution.verify import verify\npv = json.load(open(\"results/prevalence.json\"))\nDOT = re.compile(r\"`\\.{1,2}[\\w./\\-]*`|(?<![\\w/])\\.[\\w][\\w.\\-]*(?:/[\\w.\\-]+)*\")\nhits = []\nfor r in pv[\"per_artifact\"]:\n    if not r.get(\"broken_paths\"): continue\n    fx = profile(r[\"artifact_id\"])\n    if not fx: continue\n    rm = fx.get(\"readme\") or \"\"\n    for bp in r[\"broken_paths\"]:\n        # would a leading dot in the README explain this \"missing\" file?\n        if (\".\" + bp) in rm or (\"/.\" + bp) in rm:\n            hits.append((r[\"artifact_id\"], bp))\nprint(f\"  broken claims explained by a stripped leading dot: {len(hits)} of {pv['total_broken']} ({len(hits)/pv['total_broken']:.2%})\")\nfor a,b in hits[:10]: print(f\"    {a[:40]:<42} .{b}\")\nPY\necho \"=== are any of the 15 labelled fixtures affected? ===\"\nPYTHONPATH=src .venv/bin/python - <<'PY'\nimport json, glob\nfrom artifact_triage.solution.verify import verify\nn=0\nfor f in
+```
+
+**Tool response**
+
+```
+  broken claims explained by a stripped leading dot: 29 of 1264 (2.29%)
+    thlaurentino/arit                          .arit.yaml
+    fsluiz/manuscript-encoding-symmetry-limi   .zenodo.json
+    syncytium2/murderboard                     .claude/hooks
+    syncytium2/murderboard                     .claude/skills/murderboard
+    syncytium2/murderboard                     .murderboard-vendor.json
+    gianlucasb/hallucinator                    .kaggle/kaggle.json
+    ameen-banjar/daim-os-self-healing-artifa   ._pre_edgefix.csv
+    ameen-banjar/daim-os-self-healing-artifa   ._pre_fix.json
+    squirrel-prover/squirrel-prover            .why3.conf
+    cyberci/optimizing_adaptive_learning_pip   .zenodo.json
+=== are any of the 15 labelled fixtures affected? ===
+    trustdnn/issta2024: .trustbench/models
+  fixtures affected: 1
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n 'lstrip(\"./\")' src/artifact_triage/corpus/fetch.py", "description": "Locate the dot-stripping"}
+```
+
+**Tool response**
+
+```
+150:            found.add(tok.lstrip("./"))
+152:        tok = tok.strip().lstrip("./")
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/fetch.py'; s=open(p).read()\ns = s.replace('''def referenced_paths(text: str) -> list[str]:''',\n'''def _norm_ref(tok: str) -> str | None:\n    \"\"\"Strip an explicit `./` prefix. Keep dotfiles. Drop parent traversal.\n\n    This was `tok.lstrip(\"./\")`, which strips CHARACTERS, not a prefix - the\n    same class of bug as the `rstrip(\".git\")` that once turned \"upbeat\" into\n    \"upbea\". It ate the leading dot of every dotfile:\n\n        .zenodo.json            -> zenodo.json\n        .pre-commit-config.yaml -> pre-commit-config.yaml\n        .github/workflows/ci.yml-> github/workflows/ci.yml\n\n    A repository that HAS `.zenodo.json` was therefore reported as missing\n    `zenodo.json` - a file that never existed. That is a FALSE POSITIVE, and\n    it accounted for 29 of 1,264 broken claims (2.29%) on the corpus.\n\n    `../x` is dropped rather than rewritten: it points outside the repository,\n    so nothing here can verify it, and silently reinterpreting it as `x` invents\n    a claim the README never made.\n    \"\"\"\n    whi
+```
+
+**Tool response**
+
+```
+  see `.zenodo.json` for metadata              -> []
+  edit `.pre-commit-config.yaml`               -> []
+  run `../shared/tool.py`                      -> []
+  the `.github/workflows/ci.yml` file          -> ['.github/workflows/ci.yml']
+  run `./scripts/go.sh`                        -> ['scripts/go.sh']
+  plain `src/main.py`                          -> ['src/main.py']
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/corpus/fetch.py'; s=open(p).read()\ns = s.replace('''    # Java/Python dotted identifiers: several dots, no slash, no real dir.\n    if \"/\" not in tok and tok.count(\".\") >= 2:\n        return False''',\n'''    # Java/Python dotted identifiers: several dots, no slash, no real dir.\n    # A LEADING dot means a dotfile, not an identifier - `.zenodo.json` and\n    # `.pre-commit-config.yaml` both trip the two-dot rule and are not\n    # `com.example.Foo`. Without this exemption, fixing the dot-stripping bug\n    # merely moved the dotfiles from wrong to invisible.\n    if \"/\" not in tok and tok.count(\".\") >= 2 and not tok.startswith(\".\"):\n        return False''')\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.fetch import referenced_paths\nok=[('see \\`.zenodo.json\\`','.zenodo.json'),('edit \\`.pre-commit-config.yaml\\`','.pre-commit-config.yaml'),\n    ('the \\`.github/workflows/ci.yml\\`','.github/workflows/ci.yml'),('run \\`./scripts/go.sh\\`','scripts/go.sh'),\n    ('plain \\`src/main.py\\
+```
+
+**Tool response**
+
+```
+  OK  see `.zenodo.json`                       -> ['.zenodo.json']
+  OK  edit `.pre-commit-config.yaml`           -> ['.pre-commit-config.yaml']
+  OK  the `.github/workflows/ci.yml`           -> ['.github/workflows/ci.yml']
+  OK  run `./scripts/go.sh`                    -> ['scripts/go.sh']
+  OK  plain `src/main.py`                      -> ['src/main.py']
+  drop run `../shared/tool.py`                  -> []
+  drop use `com.example.Foo.class`              -> []
+  drop version `3.10.12`                        -> []
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\nNEW = '''\n\n# --------------------------------------------------------------------------\n# Iteration 120 - a false positive on every dotfile\n#\n# `tok.lstrip(\"./\")` strips CHARACTERS, not a prefix - the same class of bug as\n# the `rstrip(\".git\")` that once turned \"upbeat\" into \"upbea\". It ate the\n# leading dot of every dotfile:\n#\n#     .zenodo.json             -> zenodo.json\n#     .pre-commit-config.yaml  -> pre-commit-config.yaml\n#     .github/workflows/ci.yml -> github/workflows/ci.yml\n#\n# A repository that HAS `.zenodo.json` was reported as missing `zenodo.json` - a\n# file that never existed. That is a FALSE POSITIVE in the core check, and it\n# accounted for **29 of 1,264 broken claims (2.29%)** on the corpus.\n#\n# Fixing the strip alone made it worse in a quieter way: `.zenodo.json` has two\n# dots and no slash, so it tripped the `com.example.Foo` identifier rule and\n# vanished entirely. The dotfiles moved from wrong to invisible.\n# --------------------------------------------------------------
+```
+
+**Tool response**
+
+```
+  FAIL  test_a_dotfile_keeps_its_leading_dot
+  FAIL  test_no_broken_claim_is_a_stripped_dotfile
+156/158 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.corpus.fetch import referenced_paths, _is_path\nfor t,w in [('check \\`.gitignore\\` first','.gitignore')]:\n    print(f'  {t} -> {referenced_paths(t)}   _is_path({w!r})={_is_path(w)}')\"", "description": "Debug the remaining dotfile case"}
+```
+
+**Tool response**
+
+```
+  check `.gitignore` first -> []   _is_path('.gitignore')=False
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='tests/test_regressions.py'; s=open(p).read()\ns = s.replace('''    (\"check `.gitignore` first\", \".gitignore\"),\n]''',\n'''    # NOTE: `.gitignore` is deliberately NOT here. The extractor requires a\n    # recognised extension (CODE_EXT), and `.gitignore` has none - it is out of\n    # scope by design, not a regression. Asserting it would have pinned a\n    # behaviour this tool never claimed.\n]''')\nopen(p,'w'[REDACTED]\ncp results/prevalence.json $SP/pv_predot.json\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/pv8.log 2>&1\npython3 - <<PY\nimport json\na=json.load(open(\"$SP/pv_predot.json\")); b=json.load(open(\"results/prevalence.json\"))\nprint(f\"{'metric':<22}{'before':>10}{'after':>10}\")\nfor k in (\"n_profiled\",\"n_checkable\",\"n_with_broken\",\"prevalence\",\"total_claims\",\"total_broken\",\"broken_claim_rate\"):\n    print(f\"  {k:<20}{str(a.get(k)):>10}{str(b.get(k
+```
+
+**Tool response**
+
+```
+metric                    before     after
+  n_profiled                 742       742
+  n_checkable                609       609
+  n_with_broken              343       342
+  prevalence              0.5632    0.5616
+  total_claims              6840      6825
+  total_broken              1264      1260
+  broken_claim_rate       0.1848    0.1846
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nfor m in linkchecker_gap resolution_audit negative_control subtle_control ablation; do\n  PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m > $SP/re_$m.log 2>&1 && echo \"  ok  $m\" || echo \"  FAIL $m\"\ndone\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset >/dev/null 2>&1\ngrep -E \"INVISIBLE\" $SP/re_linkchecker_gap.log | head -1\ngrep -E \"resolved leniently:\" $SP/re_resolution_audit.log | head -1\ngrep -E \"detected by verifier|false positives\" $SP/re_negative_control.log\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -3", "description": "Re-run all free dependents", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+  ok  linkchecker_gap
+  ok  resolution_audit
+  ok  negative_control
+  ok  subtle_control
+  ok  ablation
+  INVISIBLE to a Markdown link checker    : 1205 (95.6%)
+  resolved leniently: 2122 of 5565 resolutions (38.1%), 31.1% of all claims
+detected by verifier   : 75   (100.0%)
+false positives        : 2
+    assert "FAIL" not in out.stdout, out.stdout[-900:]
+  FAIL  test_claim_literals_are_distinctive_enough_to_verify_something
+157/158 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ngrep -iE \"false positive|FP|unexpected\" $SP/re_negative_control.log | head -8\npython3 -c \"\nimport json;d=json.load(open('results/negative_control.json'))\nprint({k:v for k,v in d.items() if not isinstance(v,(list,dict))})\nfp=[r for r in d.get('per_artifact',[]) if r.get('false_positives')]\nfor r in fp[:5]: print(' ', r.get('artifact_id'), r.get('false_positives'))\"", "description": "Identify the two new false positives"}
+```
+
+**Tool response**
+
+```
+  5/5 detected    FP:1   THU-WingTecher/DeepConstr
+  5/5 detected    FP:1   trustdnn/issta2024
+false positives        : 2
+{'injected': 75, 'detected': 75, 'detection_rate': 1.0, 'false_positives': 2}
+  THU-WingTecher/DeepConstr ['.env']
+  trustdnn/issta2024 ['.trustbench/models']
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"RUNTIME_DIRS\\|PLACEHOLDER\\|def interesting\" -A 12 src/artifact_triage/solution/verify.py | head -40", "description": "Read the not-a-claim logic"}
+```
+
+**Tool response**
+
+```
+31:PLACEHOLDER = re.compile(
+32-    r"(?i)(^|/)(path/to|your[_-]|my[_-]|<[^>]+>|\{[^}]+\}|\$\w+|"
+33-    r"[A-Z][A-Z0-9_]{2,}_(?:DIR|PATH|ROOT|HOME|FILE)|TMP_DIR|"
+34-    r"example|foo|bar|baz|xxx|yyy)")
+35-
+36-# Directories a tool CREATES when you run it. "Results go in `out/`" is a
+37-# statement about future output, not a promise that `out/` ships in the repo.
+38-# Measured: these were 14% of all reported-broken claims - the single largest
+39-# false-positive class, introduced by the directory-reference feature itself.
+40:RUNTIME_DIRS = {
+41-    "out", "output", "outputs", "result", "results", "logs", "log", "tmp",
+42-    "temp", "build", "dist", "cache", "testdata", "metadata", "corpus",
+43-    "figures", "figs", "plots", "checkpoints", "ckpt", "runs", "artifacts",
+44-    "target", "bin", "obj", "venv", "env", "node_modules",
+45-}
+46-
+47-
+48-def suggest(path: str, file_tree: list[str], limit: int = 3) -> list[str]:
+49-    """Find the most plausible real file for a broken claim.
+50-
+51-    A report that only says "this is wrong" leaves the author to go hunting. Most
+52-    broken claims are near-misses - a renamed directory, a moved script, a
+--
+227:def interesting(path: str) ->
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='src/artifact_triage/solution/verify.py'; s=open(p).read()\ns = s.replace('''    \"target\", \"bin\", \"obj\", \"venv\", \"env\", \"node_modules\",\n}''',\n'''    \"target\", \"bin\", \"obj\", \"venv\", \"env\", \"node_modules\",\n}\n\n# Dotfiles a README tells you to CREATE, or that tooling generates. Same\n# rationale as RUNTIME_DIRS: \"copy .env.example to .env\" is an instruction, not\n# a promise that `.env` ships - it is gitignored precisely because it must not.\n#\n# This class only became visible once the extractor stopped eating leading dots.\n# Fixing that bug surfaced two new false positives in the negative control\n# (`.env`, `.trustbench/models`), which is how a latent gap announces itself:\n# the old bug was hiding it.\nUNCOMMITTED_DOTFILES = {\n    \".env\", \".env.local\", \".env.example\", \".envrc\", \".venv\", \".cache\",\n    \".DS_Store\", \".coverage\", \".ipynb_checkpoints\", \".pytest_cache\",\n    \".mypy_cache\", \".ruff_cache\", \".tox\", \".idea\",\n}\n\n# Dot-directories that ARE conventionally committed. Anything else beginning\n# with a 
+```
+
+**Tool response**
+
+```
+  OK  interesting('.env') = False
+  OK  interesting('.trustbench/models') = False
+  OK  interesting('.zenodo.json') = True
+  OK  interesting('.github/workflows/ci.yml') = True
+  OK  interesting('.pre-commit-config.yaml') = True
+  OK  interesting('src/main.py') = True
+  OK  interesting('.venv') = False
+  OK  interesting('.vscode/settings.json') = True
+detected by verifier   : 75   (100.0%)
+false positives        : 0
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.prevalence > $SP/pv9.log 2>&1\nfor m in linkchecker_gap resolution_audit subtle_control ablation; do\n  PYTHONPATH=src .venv/bin/python -m artifact_triage.eval.$m > $SP/f_$m.log 2>&1 && echo \"  ok  $m\" || echo \"  FAIL $m\"\ndone\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset 2>&1 | tail -2\npython3 -c \"\nimport json;d=json.load(open('results/prevalence.json'))\nprint(f\\\"  prevalence {d['prevalence']:.4f}  claims {d['total_claims']}  broken {d['total_broken']}  rate {d['broken_claim_rate']:.4f}  artifacts {d['n_profiled']}\\\")\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read\" | head -12", "description": "Re-run everything free and find drifted numbers", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+  ok  linkchecker_gap
+  ok  resolution_audit
+  ok  subtle_control
+  ok  ablation
+
+  742 artifacts, 6,815 claims measured
+  prevalence 0.5592  claims 6815  broken 1254  rate 0.1840  artifacts 742
+    README.md: link-checker gap: invisible should read **1,199 (95.6%)** (from linkchecker_gap.json)
+    README.md: resolution audit: lenient should read **2,118 of 5,561 resolutions (38.1%)** (from resolution_audit.json)
+    README.md: resolution audit: exact matches should read | **2,833** | (from resolution_audit.json)
+    README.md: prevalence of broken claims should read 55.9% (from prevalence.json)
+    README.md: broken claim rate should read 18.4% (from prevalence.json)
+    README.md: total claims checked should read 6,815 (from prevalence.json)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\nimport json\npv=json.load(open('results/prevalence.json'))\nlg=json.load(open('results/linkchecker_gap.json'))\nra=json.load(open('results/resolution_audit.json'))\np='README.md'; s=open(p).read()\nsubs=[\n (\"**56.3%** of 742 research artifacts\",\"**55.9%** of 742 research artifacts\"),\n (\"**1,264 of 6,840** documented file references (18.5%)\",\n  f\"**{pv['total_broken']:,} of {pv['total_claims']:,}** documented file references (18.4%)\"),\n (\"| Carry at least one broken README claim | **56.3%** |\",\"| Carry at least one broken README claim | **55.9%** |\"),\n (\"| Documented references resolving to nothing | **1,264 of 6,840 (18.5%)** |\",\n  f\"| Documented references resolving to nothing | **{pv['total_broken']:,} of {pv['total_claims']:,} (18.4%)** |\"),\n (\"| Artifacts with **\u22651 broken README claim** | **343 / 609 (56.3%)** |\",\n  f\"| Artifacts with **\u22651 broken README claim** | **{pv['n_with_broken']} / {pv['n_checkable']} ({pv['prevalence']:.1%})** |\"),\n (\"| Claims checked | 6,840 |\", f\"| Claims checked | {pv['total_claims']:,} |\"),\n (\
+```
+
+**Tool response**
+
+```
+  !! not found: **56.3%** of 742 research artifacts
+  !! not found: **1,264 of 6,840** documented file references (18.5%)
+  !! not found: 1. **The reported 18.5%
+  All 35 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -4\necho \"=== residual stale figures anywhere? ===\"\ngrep -rn \"56\\.3%\\|6,840\\|1,264\\|18\\.5%\\|2,121\\|5,576\\|2,845\\|1,209\" README.md RELATED_WORK.md docs/VIDEO_SCRIPT.md AGENTS.md 2>/dev/null | head", "description": "Verify tests and hunt residual stale figures"}
+```
+
+**Tool response**
+
+```
+158/158 passed
+=== residual stale figures anywhere? ===
+README.md:78:Across **742 published research artifacts** (6,840 documented file references):
+RELATED_WORK.md:88:| **Prevalence in *research artifacts* specifically** — 742 artifacts, 6,840 documented file references, 56.3% carrying at least one broken claim | Tan et al. measure general OSS; READU measures detection on a commit sample, not population prevalence. Neither reports a rate for research artifacts. |
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\nimport json\npv=json.load(open('results/prevalence.json'))\nfor p,subs in (\n ('README.md',[(\"Across **742 published research artifacts** (6,840 documented file references):\",\n                f\"Across **742 published research artifacts** ({pv['total_claims']:,} documented file references):\")]),\n ('RELATED_WORK.md',[(\"742 artifacts, 6,840 documented file references, 56.3% carrying at least one broken claim\",\n                      f\"742 artifacts, {pv['total_claims']:,} documented file references, {pv['prevalence']:.1%} carrying at least one broken claim\")]),\n):\n    s=open(p).read()\n    for a,b in subs:\n        if a not in s: print(\"  !! \",p,a[:50])\n        s=s.replace(a,b)\n    open(p,'w').write(s)\nPY\ngrep -rn \"6,840\\|56\\.3%\" README.md RELATED_WORK.md | head -3 || echo \"  clean\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"All 3|FAIL\"\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | grep -E \"STALE|ok \" | head -14", "description": "Fix residuals and check provenance"}
+```
+
+**Tool response**
+
+```
+  All 35 documented numbers match the results files.
+  ok     negative_control     current
+  STALE  baseline             produced at commit f50db8e by different code (fingerprint 
+  STALE  solution             produced at commit f50db8e by different code (fingerprint 
+  STALE  falsified_run        produced at commit f50db8e by different code (fingerprint 
+  STALE  falsified_llama      produced at commit 0a49ceb-dirty by different code (finger
+  ok     prevalence           current
+  STALE  comparison           the corpus changed since this ran (fixtures or scrubbing d
+  ok     subtle_control       current
+  ok     ablation             current
+  STALE  adversarial          produced at commit 0a49ceb-dirty by different code (finger
+  STALE  issue_validation     produced at commit c132ff1-dirty by different code (finger
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='scripts/check_claims.py'; s=open(p).read()\ns = s.replace('\"falsified_llama\", \"prevalence\", \"comparison\", \"subtle_control\",',\n              '\"falsified_llama\", \"falsified_nova2lite\", \"prevalence\",\\n                 \"comparison\", \"subtle_control\",')\nopen(p,'w'[REDACTED]\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.issue_validation > $SP/iv2.log 2>&1 && echo \"  issue_validation re-run (free)\"\npython3 -c \"\nruns={'baseline':0.0335,'solution':0.0361,'falsified_run (Nova Pro, 3 trials)':0.4229,\n      'falsified_llama':0.1033,'adversarial':0.1417,'falsified_nova2lite':0.0291}\ntot=sum(runs.values())\nprint(f'  cost to re-validate every paid result on its ORIGINAL model: \\${tot:.2f}')\nfor k,v in runs.items(): print(f'     {k:<38} \\${v:.4f}')\nlite=sum(v*((0.06+0.24)/(0.80+3.20)) if 'llama' not in k else v for k,v in runs.items())\nprint(f'\\n  same suite entirely on Nova 2 Lite:   
+```
+
+**Tool response**
+
+```
+  issue_validation re-run (free)
+  cost to re-validate every paid result on its ORIGINAL model: $0.77
+     baseline                               $0.0335
+     solution                               $0.0361
+     falsified_run (Nova Pro, 3 trials)     $0.4229
+     falsified_llama                        $0.1033
+     adversarial                            $0.1417
+     falsified_nova2lite                    $0.0291
+
+  same suite entirely on Nova 2 Lite:                   ~$0.15
+  remaining budget:                                     $0.16
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngit add -A && git commit -q -m \"$(printf 'A false positive on every dotfile, and the leniency behind the headline\\n\\nActed on the adversarial research. Four measured defects, all verified before\\nfixing.\\n\\n1. FALSE POSITIVE ON DOTFILES. tok.lstrip(\"./\") strips CHARACTERS, not a prefix\\n   - the same class as the rstrip(\".git\") that once turned \"upbeat\" into\\n   \"upbea\". It ate the leading dot of every dotfile: .zenodo.json became\\n   zenodo.json, so a repository that HAS the file was reported as missing one\\n   that never existed. 29 of 1,264 broken claims (2.29%%) were this. Fixing the\\n   strip alone made it quieter, not better: .zenodo.json has two dots and no\\n   slash, so it then tripped the com.example.Foo identifier rule and vanished.\\n   Both halves are fixed and pinned in four directions.\\n\\n2. THE FIX SURFACED A LATENT GAP. With dotfiles preserved, the negative control\\n   went from 0 to 2 false positives: .env and .trustbench/models. A README\\n   saying \"copy .env.example to .env\" is an instruction, not a promise the file\\n   ships - the same ratio
+```
+
+**Tool response**
+
+```
+33d8ea5 A false positive on every dotfile, and the leniency behind the headline
+MAE 0.733  exact 0.333  overclaim 0.267  $0.0328
+-> results/baseline.json
+MAE 0.7  exact 0.3  overclaim 0.3  escalated 33%  $0.0362
+-> results/solution.json
+PRIMARY  MAE (tiers, lower better)                   0.733                 0.700
+  *** baseline, solution do NOT beat a zero-skill constant predictor. ***
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read\" | head -6\npython3 - <<'PY'\nimport json\nc=json.load(open('results/comparison.json'))\np='README.md'; s=open(p).read()\ns=s.replace(\"| Baseline | 0.733 | no |\", f\"| Baseline | {c['baseline']['mae']:.3f} | no |\")\ns=s.replace(\"| Solution | 0.800 | no |\", f\"| Solution | {c['solution']['mae']:.3f} | no |\")\nopen(p,'w').write(s)\np='docs/VIDEO_SCRIPT.md'; s=open(p).read()\ns=s.replace(\"Baseline MAE 0.733.\\n> Solution 0.800\", f\"Baseline MAE {c['baseline']['mae']:.3f}.\\n> Solution {c['solution']['mae']:.3f}\")\nopen(p,'w').write(s)\nPY\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read|All 3\"\nPYTHONPATH=src ARTIFACT_TRIAGE_BUDGET_USD=5.50 .venv/bin/python -m artifact_triage.eval.spend 2>&1 | grep -E \"TOTAL|REMAINING\"", "description": "Sync MAE figures and check spend"}
+```
+
+**Tool response**
+
+```
+    README.md: solution MAE (badge agreement) should read | Solution | 0.700 | (from comparison.json)
+    docs/VIDEO_SCRIPT.md: solution MAE (spoken) should read 0.700 (from comparison.json)
+  All 35 documented numbers match the results files.
+  TOTAL                      $ 5.4049  1981 calls
+  REMAINING                  $ 0.0951  (98.3% used)
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -2\ngit add -A && git commit -q -m \"$(printf 'Restore baseline and solution after the dotfile fix\\n\\nRe-ran both on their original model (Nova Pro) so the badge-agreement comparison\\nreflects the corrected extractor. The negative result holds: a zero-skill\\nconstant predictor (0.667) still beats baseline (0.733) and solution (0.700).\\n\\n158 tests, 35 documented numbers verified. Spend $5.40 of $5.50.\\n\\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>')\" && git push -q\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | grep -E \"STALE|carry NO\" | head -6", "description": "Commit and show remaining staleness", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+    assert "FAIL" not in out.stdout, out.stdout[-900:]
+  FAIL  README.md            total model spend                                       $5.40  -              <- spend.json
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nsed -i '' 's/\\$5\\.34/$5.40/g' README.md AGENTS.md\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"All 3|FAIL\"\n.venv/bin/python tests/test_regressions.py 2>&1 | grep -E \"FAIL|passed\" | head -2\ngit add -A && git commit -q -m \"$(printf 'Sync the spend figure after restoring baseline and solution\\n\\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>')\" && git push -q\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | grep -E \"STALE|ok \" ", "description": "Sync spend and show final provenance state", "timeout": 300000}
+```
+
+**Tool response**
+
+```
+  All 35 documented numbers match the results files.
+158/158 passed
+  ok     negative_control     current
+  ok     baseline             current
+  ok     solution             current
+  STALE  falsified_run        produced at commit f50db8e by different code (fingerprint 
+  STALE  falsified_llama      produced at commit 0a49ceb-dirty by different code (finger
+  STALE  falsified_nova2lite  produced at commit ef56a19 by different code (fingerprint 
+  ok     prevalence           current
+  ok     comparison           current
+  ok     subtle_control       current
+  ok     ablation             current
+  STALE  adversarial          produced at commit 0a49ceb-dirty by different code (finger
+  ok     issue_validation     current
+```
+
+## Human checkpoint 41
+
+> I'm going to sleep dont wait for my response or wait for my input keep hardening the project more and more once you complete then again without my input start hardening again further...making it the best project....raise the cap to $6.25 (+$0.75) and re-validate on the original models. and then when you complete this without my input start hardening again....save this reference for this chat....you have to stop......
+
+**Tool call** `Bash`
+
+```json
+{"command": "cat > \"[REDACTED]\" <<'EOF'\n---\nname: micro1-budget-and-autonomy\ndescription: Bedrock budget cap history for artifact-repro-triage, and the standing instruction to keep hardening autonomously\nmetadata:\n  type: project\n---\n\nBedrock spend ceiling for the micro1 hackathon project `artifact-repro-triage`:\noriginally **$5.00**, raised to **$5.50** (2026-08-31, to certify two results),\nthen to **$6.25** (2026-08-31, to re-validate the paid experiments after a\ncore-logic fix). The ceiling lives in ONE place, `common/ledger.BUDGET_USD`,\nimported by `common/budget.GUARD_USD` and `eval/spend`; a test asserts all three\nagree. Override per-run with `ARTIFACT_TRIAGE_BUDGET_USD`.\n\n**Cost lever:** `us.amazon.nova-2-lite-v1:0` is ~13x cheaper than Nova Pro\n($0.06/$0.24 vs $0.80/$3.20 per 1M) and produces the SAME headline result\n(0% -> 100%). A full 3-trial experiment costs ~$0.03 on Lite against ~$0.42 on\nPro. Use Lite for exploratory runs; keep Nova Pro for the published headline.\nNever use Claude models here - the user ruled them ou
+```
+
+**Tool response**
+
+```
+- [micro1 hackathon rubric & deadlines](micro1-hackathon-rubric.md) — scoring weights, hard UTC deadlines, four required deliverables
+- [Problem spec: open-ended](micro1-problem-spec.md) — no prescribed problem; eval harness is ours to author; changelog + eval schemas
+- [Budget cap & autonomy](micro1-budget-and-autonomy.md) — $6.25 ceiling, the 13x-cheaper model lever, standing instruction to keep hardening
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\nfor p,old,new in (\n ('src/artifact_triage/common/ledger.py','\"ARTIFACT_TRIAGE_BUDGET_USD\", \"5.50\"','\"ARTIFACT_TRIAGE_BUDGET_USD\", \"6.25\"'),\n ('src/artifact_triage/common/budget.py','\"ARTIFACT_TRIAGE_BUDGET_USD\", \"5.50\"','\"ARTIFACT_TRIAGE_BUDGET_USD\", \"6.25\"')):\n    s=open(p).read(); assert old in s, p; open(p,'w').write(s.replace(old,new))\np='src/artifact_triage/common/ledger.py'; s=open(p).read()\ns=s.replace(\"# $5.00 for the whole project, raised once to $5.50 with explicit authorisation\\n# to re-run the last two uncertified results (`adversarial`, `falsified_llama`).\",\n            \"# $5.00 for the whole project, raised to $5.50 to certify two uncertified\\n# results, then to $6.25 to re-validate the paid experiments after a core-logic\\n# fix (the dotfile false positive). Each raise was explicitly authorised.\")\nopen(p,'w').write(s)\nPY\nPYTHONPATH=src .venv/bin/python -c \"\nfrom artifact_triage.common.ledger import BUDGET_USD\nfrom artifact_triage.common.budget import GUARD_USD, spent\nprint(f'  ceiling {BUDGET_USD}  guard {GUARD_USD}  spe
+```
+
+**Tool response**
+
+```
+  ceiling 6.25  guard 6.25  spent 5.4049  headroom 0.8451
+158/158 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\ngit add -A && git commit -q -m \"$(printf 'Raise the ceiling to $6.25 to re-validate after the dotfile fix\\n\\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>')\"\necho \"--- 1/4 falsified_run (Nova Pro, 3 trials) ---\"\nARTIFACT_TRIAGE_TRIALS=3 PYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.falsified_run > $SP/rv_fals.log 2>&1\ngrep -A6 AGGREGATE $SP/rv_fals.log | tail -6", "description": "Re-validate the headline experiment", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+--- 1/4 falsified_run (Nova Pro, 3 trials) ---
+########################################################################
+  baseline detection : mean 0%   range 0%-0%   [0.0, 0.0, 0.0]
+  solution detection : mean 96%   range 88%-100%   [1.0, 0.875, 1.0]
+  verifier (deterministic) : {1.0} - identical every trial
+  total cost: $0.4233
+########################################################################
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"[REDACTED]\necho \"--- 2/4 adversarial ---\"\nrm -f results/adversarial_rows.jsonl\nPYTHONPATH=src .venv/bin/python -u -m artifact_triage.eval.adversarial > $SP/rv_adv.log 2>&1\ngrep -E \"detected [0-9]+/|REAL evidence|cost:\" $SP/rv_adv.log | tail -4\necho \"--- 3/4 cross-model: Llama 3.3 70B ---\"\nARTIFACT_TRIAGE_TRIALS=1 make falsified-llama > $SP/rv_llama.log 2>&1\ngrep -A5 AGGREGATE $SP/rv_llama.log | grep -E \"solution|baseline|cost\"\necho \"--- 4/4 cross-tier: Nova 2 Lite ---\"\nARTIFACT_TRIAGE_TRIALS=3 make falsified-cheap > $SP/rv_lite.log 2>&1\ngrep -A5 AGGREGATE $SP/rv_lite.log | grep -E \"solution|baseline|cost\"", "description": "Re-validate the remaining three experiments", "timeout": 900000}
+```
+
+**Tool response**
+
+```
+--- 2/4 adversarial ---
+      detected 0/13 (0%)
+      detected 0/12 (0%)
+    Solution detection with REAL evidence, same corpus: 96%.
+  cost: $0.1428   model: us.amazon.nova-pro-v1:0
+--- 3/4 cross-model: Llama 3.3 70B ---
+  baseline detection : mean 0%   range 0%-0%   [0.0]
+  solution detection : mean 100%   range 100%-100%   [1.0]
+  total cost: $0.1032
+--- 4/4 cross-tier: Nova 2 Lite ---
+  baseline detection : mean 0%   range 0%-0%   [0.0, 0.0, 0.0]
+  solution detection : mean 100%   range 100%-100%   [1.0, 1.0, 1.0]
+  total cost: $0.0291
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read\"\npython3 -c \"\nimport json\ntb=ts=tn=0\nfor f in ('results/falsified_run.json','results/falsified_llama.json'):\n    d=json.load(open(f))\n    for t in d['per_trial']:\n        for r in t['per_artifact']:\n            tn+=1; tb+=bool(r['systems']['baseline']['mentions_absence']); ts+=bool(r['systems']['solution']['mentions_absence'])\nprint(f'  floor-free combined: baseline {tb}/{tn}  solution {ts}/{tn}')\"", "description": "Find every drifted number after re-validation"}
+```
+
+**Tool response**
+
+```
+    README.md: detection, baseline vs solution should read | Noticed the fabrication | **0%** | **96%** (from falsified_run.json)
+    README.md: solution detection (results table) should read | **0%** | **96%** | (from falsified_run.json)
+    README.md: floor-free: solution cites absence should read 53/60 (from falsified_run.json + falsified_llama.json)
+    README.md: adversarial: strong baseline should read **0/13 (0%)** (from adversarial.json)
+    README.md: adversarial: placebo control should read **0/12 (0%)** (from adversarial.json)
+  floor-free combined: baseline 0/60  solution 53/60
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\nimport json\nfr=json.load(open('results/falsified_run.json')); ll=json.load(open('results/falsified_llama.json'))\nsr=fr['solution_rates']; mean=sum(sr)/len(sr)\np='README.md'; s=open(p).read()\nsubs=[\n(\"| Noticed the fabrication | **0%** | **100%** (3 trials, no variance) |\",\n f\"| Noticed the fabrication | **0%** | **{mean:.0%}** (3 trials, {min(sr):.0%}\u2013{max(sr):.0%}) |\"),\n(\"| On a second model family (Llama 3.3 70B) | **0%** | **88%** |\",\n f\"| On a second model family (Llama 3.3 70B) | **0%** | **{sum(ll['solution_rates'])/len(ll['solution_rates']):.0%}** |\"),\n(\"| Solution detection | **100%** | **88%** |\",\n f\"| Solution detection | **{mean:.0%}** | **{sum(ll['solution_rates'])/len(ll['solution_rates']):.0%}** |\"),\n(\"| Noticed the falsified README | **0%** | **100%** |\",\n f\"| Noticed the falsified README | **0%** | **{mean:.0%}** |\"),\n(\"| Falsified README + real evidence | **100%** |\", f\"| Falsified README + real evidence | **{mean:.0%}** |\"),\n(\"| **Explicitly told to hunt for internal contradictions** | **1/13 (8%)** |\",\n \"| **
+```
+
+**Tool response**
+
+```
+  !!  | **Floor-free metric** | baseline cites the fabrication **1
+  All 35 documented numbers match the results files.
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"53/60\\|58/60\\|1/60\\|0/60\" README.md | head -4\necho \"=== prose still asserting the old absolutes ===\"\ngrep -n \"no variance\\|1/13\\|0/11\\|100% \u2192 96\\|it finds \\*\\*one of\" README.md | head -8", "description": "Verify floor-free and find stale prose"}
+```
+
+**Tool response**
+
+```
+25:| Cited the fabrication in its reasoning | **0/60** | **53/60** |
+462:> The floor-free metric moved the other way, 60/60 → **58/60**, and the
+=== prose still asserting the old absolutes ===
+24:| On a model **13× cheaper** (Nova 2 Lite) | **0%** | **100%** (3 trials, no variance) |
+58:| *"Your baseline is a strawman."* | Tell it explicitly to hunt for internal contradictions | **1/13 (8%)** — prompting recovers almost none of the gap |
+59:| *"It's reading the README, not the evidence."* | Give it the falsified README **plus a placebo report** claiming everything resolves | Detection collapses to **0/11**. The evidence is the cause. |
+486:instructions referencing files that appear nowhere else, it finds **one of
+888:- the strong baseline went **0/13 → 1/13**, so "a baseline told to hunt for
+892:Both moved *against* the write-up. The placebo control did not move: **0/11**,
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='README.md'; s=open(p).read()\nsubs=[\n(\"| *\\\"Your baseline is a strawman.\\\"* | Tell it explicitly to hunt for internal contradictions | **1/13 (8%)** \u2014 prompting recovers almost none of the gap |\",\n \"| *\\\"Your baseline is a strawman.\\\"* | Tell it explicitly to hunt for internal contradictions | **0/13 (0%)** \u2014 across three runs it has scored 0/13, 1/13, 0/13: prompting recovers almost none of the gap |\"),\n(\"| *\\\"It's reading the README, not the evidence.\\\"* | Give it the falsified README **plus a placebo report** claiming everything resolves | Detection collapses to **0/11**. The evidence is the cause. |\",\n \"| *\\\"It's reading the README, not the evidence.\\\"* | Give it the falsified README **plus a placebo report** claiming everything resolves | Detection collapses to **0/12**. The evidence is the cause. |\"),\n]\nfor a,b in subs:\n    if a not in s: print(\"  !! \", a[:60])\n    s=s.replace(a,b)\n\nold = \"\"\"> The floor-free metric moved the other way, 60/60 \u2192 **58/60**, and the\n> baseline stopped being a clean zero: **1 of
+```
+
+**Tool response**
+
+```
+  All 35 documented numbers match the results files.
+158/158 passed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.spend >/dev/null 2>&1\nNEW=$(python3 -c \"import json;print(f\\\"\\${json.load(open('results/spend.json'))['total_usd']:.2f}\\\")\")\nsed -i '' \"s/\\$5\\.40/$NEW/g; s/against a \\$5\\.50 ceiling/against a \\$6.25 ceiling/g; s/of \\$5\\.50\\./of \\$6.25./g\" README.md AGENTS.md\necho \"spend now $NEW\"\n.venv/bin/python scripts/check_claims.py 2>&1 | grep -E \"should read|All 3\"\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | grep -cE \"^  ok \" | sed 's/^/  results current: /'\n.venv/bin/python scripts/check_claims.py 2>&1 | sed -n '/RESULT PROVENANCE/,$p' | grep -E \"STALE|carry NO\" || echo \"  none stale, none unstamped\"", "description": "Sync spend and confirm full provenance"}
+```
+
+**Tool response**
+
+```
+spend now $6.10
+  All 35 documented numbers match the results files.
+  results current: 12
+  none stale, none unstamped
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 120 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 121 | Ceiling raised **$5.50 \u2192 $6.25** to re-validate every paid experiment on its **original** model after the dotfile fix touched core logic. | Headline detection **100% \u2192 96%** (3 trials, 88\u2013100%). The strong baseline returned to **0/13** after one run at 1/13. Llama **88% \u2192 100%**. Nova 2 Lite held at **100%**. Floor-free **58/60 \u2192 53/60**. Baseline **0%** on every model, every run. | Every number moved except the one that matters: **the placebo control has never moved \u2014 0/12, every single run.** The causal claim is the only thing here that has survived every re-measurement unchanged. Detection has now been 100 \u2192 93 \u2192 96 \u2192 100 \u2192 96 across five corrections; it is reported with its range, not its best day. **All 12 results certified current.** |\"\"\"\ns = s[:end] + new + s[end:]\nopen(p,'w').write(s)\nPY\ngit add -A && git commit -q -m \"$(printf 'Re-validate every paid experiment on its origina
+```
+
+**Tool response**
+
+```
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+ValueError: substring not found
+1fe10df Re-validate every paid experiment on its original model
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\ngrep -n \"^| Iteration 1[12][0-9]\" CHANGELOG.md | tail -4\ngrep -c \"^| Iteration\" CHANGELOG.md", "description": "Find the changelog tail"}
+```
+
+**Tool response**
+
+```
+209:| Iteration 116 | Adversarial review of a proposed `--local` mode surfaced a defect in the **shipped** tool instead. | `criteria.assess` marks `Documented` as "concerns" whenever a README yields no extractable path references, and `_exit_code` failed the build on **any** concern. Measured on our own corpus: **133 of 742 artifacts (17.9%)** have a README and zero extractable claims. Every one failed `--fail-on-findings` **with no broken path anywhere** - a researcher with a prose README pastes in our CI check and gets a red X calling their README inadequate. From a tool whose headline is *75/75, zero false positives*, that is the worst possible first impression. | Gate now fails only on a **positive finding**. "We found nothing to check" is a limit of the instrument; "we checked and it is missing" is a defect in the artifact - `from_absence` separates them. **The concern is still reported; it just no longer fails anyone's build.** Four tests pin the distinction in both directions. |
+210:| Iteration 117 | Answered the strongest "this already exists" objection with a measurement instead of an argument: **why not just use [lychee](https://github.com/lycheeverse/lychee)?** | lychee 
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\npython3 - <<'PY'\np='CHANGELOG.md'; s=open(p).read()\ni = s.index(\"| Iteration 119 |\"); end = s.index(\"\\n\", i)\nnew = \"\"\"\n| Iteration 120 | Acted on the adversarial research: **a false positive on every dotfile.** | `tok.lstrip(\"./\")` strips **characters, not a prefix** - the same class as the `rstrip(\".git\")` that once turned \"upbeat\" into \"upbea\". It ate the leading dot of every dotfile, so `.zenodo.json` became `zenodo.json` and a repository that **has** the file was reported as missing one that never existed. **29 of 1,264 broken claims (2.29%)** were this. Fixing the strip alone made it quieter, not better: `.zenodo.json` has two dots and no slash, so it then tripped the `com.example.Foo` identifier rule and vanished entirely. | Both halves fixed, pinned in four directions. **The fix then surfaced a latent gap**: with dotfiles preserved the negative control went 0 \u2192 **2 false positives** (`.env`, `.trustbench/models`). \"Copy `.env.example` to `.env`\" is an *instruction*, not a promise the file ships - the same rationale as the existing `RUNTIME_DIRS`. Back to
+```
+
+**Tool response**
+
+```
+122
+158/158 passed
+pushed
+```
+
+**Tool call** `Bash`
+
+```json
+{"command": "cd \"/Users/adarsh/Desktop/Projects/micro1. Frontier Engineering Challenge 2026\"\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.dashboard 2>&1 | tail -1\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_dataset 2>&1 | tail -2\nPYTHONPATH=src .venv/bin/python -m artifact_triage.eval.export_trajectories 2>&1 | tail -1\n.venv/bin/python scripts/export_build_trajectory.py 2>&1 | tail -2\n.venv/bin/python scripts/verify_targets.py 2>&1 | tail -2\ngit add -A && git commit -q -m \"$(printf 'Regenerate every deliverable after re-validation\\n\\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>')\" && git push -q && echo pushed", "description": "Regenerate all deliverables", "timeout": 900000}
+```
+
+
+---
+
+Redactions applied: `{'foreign_project': 192, 'aws_secret': 8, 'env_assignment': 48}`

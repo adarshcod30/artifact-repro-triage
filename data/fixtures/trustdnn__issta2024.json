@@ -1619,6 +1619,7 @@
   "tests": []
  },
  "readme_referenced_paths": [
+  ".trustbench/models",
   "compare.sh",
   "comparison.sh",
   "effectiveness.csv",
@@ -1628,7 +1629,6 @@
   "experiments/replication/effectiveness.csv",
   "replicate.sh",
   "replication.sh",
-  "trustbench/models",
   "workdir/effectiveness.csv",
   "workdir/efficiency.csv"
  ],

@@ -41896,6 +41896,7 @@
   ]
  },
  "readme_referenced_paths": [
+  ".env",
   "DeepConstr/data/records",
   "DeepConstr/data/tf_dc_acetest.json",
   "DeepConstr/data/tf_dc_neuri.json",
@@ -41909,7 +41910,6 @@
   "collect_env.py",
   "deepconstr/train/run.py",
   "docs/bug_list.md",
-  "env",
   "error.py",
   "experiments/apis_overview.py",
   "experiments/eval_constr.py",

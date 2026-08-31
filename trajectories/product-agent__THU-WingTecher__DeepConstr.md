@@ -112,11 +112,10 @@ Welcome to the artifact repository of the DeepConstr paper which is accepted by 
   "confidence": 0.8,
   "reasons": [
     "The artifact is placed in a public archival repository.",
-    "The README provides detailed documentation on how to set up, run, and use the artifact.",
-    "The artifact includes scripts for fuzzing, constraint extraction, and experiment reproduction.",
-    "The documentation explains the structure of the source code and how to navigate it.",
-    "The artifact includes evidence of bug finding and comparative experiments.",
-    "The setup instructions are clear and include steps for both Docker and non-Docker environments."
+    "The README provides detailed documentation on how to set up and use the artifact.",
+    "The artifact includes scripts for conducting experiments and generating test cases.",
+    "The documentation explains how to extract constraints and reproduce experiments.",
+    "The artifact appears to be exercisable based on the provided instructions."
   ],
   "escalated_to_human": false
 }
@@ -168,15 +167,14 @@ No machine-specific values found across 12 inspected file(s).
 
 ```json
 {
-  "tier": "Functional",
+  "tier": "Available",
   "confidence": 0.7,
   "reasons": [
-    "The artifact is placed in a public repository, fulfilling the 'Available' criterion.",
-    "The README provides detailed setup and usage instructions, suggesting the artifact is documented.",
-    "The presence of tests and a license indicates some level of completeness and consideration for use.",
-    "However, several file paths referenced in the README do not exist, indicating a lack of consistency.",
-    "The dependencies are not pinned, which may affect the reproducibility and stability of the environment.",
-    "There is no Dockerfile or CI configuration, which are common practices for ensuring environment reproducibility."
+    "The artifact is placed in a public archival repository.",
+    "The README is extensive but contains references to non-existent files, indicating potential issues with documentation consistency.",
+    "Dependencies are not pinned, which may affect environment reproducibility.",
+    "No Dockerfile is present, further impacting environment reproducibility.",
+    "External links include a dead URL, reducing confidence in external resource availability."
   ],
   "escalated_to_human": false
 }
@@ -185,6 +183,6 @@ No machine-specific values found across 12 inspected file(s).
 ## Step 4 — Outcome
 
 - **baseline**: predicted `Functional`, expert badge `Available`
-- **solution**: predicted `Functional`, expert badge `Available`
+- **solution**: predicted `Available`, expert badge `Available`
 
 See `results/falsified_run.json` for the same agents run against this artifact's falsified twin, which is the reported experiment.

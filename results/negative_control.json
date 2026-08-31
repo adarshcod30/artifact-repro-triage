@@ -1,9 +1,9 @@
 {
  "_provenance": {
   "kind": "negative_control",
-  "commit": "c205f46-dirty",
+  "commit": "c6fa3e5-dirty",
   "code_fingerprint": "32cff5af895a",
-  "corpus_fingerprint": "b23efbc43339"
+  "corpus_fingerprint": "5eddc63561f2"
  },
  "injected": 75,
  "detected": 75,
@@ -287,7 +287,7 @@
     "docker/build_image.sh"
    ],
    "false_positives": [],
-   "broken_before": 3,
+   "broken_before": 2,
    "broken_after": 7
   },
   {
