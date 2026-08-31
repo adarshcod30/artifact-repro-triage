@@ -2230,6 +2230,44 @@ def test_no_broken_claim_is_a_stripped_dotfile():
 
 
 
+# --------------------------------------------------------------------------
+# Iteration 123 - two Makefile targets were never verified, and nobody noticed
+#
+# `linkgap` and `resolution` were added to the Makefile and to `.PHONY` but to
+# neither list in verify_targets.py. A target in neither list is silently
+# skipped, so the script printed "All 12 credential-free targets run" while
+# never running them - a coverage claim over a set that excluded the new work.
+#
+# They also turned out to be network-bound: both re-derive from the prevalence
+# cache, which is gitignored, so on a clean clone they re-fetch 742
+# repositories and exceed a 10-minute clean-room budget. Found by running the
+# clean room, not by reading.
+# --------------------------------------------------------------------------
+def test_every_makefile_target_is_classified():
+    import sys as _sys
+    root = Path(__file__).resolve().parents[1]
+    _sys.path.insert(0, str(root / "scripts"))
+    import verify_targets as vt
+    assert not vt.unclassified_targets(), (
+        "Makefile targets in neither FREE nor GATED are never verified: "
+        f"{vt.unclassified_targets()}")
+
+
+def test_the_classification_guard_actually_fires():
+    """A guard that cannot fail is not a guard."""
+    import sys as _sys
+    root = Path(__file__).resolve().parents[1]
+    _sys.path.insert(0, str(root / "scripts"))
+    import verify_targets as vt
+    saved = list(vt.FREE)
+    try:
+        vt.FREE.remove("dashboard")
+        assert "dashboard" in vt.unclassified_targets()
+    finally:
+        vt.FREE[:] = saved
+
+
+
 if __name__ == "__main__":
     import traceback
     fns = [(k, v) for k, v in sorted(globals().items())

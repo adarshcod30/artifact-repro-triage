@@ -32,7 +32,16 @@ GATED = {
     "adversarial": "needs a model provider",
     "links": "network - checks live URLs",
     "discover": "network - Zenodo harvest, several minutes",
-    "prevalence": "network - GitHub API over 398 repos",
+    "prevalence": "network - GitHub API over 742 repos",
+    # Both re-derive from the prevalence cache, which is gitignored, so on a
+    # clean clone they re-fetch 742 repositories. Measured: they exceed a
+    # 10-minute clean-room budget. They were originally in NEITHER list, so
+    # this script reported "all targets run" while never running them.
+    "linkgap": "network - re-derives from 742 repos (see `make prevalence`)",
+    "resolution": "network - re-derives from 742 repos (see `make prevalence`)",
+    "falsified-model": "needs a model provider (parameterised cross-model run)",
+    "falsified-llama": "needs a model provider",
+    "falsified-cheap": "needs a model provider",
     "validate": "network - GitHub issues API",
     "report": "needs REPO=owner/name",
     "selfcheck": "network - GitHub API",
@@ -50,6 +59,23 @@ def run(target: str, timeout: int = 300) -> tuple[bool, float, str]:
         return False, time.time() - t0, "timed out"
     tail = (p.stderr or p.stdout).strip().splitlines()
     return p.returncode == 0, time.time() - t0, (tail[-1][:90] if tail else "")
+
+
+def unclassified_targets() -> list[str]:
+    """Makefile targets that are in neither FREE nor GATED.
+
+    A target that appears in neither list is silently never verified, while
+    this script still reports "all credential-free targets run". That happened:
+    `linkgap` and `resolution` were added to the Makefile and to `.PHONY` but to
+    neither list here, so two network-bound targets were reported as covered
+    without ever being executed.
+    """
+    import re
+    mk = Path(__file__).resolve().parents[1].joinpath("Makefile").read_text()
+    targets = set(re.findall(r"^([a-z][a-z0-9-]*):", mk, re.M))
+    targets -= {"help", "setup", "clean", "repro", "verify-targets", "selfcheck",
+                "report", "trajectories"}
+    return sorted(targets - set(FREE) - set(GATED))
 
 
 def main() -> int:
@@ -78,7 +104,15 @@ def main() -> int:
               f"{', '.join(failed)}")
         print("  This is the same defect this project detects, in this project.")
         return 1
-    print(f"  All {len(FREE)} credential-free targets run.")
+    missing = unclassified_targets()
+    if missing:
+        print()
+        print("  UNCLASSIFIED Makefile targets - in neither FREE nor GATED, so")
+        print("  this script would report success without ever running them:")
+        print(f"    {', '.join(missing)}")
+        return 1
+    print(f"  All {len(FREE)} credential-free targets run, "
+          f"{len(GATED)} documented as gated, 0 unclassified.")
     return 0
 
 
