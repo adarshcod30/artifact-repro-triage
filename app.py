@@ -665,25 +665,28 @@ gets laundered, so the replaced one is still reported here.
     st.caption("The brief asks for the experiments that were cut and what they "
                "taught. All three are in `CHANGELOG.md`; this is the one that "
                "taught the most.")
-    with st.expander("**GitHub search** — recovered 20 artifacts, and was cut anyway",
+    with st.expander("**GitHub search**: recovered 20 artifacts, and was cut anyway",
                      expanded=True):
+        # The first version of this text said "a 33% larger corpus". The
+        # changelog says 20 recovered on top of 15, which is more than double.
+        # A made-up figure, in the one section about made-up answers.
         st.markdown("""
-Only half the artifacts had a repository link in their Zenodo record, so I
-searched GitHub by paper title to recover the rest. It found **20 more** — a 33%
-larger corpus.
+Only 15 of the 31 resolved artifacts linked a repository in their Zenodo
+record, so I searched GitHub by paper title to recover the rest. It found
+**20 more**, enough to more than double the corpus.
 
-It also found a **Jekyll theme** matched to a patch-generation paper, and a
-**LodeRunner game clone** matched to a paper called *“Total Recall? How Good are
-Static Call Graphs Really?”*
+It also matched a **Jekyll theme** to a patch-generation paper, and a
+**LodeRunner game clone** to a paper called *"Total Recall? How Good are Static
+Call Graphs Really?"*
 
-I hardened the matcher twice. The game still passed — its README genuinely
-contains the words “total recall”.
+Two rounds of hardening cut the false matches from 20 to 5. The game still
+passed, because its README genuinely contains the words "total recall".
 
 So I cut the whole thing and kept only the repositories the authors published
 themselves. **Smaller corpus, zero false labels.**
         """)
         st.error("**The lesson is this project's own thesis, one level up:** "
-                 "fuzzy matching produced confident, plausible, wrong answers — "
+                 "fuzzy matching produced confident, plausible, wrong answers, "
                  "which is exactly the failure the tool exists to detect. I "
                  "built it into my own corpus while building a detector for it.")
     with st.expander("Two more, in brief"):
