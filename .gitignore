@@ -27,13 +27,6 @@ data/negative_control/
 # Local agent/editor tooling. Machine-specific by nature - launch.json holds
 # absolute paths, which is precisely the defect portability.py detects, and it
 # failed this project's own CI gate three times before being removed.
-.claude/
-
-# local agent and editor files, never committed
-.claude.json
-CLAUDE.local.md
-CLAUDE.md
-AGENTS.md
 
 # secrets, build output and local noise
 .env.local
