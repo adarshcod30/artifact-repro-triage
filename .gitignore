@@ -34,3 +34,10 @@ data/negative_control/
 CLAUDE.local.md
 CLAUDE.md
 AGENTS.md
+
+# secrets, build output and local noise
+.env.local
+*.log
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
