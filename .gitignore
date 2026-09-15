@@ -34,3 +34,10 @@ data/negative_control/
 venv/
 .pytest_cache/
 .ipynb_checkpoints/
+
+# test and type-checker artefacts
+.coverage
+htmlcov/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
